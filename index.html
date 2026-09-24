@@ -152,7 +152,7 @@
               Prestação de Contas
             </a>
             <a href="#hospitais" class="bg-sp-yellow text-sp-darkBlue font-bold px-4 py-2.5 rounded text-xs uppercase shadow hover:bg-amber-400 transition">
-              Hospitais em Operação
+              Ver Hospitais em Operação
             </a>
           </div>
         </div>
@@ -200,7 +200,7 @@
       </div>
     </section>
 
-    <!-- TRANSPARÊNCIA E GASTOS (ORÇAMENTO) -->
+    <!-- TRANSPARÊNCIA E GASTOS (ORÇAMENTO E DESTINAÇÕES ESCOLHIDAS) -->
     <section id="transparencia" class="max-w-7xl mx-auto px-4 py-10">
       <div class="border-l-4 border-sp-blue pl-3 mb-6">
         <span class="text-xs font-bold text-sp-blue uppercase tracking-wider">Prestação de Contas Pública</span>
@@ -216,7 +216,7 @@
           <p class="text-[11px] text-neutral-400 mt-1">Recursos estaduais e repasses federais</p>
         </div>
         <div class="bg-white p-5 rounded-lg border border-neutral-200 shadow-sm border-l-4 border-emerald-600">
-          <span class="text-xs font-bold text-neutral-500 uppercase">Total Gasto / Executado</span>
+          <span class="text-xs font-bold text-neutral-500 uppercase">Total Destinado / Executado</span>
           <h4 id="pubOrcExecutado" class="text-2xl font-black text-emerald-700 mt-1">R$ 0,00</h4>
           <p id="pubOrcPercent" class="text-[11px] text-emerald-600 font-bold mt-1">0% do orçamento estadual empenhado</p>
         </div>
@@ -238,52 +238,14 @@
         </div>
       </div>
 
-      <!-- Destinação por Área -->
+      <!-- Destinações do Dinheiro Escolhidas pelo Gestor -->
       <div class="bg-white rounded-lg border border-neutral-200 shadow-sm overflow-hidden">
-        <div class="p-3.5 bg-neutral-100 font-bold text-xs uppercase text-neutral-700 border-b border-neutral-200">
-          Destinação e Execução por Área da Saúde
+        <div class="p-3.5 bg-neutral-100 font-bold text-xs uppercase text-neutral-700 border-b border-neutral-200 flex justify-between items-center">
+          <span>Destinação e Execução por Área Escolhida</span>
+          <span id="contagemDestinacoes" class="text-[10px] bg-neutral-200 text-neutral-700 px-2 py-0.5 rounded font-bold">0 Áreas</span>
         </div>
-        <div class="divide-y divide-neutral-200 text-xs">
-          <div class="p-4">
-            <div class="flex justify-between items-center mb-1.5">
-              <div>
-                <strong class="text-neutral-900 text-sm">Rede Hospitalar e Organizações Sociais (OSS)</strong>
-                <p class="text-[11px] text-neutral-500">Manutenção de leitos, UTIs, insumos e custeio das unidades hospitalares estaduais.</p>
-              </div>
-              <span id="pubGastoHospitais" class="font-black text-sm text-neutral-800 whitespace-nowrap ml-3">R$ 0,00</span>
-            </div>
-            <div class="w-full bg-neutral-100 rounded-full h-2"><div id="barGastoHospitais" class="bg-sp-blue h-2 rounded-full transition-all duration-700" style="width:0%"></div></div>
-          </div>
-          <div class="p-4">
-            <div class="flex justify-between items-center mb-1.5">
-              <div>
-                <strong class="text-neutral-900 text-sm">Medicamentos e Assistência Farmacêutica (Dose Certa)</strong>
-                <p class="text-[11px] text-neutral-500">Distribuição gratuita de remédios de alto custo e insumos básicos nas farmácias do Estado.</p>
-              </div>
-              <span id="pubGastoMedicamentos" class="font-black text-sm text-neutral-800 whitespace-nowrap ml-3">R$ 0,00</span>
-            </div>
-            <div class="w-full bg-neutral-100 rounded-full h-2"><div id="barGastoMedicamentos" class="bg-emerald-600 h-2 rounded-full transition-all duration-700" style="width:0%"></div></div>
-          </div>
-          <div class="p-4">
-            <div class="flex justify-between items-center mb-1.5">
-              <div>
-                <strong class="text-neutral-900 text-sm">Folha de Pagamento (Médicos, Enfermeiros e Servidores)</strong>
-                <p class="text-[11px] text-neutral-500">Salários e encargos de todo o corpo clínico, pesquisadores e suporte da rede.</p>
-              </div>
-              <span id="pubGastoPessoal" class="font-black text-sm text-neutral-800 whitespace-nowrap ml-3">R$ 0,00</span>
-            </div>
-            <div class="w-full bg-neutral-100 rounded-full h-2"><div id="barGastoPessoal" class="bg-sp-yellow h-2 rounded-full transition-all duration-700" style="width:0%"></div></div>
-          </div>
-          <div class="p-4">
-            <div class="flex justify-between items-center mb-1.5">
-              <div>
-                <strong class="text-neutral-900 text-sm">Obras, Reformas e Aquisição de Equipamentos</strong>
-                <p class="text-[11px] text-neutral-500">Novas alas oncológicas, reformas de AMEs, carretas de mamografia e tomógrafos.</p>
-              </div>
-              <span id="pubGastoObras" class="font-black text-sm text-neutral-800 whitespace-nowrap ml-3">R$ 0,00</span>
-            </div>
-            <div class="w-full bg-neutral-100 rounded-full h-2"><div id="barGastoObras" class="bg-sp-red h-2 rounded-full transition-all duration-700" style="width:0%"></div></div>
-          </div>
+        <div id="listaPublicaDestinacoes" class="divide-y divide-neutral-200 text-xs">
+          <!-- Renderizado dinamicamente -->
         </div>
       </div>
     </section>
@@ -402,38 +364,61 @@
       </button>
     </div>
 
-    <!-- ABA 1: ORÇAMENTO -->
+    <!-- ABA 1: ORÇAMENTO & ESCOLHA DAS DESTINAÇÕES (SEM ERRO AO DIGITAR) -->
     <section id="secTransparencia" class="space-y-6">
+      
+      <!-- Card 1: Orçamento Geral Total -->
       <div class="bg-white p-5 rounded-lg border border-neutral-300 shadow-sm">
-        <h3 class="text-xs font-black uppercase text-sp-blue mb-1">Atualizar Dados Orçamentários</h3>
-        <p class="text-xs text-neutral-500 mb-4">Altere os valores em Reais (R$). As porcentagens e os saldos são calculados na hora.</p>
-        <form onsubmit="salvarOrcamento(event)" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 text-xs">
-          <div>
-            <label class="font-bold text-neutral-700">Orçamento Anual Aprovado (R$)</label>
-            <input type="number" step="100000" min="0" id="inOrcTotal" required class="w-full p-2 border rounded mt-1 font-bold">
+        <h3 class="text-xs font-black uppercase text-sp-blue mb-1">1. Orçamento Anual Total da Secretaria</h3>
+        <p class="text-xs text-neutral-500 mb-3">Defina o montante total aprovado para o ano (digite livremente o valor).</p>
+        <form onsubmit="salvarOrcamentoTotal(event)" class="flex flex-col sm:flex-row gap-3">
+          <div class="flex-grow">
+            <input type="text" inputmode="decimal" id="inOrcTotal" required class="w-full p-2.5 border rounded font-black text-sm text-neutral-800 outline-none focus:border-sp-blue" placeholder="Ex: 38500000000 ou 38.500.000.000">
+          </div>
+          <button type="submit" class="bg-sp-blue hover:bg-sp-darkBlue text-white font-bold px-5 py-2.5 rounded uppercase text-xs shadow">
+            Salvar Orçamento Total
+          </button>
+        </form>
+      </div>
+
+      <!-- Card 2: Escolher as Destinações do Dinheiro (Adicionar / Editar / Excluir) -->
+      <div class="bg-white p-5 rounded-lg border border-neutral-300 shadow-sm">
+        <h3 id="formDestTitle" class="text-xs font-black uppercase text-sp-blue mb-1">2. Escolher Destinação do Dinheiro</h3>
+        <p class="text-xs text-neutral-500 mb-4">Adicione ou edite para onde o dinheiro da saúde vai (hospitais, remédios, obras, servidores ou qualquer área que você quiser).</p>
+
+        <form onsubmit="salvarDestinacao(event)" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 text-xs">
+          <input type="hidden" id="destId">
+          <div class="sm:col-span-2">
+            <label class="font-bold text-neutral-700">Nome da Área / Destinação</label>
+            <input type="text" id="destNome" required placeholder="Ex: Rede Hospitalar e UTIs, Dose Certa, Novas Obras..." class="w-full p-2 border rounded mt-1 font-bold">
           </div>
           <div>
-            <label class="font-bold text-neutral-700">Repasses para Hospitais e OSS (R$)</label>
-            <input type="number" step="100000" min="0" id="inGastoHospitais" required class="w-full p-2 border rounded mt-1 font-bold">
+            <label class="font-bold text-neutral-700">Valor Destinado (R$)</label>
+            <input type="text" inputmode="decimal" id="destValor" required placeholder="Ex: 14200000000 ou 14.200.000.000" class="w-full p-2 border rounded mt-1 font-bold">
           </div>
-          <div>
-            <label class="font-bold text-neutral-700">Medicamentos / Dose Certa (R$)</label>
-            <input type="number" step="100000" min="0" id="inGastoMedicamentos" required class="w-full p-2 border rounded mt-1 font-bold">
+          <div class="sm:col-span-3">
+            <label class="font-bold text-neutral-700">Descrição / Finalidade do Recurso</label>
+            <input type="text" id="destDescricao" required placeholder="Ex: Custeio de insumos, leitos de internação e cirurgias eletivas." class="w-full p-2 border rounded mt-1">
           </div>
-          <div>
-            <label class="font-bold text-neutral-700">Folha de Pessoal e Médicos (R$)</label>
-            <input type="number" step="100000" min="0" id="inGastoPessoal" required class="w-full p-2 border rounded mt-1 font-bold">
-          </div>
-          <div>
-            <label class="font-bold text-neutral-700">Obras e Reformas de Unidades (R$)</label>
-            <input type="number" step="100000" min="0" id="inGastoObras" required class="w-full p-2 border rounded mt-1 font-bold">
-          </div>
-          <div class="sm:col-span-2 lg:col-span-3 pt-2">
-            <button type="submit" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-5 py-2.5 rounded uppercase text-xs shadow transition">
-              Salvar Dados da Transparência
+          <div class="sm:col-span-3 flex gap-2 pt-1">
+            <button type="submit" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-4 py-2 rounded uppercase shadow">
+              Salvar Destinação
+            </button>
+            <button type="button" onclick="limparFormDestinacao()" class="bg-neutral-200 px-4 py-2 rounded font-bold">
+              Cancelar
             </button>
           </div>
         </form>
+      </div>
+
+      <!-- Card 3: Lista de Destinações Cadastradas -->
+      <div class="bg-white rounded-lg border border-neutral-300 shadow-sm overflow-hidden">
+        <div class="p-3 bg-neutral-100 font-bold text-xs uppercase text-neutral-700">
+          Destinações de Recursos Ativas no Portal
+        </div>
+        <div id="listaAdminDestinacoes" class="divide-y divide-neutral-200 text-xs">
+          <!-- Renderizado via JS -->
+        </div>
       </div>
     </section>
 
@@ -670,7 +655,7 @@
         </form>
       </div>
 
-      <!-- ZONA DE PERIGO (RESET PROTEGIDO SOMENTE DENTRO DO ADMIN) -->
+      <!-- RESET PROTEGIDO SOMENTE DENTRO DO ADMIN -->
       <div class="bg-red-50 p-5 rounded-lg border border-red-200 shadow-sm max-w-md">
         <h3 class="text-xs font-black uppercase text-red-700 mb-1 flex items-center gap-1.5">
           <i data-lucide="alert-octagon" class="w-4 h-4"></i> Zona Restrita: Redefinição de Sistema
@@ -797,13 +782,9 @@
 
   <!-- ==================== JAVASCRIPT SEGURO ==================== -->
   <script>
-    // SVG DE FALLBACK PARA IMAGENS
     const IMG_FALLBACK = "data:image/svg+xml;charset=UTF-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22600%22%20height%3D%22400%22%20viewBox%3D%220%200%20600%20400%22%3E%3Crect%20fill%3D%22%23071D41%22%20width%3D%22600%22%20height%3D%22400%22%2F%3E%3Ctext%20fill%3D%22%23FFCD07%22%20font-family%3D%22sans-serif%22%20font-size%3D%2220%22%20font-weight%3D%22bold%22%20x%3D%2250%25%22%20y%3D%2248%25%22%20text-anchor%3D%22middle%22%3EGOVERNO%20DO%20ESTADO%20DE%20S%C3%83O%20PAULO%3C%2Ftext%3E%3Ctext%20fill%3D%22%23ffffff%22%20font-family%3D%22sans-serif%22%20font-size%3D%2214%22%20x%3D%2250%25%22%20y%3D%2256%25%22%20text-anchor%3D%22middle%22%3ESecretaria%20de%20Estado%20da%20Sa%C3%BAde%3C%2Ftext%3E%3C%2Fsvg%3E";
-    
-    // SVG DE AVATAR PADRÃO PARA GESTORES
     const AVATAR_FALLBACK = "data:image/svg+xml;charset=UTF-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22200%22%20height%3D%22200%22%20viewBox%3D%220%200%20200%20200%22%3E%3Crect%20fill%3D%22%23E2E8F0%22%20width%3D%22200%22%20height%3D%22200%22%2F%3E%3Ccircle%20cx%3D%22100%22%20cy%3D%2275%22%20r%3D%2240%22%20fill%3D%22%2394A3B8%22%2F%3E%3Cpath%20d%3D%22M30%20180%20c0%20-40%2035%20-60%2070%20-60%20s70%2020%2070%2060%20z%22%20fill%3D%22%2394A3B8%22%2F%3E%3C%2Fsvg%3E";
 
-    // 7 CARGOS OFICIAIS SOLICITADOS
     const CARGOS_OFICIAIS = [
       "Secretário de Estado da Saúde",
       "Secretário-Adjunto da Saúde",
@@ -813,6 +794,9 @@
       "Auditor / Inspetor de Saúde Pública",
       "Analista Técnico / Assistente Administrativo"
     ];
+
+    // CORES DINÂMICAS PARA AS BARRAS DE CADA DESTINAÇÃO
+    const CORES_DESTINACOES = ["bg-sp-blue", "bg-emerald-600", "bg-sp-yellow", "bg-sp-red", "bg-purple-600", "bg-sky-600", "bg-amber-600"];
 
     const DADOS_INICIAIS = {
       user: "admin",
@@ -824,10 +808,12 @@
       },
       orcamento: {
         total: 38500000000,
-        hospitais: 14200000000,
-        medicamentos: 4800000000,
-        pessoal: 6500000000,
-        obras: 2300000000
+        destinacoes: [
+          { id: "1", nome: "Rede Hospitalar e Organizações Sociais (OSS)", descricao: "Manutenção de leitos, UTIs, insumos e custeio das unidades hospitalares estaduais.", valor: 14200000000 },
+          { id: "2", nome: "Medicamentos e Assistência Farmacêutica (Dose Certa)", descricao: "Distribuição gratuita de remédios de alto custo e insumos básicos nas farmácias do Estado.", valor: 4800000000 },
+          { id: "3", nome: "Folha de Pagamento (Médicos, Enfermeiros e Servidores)", descricao: "Salários e encargos de todo o corpo clínico, pesquisadores e suporte da rede.", valor: 6500000000 },
+          { id: "4", nome: "Obras, Reformas e Aquisição de Equipamentos", descricao: "Novas alas oncológicas, reformas de AMEs, carretas de mamografia e tomógrafos.", valor: 2300000000 }
+        ]
       },
       equipe: [
         { id: "1", cargo: "Secretário de Estado da Saúde", nome: "Dr. Eleuses Paiva", descricao: "Médico e Gestor Público. Titular da pasta da Saúde de São Paulo.", foto: "https://images.unsplash.com/photo-1537368910025-700350fe46c7?w=500&auto=format&fit=crop&q=80", ativo: true },
@@ -857,6 +843,21 @@
       ]
     };
 
+    // CONVERSOR LIVRE DE VALORES (NUNCA DÁ ERRO AO DIGITAR)
+    function limparEConverterValor(val) {
+      if (val === null || val === undefined || val === '') return 0;
+      if (typeof val === 'number') return isNaN(val) ? 0 : val;
+      let s = val.toString().replace(/R\$\s?/gi, '').trim();
+      if (s.includes('.') && s.includes(',')) {
+        s = s.replace(/\./g, '').replace(',', '.');
+      } else if (s.includes(',')) {
+        s = s.replace(',', '.');
+      }
+      s = s.replace(/[^0-9.-]/g, '');
+      const num = parseFloat(s);
+      return isNaN(num) ? 0 : Math.max(0, num);
+    }
+
     function safeStorageGet(chave, fallback) {
       try {
         const item = localStorage.getItem(chave);
@@ -880,6 +881,15 @@
       programas: safeStorageGet("ses_programas", DADOS_INICIAIS.programas),
       noticias: safeStorageGet("ses_noticias", DADOS_INICIAIS.noticias)
     };
+
+    // MIGRAÇÃO SEGURA: SE O USUÁRIO TINHA O ORÇAMENTO ANTIGO, CONVERTE PARA DESTINAÇÕES DINÂMICAS
+    if (!app.orcamento || !app.orcamento.destinacoes || !Array.isArray(app.orcamento.destinacoes)) {
+      app.orcamento = {
+        total: app.orcamento && app.orcamento.total ? limparEConverterValor(app.orcamento.total) : DADOS_INICIAIS.orcamento.total,
+        destinacoes: [...DADOS_INICIAIS.orcamento.destinacoes]
+      };
+      localStorage.setItem("ses_orcamento", JSON.stringify(app.orcamento));
+    }
 
     window.addEventListener("DOMContentLoaded", () => {
       atualizarTudo();
@@ -928,43 +938,33 @@
       document.getElementById("adminInputAlerta").value = app.alerta.mensagem;
       document.getElementById("contadorAlerta").innerText = app.alerta.mensagem.length;
 
-      // 2. Orçamento e Transparência
+      // 2. Orçamento e Destinações
       const o = app.orcamento;
-      const executado = Number(o.hospitais) + Number(o.medicamentos) + Number(o.pessoal) + Number(o.obras);
-      const saldo = Math.max(0, Number(o.total) - executado);
-      const perc = Math.min(100, Math.round((executado / Number(o.total)) * 100)) || 0;
+      const totalOrc = Number(o.total) || 0;
+      const executado = o.destinacoes.reduce((soma, d) => soma + Number(d.valor || 0), 0);
+      const saldo = Math.max(0, totalOrc - executado);
+      const perc = totalOrc > 0 ? Math.min(100, Math.round((executado / totalOrc) * 100)) : 0;
 
-      document.getElementById("pubOrcTotal").innerText = formatarMoeda(o.total);
+      document.getElementById("pubOrcTotal").innerText = formatarMoeda(totalOrc);
       document.getElementById("pubOrcExecutado").innerText = formatarMoeda(executado);
       document.getElementById("pubOrcSaldo").innerText = formatarMoeda(saldo);
-      document.getElementById("pubOrcPercent").innerText = `${perc}% do orçamento estadual empenhado`;
-      document.getElementById("labelBarraProgresso").innerText = `${perc}% Executado`;
+      document.getElementById("pubOrcPercent").innerText = `${perc}% do orçamento estadual destinado`;
+      document.getElementById("labelBarraProgresso").innerText = `${perc}% Destinado`;
       document.getElementById("barraProgresso").style.width = `${perc}%`;
+      document.getElementById("contagemDestinacoes").innerText = `${o.destinacoes.length} Destinações`;
 
-      document.getElementById("pubGastoHospitais").innerText = formatarMoeda(o.hospitais);
-      document.getElementById("pubGastoMedicamentos").innerText = formatarMoeda(o.medicamentos);
-      document.getElementById("pubGastoPessoal").innerText = formatarMoeda(o.pessoal);
-      document.getElementById("pubGastoObras").innerText = formatarMoeda(o.obras);
+      // Input do Orçamento Total no Admin
+      document.getElementById("inOrcTotal").value = totalOrc;
 
-      document.getElementById("barGastoHospitais").style.width = `${Math.min(100, (o.hospitais / o.total) * 100)}%`;
-      document.getElementById("barGastoMedicamentos").style.width = `${Math.min(100, (o.medicamentos / o.total) * 100)}%`;
-      document.getElementById("barGastoPessoal").style.width = `${Math.min(100, (o.pessoal / o.total) * 100)}%`;
-      document.getElementById("barGastoObras").style.width = `${Math.min(100, (o.obras / o.total) * 100)}%`;
-
-      document.getElementById("inOrcTotal").value = o.total;
-      document.getElementById("inGastoHospitais").value = o.hospitais;
-      document.getElementById("inGastoMedicamentos").value = o.medicamentos;
-      document.getElementById("inGastoPessoal").value = o.pessoal;
-      document.getElementById("inGastoObras").value = o.obras;
-
-      // 3. Renderizar Seções
+      // Renderizar Seções
+      renderizarDestinacoesPublicas(totalOrc);
       renderizarEquipe();
       renderizarProgramas();
       renderizarHospitais();
       renderizarNoticias();
       renderizarAdminListas();
 
-      // 4. Indicadores Rápidos
+      // Indicadores de Topo
       document.getElementById("kpiHospitais").innerText = app.hospitais.length;
       document.getElementById("kpiLeitos").innerText = app.hospitais.reduce((s, h) => s + Number(h.leitos || 0), 0);
       document.getElementById("kpiProgramas").innerText = app.programas.filter(p => p.ativo).length;
@@ -973,12 +973,122 @@
       lucide.createIcons();
     }
 
+    // --- RENDERIZAR AS DESTINAÇÕES DO DINHEIRO NA PÁGINA PÚBLICA ---
+    function renderizarDestinacoesPublicas(totalOrc) {
+      const container = document.getElementById("listaPublicaDestinacoes");
+      if (app.orcamento.destinacoes.length === 0) {
+        container.innerHTML = `<p class="p-4 text-center text-neutral-400 text-xs">Nenhuma destinação de recursos cadastrada no momento.</p>`;
+        return;
+      }
+
+      container.innerHTML = app.orcamento.destinacoes.map((d, index) => {
+        const corBarra = CORES_DESTINACOES[index % CORES_DESTINACOES.length];
+        const percArea = totalOrc > 0 ? Math.min(100, ((Number(d.valor) / totalOrc) * 100)).toFixed(1) : 0;
+        return `
+          <div class="p-4">
+            <div class="flex justify-between items-start mb-1.5 gap-2">
+              <div>
+                <strong class="text-neutral-900 text-sm">${d.nome}</strong>
+                <p class="text-[11px] text-neutral-500">${d.descricao}</p>
+              </div>
+              <div class="text-right flex-shrink-0 ml-3">
+                <span class="font-black text-sm text-neutral-800 block">${formatarMoeda(d.valor)}</span>
+                <span class="text-[10px] text-neutral-400 font-bold">${percArea}% do total</span>
+              </div>
+            </div>
+            <div class="w-full bg-neutral-100 rounded-full h-2 overflow-hidden mt-2">
+              <div class="${corBarra} h-2 rounded-full transition-all duration-700" style="width: ${percArea}%"></div>
+            </div>
+          </div>
+        `;
+      }).join("");
+    }
+
+    // --- SALVAR O ORÇAMENTO TOTAL (SEM ERRO AO DIGITAR) ---
+    function salvarOrcamentoTotal(e) {
+      e.preventDefault();
+      const rawValor = document.getElementById("inOrcTotal").value;
+      const valorFinal = limparEConverterValor(rawValor);
+
+      if (valorFinal <= 0) {
+        alert("Por favor, digite um valor válido maior que zero.");
+        return;
+      }
+
+      app.orcamento.total = valorFinal;
+      localStorage.setItem("ses_orcamento", JSON.stringify(app.orcamento));
+      atualizarTudo();
+      mostrarToast("Orçamento Total salvo com sucesso!");
+    }
+
+    // --- SALVAR/EDITAR DESTINAÇÃO DO DINHEIRO (SEM ERRO) ---
+    function salvarDestinacao(e) {
+      e.preventDefault();
+      const id = document.getElementById("destId").value;
+      const nome = document.getElementById("destNome").value.trim();
+      const rawValor = document.getElementById("destValor").value;
+      const descricao = document.getElementById("destDescricao").value.trim();
+      const valor = limparEConverterValor(rawValor);
+
+      if (valor <= 0) {
+        alert("Digite um valor válido para a destinação.");
+        return;
+      }
+
+      if (id) {
+        const idx = app.orcamento.destinacoes.findIndex(d => d.id === id);
+        if (idx !== -1) {
+          app.orcamento.destinacoes[idx] = { id, nome, valor, descricao };
+        }
+      } else {
+        app.orcamento.destinacoes.push({
+          id: Date.now().toString(),
+          nome,
+          valor,
+          descricao
+        });
+      }
+
+      localStorage.setItem("ses_orcamento", JSON.stringify(app.orcamento));
+      limparFormDestinacao();
+      atualizarTudo();
+      mostrarToast("Destinação de recursos salva com sucesso!");
+    }
+
+    function editarDestinacao(id) {
+      const d = app.orcamento.destinacoes.find(x => x.id === id);
+      if (!d) return;
+      document.getElementById("destId").value = d.id;
+      document.getElementById("destNome").value = d.nome;
+      document.getElementById("destValor").value = d.valor;
+      document.getElementById("destDescricao").value = d.descricao;
+      document.getElementById("formDestTitle").innerText = "Editar Destinação: " + d.nome;
+      mudarAba('transparencia');
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    function excluirDestinacao(id) {
+      if (confirm("Remover esta destinação de gastos do orçamento da saúde?")) {
+        app.orcamento.destinacoes = app.orcamento.destinacoes.filter(x => x.id !== id);
+        localStorage.setItem("ses_orcamento", JSON.stringify(app.orcamento));
+        atualizarTudo();
+        mostrarToast("Destinação removida!");
+      }
+    }
+
+    function limparFormDestinacao() {
+      document.getElementById("destId").value = "";
+      document.getElementById("destNome").value = "";
+      document.getElementById("destValor").value = "";
+      document.getElementById("destDescricao").value = "";
+      document.getElementById("formDestTitle").innerText = "2. Escolher Destinação do Dinheiro";
+    }
+
     // --- CORPO DIRETIVO E EQUIPE (GESTÃO DOS CARGOS) ---
     function renderizarEquipe() {
       const secao = document.getElementById("equipe");
       const container = document.getElementById("gridEquipe");
       
-      // FILTRO INTELIGENTE: SÓ MOSTRA SE FOR ATIVO E TIVER NOME PREENCHIDO
       const nomeados = app.equipe.filter(m => m.ativo && m.nome && m.nome.trim() !== "");
 
       if (nomeados.length === 0) {
@@ -1017,7 +1127,6 @@
       const foto = document.getElementById("eqFoto").value.trim();
       const ativo = document.getElementById("eqAtivo").checked;
 
-      // Se já existe o cargo na lista, atualiza; senão, adiciona
       const idx = app.equipe.findIndex(m => m.cargo === cargo || (id && m.id === id));
       if (idx !== -1) {
         app.equipe[idx] = { ...app.equipe[idx], cargo, nome, descricao, foto, ativo };
@@ -1303,21 +1412,6 @@
       mostrarToast("Alerta desativado da capa!");
     }
 
-    // --- ORÇAMENTO ---
-    function salvarOrcamento(e) {
-      e.preventDefault();
-      app.orcamento = {
-        total: Number(document.getElementById("inOrcTotal").value),
-        hospitais: Number(document.getElementById("inGastoHospitais").value),
-        medicamentos: Number(document.getElementById("inGastoMedicamentos").value),
-        pessoal: Number(document.getElementById("inGastoPessoal").value),
-        obras: Number(document.getElementById("inGastoObras").value)
-      };
-      localStorage.setItem("ses_orcamento", JSON.stringify(app.orcamento));
-      atualizarTudo();
-      mostrarToast("Orçamento e gastos atualizados!");
-    }
-
     // --- NOTÍCIAS OFICIAIS ---
     function renderizarNoticias() {
       const container = document.getElementById("gridNoticias");
@@ -1492,6 +1586,24 @@
     }
 
     function renderizarAdminListas() {
+      // Destinações no Admin
+      const divD = document.getElementById("listaAdminDestinacoes");
+      divD.innerHTML = app.orcamento.destinacoes.map(d => `
+        <div class="p-3.5 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 hover:bg-neutral-50">
+          <div>
+            <div class="flex items-center gap-2">
+              <span class="font-bold text-neutral-900">${d.nome}</span>
+              <span class="text-[11px] font-black text-sp-blue bg-blue-50 px-2 py-0.5 rounded">${formatarMoeda(d.valor)}</span>
+            </div>
+            <p class="text-[11px] text-neutral-500 mt-0.5">${d.descricao}</p>
+          </div>
+          <div class="flex items-center gap-2 self-end sm:self-center">
+            <button onclick="editarDestinacao('${d.id}')" class="text-sp-blue font-bold hover:underline">Editar</button>
+            <button onclick="excluirDestinacao('${d.id}')" class="text-red-600 font-bold hover:underline">Excluir</button>
+          </div>
+        </div>
+      `).join("");
+
       // Lista de Cargos e Equipe no Admin
       const divE = document.getElementById("listaAdminEquipe");
       divE.innerHTML = CARGOS_OFICIAIS.map(cargo => {
@@ -1591,7 +1703,10 @@
           app.user = DADOS_INICIAIS.user;
           app.pass = DADOS_INICIAIS.pass;
           app.alerta = DADOS_INICIAIS.alerta;
-          app.orcamento = DADOS_INICIAIS.orcamento;
+          app.orcamento = {
+            total: DADOS_INICIAIS.orcamento.total,
+            destinacoes: [...DADOS_INICIAIS.orcamento.destinacoes]
+          };
           app.equipe = DADOS_INICIAIS.equipe;
           app.hospitais = DADOS_INICIAIS.hospitais;
           app.programas = DADOS_INICIAIS.programas;
