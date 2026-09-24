@@ -1,0 +1,764 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Secretaria de Estado da Saúde de São Paulo - SES-SP</title>
+  
+  <!-- Tailwind CSS & Lucide Icons via CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            sp: {
+              blue: '#003c71',
+              lightBlue: '#005ea6',
+              darkBlue: '#00284d',
+              red: '#cc0000',
+              black: '#111111',
+              gray: '#f4f6f8'
+            }
+          }
+        }
+      }
+    }
+  </script>
+</head>
+<body class="bg-sp-gray text-neutral-800 min-h-screen flex flex-col antialiased">
+
+  <!-- 1. BARRA OFICIAL GOVERNO DE SÃO PAULO -->
+  <div class="bg-sp-black text-white text-[11px] px-3 py-1.5 border-b border-neutral-800">
+    <div class="max-w-7xl mx-auto flex items-center justify-between">
+      <div class="flex items-center gap-2">
+        <span class="font-extrabold tracking-widest bg-sp-red px-1.5 py-0.5 rounded text-white text-[9px]">SP</span>
+        <span class="font-bold uppercase tracking-wider text-neutral-200">Governo do Estado de São Paulo</span>
+      </div>
+      <button onclick="toggleAdminView()" id="btnAcessoAdmin" class="text-amber-400 font-bold hover:underline flex items-center gap-1">
+        <i data-lucide="lock" class="w-3 h-3"></i> <span id="labelAcesso">Área do Gestor</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- 2. FAIXA TRICOLOR PAULISTA (Preto, Branco, Vermelho) -->
+  <div class="flex h-1 w-full">
+    <div class="w-1/3 bg-black"></div>
+    <div class="w-1/3 bg-white"></div>
+    <div class="w-1/3 bg-sp-red"></div>
+  </div>
+
+  <!-- 3. CABEÇALHO DA SECRETARIA DA SAÚDE -->
+  <header class="bg-white border-b border-neutral-200 sticky top-0 z-30 shadow-sm">
+    <div class="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <div class="bg-sp-blue text-white font-black text-xl px-2.5 py-1 rounded shadow-sm">
+          SUS
+        </div>
+        <div class="border-l-2 border-neutral-300 pl-3">
+          <h1 class="text-base sm:text-lg font-black text-sp-blue uppercase leading-tight">
+            Secretaria da Saúde
+          </h1>
+          <p class="text-[10px] text-neutral-500 font-bold uppercase tracking-wider">
+            Estado de São Paulo
+          </p>
+        </div>
+      </div>
+      <nav class="hidden md:flex gap-5 text-xs font-bold text-neutral-700 uppercase">
+        <a href="#inicio" class="hover:text-sp-blue">Início</a>
+        <a href="#hospitais" class="hover:text-sp-blue">Hospitais</a>
+        <a href="#programas" class="hover:text-sp-blue">Programas</a>
+        <a href="#noticias" class="hover:text-sp-blue">Notícias</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- 4. BANNER DE ALERTA EPIDEMIOLÓGICO -->
+  <div id="bannerAlerta" class="bg-amber-400 text-neutral-950 px-4 py-2 text-xs sm:text-sm font-semibold border-b border-amber-500">
+    <div class="max-w-7xl mx-auto flex items-center justify-between gap-2">
+      <div class="flex items-center gap-2">
+        <i data-lucide="alert-triangle" class="w-4 h-4 flex-shrink-0"></i>
+        <span id="textoAlerta">Carregando alerta...</span>
+      </div>
+      <span class="text-[10px] bg-neutral-900 text-white font-bold px-1.5 py-0.5 rounded uppercase">Oficial</span>
+    </div>
+  </div>
+
+  <!-- ==================== TELA PÚBLICA DO CIDADÃO ==================== -->
+  <main id="viewPublica" class="flex-grow">
+    
+    <!-- HERO SECTION -->
+    <section id="inicio" class="bg-gradient-to-r from-sp-darkBlue via-sp-blue to-sp-lightBlue text-white py-10 px-4">
+      <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-6 items-center">
+        <div class="md:col-span-2">
+          <span class="bg-sp-red text-white text-[10px] font-extrabold uppercase px-2 py-0.5 rounded mb-3 inline-block">
+            Portal da Saúde Paulista
+          </span>
+          <h2 class="text-2xl sm:text-4xl font-black leading-tight mb-3">
+            Atendimento e saúde pública para mais de 44 milhões de pessoas.
+          </h2>
+          <p class="text-blue-100 text-xs sm:text-sm mb-6 max-w-xl leading-relaxed">
+            Consulte a operação hospitalar em tempo real, acompanhe programas como o Dose Certa e acesse comunicados oficiais da SES-SP.
+          </p>
+          <div class="flex flex-wrap gap-2">
+            <a href="#hospitais" class="bg-white text-sp-blue font-bold px-4 py-2.5 rounded text-xs uppercase shadow">
+              Ver Hospitais em Operação
+            </a>
+            <a href="#programas" class="bg-sp-darkBlue/80 border border-white/30 text-white font-bold px-4 py-2.5 rounded text-xs uppercase">
+              Programas Oficiais
+            </a>
+          </div>
+        </div>
+
+        <!-- Telefones de Urgência -->
+        <div class="bg-white/10 backdrop-blur-md p-4 rounded-lg border border-white/20 text-xs space-y-2.5">
+          <h3 class="font-bold text-sm uppercase tracking-wider text-white border-b border-white/20 pb-1.5">
+            Canais de Emergência SP
+          </h3>
+          <div class="flex justify-between items-center bg-black/20 p-2 rounded">
+            <span>SAMU Urgência</span>
+            <strong class="text-base text-red-300">192</strong>
+          </div>
+          <div class="flex justify-between items-center bg-black/20 p-2 rounded">
+            <span>Disque Saúde SUS</span>
+            <strong class="text-base text-amber-300">136</strong>
+          </div>
+          <div class="flex justify-between items-center bg-black/20 p-2 rounded">
+            <span>Ouvidoria Geral</span>
+            <strong class="text-white">0800 055 587</strong>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PROGRAMAS DE SAÚDE -->
+    <section id="programas" class="max-w-7xl mx-auto px-4 py-8">
+      <h3 class="text-sm font-black text-sp-blue uppercase tracking-wider mb-4 flex items-center gap-2">
+        <i data-lucide="heart-pulse" class="w-4 h-4"></i> Programas de Saúde do Estado
+      </h3>
+      <div id="gridProgramas" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        <!-- Renderizado dinamicamente via JS -->
+      </div>
+    </section>
+
+    <!-- STATUS DOS HOSPITAIS EM OPERAÇÃO -->
+    <section id="hospitais" class="bg-neutral-200/70 py-10 px-4 border-t border-neutral-300">
+      <div class="max-w-7xl mx-auto">
+        <div class="flex flex-col sm:flex-row sm:items-end justify-between mb-6 gap-3">
+          <div>
+            <span class="text-xs font-bold text-sp-red uppercase">Rede Hospitalar SUS-SP</span>
+            <h3 class="text-xl font-black text-neutral-900 uppercase">Hospitais e AMEs em Operação</h3>
+          </div>
+          <div class="flex gap-2">
+            <select id="filtroRegiao" onchange="renderizarHospitais()" class="text-xs p-2 bg-white border border-neutral-300 rounded font-bold outline-none">
+              <option value="todas">Todas as Regiões</option>
+              <option value="capital">Capital / Grande SP</option>
+              <option value="campinas">Campinas</option>
+              <option value="ribeirao">Ribeirão Preto</option>
+              <option value="santos">Baixada Santista</option>
+            </select>
+          </div>
+        </div>
+
+        <div id="gridHospitais" class="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <!-- Renderizado dinamicamente via JS -->
+        </div>
+      </div>
+    </section>
+
+    <!-- NOTÍCIAS OFICIAIS -->
+    <section id="noticias" class="max-w-7xl mx-auto px-4 py-10">
+      <h3 class="text-xl font-black text-neutral-900 uppercase mb-6 border-b-2 border-sp-blue pb-2">
+        Notícias da Secretaria de Saúde
+      </h3>
+      <div id="gridNoticias" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <!-- Renderizado dinamicamente via JS -->
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ==================== PAINEL DO GESTOR / ADMIN ==================== -->
+  <main id="viewAdmin" class="hidden flex-grow max-w-7xl mx-auto px-4 py-6 w-full">
+    
+    <!-- Cabeçalho do Painel -->
+    <div class="bg-white p-4 rounded border border-neutral-300 shadow-sm flex flex-wrap justify-between items-center gap-3 mb-6">
+      <div>
+        <span class="text-[10px] font-extrabold uppercase bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded">
+          Modo Gestão Ativo
+        </span>
+        <h2 class="text-lg font-black text-neutral-900 uppercase mt-1">
+          Painel de Controle SES-SP
+        </h2>
+      </div>
+      <div class="flex gap-2">
+        <button onclick="toggleAdminView()" class="bg-sp-blue text-white text-xs font-bold px-3 py-1.5 rounded">
+          Ver Site Público
+        </button>
+        <button onclick="deslogar()" class="bg-neutral-200 text-neutral-700 text-xs font-bold px-3 py-1.5 rounded">
+          Sair
+        </button>
+      </div>
+    </div>
+
+    <!-- Navegação por Abas -->
+    <div class="flex flex-wrap gap-2 mb-6 border-b border-neutral-300 pb-3">
+      <button onclick="mudarAbaAdmin('hospitais')" id="tabHospitais" class="px-3 py-1.5 rounded text-xs font-bold uppercase bg-sp-blue text-white">
+        🏥 Hospitais & Operação
+      </button>
+      <button onclick="mudarAbaAdmin('programas')" id="tabProgramas" class="px-3 py-1.5 rounded text-xs font-bold uppercase bg-white text-neutral-700">
+        💉 Programas de Saúde
+      </button>
+      <button onclick="mudarAbaAdmin('alerta')" id="tabAlerta" class="px-3 py-1.5 rounded text-xs font-bold uppercase bg-white text-neutral-700">
+        ⚠️ Alerta da Capa
+      </button>
+      <button onclick="mudarAbaAdmin('noticias')" id="tabNoticias" class="px-3 py-1.5 rounded text-xs font-bold uppercase bg-white text-neutral-700">
+        📰 Notícias
+      </button>
+    </div>
+
+    <!-- ABA 1: GERENCIAR HOSPITAIS -->
+    <section id="adminSecHospitais" class="space-y-6">
+      <div class="bg-white p-4 rounded border border-neutral-300 shadow-sm">
+        <h3 id="formHospTitle" class="text-xs font-black uppercase text-sp-blue mb-3">Adicionar / Editar Hospital</h3>
+        <form onsubmit="salvarHospital(event)" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 text-xs">
+          <input type="hidden" id="hId">
+          <div class="sm:col-span-2">
+            <label class="font-bold text-neutral-700">Nome da Unidade</label>
+            <input type="text" id="hNome" required class="w-full p-2 border rounded mt-1" placeholder="Ex: Hospital das Clínicas">
+          </div>
+          <div>
+            <label class="font-bold text-neutral-700">Status de Operação</label>
+            <select id="hStatus" class="w-full p-2 border rounded mt-1 font-bold">
+              <option value="Operando Normalmente">Operando 24h</option>
+              <option value="Alta Demanda">Alta Demanda / Triagem Lenta</option>
+              <option value="Em Obras / Parcial">Em Obras / Atendimento Parcial</option>
+              <option value="Pronto-Socorro Restrito">P.S. Referenciado (Restrito)</option>
+            </select>
+          </div>
+          <div>
+            <label class="font-bold text-neutral-700">Região</label>
+            <select id="hRegiao" class="w-full p-2 border rounded mt-1">
+              <option value="capital">Capital / Grande SP</option>
+              <option value="campinas">Campinas</option>
+              <option value="ribeirao">Ribeirão Preto</option>
+              <option value="santos">Baixada Santista</option>
+            </select>
+          </div>
+          <div>
+            <label class="font-bold text-neutral-700">Tipo</label>
+            <input type="text" id="hTipo" required class="w-full p-2 border rounded mt-1" value="Hospital Geral">
+          </div>
+          <div>
+            <label class="font-bold text-neutral-700">Leitos Livres (Aprox)</label>
+            <input type="number" id="hLeitos" required class="w-full p-2 border rounded mt-1" value="15">
+          </div>
+          <div>
+            <label class="font-bold text-neutral-700">Telefone</label>
+            <input type="text" id="hTelefone" required class="w-full p-2 border rounded mt-1" placeholder="(11) 3000-0000">
+          </div>
+          <div>
+            <label class="font-bold text-neutral-700">Endereço</label>
+            <input type="text" id="hEndereco" required class="w-full p-2 border rounded mt-1" placeholder="Rua / Av, Número">
+          </div>
+          <div class="sm:col-span-2 lg:col-span-4 flex gap-2 pt-2">
+            <button type="submit" class="bg-emerald-600 text-white font-bold px-4 py-2 rounded uppercase">
+              Salvar Hospital
+            </button>
+            <button type="button" onclick="limparFormHospital()" class="bg-neutral-200 px-4 py-2 rounded font-bold">
+              Limpar
+            </button>
+          </div>
+        </form>
+      </div>
+
+      <div class="bg-white rounded border border-neutral-300 shadow-sm overflow-x-auto">
+        <table class="w-full text-left text-xs">
+          <thead class="bg-neutral-100 uppercase text-[10px] text-neutral-700">
+            <tr>
+              <th class="p-3">Hospital</th>
+              <th class="p-3">Status Operacional</th>
+              <th class="p-3">Região</th>
+              <th class="p-3 text-right">Ação</th>
+            </tr>
+          </thead>
+          <tbody id="tabelaAdminHospitais" class="divide-y divide-neutral-200">
+            <!-- Renderizado via JS -->
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ABA 2: GERENCIAR PROGRAMAS -->
+    <section id="adminSecProgramas" class="hidden space-y-6">
+      <div class="bg-white p-4 rounded border border-neutral-300 shadow-sm">
+        <h3 class="text-xs font-black uppercase text-sp-blue mb-3">Cadastrar Novo Programa</h3>
+        <form onsubmit="salvarPrograma(event)" class="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
+          <input type="hidden" id="pId">
+          <div class="sm:col-span-2">
+            <label class="font-bold text-neutral-700">Nome do Programa</label>
+            <input type="text" id="pNome" required class="w-full p-2 border rounded mt-1" placeholder="Ex: Carreta da Mamografia">
+          </div>
+          <div>
+            <label class="font-bold text-neutral-700">Categoria</label>
+            <input type="text" id="pCategoria" required class="w-full p-2 border rounded mt-1" placeholder="Ex: Prevenção">
+          </div>
+          <div class="sm:col-span-3">
+            <label class="font-bold text-neutral-700">Descrição do Benefício ao Cidadão</label>
+            <textarea id="pDescricao" rows="2" required class="w-full p-2 border rounded mt-1"></textarea>
+          </div>
+          <div class="sm:col-span-3">
+            <button type="submit" class="bg-emerald-600 text-white font-bold px-4 py-2 rounded uppercase">
+              Salvar Programa
+            </button>
+          </div>
+        </form>
+      </div>
+
+      <div id="listaAdminProgramas" class="space-y-3">
+        <!-- Renderizado via JS -->
+      </div>
+    </section>
+
+    <!-- ABA 3: GERENCIAR ALERTA DA CAPA -->
+    <section id="adminSecAlerta" class="hidden">
+      <div class="bg-white p-5 rounded border border-neutral-300 shadow-sm max-w-xl">
+        <h3 class="text-xs font-black uppercase text-sp-blue mb-3">Aviso Sanitário da Página Inicial</h3>
+        <label class="block text-xs font-bold text-neutral-700 mb-1">Frase do Banner de Atenção:</label>
+        <textarea id="adminInputAlerta" rows="3" class="w-full text-xs p-2 border rounded mb-3"></textarea>
+        <button onclick="salvarAlerta()" class="bg-sp-blue text-white text-xs font-bold px-4 py-2 rounded uppercase">
+          Salvar Alerta Imediatamente
+        </button>
+      </div>
+    </section>
+
+    <!-- ABA 4: GERENCIAR NOTÍCIAS -->
+    <section id="adminSecNoticias" class="hidden">
+      <div class="bg-white p-4 rounded border border-neutral-300 shadow-sm mb-6">
+        <h3 class="text-xs font-black uppercase text-sp-blue mb-3">Nova Matéria Oficial</h3>
+        <form onsubmit="salvarNoticia(event)" class="space-y-3 text-xs">
+          <div>
+            <label class="font-bold">Título da Notícia</label>
+            <input type="text" id="nTitulo" required class="w-full p-2 border rounded mt-1">
+          </div>
+          <div class="grid grid-cols-2 gap-3">
+            <div>
+              <label class="font-bold">Categoria</label>
+              <input type="text" id="nCategoria" required class="w-full p-2 border rounded mt-1" value="Campanha">
+            </div>
+            <div>
+              <label class="font-bold">URL da Imagem</label>
+              <input type="url" id="nImagem" required class="w-full p-2 border rounded mt-1" value="https://images.unsplash.com/photo-1584515979956-d9f6e5d09982?w=600">
+            </div>
+          </div>
+          <div>
+            <label class="font-bold">Resumo / Texto</label>
+            <textarea id="nResumo" rows="3" required class="w-full p-2 border rounded mt-1"></textarea>
+          </div>
+          <button type="submit" class="bg-emerald-600 text-white font-bold px-4 py-2 rounded uppercase">
+            Publicar Matéria
+          </button>
+        </form>
+      </div>
+      <div id="listaAdminNoticias" class="space-y-2"></div>
+    </section>
+
+  </main>
+
+  <!-- MODAL DE LOGIN (Área Restrita) -->
+  <div id="modalLogin" class="fixed inset-0 bg-black/60 backdrop-blur-sm hidden z-50 flex items-center justify-center p-4">
+    <div class="bg-white rounded-lg max-w-sm w-full p-6 shadow-2xl border-t-4 border-sp-blue">
+      <div class="text-center mb-4">
+        <i data-lucide="shield" class="w-8 h-8 text-sp-blue mx-auto mb-1"></i>
+        <h3 class="text-base font-black text-neutral-900 uppercase">Acesso do Servidor SES-SP</h3>
+        <p class="text-[11px] text-neutral-500">Insira as credenciais administrativas</p>
+      </div>
+
+      <div class="bg-blue-50 p-2.5 rounded text-[11px] text-sp-darkBlue mb-4 border border-blue-200">
+        <strong>Login de Acesso:</strong><br>
+        Usuário: <code class="font-bold">admin</code> | Senha: <code class="font-bold">saude@sp2026</code>
+      </div>
+
+      <form onsubmit="realizarLogin(event)" class="space-y-3 text-xs">
+        <div>
+          <label class="font-bold text-neutral-700">Usuário</label>
+          <input type="text" id="loginUser" required class="w-full p-2 border rounded mt-1" value="admin">
+        </div>
+        <div>
+          <label class="font-bold text-neutral-700">Senha</label>
+          <input type="password" id="loginPass" required class="w-full p-2 border rounded mt-1" value="saude@sp2026">
+        </div>
+        <div id="loginErro" class="text-red-600 font-bold hidden text-[11px]">Usuário ou senha incorretos!</div>
+        <div class="flex gap-2 pt-2">
+          <button type="button" onclick="fecharLogin()" class="w-1/2 bg-neutral-200 font-bold p-2 rounded">Cancelar</button>
+          <button type="submit" class="w-1/2 bg-sp-blue hover:bg-sp-darkBlue text-white font-bold p-2 rounded uppercase">Entrar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- RODAPÉ OFICIAL GOVERNO DE SP -->
+  <footer class="bg-sp-blue text-white text-xs mt-12 border-t-4 border-sp-red">
+    <div class="max-w-7xl mx-auto px-4 py-8 grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div>
+        <h4 class="font-black text-sm uppercase tracking-wider mb-2">Secretaria da Saúde - SP</h4>
+        <p class="text-neutral-300 text-[11px]">
+          Av. Dr. Enéas Carvalho de Aguiar, 188 - Cerqueira César, São Paulo - SP<br>
+          CEP: 05403-000 | PABX: (11) 3066-8000
+        </p>
+      </div>
+      <div>
+        <h4 class="font-bold uppercase tracking-wider mb-2 text-neutral-200">Canais de Apoio</h4>
+        <p class="text-neutral-300 text-[11px] space-y-1">
+          SAMU Urgência: <strong>192</strong> | Disque Saúde: <strong>136</strong><br>
+          Ouvidoria: <strong>0800 055 587</strong>
+        </p>
+      </div>
+      <div class="text-neutral-400 text-[11px] flex flex-col justify-between">
+        <p>© 2026 Governo do Estado de São Paulo. Todos os direitos reservados.</p>
+        <button onclick="restaurarFabrica()" class="text-red-400 hover:underline text-[10px] self-start mt-2">
+          Restaurar Dados Originais de SP
+        </button>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ==================== LÓGICA E BANCO DE DADOS ==================== -->
+  <script>
+    // DADOS INICIAIS
+    const PADRAO_HOSPITAIS = [
+      { id: "1", nome: "Hospital das Clínicas da FMUSP (HC)", tipo: "Hospital Geral", regiao: "capital", status: "Operando Normalmente", leitos: 38, endereco: "Av. Dr. Enéas Carvalho de Aguiar, 255 - Cerqueira César, SP", telefone: "(11) 2661-0000" },
+      { id: "2", nome: "InCor - Instituto do Coração", tipo: "Especializado", regiao: "capital", status: "Operando Normalmente", leitos: 14, endereco: "Av. Dr. Enéas Carvalho de Aguiar, 44 - SP", telefone: "(11) 2661-5000" },
+      { id: "3", nome: "AME Maria Zélia (Especialidades)", tipo: "AME", regiao: "capital", status: "Alta Demanda", leitos: 0, endereco: "Rua Jequitinhonha, 360 - Belenzinho, SP", telefone: "(11) 3583-1800" },
+      { id: "4", nome: "Hospital de Clínicas da UNICAMP", tipo: "Hospital Geral", regiao: "campinas", status: "Operando Normalmente", leitos: 21, endereco: "Rua Vital Brasil, 251 - Campinas, SP", telefone: "(19) 3521-2121" },
+      { id: "5", nome: "Hospital Estadual de Ribeirão Preto", tipo: "Hospital Geral", regiao: "ribeirao", status: "Em Obras / Parcial", leitos: 8, endereco: "Av. Independência, 4600 - Ribeirão Preto, SP", telefone: "(16) 3602-8000" }
+    ];
+
+    const PADRAO_PROGRAMAS = [
+      { id: "1", nome: "Dose Certa SP", categoria: "Medicamentos", descricao: "Retirada de medicamentos essenciais e de alto custo nas farmácias do Estado.", ativo: true },
+      { id: "2", nome: "Mulher de Peito", categoria: "Prevenção", descricao: "Mamografia gratuita sem necessidade de pedido médico nas carretas itinerantes.", ativo: true },
+      { id: "3", nome: "Central CROSS", categoria: "Regulação", descricao: "Acompanhamento digital de consultas e vagas de internação pelo SUS.", ativo: true },
+      { id: "4", nome: "Fundação Pró-Sangue", categoria: "Doação", descricao: "Agendamento online e abastecimento contínuo dos hemocentros paulistas.", ativo: true }
+    ];
+
+    const PADRAO_NOTICIAS = [
+      { id: "1", titulo: "Governo de SP amplia vacinação contra gripe e dengue em todas as UBS do estado", categoria: "Campanha", resumo: "Ação conjunta fortalece a imunização de crianças e idosos com horários estendidos nos postos.", imagem: "https://images.unsplash.com/photo-1584515979956-d9f6e5d09982?w=600" },
+      { id: "2", titulo: "Novos leitos de UTI e equipamentos de radioterapia entram em operação no HC", categoria: "Investimentos", resumo: "Modernização amplia capacidade oncológica e acelera procedimentos de alta complexidade.", imagem: "https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?w=600" }
+    ];
+
+    const PADRAO_ALERTA = "ALERTA SANITÁRIO: Campanha de vacinação contra Febre Amarela e Dengue prioritária nas UBS de São Paulo.";
+
+    // ESTADO GLOBAL (LOCALSTORAGE)
+    let estado = {
+      logado: false,
+      hospitais: JSON.parse(localStorage.getItem("ses_hospitais")) || PADRAO_HOSPITAIS,
+      programas: JSON.parse(localStorage.getItem("ses_programas")) || PADRAO_PROGRAMAS,
+      noticias: JSON.parse(localStorage.getItem("ses_noticias")) || PADRAO_NOTICIAS,
+      alerta: localStorage.getItem("ses_alerta") || PADRAO_ALERTA
+    };
+
+    window.onload = () => {
+      renderizarTudo();
+    };
+
+    function renderizarTudo() {
+      document.getElementById("textoAlerta").innerText = estado.alerta;
+      document.getElementById("adminInputAlerta").value = estado.alerta;
+      renderizarProgramas();
+      renderizarHospitais();
+      renderizarNoticias();
+      renderizarAdminListas();
+      lucide.createIcons();
+    }
+
+    // RENDERIZAR PROGRAMAS NA CAPA
+    function renderizarProgramas() {
+      const container = document.getElementById("gridProgramas");
+      container.innerHTML = estado.programas.filter(p => p.ativo).map(p => `
+        <div class="bg-white p-4 rounded border-t-4 border-sp-blue shadow-sm flex flex-col justify-between">
+          <div>
+            <span class="text-[10px] font-bold text-sp-lightBlue bg-blue-50 px-2 py-0.5 rounded uppercase">${p.categoria}</span>
+            <h4 class="font-bold text-neutral-800 text-sm mt-2 mb-1 uppercase">${p.nome}</h4>
+            <p class="text-neutral-500 text-xs mb-3 leading-relaxed">${p.descricao}</p>
+          </div>
+          <span class="text-xs font-bold text-sp-blue hover:underline cursor-pointer">Acessar Programa →</span>
+        </div>
+      `).join("");
+    }
+
+    // RENDERIZAR HOSPITAIS NA CAPA COM STATUS REAL
+    function renderizarHospitais() {
+      const filtro = document.getElementById("filtroRegiao").value;
+      const container = document.getElementById("gridHospitais");
+      const lista = estado.hospitais.filter(h => filtro === "todas" || h.regiao === filtro);
+
+      container.innerHTML = lista.map(h => {
+        let badgeColor = "bg-emerald-100 text-emerald-800";
+        if (h.status === "Alta Demanda") badgeColor = "bg-amber-100 text-amber-800";
+        if (h.status === "Em Obras / Parcial") badgeColor = "bg-blue-100 text-blue-800";
+        if (h.status === "Pronto-Socorro Restrito") badgeColor = "bg-red-100 text-red-800";
+
+        return `
+          <div class="bg-white p-4 rounded border border-neutral-200 shadow-sm flex flex-col justify-between">
+            <div>
+              <div class="flex justify-between items-start mb-2 gap-2">
+                <span class="text-[10px] font-extrabold uppercase bg-neutral-100 px-2 py-0.5 rounded">${h.tipo}</span>
+                <span class="text-[10px] font-bold px-2 py-0.5 rounded ${badgeColor}">${h.status}</span>
+              </div>
+              <h4 class="font-bold text-neutral-900 text-sm leading-snug">${h.nome}</h4>
+              <p class="text-xs text-neutral-500 mt-1 flex items-start gap-1">
+                <i data-lucide="map-pin" class="w-3.5 h-3.5 text-sp-red flex-shrink-0 mt-0.5"></i>
+                <span>${h.endereco}</span>
+              </p>
+            </div>
+            <div class="mt-3 pt-2 border-t border-neutral-100 flex justify-between items-center text-xs text-neutral-600">
+              <span><i data-lucide="phone" class="w-3 h-3 inline text-sp-blue"></i> ${h.telefone}</span>
+              ${h.leitos > 0 ? `<strong class="text-emerald-700">${h.leitos} leitos</strong>` : ''}
+            </div>
+          </div>
+        `;
+      }).join("");
+      lucide.createIcons();
+    }
+
+    // RENDERIZAR NOTÍCIAS NA CAPA
+    function renderizarNoticias() {
+      const container = document.getElementById("gridNoticias");
+      container.innerHTML = estado.noticias.map(n => `
+        <article class="bg-white rounded border border-neutral-200 overflow-hidden flex flex-col sm:flex-row">
+          <img src="${n.imagem}" class="h-36 sm:h-auto sm:w-44 object-cover">
+          <div class="p-4 flex flex-col justify-between">
+            <div>
+              <span class="text-[10px] font-bold text-sp-blue uppercase bg-blue-50 px-2 py-0.5 rounded">${n.categoria}</span>
+              <h4 class="font-bold text-neutral-900 text-sm mt-1.5 mb-1 leading-snug">${n.titulo}</h4>
+              <p class="text-neutral-500 text-xs line-clamp-2">${n.resumo}</p>
+            </div>
+            <span class="text-xs font-bold text-sp-blue mt-2">Ler notícia completa →</span>
+          </div>
+        </article>
+      `).join("");
+    }
+
+    // LOGIN & ADMIN VIEW
+    function toggleAdminView() {
+      if (!estado.logado) {
+        document.getElementById("modalLogin").classList.remove("hidden");
+        lucide.createIcons();
+        return;
+      }
+      const pub = document.getElementById("viewPublica");
+      const adm = document.getElementById("viewAdmin");
+      pub.classList.toggle("hidden");
+      adm.classList.toggle("hidden");
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function realizarLogin(e) {
+      e.preventDefault();
+      const u = document.getElementById("loginUser").value;
+      const p = document.getElementById("loginPass").value;
+
+      if (u === "admin" && p === "saude@sp2026") {
+        estado.logado = true;
+        fecharLogin();
+        document.getElementById("labelAcesso").innerText = "Painel Aberto";
+        toggleAdminView();
+      } else {
+        document.getElementById("loginErro").classList.remove("hidden");
+      }
+    }
+
+    function fecharLogin() {
+      document.getElementById("modalLogin").classList.add("hidden");
+    }
+
+    function deslogar() {
+      estado.logado = false;
+      document.getElementById("labelAcesso").innerText = "Área do Gestor";
+      document.getElementById("viewAdmin").classList.add("hidden");
+      document.getElementById("viewPublica").classList.remove("hidden");
+    }
+
+    function mudarAbaAdmin(aba) {
+      ["hospitais", "programas", "alerta", "noticias"].forEach(a => {
+        const sec = document.getElementById("adminSec" + a.charAt(0).toUpperCase() + a.slice(1));
+        const tab = document.getElementById("tab" + a.charAt(0).toUpperCase() + a.slice(1));
+        if (a === aba) {
+          sec.classList.remove("hidden");
+          tab.className = "px-3 py-1.5 rounded text-xs font-bold uppercase bg-sp-blue text-white";
+        } else {
+          sec.classList.add("hidden");
+          tab.className = "px-3 py-1.5 rounded text-xs font-bold uppercase bg-white text-neutral-700";
+        }
+      });
+    }
+
+    // ADMIN: SALVAR HOSPITAIS
+    function salvarHospital(e) {
+      e.preventDefault();
+      const id = document.getElementById("hId").value;
+      const hData = {
+        id: id || Date.now().toString(),
+        nome: document.getElementById("hNome").value,
+        status: document.getElementById("hStatus").value,
+        regiao: document.getElementById("hRegiao").value,
+        tipo: document.getElementById("hTipo").value,
+        leitos: Number(document.getElementById("hLeitos").value),
+        telefone: document.getElementById("hTelefone").value,
+        endereco: document.getElementById("hEndereco").value
+      };
+
+      if (id) {
+        const idx = estado.hospitais.findIndex(h => h.id === id);
+        estado.hospitais[idx] = hData;
+      } else {
+        estado.hospitais.unshift(hData);
+      }
+
+      localStorage.setItem("ses_hospitais", JSON.stringify(estado.hospitais));
+      limparFormHospital();
+      renderizarTudo();
+      alert("Hospital e status atualizados com sucesso!");
+    }
+
+    function editarHospital(id) {
+      const h = estado.hospitais.find(x => x.id === id);
+      if (!h) return;
+      document.getElementById("hId").value = h.id;
+      document.getElementById("hNome").value = h.nome;
+      document.getElementById("hStatus").value = h.status;
+      document.getElementById("hRegiao").value = h.regiao;
+      document.getElementById("hTipo").value = h.tipo;
+      document.getElementById("hLeitos").value = h.leitos;
+      document.getElementById("hTelefone").value = h.telefone;
+      document.getElementById("hEndereco").value = h.endereco;
+      document.getElementById("formHospTitle").innerText = "Editando: " + h.nome;
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function excluirHospital(id) {
+      if (confirm("Remover este hospital do portal?")) {
+        estado.hospitais = estado.hospitais.filter(h => h.id !== id);
+        localStorage.setItem("ses_hospitais", JSON.stringify(estado.hospitais));
+        renderizarTudo();
+      }
+    }
+
+    function limparFormHospital() {
+      document.getElementById("hId").value = "";
+      document.getElementById("hNome").value = "";
+      document.getElementById("hEndereco").value = "";
+      document.getElementById("hTelefone").value = "";
+      document.getElementById("formHospTitle").innerText = "Adicionar / Editar Hospital";
+    }
+
+    // ADMIN: SALVAR PROGRAMAS
+    function salvarPrograma(e) {
+      e.preventDefault();
+      const pData = {
+        id: Date.now().toString(),
+        nome: document.getElementById("pNome").value,
+        categoria: document.getElementById("pCategoria").value,
+        descricao: document.getElementById("pDescricao").value,
+        ativo: true
+      };
+      estado.programas.unshift(pData);
+      localStorage.setItem("ses_programas", JSON.stringify(estado.programas));
+      document.getElementById("pNome").value = "";
+      document.getElementById("pDescricao").value = "";
+      renderizarTudo();
+      alert("Novo programa estadual cadastrado!");
+    }
+
+    function toggleProgramaAtivo(id) {
+      const p = estado.programas.find(x => x.id === id);
+      if (p) {
+        p.ativo = !p.ativo;
+        localStorage.setItem("ses_programas", JSON.stringify(estado.programas));
+        renderizarTudo();
+      }
+    }
+
+    // ADMIN: SALVAR ALERTA
+    function salvarAlerta() {
+      const msg = document.getElementById("adminInputAlerta").value;
+      estado.alerta = msg;
+      localStorage.setItem("ses_alerta", msg);
+      renderizarTudo();
+      alert("Alerta sanitário da capa atualizado com sucesso!");
+    }
+
+    // ADMIN: SALVAR NOTÍCIAS
+    function salvarNoticia(e) {
+      e.preventDefault();
+      const nData = {
+        id: Date.now().toString(),
+        titulo: document.getElementById("nTitulo").value,
+        categoria: document.getElementById("nCategoria").value,
+        imagem: document.getElementById("nImagem").value,
+        resumo: document.getElementById("nResumo").value
+      };
+      estado.noticias.unshift(nData);
+      localStorage.setItem("ses_noticias", JSON.stringify(estado.noticias));
+      document.getElementById("nTitulo").value = "";
+      document.getElementById("nResumo").value = "";
+      renderizarTudo();
+      alert("Notícia publicada no portal!");
+    }
+
+    // ADMIN: LISTAGENS
+    function renderizarAdminListas() {
+      // Tabela Hospitais
+      const tabH = document.getElementById("tabelaAdminHospitais");
+      tabH.innerHTML = estado.hospitais.map(h => `
+        <tr class="hover:bg-neutral-50">
+          <td class="p-3 font-bold text-neutral-900">${h.nome}</td>
+          <td class="p-3 font-semibold">${h.status}</td>
+          <td class="p-3 uppercase text-[10px]">${h.regiao}</td>
+          <td class="p-3 text-right space-x-2">
+            <button onclick="editarHospital('${h.id}')" class="text-sp-blue font-bold">Editar</button>
+            <button onclick="excluirHospital('${h.id}')" class="text-red-600 font-bold">Excluir</button>
+          </td>
+        </tr>
+      `).join("");
+
+      // Lista Programas
+      const divP = document.getElementById("listaAdminProgramas");
+      divP.innerHTML = estado.programas.map(p => `
+        <div class="bg-white p-3 rounded border flex justify-between items-center text-xs">
+          <div>
+            <strong>${p.nome}</strong> (${p.categoria})
+            <p class="text-[11px] text-neutral-500">${p.descricao}</p>
+          </div>
+          <button onclick="toggleProgramaAtivo('${p.id}')" class="font-bold px-2 py-1 rounded ${p.ativo ? 'bg-emerald-100 text-emerald-800' : 'bg-neutral-200 text-neutral-600'}">
+            ${p.ativo ? 'Ativo na Capa' : 'Desativado'}
+          </button>
+        </div>
+      `).join("");
+
+      // Lista Notícias
+      const divN = document.getElementById("listaAdminNoticias");
+      divN.innerHTML = estado.noticias.map(n => `
+        <div class="bg-white p-2.5 rounded border flex justify-between items-center text-xs">
+          <span class="font-semibold text-neutral-800">${n.titulo}</span>
+          <button onclick="estado.noticias = estado.noticias.filter(x => x.id !== '${n.id}'); localStorage.setItem('ses_noticias', JSON.stringify(estado.noticias)); renderizarTudo();" class="text-red-600 font-bold ml-2">Excluir</button>
+        </div>
+      `).join("");
+    }
+
+    function restaurarFabrica() {
+      if (confirm("Resetar todo o site para os dados padrão de SP?")) {
+        localStorage.clear();
+        estado.hospitais = PADRAO_HOSPITAIS;
+        estado.programas = PADRAO_PROGRAMAS;
+        estado.noticias = PADRAO_NOTICIAS;
+        estado.alerta = PADRAO_ALERTA;
+        renderizarTudo();
+        alert("Configuração original da SES-SP restaurada!");
+      }
+    }
+  </script>
+</body>
+</html>
