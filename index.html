@@ -3,20 +3,20 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Portal Oficial da Secretaria de Estado da Saúde de São Paulo — transparência, hospitais, programas e notícias do SUS Paulista." />
+  <meta name="description" content="Portal Oficial da Secretaria de Estado da Saúde de São Paulo — transparência, corpo diretivo, hospitais, programas e notícias do SUS Paulista." />
   <title>Secretaria de Estado da Saúde | Governo do Estado de São Paulo</title>
 
   <!-- Tailwind CSS & Lucide Icons -->
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://unpkg.com/lucide@latest"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Rawline:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 
   <script>
     tailwind.config = {
       theme: {
         extend: {
-          fontFamily: { sans: ['Inter', 'Rawline', 'system-ui', 'sans-serif'] },
+          fontFamily: { sans: ['Inter', 'system-ui', 'sans-serif'] },
           colors: {
             sp: {
               blue: '#1451B4',
@@ -43,7 +43,7 @@
       background-size: cover;
       background-position: center;
     }
-    #menuMobile.open { max-height: 400px; }
+    #menuMobile.open { max-height: 450px; }
     #menuMobile { max-height: 0; overflow: hidden; transition: max-height .3s ease; }
     .pulse-dot { animation: pulse 2s infinite; }
     @keyframes pulse { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: .4; transform: scale(1.2); } }
@@ -90,9 +90,10 @@
       </a>
 
       <!-- Menu Computador -->
-      <nav class="hidden lg:flex items-center gap-5 text-xs font-bold text-neutral-700 uppercase">
+      <nav class="hidden lg:flex items-center gap-4 xl:gap-5 text-xs font-bold text-neutral-700 uppercase">
         <a href="#inicio" onclick="alternarVisao(false)" class="hover:text-sp-blue transition">Início</a>
         <a href="#transparencia" onclick="alternarVisao(false)" class="hover:text-sp-blue transition">Transparência</a>
+        <a href="#equipe" onclick="alternarVisao(false)" class="hover:text-sp-blue transition">Corpo Diretivo</a>
         <a href="#programas" onclick="alternarVisao(false)" class="hover:text-sp-blue transition">Programas</a>
         <a href="#hospitais" onclick="alternarVisao(false)" class="hover:text-sp-blue transition">Rede Hospitalar</a>
         <a href="#noticias" onclick="alternarVisao(false)" class="hover:text-sp-blue transition">Notícias</a>
@@ -109,7 +110,8 @@
       <div class="flex flex-col px-4 py-3 text-xs font-bold text-neutral-700 uppercase space-y-2.5">
         <a href="#inicio" onclick="alternarVisao(false); document.getElementById('menuMobile').classList.remove('open')" class="py-1">Início</a>
         <a href="#transparencia" onclick="alternarVisao(false); document.getElementById('menuMobile').classList.remove('open')" class="py-1">Transparência & Gastos</a>
-        <a href="#programas" onclick="alternarVisao(false); document.getElementById('menuMobile').classList.remove('open')" class="py-1">Programas</a>
+        <a href="#equipe" onclick="alternarVisao(false); document.getElementById('menuMobile').classList.remove('open')" class="py-1">Corpo Diretivo & Cargos</a>
+        <a href="#programas" onclick="alternarVisao(false); document.getElementById('menuMobile').classList.remove('open')" class="py-1">Programas Oficiais</a>
         <a href="#hospitais" onclick="alternarVisao(false); document.getElementById('menuMobile').classList.remove('open')" class="py-1">Rede Hospitalar</a>
         <a href="#noticias" onclick="alternarVisao(false); document.getElementById('menuMobile').classList.remove('open')" class="py-1">Notícias Oficiais</a>
       </div>
@@ -143,14 +145,14 @@
             Saúde pública de qualidade com transparência e responsabilidade.
           </h2>
           <p class="text-blue-100 text-xs sm:text-sm mb-6 max-w-xl leading-relaxed">
-            Consulte a aplicação orçamentária do Estado, acompanhe a lotação hospitalar em tempo real e acesse serviços como o Dose Certa e o Poupatempo da Saúde.
+            Consulte a aplicação orçamentária do Estado, conheça o corpo diretivo da SES-SP, acompanhe a rede hospitalar e acesse programas vigentes.
           </p>
           <div class="flex flex-wrap gap-2.5">
             <a href="#transparencia" class="bg-white text-sp-blue font-bold px-4 py-2.5 rounded text-xs uppercase shadow hover:bg-neutral-100 transition">
               Prestação de Contas
             </a>
             <a href="#hospitais" class="bg-sp-yellow text-sp-darkBlue font-bold px-4 py-2.5 rounded text-xs uppercase shadow hover:bg-amber-400 transition">
-              Ver Hospitais em Operação
+              Hospitais em Operação
             </a>
           </div>
         </div>
@@ -216,7 +218,7 @@
         <div class="bg-white p-5 rounded-lg border border-neutral-200 shadow-sm border-l-4 border-emerald-600">
           <span class="text-xs font-bold text-neutral-500 uppercase">Total Gasto / Executado</span>
           <h4 id="pubOrcExecutado" class="text-2xl font-black text-emerald-700 mt-1">R$ 0,00</h4>
-          <p id="pubOrcPercent" class="text-[11px] text-emerald-600 font-bold mt-1">0% do orçamento empenhado</p>
+          <p id="pubOrcPercent" class="text-[11px] text-emerald-600 font-bold mt-1">0% do orçamento estadual empenhado</p>
         </div>
         <div class="bg-white p-5 rounded-lg border border-neutral-200 shadow-sm border-l-4 border-sp-yellow">
           <span class="text-xs font-bold text-neutral-500 uppercase">Saldo em Caixa / Disponível</span>
@@ -283,6 +285,19 @@
             <div class="w-full bg-neutral-100 rounded-full h-2"><div id="barGastoObras" class="bg-sp-red h-2 rounded-full transition-all duration-700" style="width:0%"></div></div>
           </div>
         </div>
+      </div>
+    </section>
+
+    <!-- SEÇÃO DE CORPO DIRETIVO E EQUIPE (SÓ MOSTRA SE HOUVER MEMBROS NOMEADOS) -->
+    <section id="equipe" class="hidden max-w-7xl mx-auto px-4 py-8">
+      <div class="border-l-4 border-sp-blue pl-3 mb-6">
+        <span class="text-xs font-bold text-sp-blue uppercase tracking-wider">Estrutura Organizacional</span>
+        <h3 class="text-xl sm:text-2xl font-black text-sp-darkBlue uppercase">
+          Corpo Diretivo e Gestão SES-SP
+        </h3>
+      </div>
+      <div id="gridEquipe" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+        <!-- Renderizado dinamicamente -->
       </div>
     </section>
 
@@ -367,20 +382,23 @@
       <button onclick="mudarAba('transparencia')" id="tabTransparencia" class="px-3 py-2 rounded text-xs font-bold uppercase bg-sp-blue text-white shadow-sm">
         💰 Orçamento & Gastos
       </button>
+      <button onclick="mudarAba('equipe')" id="tabEquipe" class="px-3 py-2 rounded text-xs font-bold uppercase bg-white text-neutral-700 hover:bg-neutral-100">
+        👥 Equipe & Cargos
+      </button>
       <button onclick="mudarAba('programas')" id="tabProgramas" class="px-3 py-2 rounded text-xs font-bold uppercase bg-white text-neutral-700 hover:bg-neutral-100">
-        💉 Programas de Saúde
+        💉 Programas
       </button>
       <button onclick="mudarAba('hospitais')" id="tabHospitais" class="px-3 py-2 rounded text-xs font-bold uppercase bg-white text-neutral-700 hover:bg-neutral-100">
-        🏥 Hospitais & Operação
+        🏥 Hospitais
       </button>
       <button onclick="mudarAba('alerta')" id="tabAlerta" class="px-3 py-2 rounded text-xs font-bold uppercase bg-white text-neutral-700 hover:bg-neutral-100">
-        ⚠️ Alerta da Capa
+        ⚠️ Alerta
       </button>
       <button onclick="mudarAba('noticias')" id="tabNoticias" class="px-3 py-2 rounded text-xs font-bold uppercase bg-white text-neutral-700 hover:bg-neutral-100">
         📰 Notícias
       </button>
       <button onclick="mudarAba('senha')" id="tabSenha" class="px-3 py-2 rounded text-xs font-bold uppercase bg-white text-neutral-700 hover:bg-neutral-100">
-        🔑 Trocar Senha
+        🔑 Segurança & Acesso
       </button>
     </div>
 
@@ -419,7 +437,57 @@
       </div>
     </section>
 
-    <!-- ABA 2: PROGRAMAS -->
+    <!-- ABA 2: EQUIPE E CARGOS DA SES-SP -->
+    <section id="secEquipe" class="hidden space-y-6">
+      <div class="bg-white p-5 rounded-lg border border-neutral-300 shadow-sm">
+        <h3 id="formEquipeTitle" class="text-xs font-black uppercase text-sp-blue mb-1">Nomear / Editar Cargo</h3>
+        <p class="text-xs text-neutral-500 mb-4">Selecione o cargo e preencha a pessoa responsável. <strong>Cargos vazios ou desativados não aparecem para o público.</strong></p>
+        <form onsubmit="salvarMembroEquipe(event)" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 text-xs">
+          <input type="hidden" id="eqId">
+          <div class="sm:col-span-2">
+            <label class="font-bold text-neutral-700">Cargo Oficial</label>
+            <select id="eqCargo" required class="w-full p-2 border rounded mt-1 font-bold">
+              <option value="Secretário de Estado da Saúde">1. Secretário de Estado da Saúde</option>
+              <option value="Secretário-Adjunto da Saúde">2. Secretário-Adjunto da Saúde</option>
+              <option value="Chefe de Gabinete da SES">3. Chefe de Gabinete da SES</option>
+              <option value="Coordenador de Regulação e Leitos">4. Coordenador de Regulação e Leitos</option>
+              <option value="Diretor de Vigilância Sanitária">5. Diretor de Vigilância Sanitária</option>
+              <option value="Auditor / Inspetor de Saúde Pública">6. Auditor / Inspetor de Saúde Pública</option>
+              <option value="Analista Técnico / Assistente Administrativo">7. Analista Técnico / Assistente Administrativo</option>
+            </select>
+          </div>
+          <div>
+            <label class="font-bold text-neutral-700">Nome do Titular / Responsável</label>
+            <input type="text" id="eqNome" placeholder="Ex: Dr. Nome Completo" required class="w-full p-2 border rounded mt-1">
+          </div>
+          <div class="sm:col-span-2">
+            <label class="font-bold text-neutral-700">Atribuições / Formação / Resumo</label>
+            <input type="text" id="eqDescricao" placeholder="Ex: Especialista em Gestão de Saúde Coletiva e Políticas Públicas." class="w-full p-2 border rounded mt-1">
+          </div>
+          <div>
+            <label class="font-bold text-neutral-700">URL da Foto (Opcional)</label>
+            <input type="url" id="eqFoto" placeholder="https://exemplo.com/foto.jpg" class="w-full p-2 border rounded mt-1">
+          </div>
+          <div class="sm:col-span-3 flex items-center gap-2 pt-1">
+            <input type="checkbox" id="eqAtivo" checked class="w-4 h-4 text-sp-blue cursor-pointer">
+            <label for="eqAtivo" class="text-xs font-bold text-neutral-800 cursor-pointer">Exibir este cargo no portal público</label>
+          </div>
+          <div class="sm:col-span-3 flex gap-2 pt-2">
+            <button type="submit" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-4 py-2 rounded uppercase shadow">Salvar Titular</button>
+            <button type="button" onclick="limparFormEquipe()" class="bg-neutral-200 px-4 py-2 rounded font-bold">Cancelar</button>
+          </div>
+        </form>
+      </div>
+
+      <div class="bg-white rounded-lg border border-neutral-300 shadow-sm overflow-hidden">
+        <div class="p-3 bg-neutral-100 font-bold text-xs uppercase text-neutral-700">Status dos 7 Cargos Oficiais</div>
+        <div id="listaAdminEquipe" class="divide-y divide-neutral-200 text-xs">
+          <!-- Renderizado via JS -->
+        </div>
+      </div>
+    </section>
+
+    <!-- ABA 3: PROGRAMAS -->
     <section id="secProgramas" class="hidden space-y-6">
       <div class="bg-white p-5 rounded-lg border border-neutral-300 shadow-sm">
         <h3 id="formProgTitle" class="text-xs font-black uppercase text-sp-blue mb-3">Cadastrar Novo Programa</h3>
@@ -449,7 +517,7 @@
       </div>
     </section>
 
-    <!-- ABA 3: HOSPITAIS -->
+    <!-- ABA 4: HOSPITAIS -->
     <section id="secHospitais" class="hidden space-y-6">
       <div class="bg-white p-5 rounded-lg border border-neutral-300 shadow-sm">
         <h3 id="formHospTitle" class="text-xs font-black uppercase text-sp-blue mb-3">Adicionar / Editar Hospital</h3>
@@ -513,7 +581,7 @@
       </div>
     </section>
 
-    <!-- ABA 4: ALERTA DA CAPA -->
+    <!-- ABA 5: ALERTA DA CAPA -->
     <section id="secAlerta" class="hidden">
       <div class="bg-white p-5 rounded-lg border border-neutral-300 shadow-sm max-w-xl">
         <h3 class="text-xs font-black uppercase text-sp-blue mb-3">Controle do Banner de Alerta</h3>
@@ -547,7 +615,7 @@
       </div>
     </section>
 
-    <!-- ABA 5: NOTÍCIAS -->
+    <!-- ABA 6: NOTÍCIAS -->
     <section id="secNoticias" class="hidden">
       <div class="bg-white p-5 rounded-lg border border-neutral-300 shadow-sm mb-6">
         <h3 class="text-xs font-black uppercase text-sp-blue mb-3">Nova Matéria Oficial</h3>
@@ -578,8 +646,8 @@
       <div id="listaAdminNoticias" class="space-y-2"></div>
     </section>
 
-    <!-- ABA 6: TROCAR SENHA -->
-    <section id="secSenha" class="hidden">
+    <!-- ABA 7: SEGURANÇA, SENHA & RESET PROTEGIDO -->
+    <section id="secSenha" class="hidden space-y-6">
       <div class="bg-white p-5 rounded-lg border border-neutral-300 shadow-sm max-w-md">
         <h3 class="text-xs font-black uppercase text-sp-blue mb-1">Alterar Usuário e Senha</h3>
         <p class="text-xs text-neutral-500 mb-4">Escolha uma nova senha para garantir que apenas você acerte o acesso.</p>
@@ -600,6 +668,19 @@
             Salvar Novas Credenciais
           </button>
         </form>
+      </div>
+
+      <!-- ZONA DE PERIGO (RESET PROTEGIDO SOMENTE DENTRO DO ADMIN) -->
+      <div class="bg-red-50 p-5 rounded-lg border border-red-200 shadow-sm max-w-md">
+        <h3 class="text-xs font-black uppercase text-red-700 mb-1 flex items-center gap-1.5">
+          <i data-lucide="alert-octagon" class="w-4 h-4"></i> Zona Restrita: Redefinição de Sistema
+        </h3>
+        <p class="text-xs text-red-600 mb-4">
+          Esta opção restaura os valores originais do Estado de São Paulo. Ela fica <strong>exclusivamente aqui dentro do painel</strong> para que ninguém de fora acerte acidentalmente.
+        </p>
+        <button onclick="restaurarPadroesProtegido()" class="bg-red-600 hover:bg-red-700 text-white text-xs font-bold px-4 py-2 rounded uppercase shadow">
+          Restaurar Banco de Dados Padrão SP
+        </button>
       </div>
     </section>
 
@@ -672,7 +753,7 @@
     <span id="toastMsg">Alterações salvas!</span>
   </div>
 
-  <!-- RODAPÉ INSTITUCIONAL -->
+  <!-- RODAPÉ INSTITUCIONAL (100% LIMPO - SEM BOTÃO DE RESET PÚBLICO) -->
   <footer class="bg-sp-darkBlue text-white text-xs mt-12 border-t-4 border-sp-red">
     <div class="max-w-7xl mx-auto px-4 py-10 grid grid-cols-1 md:grid-cols-4 gap-8">
       <div>
@@ -690,6 +771,7 @@
         <h4 class="font-bold uppercase tracking-wider mb-3 text-neutral-200">Acesso Rápido</h4>
         <ul class="space-y-1.5 text-neutral-300 text-[11px]">
           <li><a href="#transparencia" class="hover:underline">Transparência Orçamentária</a></li>
+          <li><a href="#equipe" class="hover:underline">Corpo Diretivo & Cargos</a></li>
           <li><a href="#hospitais" class="hover:underline">Rede Hospitalar em SP</a></li>
           <li><a href="#programas" class="hover:underline">Programas de Saúde</a></li>
           <li><a href="#noticias" class="hover:underline">Comunicados Oficiais</a></li>
@@ -704,10 +786,8 @@
         </p>
       </div>
       <div class="flex flex-col justify-between">
-        <p class="text-neutral-400 text-[10px]">Portal em conformidade com o Modelo de Acessibilidade em Governo Eletrônico e LGPD.</p>
-        <button onclick="restaurarPadroes()" class="text-red-400 hover:underline text-[10px] self-start mt-4 font-semibold">
-          Resetar Dados para o Padrão de SP
-        </button>
+        <p class="text-neutral-400 text-[10px]">Portal em conformidade com o Modelo de Acessibilidade em Governo Eletrônico (e-MAG) e Lei Geral de Proteção de Dados (LGPD).</p>
+        <span class="text-neutral-500 text-[10px] mt-4 block">Portal Oficial do Estado de São Paulo</span>
       </div>
     </div>
     <div class="border-t border-white/10 py-3 text-center text-neutral-400 text-[10px]">
@@ -715,12 +795,25 @@
     </div>
   </footer>
 
-  <!-- ==================== JAVASCRIPT CORRIGIDO & SEGURO ==================== -->
+  <!-- ==================== JAVASCRIPT SEGURO ==================== -->
   <script>
-    // IMAGEM INSTITUCIONAL SVG (FALLBACK SE ALGUMA URL EXTERNA FALHAR)
+    // SVG DE FALLBACK PARA IMAGENS
     const IMG_FALLBACK = "data:image/svg+xml;charset=UTF-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22600%22%20height%3D%22400%22%20viewBox%3D%220%200%20600%20400%22%3E%3Crect%20fill%3D%22%23071D41%22%20width%3D%22600%22%20height%3D%22400%22%2F%3E%3Ctext%20fill%3D%22%23FFCD07%22%20font-family%3D%22sans-serif%22%20font-size%3D%2220%22%20font-weight%3D%22bold%22%20x%3D%2250%25%22%20y%3D%2248%25%22%20text-anchor%3D%22middle%22%3EGOVERNO%20DO%20ESTADO%20DE%20S%C3%83O%20PAULO%3C%2Ftext%3E%3Ctext%20fill%3D%22%23ffffff%22%20font-family%3D%22sans-serif%22%20font-size%3D%2214%22%20x%3D%2250%25%22%20y%3D%2256%25%22%20text-anchor%3D%22middle%22%3ESecretaria%20de%20Estado%20da%20Sa%C3%BAde%3C%2Ftext%3E%3C%2Fsvg%3E";
+    
+    // SVG DE AVATAR PADRÃO PARA GESTORES
+    const AVATAR_FALLBACK = "data:image/svg+xml;charset=UTF-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22200%22%20height%3D%22200%22%20viewBox%3D%220%200%20200%20200%22%3E%3Crect%20fill%3D%22%23E2E8F0%22%20width%3D%22200%22%20height%3D%22200%22%2F%3E%3Ccircle%20cx%3D%22100%22%20cy%3D%2275%22%20r%3D%2240%22%20fill%3D%22%2394A3B8%22%2F%3E%3Cpath%20d%3D%22M30%20180%20c0%20-40%2035%20-60%2070%20-60%20s70%2020%2070%2060%20z%22%20fill%3D%22%2394A3B8%22%2F%3E%3C%2Fsvg%3E";
 
-    // DADOS INICIAIS DA SECRETARIA DA SAÚDE SP
+    // 7 CARGOS OFICIAIS SOLICITADOS
+    const CARGOS_OFICIAIS = [
+      "Secretário de Estado da Saúde",
+      "Secretário-Adjunto da Saúde",
+      "Chefe de Gabinete da SES",
+      "Coordenador de Regulação e Leitos",
+      "Diretor de Vigilância Sanitária",
+      "Auditor / Inspetor de Saúde Pública",
+      "Analista Técnico / Assistente Administrativo"
+    ];
+
     const DADOS_INICIAIS = {
       user: "admin",
       pass: "saude@sp2026",
@@ -736,6 +829,15 @@
         pessoal: 6500000000,
         obras: 2300000000
       },
+      equipe: [
+        { id: "1", cargo: "Secretário de Estado da Saúde", nome: "Dr. Eleuses Paiva", descricao: "Médico e Gestor Público. Titular da pasta da Saúde de São Paulo.", foto: "https://images.unsplash.com/photo-1537368910025-700350fe46c7?w=500&auto=format&fit=crop&q=80", ativo: true },
+        { id: "2", cargo: "Secretário-Adjunto da Saúde", nome: "", descricao: "", foto: "", ativo: false },
+        { id: "3", cargo: "Chefe de Gabinete da SES", nome: "", descricao: "", foto: "", ativo: false },
+        { id: "4", cargo: "Coordenador de Regulação e Leitos", nome: "", descricao: "", foto: "", ativo: false },
+        { id: "5", cargo: "Diretor de Vigilância Sanitária", nome: "", descricao: "", foto: "", ativo: false },
+        { id: "6", cargo: "Auditor / Inspetor de Saúde Pública", nome: "", descricao: "", foto: "", ativo: false },
+        { id: "7", cargo: "Analista Técnico / Assistente Administrativo", nome: "", descricao: "", foto: "", ativo: false }
+      ],
       hospitais: [
         { id: "1", nome: "Hospital das Clínicas da FMUSP (HC)", tipo: "Hospital Geral", regiao: "capital", status: "Operando Normalmente", leitos: 42, endereco: "Av. Dr. Enéas Carvalho de Aguiar, 255 - Cerqueira César, SP", telefone: "(11) 2661-0000", foto: "https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?w=800&auto=format&fit=crop&q=80" },
         { id: "2", nome: "InCor - Instituto do Coração", tipo: "Especializado", regiao: "capital", status: "Operando Normalmente", leitos: 16, endereco: "Av. Dr. Enéas Carvalho de Aguiar, 44 - Cerqueira César, SP", telefone: "(11) 2661-5000", foto: "https://images.unsplash.com/photo-1516549655169-df83a0774514?w=800&auto=format&fit=crop&q=80" },
@@ -755,7 +857,6 @@
       ]
     };
 
-    // LEITURA SEGURA DE LOCALSTORAGE (EVITA TRAVAR O SITE COM DADOS ANTIGOS)
     function safeStorageGet(chave, fallback) {
       try {
         const item = localStorage.getItem(chave);
@@ -774,12 +875,12 @@
       pass: localStorage.getItem("ses_pass") || DADOS_INICIAIS.pass,
       alerta: safeStorageGet("ses_alerta", DADOS_INICIAIS.alerta),
       orcamento: safeStorageGet("ses_orcamento", DADOS_INICIAIS.orcamento),
+      equipe: safeStorageGet("ses_equipe", DADOS_INICIAIS.equipe),
       hospitais: safeStorageGet("ses_hospitais", DADOS_INICIAIS.hospitais),
       programas: safeStorageGet("ses_programas", DADOS_INICIAIS.programas),
       noticias: safeStorageGet("ses_noticias", DADOS_INICIAIS.noticias)
     };
 
-    // INICIALIZAÇÃO
     window.addEventListener("DOMContentLoaded", () => {
       atualizarTudo();
     });
@@ -807,7 +908,6 @@
         banner.style.display = "block";
         document.getElementById("textoAlerta").innerText = app.alerta.mensagem;
 
-        // Estilos do Alerta
         banner.className = "text-neutral-950 px-4 py-2.5 text-xs sm:text-sm font-semibold border-b shadow-inner ";
         if (app.alerta.nivel === "urgente") {
           banner.classList.add("bg-red-500", "text-white", "border-red-600");
@@ -857,19 +957,134 @@
       document.getElementById("inGastoPessoal").value = o.pessoal;
       document.getElementById("inGastoObras").value = o.obras;
 
-      // 3. Renderização
+      // 3. Renderizar Seções
+      renderizarEquipe();
       renderizarProgramas();
       renderizarHospitais();
       renderizarNoticias();
       renderizarAdminListas();
 
-      // 4. Indicadores de Topo
+      // 4. Indicadores Rápidos
       document.getElementById("kpiHospitais").innerText = app.hospitais.length;
       document.getElementById("kpiLeitos").innerText = app.hospitais.reduce((s, h) => s + Number(h.leitos || 0), 0);
       document.getElementById("kpiProgramas").innerText = app.programas.filter(p => p.ativo).length;
       document.getElementById("kpiExecucao").innerText = `${perc}%`;
 
       lucide.createIcons();
+    }
+
+    // --- CORPO DIRETIVO E EQUIPE (GESTÃO DOS CARGOS) ---
+    function renderizarEquipe() {
+      const secao = document.getElementById("equipe");
+      const container = document.getElementById("gridEquipe");
+      
+      // FILTRO INTELIGENTE: SÓ MOSTRA SE FOR ATIVO E TIVER NOME PREENCHIDO
+      const nomeados = app.equipe.filter(m => m.ativo && m.nome && m.nome.trim() !== "");
+
+      if (nomeados.length === 0) {
+        secao.classList.add("hidden");
+        return;
+      }
+
+      secao.classList.remove("hidden");
+      container.innerHTML = nomeados.map(m => `
+        <div class="bg-white rounded-xl border border-neutral-200 shadow-sm p-4 flex flex-col justify-between hover:shadow-md transition">
+          <div class="flex items-start gap-3.5">
+            <img src="${m.foto || AVATAR_FALLBACK}" alt="${m.nome}" onerror="this.onerror=null;this.src='${AVATAR_FALLBACK}'" class="w-14 h-14 rounded-full object-cover border-2 border-sp-blue flex-shrink-0 bg-neutral-100 shadow-sm">
+            <div>
+              <span class="text-[9px] font-black uppercase text-sp-blue bg-blue-50 px-2 py-0.5 rounded tracking-wider block mb-1">
+                ${m.cargo}
+              </span>
+              <h4 class="font-bold text-neutral-900 text-sm leading-snug">${m.nome}</h4>
+              <p class="text-[11px] text-neutral-500 mt-1 leading-relaxed">${m.descricao || 'Nomeação Oficial pelo Diário do Estado.'}</p>
+            </div>
+          </div>
+          <div class="mt-3 pt-2.5 border-t border-neutral-100 flex items-center justify-between text-[10px] text-neutral-400 font-semibold">
+            <span>Quadro Ativo SES-SP</span>
+            <span class="text-emerald-700 bg-emerald-50 px-1.5 py-0.5 rounded">Titular</span>
+          </div>
+        </div>
+      `).join("");
+      lucide.createIcons();
+    }
+
+    function salvarMembroEquipe(e) {
+      e.preventDefault();
+      const id = document.getElementById("eqId").value;
+      const cargo = document.getElementById("eqCargo").value;
+      const nome = document.getElementById("eqNome").value.trim();
+      const descricao = document.getElementById("eqDescricao").value.trim();
+      const foto = document.getElementById("eqFoto").value.trim();
+      const ativo = document.getElementById("eqAtivo").checked;
+
+      // Se já existe o cargo na lista, atualiza; senão, adiciona
+      const idx = app.equipe.findIndex(m => m.cargo === cargo || (id && m.id === id));
+      if (idx !== -1) {
+        app.equipe[idx] = { ...app.equipe[idx], cargo, nome, descricao, foto, ativo };
+      } else {
+        app.equipe.push({ id: Date.now().toString(), cargo, nome, descricao, foto, ativo });
+      }
+
+      localStorage.setItem("ses_equipe", JSON.stringify(app.equipe));
+      limparFormEquipe();
+      atualizarTudo();
+      mostrarToast("Cargo atualizado com sucesso!");
+    }
+
+    function editarEquipe(cargo) {
+      const m = app.equipe.find(x => x.cargo === cargo);
+      document.getElementById("eqCargo").value = cargo;
+      if (m) {
+        document.getElementById("eqId").value = m.id || "";
+        document.getElementById("eqNome").value = m.nome || "";
+        document.getElementById("eqDescricao").value = m.descricao || "";
+        document.getElementById("eqFoto").value = m.foto || "";
+        document.getElementById("eqAtivo").checked = m.ativo;
+        document.getElementById("formEquipeTitle").innerText = "Editando Titular: " + cargo;
+      } else {
+        document.getElementById("eqId").value = "";
+        document.getElementById("eqNome").value = "";
+        document.getElementById("eqDescricao").value = "";
+        document.getElementById("eqFoto").value = "";
+        document.getElementById("eqAtivo").checked = true;
+        document.getElementById("formEquipeTitle").innerText = "Nomear Cargo: " + cargo;
+      }
+      mudarAba('equipe');
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    function desocuparCargo(cargo) {
+      if (confirm(`Deseja declarar o cargo de "${cargo}" como VAGO? Ele deixará de aparecer no site público imediatamente.`)) {
+        const idx = app.equipe.findIndex(x => x.cargo === cargo);
+        if (idx !== -1) {
+          app.equipe[idx].nome = "";
+          app.equipe[idx].descricao = "";
+          app.equipe[idx].foto = "";
+          app.equipe[idx].ativo = false;
+          localStorage.setItem("ses_equipe", JSON.stringify(app.equipe));
+          atualizarTudo();
+          mostrarToast("Cargo declarado como vago!");
+        }
+      }
+    }
+
+    function alternarAtivoEquipe(cargo) {
+      const idx = app.equipe.findIndex(x => x.cargo === cargo);
+      if (idx !== -1) {
+        app.equipe[idx].ativo = !app.equipe[idx].ativo;
+        localStorage.setItem("ses_equipe", JSON.stringify(app.equipe));
+        atualizarTudo();
+        mostrarToast(app.equipe[idx].ativo ? "Cargo visível no portal!" : "Cargo ocultado do portal!");
+      }
+    }
+
+    function limparFormEquipe() {
+      document.getElementById("eqId").value = "";
+      document.getElementById("eqNome").value = "";
+      document.getElementById("eqDescricao").value = "";
+      document.getElementById("eqFoto").value = "";
+      document.getElementById("eqAtivo").checked = true;
+      document.getElementById("formEquipeTitle").innerText = "Nomear / Editar Cargo";
     }
 
     // --- PROGRAMAS DE SAÚDE ---
@@ -1262,7 +1477,7 @@
     }
 
     function mudarAba(aba) {
-      const abas = ["transparencia", "programas", "hospitais", "alerta", "noticias", "senha"];
+      const abas = ["transparencia", "equipe", "programas", "hospitais", "alerta", "noticias", "senha"];
       abas.forEach(a => {
         const sec = document.getElementById("sec" + a.charAt(0).toUpperCase() + a.slice(1));
         const tab = document.getElementById("tab" + a.charAt(0).toUpperCase() + a.slice(1));
@@ -1277,6 +1492,41 @@
     }
 
     function renderizarAdminListas() {
+      // Lista de Cargos e Equipe no Admin
+      const divE = document.getElementById("listaAdminEquipe");
+      divE.innerHTML = CARGOS_OFICIAIS.map(cargo => {
+        const m = app.equipe.find(x => x.cargo === cargo) || { cargo, nome: "", ativo: false };
+        const ocupado = m.nome && m.nome.trim() !== "";
+        return `
+          <div class="p-3.5 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2.5 hover:bg-neutral-50">
+            <div>
+              <div class="flex items-center gap-2">
+                <span class="font-bold text-neutral-900">${cargo}</span>
+                <span class="text-[9px] font-bold px-1.5 py-0.5 rounded uppercase ${ocupado ? (m.ativo ? 'bg-emerald-100 text-emerald-800' : 'bg-amber-100 text-amber-800') : 'bg-neutral-200 text-neutral-600'}">
+                  ${ocupado ? (m.ativo ? 'Ocupado & Ativo' : 'Ocupado (Oculto)') : 'Vago / Sem Titular'}
+                </span>
+              </div>
+              <p class="text-[11px] text-neutral-600 mt-0.5">
+                ${ocupado ? `<strong>Titular:</strong> ${m.nome}` : '<em class="text-neutral-400">Cargo não preenchido (não é exibido no portal público)</em>'}
+              </p>
+            </div>
+            <div class="flex items-center gap-2 self-end sm:self-center">
+              ${ocupado ? `
+                <button onclick="alternarAtivoEquipe('${cargo}')" class="px-2 py-1 rounded font-bold text-[10px] ${m.ativo ? 'bg-emerald-100 text-emerald-800' : 'bg-neutral-200 text-neutral-600'}">
+                  ${m.ativo ? 'Exibindo' : 'Oculto'}
+                </button>
+              ` : ''}
+              <button onclick="editarEquipe('${cargo}')" class="text-sp-blue font-bold hover:underline">
+                ${ocupado ? 'Editar' : 'Nomear'}
+              </button>
+              ${ocupado ? `
+                <button onclick="desocuparCargo('${cargo}')" class="text-red-600 font-bold hover:underline">Desocupar</button>
+              ` : ''}
+            </div>
+          </div>
+        `;
+      }).join("");
+
       // Programas no Admin
       const divP = document.getElementById("listaAdminProgramas");
       divP.innerHTML = app.programas.map(p => `
@@ -1333,18 +1583,23 @@
       document.body.classList.toggle("alto-contraste");
     }
 
-    function restaurarPadroes() {
-      if (confirm("Deseja redefinir todo o portal para as informações padrão de São Paulo?")) {
-        localStorage.clear();
-        app.user = DADOS_INICIAIS.user;
-        app.pass = DADOS_INICIAIS.pass;
-        app.alerta = DADOS_INICIAIS.alerta;
-        app.orcamento = DADOS_INICIAIS.orcamento;
-        app.hospitais = DADOS_INICIAIS.hospitais;
-        app.programas = DADOS_INICIAIS.programas;
-        app.noticias = DADOS_INICIAIS.noticias;
-        atualizarTudo();
-        mostrarToast("Configurações originais restauradas!");
+    // RESTAURAR PADRÕES (PROTEGIDO DENTRO DO ADMIN)
+    function restaurarPadroesProtegido() {
+      if (confirm("ATENÇÃO: Deseja redefinir todo o portal para as informações padrão de São Paulo? Todas as alterações serão perdidas.")) {
+        if (confirm("Confirmação final: Tem absoluta certeza?")) {
+          localStorage.clear();
+          app.user = DADOS_INICIAIS.user;
+          app.pass = DADOS_INICIAIS.pass;
+          app.alerta = DADOS_INICIAIS.alerta;
+          app.orcamento = DADOS_INICIAIS.orcamento;
+          app.equipe = DADOS_INICIAIS.equipe;
+          app.hospitais = DADOS_INICIAIS.hospitais;
+          app.programas = DADOS_INICIAIS.programas;
+          app.noticias = DADOS_INICIAIS.noticias;
+          atualizarTudo();
+          mostrarToast("Banco de dados redefinido!");
+          alternarVisao(false);
+        }
       }
     }
   </script>
