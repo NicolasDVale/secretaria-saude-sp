@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Portal Oficial da Secretaria de Estado da Saúde de São Paulo — transparência, hospitais, programas e notícias do SUS Paulista." />
+  <title>Secretaria de Estado da Saúde | Governo do Estado de São Paulo</title>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Rawline:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: { sans: ['Rawline', 'system-ui', 'sans-serif'] },
+          colors: {
+            sp: {
+              blue: '#1451B4',      // azul padrão gov.br
+              lightBlue: '#2670E8',
+              darkBlue: '#071D41',  // azul institucional escuro (rodapé/header)
+              yellow: '#FFCD07',
+              red: '#cc0000',
+              black: '#111111',
+              gray: '#F8F8F8'
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    section[id] { scroll-margin-top: 130px; }
+    body.alto-contraste { background: #000 !important; color: #fff !important; filter: invert(1) hue-rotate(180deg); }
+    body.alto-contraste img, body.alto-contraste .hero-bg { filter: invert(1) hue-rotate(180deg); }
+    html { font-size: 100%; scroll-behavior: smooth; }
+    .hero-bg {
+      background-image: linear-gradient(rgba(7,29,65,.85), rgba(20,81,180,.75)), url('https://images.unsplash.com/photo-1587351021355-a479a299d2f9?w=1600&q=80');
+      background-size: cover;
+      background-position: center;
+    }
+    .skeleton { background: linear-gradient(90deg,#e5e7eb 25%,#f3f4f6 37%,#e5e7eb 63%); background-size: 400% 100%; animation: sk 1.4s ease infinite; }
+    @keyframes sk { 0%{background-position:100% 50%} 100%{background-position:0 50%} }
+    #menuMobile.open { max-height: 400px; }
+    #menuMobile { max-height: 0; overflow: hidden; transition: max-height .25s ease; }
+    .vlibras-btn { box-shadow: 0 4px 14px rgba(0,0,0,.25); }
+  </style>
+</head>
+<body class="bg-sp-gray text-neutral-800 min-h-screen flex flex-col antialiased font-sans">
+
+  <a href="#conteudo" class="sr-only focus:not-sr-only fixed top-0 left-0 bg-white text-sp-blue font-bold p-2 z-[70]">Ir para o conteúdo</a>
+
+  <!-- 0. BARRA DE ACESSIBILIDADE / GOVERNO (PADRÃO GOV.BR) -->
+  <div class="bg-sp-darkBlue text-white text-[11px]">
+    <div class="max-w-7xl mx-auto px-3 py-1.5 flex items-center justify-between flex-wrap gap-y-1">
+      <div class="flex items-center gap-2">
+        <span class="font-extrabold tracking-widest bg-sp-red px-1.5 py-0.5 rounded text-white text-[9px]">SP</span>
+        <span class="font-semibold uppercase tracking-wide text-neutral-200 hidden sm:inline">Governo do Estado de São Paulo</span>
+      </div>
+      <div class="flex items-center gap-3 sm:gap-4">
+        <a href="#" class="hover:underline hidden md:inline">Portal SP.GOV.BR</a>
+        <a href="#" class="hover:underline hidden md:inline">Ouvidoria</a>
+        <button onclick="alternarContraste()" class="hover:underline flex items-center gap-1">
+          <i data-lucide="contrast" class="w-3 h-3"></i> <span class="hidden sm:inline">Alto Contraste</span>
+        </button>
+        <div class="flex items-center gap-1">
+          <button onclick="ajustarFonte(-1)" class="font-black px-1.5 hover:bg-white/10 rounded">A-</button>
+          <button onclick="ajustarFonte(0)" class="font-black px-1.5 hover:bg-white/10 rounded">A</button>
+          <button onclick="ajustarFonte(1)" class="font-black px-1.5 hover:bg-white/10 rounded">A+</button>
+        </div>
+        <button onclick="abrirModalOuPainel()" id="btnAcessoAdmin" class="text-sp-yellow font-bold hover:underline flex items-center gap-1">
+          <i data-lucide="lock" class="w-3 h-3"></i> <span id="labelAcesso">Área do Servidor</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 1. CABEÇALHO INSTITUCIONAL -->
+  <header class="bg-white border-b border-neutral-200 sticky top-0 z-30 shadow-sm">
+    <div class="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between gap-3">
+      <a href="#inicio" class="flex items-center gap-3 min-w-0">
+        <div class="bg-sp-blue text-white rounded-full w-11 h-11 flex items-center justify-center flex-shrink-0 shadow-sm">
+          <i data-lucide="shield-plus" class="w-6 h-6"></i>
+        </div>
+        <div class="min-w-0">
+          <p class="text-[10px] font-bold uppercase tracking-wider text-neutral-500 leading-none">Governo do Estado de São Paulo</p>
+          <h1 class="text-sm sm:text-lg font-black text-sp-darkBlue uppercase leading-tight truncate">
+            Secretaria da Saúde
+          </h1>
+        </div>
+      </a>
+
+      <div class="hidden lg:flex items-center border border-neutral-300 rounded px-2.5 py-1.5 gap-1.5 flex-shrink-0">
+        <i data-lucide="search" class="w-3.5 h-3.5 text-neutral-400"></i>
+        <input type="text" placeholder="Buscar no portal..." class="text-xs outline-none w-40 xl:w-56 text-neutral-700">
+      </div>
+
+      <button onclick="document.getElementById('menuMobile').classList.toggle('open')" class="lg:hidden text-sp-blue flex-shrink-0">
+        <i data-lucide="menu" class="w-6 h-6"></i>
+      </button>
+    </div>
+
+    <!-- Menu principal -->
+    <nav class="hidden lg:block bg-sp-blue">
+      <div class="max-w-7xl mx-auto px-4 flex gap-1 text-[11px] font-bold text-white uppercase">
+        <a href="#inicio" class="px-3 py-2.5 hover:bg-sp-lightBlue block">Início</a>
+        <a href="#transparencia" class="px-3 py-2.5 hover:bg-sp-lightBlue block">Transparência</a>
+        <a href="#programas" class="px-3 py-2.5 hover:bg-sp-lightBlue block">Programas</a>
+        <a href="#hospitais" class="px-3 py-2.5 hover:bg-sp-lightBlue block">Rede Hospitalar</a>
+        <a href="#noticias" class="px-3 py-2.5 hover:bg-sp-lightBlue block">Notícias</a>
+        <a href="#" class="px-3 py-2.5 hover:bg-sp-lightBlue block">Ouvidoria</a>
+        <a href="#" class="px-3 py-2.5 hover:bg-sp-lightBlue block">Acesso à Informação</a>
+      </div>
+    </nav>
+
+    <!-- Menu mobile -->
+    <div id="menuMobile" class="lg:hidden border-t border-neutral-200 bg-white">
+      <div class="px-4 py-2">
+        <div class="flex items-center border border-neutral-300 rounded px-2 py-1.5 gap-1.5 mb-2">
+          <i data-lucide="search" class="w-3.5 h-3.5 text-neutral-400"></i>
+          <input type="text" placeholder="Buscar no portal..." class="text-xs outline-none w-full text-neutral-700">
+        </div>
+      </div>
+      <div class="flex flex-col px-4 pb-3 text-xs font-bold text-neutral-700 uppercase">
+        <a href="#inicio" class="py-2 border-b border-neutral-100">Início</a>
+        <a href="#transparencia" class="py-2 border-b border-neutral-100">Transparência</a>
+        <a href="#programas" class="py-2 border-b border-neutral-100">Programas</a>
+        <a href="#hospitais" class="py-2 border-b border-neutral-100">Rede Hospitalar</a>
+        <a href="#noticias" class="py-2">Notícias</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- BREADCRUMB -->
+  <div class="bg-neutral-100 border-b border-neutral-200 text-[11px] text-neutral-500 px-4 py-1.5">
+    <div class="max-w-7xl mx-auto">
+      Você está em: <a href="#" class="hover:underline text-sp-blue">Início</a> /
+      <a href="#" class="hover:underline text-sp-blue">Secretarias</a> / Saúde
+    </div>
+  </div>
+
+  <!-- BANNER DE ALERTA EPIDEMIOLÓGICO -->
+  <div id="bannerAlerta" class="hidden bg-sp-yellow text-neutral-950 px-4 py-2 text-xs sm:text-sm font-semibold border-b border-amber-500">
+    <div class="max-w-7xl mx-auto flex items-center justify-between gap-2">
+      <div class="flex items-center gap-2">
+        <i data-lucide="alert-triangle" class="w-4 h-4 flex-shrink-0 text-neutral-900"></i>
+        <span id="textoAlerta"></span>
+      </div>
+      <button onclick="document.getElementById('bannerAlerta').classList.add('hidden')" class="text-neutral-900 hover:text-black">
+        <i data-lucide="x" class="w-4 h-4"></i>
+      </button>
+    </div>
+  </div>
+
+  <!-- ==================== TELA PÚBLICA DO CIDADÃO ==================== -->
+  <main id="viewPublica" class="flex-grow" role="main">
+   <div id="conteudo">
+
+    <!-- HERO -->
+    <section id="inicio" class="hero-bg text-white py-14 px-4">
+      <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-6 items-center">
+        <div class="md:col-span-2">
+          <span class="bg-sp-yellow text-sp-darkBlue text-[10px] font-extrabold uppercase px-2 py-0.5 rounded mb-3 inline-block">
+            Portal Oficial SUS Paulista
+          </span>
+          <h2 class="text-2xl sm:text-4xl font-black leading-tight mb-3">
+            Saúde pública de qualidade com transparência e responsabilidade.
+          </h2>
+          <p class="text-blue-100 text-xs sm:text-sm mb-6 max-w-xl leading-relaxed">
+            Acompanhe a aplicação dos recursos públicos, consulte a operação dos hospitais em tempo real e conheça os programas estaduais.
+          </p>
+          <div class="flex flex-wrap gap-2">
+            <a href="#transparencia" class="bg-white text-sp-blue font-bold px-4 py-2.5 rounded text-xs uppercase shadow hover:bg-neutral-100">
+              Ver Transparência & Orçamento
+            </a>
+            <a href="#hospitais" class="bg-sp-yellow text-sp-darkBlue font-bold px-4 py-2.5 rounded text-xs uppercase shadow hover:brightness-95">
+              Hospitais em Operação
+            </a>
+          </div>
+        </div>
+
+        <div class="bg-white/10 backdrop-blur-md p-4 rounded-lg border border-white/20 text-xs space-y-2.5">
+          <h3 class="font-bold text-sm uppercase tracking-wider text-white border-b border-white/20 pb-1.5 flex items-center gap-1.5">
+            <i data-lucide="phone-call" class="w-4 h-4 text-sp-yellow"></i> Centrais 24h
+          </h3>
+          <div class="flex justify-between items-center bg-black/20 p-2 rounded">
+            <span>SAMU Urgência Estadual</span>
+            <strong class="text-base text-red-300">192</strong>
+          </div>
+          <div class="flex justify-between items-center bg-black/20 p-2 rounded">
+            <span>Disque Saúde Brasil</span>
+            <strong class="text-base text-sp-yellow">136</strong>
+          </div>
+          <div class="flex justify-between items-center bg-black/20 p-2 rounded">
+            <span>Ouvidoria Geral SES-SP</span>
+            <strong class="text-white">0800 055 587</strong>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAIXA DE INDICADORES RÁPIDOS -->
+    <section class="bg-white border-b border-neutral-200">
+      <div class="max-w-7xl mx-auto px-4 py-5 grid grid-cols-2 sm:grid-cols-4 gap-4 text-center">
+        <div>
+          <p id="kpiHospitais" class="text-xl sm:text-2xl font-black text-sp-blue">0</p>
+          <p class="text-[10px] uppercase font-bold text-neutral-500">Unidades Monitoradas</p>
+        </div>
+        <div>
+          <p id="kpiLeitos" class="text-xl sm:text-2xl font-black text-emerald-700">0</p>
+          <p class="text-[10px] uppercase font-bold text-neutral-500">Leitos Livres Agora</p>
+        </div>
+        <div>
+          <p id="kpiProgramas" class="text-xl sm:text-2xl font-black text-sp-blue">0</p>
+          <p class="text-[10px] uppercase font-bold text-neutral-500">Programas Ativos</p>
+        </div>
+        <div>
+          <p id="kpiExecucao" class="text-xl sm:text-2xl font-black text-amber-600">0%</p>
+          <p class="text-[10px] uppercase font-bold text-neutral-500">Orçamento Executado</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- TRANSPARÊNCIA E GASTOS -->
+    <section id="transparencia" class="max-w-7xl mx-auto px-4 py-10">
+      <div class="border-l-4 border-sp-blue pl-3 mb-6">
+        <span class="text-xs font-bold text-sp-blue uppercase tracking-wider">Prestação de Contas Pública</span>
+        <h3 class="text-xl sm:text-2xl font-black text-sp-darkBlue uppercase">
+          Transparência Orçamentária e Gastos da Saúde
+        </h3>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
+        <div class="bg-white p-5 rounded-lg border border-neutral-200 shadow-sm border-l-4 border-sp-blue">
+          <span class="text-xs font-bold text-neutral-500 uppercase">Orçamento Total Aprovado</span>
+          <h4 id="pubOrcTotal" class="text-2xl font-black text-neutral-900 mt-1">R$ 0,00</h4>
+          <p class="text-[11px] text-neutral-400 mt-1">Recursos estaduais e repasses federais SUS</p>
+        </div>
+        <div class="bg-white p-5 rounded-lg border border-neutral-200 shadow-sm border-l-4 border-emerald-600">
+          <span class="text-xs font-bold text-neutral-500 uppercase">Total Gasto / Executado</span>
+          <h4 id="pubOrcExecutado" class="text-2xl font-black text-emerald-700 mt-1">R$ 0,00</h4>
+          <p id="pubOrcPercent" class="text-[11px] text-emerald-600 font-bold mt-1">0% do orçamento empenhado</p>
+        </div>
+        <div class="bg-white p-5 rounded-lg border border-neutral-200 shadow-sm border-l-4 border-sp-yellow">
+          <span class="text-xs font-bold text-neutral-500 uppercase">Saldo em Caixa / Disponível</span>
+          <h4 id="pubOrcSaldo" class="text-2xl font-black text-neutral-900 mt-1">R$ 0,00</h4>
+          <p class="text-[11px] text-neutral-400 mt-1">Reserva para empenho em 2026</p>
+        </div>
+      </div>
+
+      <div class="bg-white p-4 rounded-lg border border-neutral-200 shadow-sm mb-6">
+        <div class="flex justify-between text-xs font-bold mb-1.5 text-neutral-700">
+          <span>Progresso da Execução Financeira do Estado</span>
+          <span id="labelBarraProgresso">0%</span>
+        </div>
+        <div class="w-full bg-neutral-200 rounded-full h-3.5 overflow-hidden">
+          <div id="barraProgresso" class="bg-emerald-600 h-3.5 rounded-full transition-all duration-500" style="width: 0%"></div>
+        </div>
+      </div>
+
+      <div class="bg-white rounded-lg border border-neutral-200 shadow-sm overflow-hidden">
+        <div class="p-3.5 bg-neutral-100 font-bold text-xs uppercase text-neutral-700 border-b border-neutral-200">
+          Destinação e Execução por Área da Saúde
+        </div>
+        <div class="divide-y divide-neutral-200 text-xs">
+          <div class="p-3.5">
+            <div class="flex justify-between items-center mb-1.5">
+              <div>
+                <strong class="text-neutral-900">Rede Hospitalar e Organizações Sociais (OSS)</strong>
+                <p class="text-[11px] text-neutral-500">Manutenção de leitos, UTIs, insumos e atendimento emergencial nos hospitais estaduais.</p>
+              </div>
+              <span id="pubGastoHospitais" class="font-black text-sm text-neutral-800 whitespace-nowrap ml-3">R$ 0,00</span>
+            </div>
+            <div class="w-full bg-neutral-100 rounded-full h-1.5"><div id="barGastoHospitais" class="bg-sp-blue h-1.5 rounded-full" style="width:0%"></div></div>
+          </div>
+          <div class="p-3.5">
+            <div class="flex justify-between items-center mb-1.5">
+              <div>
+                <strong class="text-neutral-900">Medicamentos e Assistência Farmacêutica (Dose Certa)</strong>
+                <p class="text-[11px] text-neutral-500">Distribuição gratuita de remédios de alto custo e insumos básicos.</p>
+              </div>
+              <span id="pubGastoMedicamentos" class="font-black text-sm text-neutral-800 whitespace-nowrap ml-3">R$ 0,00</span>
+            </div>
+            <div class="w-full bg-neutral-100 rounded-full h-1.5"><div id="barGastoMedicamentos" class="bg-emerald-600 h-1.5 rounded-full" style="width:0%"></div></div>
+          </div>
+          <div class="p-3.5">
+            <div class="flex justify-between items-center mb-1.5">
+              <div>
+                <strong class="text-neutral-900">Folha de Pagamento (Médicos, Enfermeiros e Servidores)</strong>
+                <p class="text-[11px] text-neutral-500">Remuneração do corpo clínico e suporte operacional de toda a rede.</p>
+              </div>
+              <span id="pubGastoPessoal" class="font-black text-sm text-neutral-800 whitespace-nowrap ml-3">R$ 0,00</span>
+            </div>
+            <div class="w-full bg-neutral-100 rounded-full h-1.5"><div id="barGastoPessoal" class="bg-sp-yellow h-1.5 rounded-full" style="width:0%"></div></div>
+          </div>
+          <div class="p-3.5">
+            <div class="flex justify-between items-center mb-1.5">
+              <div>
+                <strong class="text-neutral-900">Obras, Reformas e Modernização de AMEs e Hospitais</strong>
+                <p class="text-[11px] text-neutral-500">Ampliação de alas oncológicas, novas carretas e reformas estruturais.</p>
+              </div>
+              <span id="pubGastoObras" class="font-black text-sm text-neutral-800 whitespace-nowrap ml-3">R$ 0,00</span>
+            </div>
+            <div class="w-full bg-neutral-100 rounded-full h-1.5"><div id="barGastoObras" class="bg-sp-red h-1.5 rounded-full" style="width:0%"></div></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PROGRAMAS DE SAÚDE -->
+    <section id="programas" class="max-w-7xl mx-auto px-4 py-8">
+      <div class="border-l-4 border-sp-blue pl-3 mb-4">
+        <h3 class="text-sm font-black text-sp-darkBlue uppercase tracking-wider flex items-center gap-2">
+          <i data-lucide="heart-pulse" class="w-4 h-4"></i> Programas Oficiais da Saúde Paulista
+        </h3>
+      </div>
+      <div id="gridProgramas" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4"></div>
+    </section>
+
+    <!-- HOSPITAIS -->
+    <section id="hospitais" class="bg-neutral-100 py-10 px-4 border-t border-neutral-200">
+      <div class="max-w-7xl mx-auto">
+        <div class="flex flex-col sm:flex-row sm:items-end justify-between mb-6 gap-3">
+          <div class="border-l-4 border-sp-blue pl-3">
+            <span class="text-xs font-bold text-sp-blue uppercase">Monitoramento da Rede Hospitalar</span>
+            <h3 class="text-xl font-black text-sp-darkBlue uppercase">Hospitais e AMEs em Operação</h3>
+          </div>
+          <div class="flex gap-2 flex-wrap">
+            <input id="buscaHospital" oninput="renderizarHospitais()" type="text" placeholder="Buscar por nome..." class="text-xs p-2 bg-white border border-neutral-300 rounded outline-none w-40 sm:w-48">
+            <select id="filtroRegiao" onchange="renderizarHospitais()" class="text-xs p-2 bg-white border border-neutral-300 rounded font-bold outline-none">
+              <option value="todas">Todas as Regiões</option>
+              <option value="capital">Capital / Grande SP</option>
+              <option value="campinas">Campinas</option>
+              <option value="ribeirao">Ribeirão Preto</option>
+              <option value="santos">Baixada Santista</option>
+            </select>
+          </div>
+        </div>
+        <div id="gridHospitais" class="grid grid-cols-1 md:grid-cols-3 gap-4"></div>
+        <p id="semResultadoHospital" class="hidden text-center text-neutral-500 text-xs py-8">Nenhuma unidade encontrada para esse filtro.</p>
+      </div>
+    </section>
+
+    <!-- NOTÍCIAS (formato lista, como o padrão gov.br) -->
+    <section id="noticias" class="max-w-7xl mx-auto px-4 py-10">
+      <div class="border-l-4 border-sp-blue pl-3 mb-6">
+        <h3 class="text-xl font-black text-sp-darkBlue uppercase">Últimas Notícias — Comunicados Oficiais</h3>
+      </div>
+      <div id="gridNoticias" class="divide-y divide-neutral-200 bg-white rounded-lg border border-neutral-200 shadow-sm overflow-hidden"></div>
+    </section>
+
+   </div>
+  </main>
+
+  <!-- ==================== PAINEL DO GESTOR / ADMIN ==================== -->
+  <main id="viewAdmin" class="hidden flex-gr
