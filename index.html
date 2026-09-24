@@ -38,7 +38,6 @@
   </script>
 
   <style>
-    section[id] { scroll-margin-top: 130px; }
     body.alto-contraste { background: #000 !important; color: #fff !important; filter: invert(1) hue-rotate(180deg); }
     body.alto-contraste img, body.alto-contraste .hero-bg { filter: invert(1) hue-rotate(180deg); }
     html { font-size: 100%; scroll-behavior: smooth; }
@@ -55,14 +54,14 @@
 </head>
 <body class="bg-sp-gray text-neutral-800 min-h-screen flex flex-col antialiased font-sans">
 
-  <!-- TELA DE CARREGAMENTO OFICIAL (TRANSIÇÃO SUAVE) -->
+  <!-- TELA DE TRANSIÇÃO / LOADER INICIAL -->
   <div id="loadingOverlay" class="fixed inset-0 bg-white z-[100] flex flex-col items-center justify-center transition-opacity duration-300">
     <div class="bg-sp-blue text-white rounded-xl w-16 h-16 flex items-center justify-center font-black text-2xl shadow-lg mb-4 animate-pulse">
       SUS
     </div>
     <p class="text-xs font-black uppercase tracking-wider text-sp-darkBlue">Secretaria de Estado da Saúde</p>
     <p class="text-[11px] text-neutral-400 mt-1 flex items-center gap-1.5">
-      <span class="w-2 h-2 rounded-full bg-sp-blue pulse-dot"></span> Sincronizando dados em tempo real...
+      <span class="w-2 h-2 rounded-full bg-sp-blue pulse-dot"></span> Carregando portal institucional...
     </p>
   </div>
 
@@ -98,7 +97,7 @@
   <!-- CABEÇALHO INSTITUCIONAL -->
   <header class="bg-white border-b border-neutral-200 sticky top-0 z-30 shadow-sm">
     <div class="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between gap-3">
-      <a href="#inicio" onclick="alternarVisao(false)" class="flex items-center gap-3 min-w-0">
+      <a href="javascript:void(0)" onclick="irParaPagina('inicio')" class="flex items-center gap-3 min-w-0">
         <div class="bg-sp-blue text-white rounded-lg w-10 h-10 flex items-center justify-center font-black text-lg shadow-sm flex-shrink-0">
           SUS
         </div>
@@ -110,14 +109,14 @@
         </div>
       </a>
 
-      <!-- Menu Computador -->
+      <!-- Menu Principal (Navega para páginas dedicadas) -->
       <nav class="hidden lg:flex items-center gap-4 xl:gap-5 text-xs font-bold text-neutral-700 uppercase">
-        <a href="#inicio" onclick="alternarVisao(false)" class="hover:text-sp-blue transition">Início</a>
-        <a href="#transparencia" onclick="alternarVisao(false)" class="hover:text-sp-blue transition">Transparência</a>
-        <a href="#equipe" onclick="alternarVisao(false)" class="hover:text-sp-blue transition">Corpo Diretivo</a>
-        <a href="#programas" onclick="alternarVisao(false)" class="hover:text-sp-blue transition">Programas</a>
-        <a href="#hospitais" onclick="alternarVisao(false)" class="hover:text-sp-blue transition">Rede Hospitalar</a>
-        <a href="#noticias" onclick="alternarVisao(false)" class="hover:text-sp-blue transition">Notícias</a>
+        <button onclick="irParaPagina('inicio')" class="nav-item hover:text-sp-blue transition" data-page="inicio">Início</button>
+        <button onclick="irParaPagina('transparencia')" class="nav-item hover:text-sp-blue transition" data-page="transparencia">Transparência</button>
+        <button onclick="irParaPagina('equipe')" class="nav-item hover:text-sp-blue transition" data-page="equipe">Corpo Diretivo</button>
+        <button onclick="irParaPagina('hospitais')" class="nav-item hover:text-sp-blue transition" data-page="hospitais">Rede Hospitalar</button>
+        <button onclick="irParaPagina('programas')" class="nav-item hover:text-sp-blue transition" data-page="programas">Programas</button>
+        <button onclick="irParaPagina('noticias')" class="nav-item hover:text-sp-blue transition" data-page="noticias">Notícias</button>
       </nav>
 
       <!-- Botão Menu Mobile -->
@@ -129,15 +128,25 @@
     <!-- Menu Mobile Dropdown -->
     <div id="menuMobile" class="lg:hidden border-t border-neutral-200 bg-white">
       <div class="flex flex-col px-4 py-3 text-xs font-bold text-neutral-700 uppercase space-y-2.5">
-        <a href="#inicio" onclick="alternarVisao(false); document.getElementById('menuMobile').classList.remove('open')" class="py-1">Início</a>
-        <a href="#transparencia" onclick="alternarVisao(false); document.getElementById('menuMobile').classList.remove('open')" class="py-1">Transparência & Gastos</a>
-        <a href="#equipe" onclick="alternarVisao(false); document.getElementById('menuMobile').classList.remove('open')" class="py-1">Corpo Diretivo & Cargos</a>
-        <a href="#programas" onclick="alternarVisao(false); document.getElementById('menuMobile').classList.remove('open')" class="py-1">Programas Oficiais</a>
-        <a href="#hospitais" onclick="alternarVisao(false); document.getElementById('menuMobile').classList.remove('open')" class="py-1">Rede Hospitalar</a>
-        <a href="#noticias" onclick="alternarVisao(false); document.getElementById('menuMobile').classList.remove('open')" class="py-1">Notícias Oficiais</a>
+        <button onclick="irParaPagina('inicio'); document.getElementById('menuMobile').classList.remove('open')" class="text-left py-1">Início</button>
+        <button onclick="irParaPagina('transparencia'); document.getElementById('menuMobile').classList.remove('open')" class="text-left py-1">Transparência & Gastos</button>
+        <button onclick="irParaPagina('equipe'); document.getElementById('menuMobile').classList.remove('open')" class="text-left py-1">Corpo Diretivo & Cargos</button>
+        <button onclick="irParaPagina('hospitais'); document.getElementById('menuMobile').classList.remove('open')" class="text-left py-1">Rede Hospitalar</button>
+        <button onclick="irParaPagina('programas'); document.getElementById('menuMobile').classList.remove('open')" class="text-left py-1">Programas Oficiais</button>
+        <button onclick="irParaPagina('noticias'); document.getElementById('menuMobile').classList.remove('open')" class="text-left py-1">Notícias Oficiais</button>
       </div>
     </div>
   </header>
+
+  <!-- BREADCRUMB DINÂMICO OFICIAL -->
+  <div class="bg-neutral-100 border-b border-neutral-200 text-[11px] text-neutral-500 px-4 py-1.5">
+    <div class="max-w-7xl mx-auto flex items-center gap-1.5">
+      <span>Você está em:</span>
+      <button onclick="irParaPagina('inicio')" class="hover:underline text-sp-blue font-semibold">Início</button>
+      <span id="breadcrumbSeparator" class="hidden">/</span>
+      <span id="breadcrumbCurrent" class="font-bold text-neutral-700 hidden"></span>
+    </div>
+  </div>
 
   <!-- BANNER DE ALERTA EPIDEMIOLÓGICO -->
   <div id="bannerAlerta" class="hidden text-neutral-950 px-4 py-2.5 text-xs sm:text-sm font-semibold border-b shadow-inner">
@@ -152,11 +161,11 @@
     </div>
   </div>
 
-  <!-- ==================== TELA PÚBLICA DO CIDADÃO ==================== -->
-  <main id="viewPublica" class="flex-grow">
+  <!-- ==================== 1. PÁGINA INICIAL (VITRINE INSTITUCIONAL) ==================== -->
+  <main id="viewInicio" class="view-section flex-grow">
     
     <!-- HERO SECTION -->
-    <section id="inicio" class="hero-bg text-white py-12 sm:py-16 px-4">
+    <section class="hero-bg text-white py-12 sm:py-16 px-4">
       <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8 items-center">
         <div class="md:col-span-2">
           <span class="bg-sp-yellow text-sp-darkBlue text-[10px] font-black uppercase px-2.5 py-1 rounded mb-3 inline-block shadow-sm">
@@ -166,15 +175,15 @@
             Saúde pública de qualidade com transparência e responsabilidade.
           </h2>
           <p class="text-blue-100 text-xs sm:text-sm mb-6 max-w-xl leading-relaxed">
-            Consulte a aplicação orçamentária do Estado, conheça o corpo diretivo da SES-SP, acompanhe a rede hospitalar e acesse programas vigentes.
+            Acompanhe o orçamento do Estado de São Paulo, conheça o corpo diretivo da SES-SP, consulte hospitais em tempo real e acesse programas vigentes.
           </p>
           <div class="flex flex-wrap gap-2.5">
-            <a href="#transparencia" class="bg-white text-sp-blue font-bold px-4 py-2.5 rounded text-xs uppercase shadow hover:bg-neutral-100 transition">
+            <button onclick="irParaPagina('transparencia')" class="bg-white text-sp-blue font-bold px-4 py-2.5 rounded text-xs uppercase shadow hover:bg-neutral-100 transition">
               Prestação de Contas
-            </a>
-            <a href="#hospitais" class="bg-sp-yellow text-sp-darkBlue font-bold px-4 py-2.5 rounded text-xs uppercase shadow hover:bg-amber-400 transition">
-              Ver Hospitais em Operação
-            </a>
+            </button>
+            <button onclick="irParaPagina('hospitais')" class="bg-sp-yellow text-sp-darkBlue font-bold px-4 py-2.5 rounded text-xs uppercase shadow hover:bg-amber-400 transition">
+              Hospitais em Operação
+            </button>
           </div>
         </div>
 
@@ -191,7 +200,6 @@
             <span>Disque Saúde Brasil</span>
             <strong class="text-lg text-sp-yellow font-black">136</strong>
           </div>
-          <!-- Ouvidoria Geral como Link Configurável -->
           <a id="pubOuvidoriaHero" href="https://fala.sp.gov.br" target="_blank" rel="noopener noreferrer" class="flex justify-between items-center bg-black/25 hover:bg-black/40 p-2.5 rounded-lg transition group">
             <span>Ouvidoria Geral SES-SP</span>
             <strong class="text-sp-yellow font-bold flex items-center gap-1 group-hover:underline">
@@ -202,7 +210,7 @@
       </div>
     </section>
 
-    <!-- INDICADORES RÁPIDOS -->
+    <!-- INDICADORES RÁPIDOS DE TOPO -->
     <section class="bg-white border-b border-neutral-200">
       <div class="max-w-7xl mx-auto px-4 py-5 grid grid-cols-2 sm:grid-cols-4 gap-4 text-center divide-x divide-neutral-100">
         <div>
@@ -219,117 +227,200 @@
         </div>
         <div>
           <p id="kpiExecucao" class="text-xl sm:text-2xl font-black text-amber-600">0%</p>
-          <p class="text-[10px] uppercase font-bold text-neutral-500 mt-0.5">Orçamento Executado</p>
+          <p class="text-[10px] uppercase font-bold text-neutral-500 mt-0.5">Orçamento Destinado</p>
         </div>
       </div>
     </section>
 
-    <!-- TRANSPARÊNCIA E GASTOS -->
-    <section id="transparencia" class="max-w-7xl mx-auto px-4 py-10">
-      <div class="border-l-4 border-sp-blue pl-3 mb-6">
-        <span class="text-xs font-bold text-sp-blue uppercase tracking-wider">Prestação de Contas Pública</span>
-        <h3 class="text-xl sm:text-2xl font-black text-sp-darkBlue uppercase">
-          Transparência Orçamentária e Gastos da Saúde
-        </h3>
-      </div>
-
-      <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
-        <div class="bg-white p-5 rounded-lg border border-neutral-200 shadow-sm border-l-4 border-sp-blue">
-          <span class="text-xs font-bold text-neutral-500 uppercase">Orçamento Total Aprovado</span>
-          <h4 id="pubOrcTotal" class="text-2xl font-black text-neutral-900 mt-1">R$ 0,00</h4>
-          <p class="text-[11px] text-neutral-400 mt-1">Recursos estaduais e repasses federais</p>
-        </div>
-        <div class="bg-white p-5 rounded-lg border border-neutral-200 shadow-sm border-l-4 border-emerald-600">
-          <span class="text-xs font-bold text-neutral-500 uppercase">Total Destinado / Executado</span>
-          <h4 id="pubOrcExecutado" class="text-2xl font-black text-emerald-700 mt-1">R$ 0,00</h4>
-          <p id="pubOrcPercent" class="text-[11px] text-emerald-600 font-bold mt-1">0% do orçamento estadual empenhado</p>
-        </div>
-        <div class="bg-white p-5 rounded-lg border border-neutral-200 shadow-sm border-l-4 border-sp-yellow">
-          <span class="text-xs font-bold text-neutral-500 uppercase">Saldo em Caixa / Disponível</span>
-          <h4 id="pubOrcSaldo" class="text-2xl font-black text-neutral-900 mt-1">R$ 0,00</h4>
-          <p class="text-[11px] text-neutral-400 mt-1">Reserva para empenho em 2026</p>
-        </div>
-      </div>
-
-      <div class="bg-white p-4 rounded-lg border border-neutral-200 shadow-sm mb-6">
-        <div class="flex justify-between text-xs font-bold mb-2 text-neutral-700">
-          <span>Progresso da Execução Financeira de SP</span>
-          <span id="labelBarraProgresso" class="text-sp-blue font-black">0%</span>
-        </div>
-        <div class="w-full bg-neutral-200 rounded-full h-3.5 overflow-hidden">
-          <div id="barraProgresso" class="bg-emerald-600 h-3.5 rounded-full transition-all duration-700" style="width: 0%"></div>
-        </div>
-      </div>
-
-      <div class="bg-white rounded-lg border border-neutral-200 shadow-sm overflow-hidden">
-        <div class="p-3.5 bg-neutral-100 font-bold text-xs uppercase text-neutral-700 border-b border-neutral-200 flex justify-between items-center">
-          <span>Destinação e Execução por Área Escolhida</span>
-          <span id="contagemDestinacoes" class="text-[10px] bg-neutral-200 text-neutral-700 px-2 py-0.5 rounded font-bold">0 Áreas</span>
-        </div>
-        <div id="listaPublicaDestinacoes" class="divide-y divide-neutral-200 text-xs"></div>
-      </div>
-    </section>
-
-    <!-- CORPO DIRETIVO E EQUIPE -->
-    <section id="equipe" class="hidden max-w-7xl mx-auto px-4 py-8">
-      <div class="border-l-4 border-sp-blue pl-3 mb-6">
-        <span class="text-xs font-bold text-sp-blue uppercase tracking-wider">Estrutura Organizacional</span>
-        <h3 class="text-xl sm:text-2xl font-black text-sp-darkBlue uppercase">
-          Corpo Diretivo e Gestão SES-SP
-        </h3>
-      </div>
-      <div id="gridEquipe" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4"></div>
-    </section>
-
-    <!-- PROGRAMAS DE SAÚDE (COM LINK OPCIONAL) -->
-    <section id="programas" class="max-w-7xl mx-auto px-4 py-8">
-      <div class="border-l-4 border-sp-blue pl-3 mb-5">
-        <h3 class="text-sm font-black text-sp-darkBlue uppercase tracking-wider flex items-center gap-2">
-          <i data-lucide="heart-pulse" class="w-4 h-4 text-sp-blue"></i> Programas Oficiais da Saúde Paulista
-        </h3>
-      </div>
-      <div id="gridProgramas" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4"></div>
-    </section>
-
-    <!-- HOSPITAIS EM OPERAÇÃO (SEM ROTA) -->
-    <section id="hospitais" class="bg-neutral-100 py-10 px-4 border-t border-neutral-200">
-      <div class="max-w-7xl mx-auto">
-        <div class="flex flex-col sm:flex-row sm:items-end justify-between mb-6 gap-3">
-          <div class="border-l-4 border-sp-blue pl-3">
-            <span class="text-xs font-bold text-sp-blue uppercase">Monitoramento da Rede Hospitalar</span>
-            <h3 class="text-xl font-black text-sp-darkBlue uppercase">Hospitais e AMEs em Operação</h3>
-          </div>
-          <div class="flex gap-2 flex-wrap">
-            <div class="relative">
-              <input id="buscaHospital" oninput="renderizarHospitais()" type="text" placeholder="Buscar por nome..." class="text-xs p-2 pl-7 bg-white border border-neutral-300 rounded outline-none w-44 sm:w-56 focus:border-sp-blue">
-              <i data-lucide="search" class="w-3.5 h-3.5 text-neutral-400 absolute left-2 top-2.5"></i>
+    <!-- PORTAIS DE ACESSO RÁPIDO (VITRINE DE SUBPÁGINAS) -->
+    <section class="max-w-7xl mx-auto px-4 py-10">
+      <h3 class="text-xs font-black text-sp-blue uppercase tracking-wider mb-4">Portais Temáticos da Saúde</h3>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        
+        <div onclick="irParaPagina('transparencia')" class="bg-white p-5 rounded-xl border border-neutral-200 shadow-sm hover:shadow-md hover:border-sp-blue cursor-pointer transition flex flex-col justify-between group">
+          <div>
+            <div class="w-10 h-10 rounded-lg bg-blue-50 text-sp-blue flex items-center justify-center mb-3 group-hover:scale-110 transition">
+              <i data-lucide="pie-chart" class="w-5 h-5"></i>
             </div>
-            <select id="filtroRegiao" onchange="renderizarHospitais()" class="text-xs p-2 bg-white border border-neutral-300 rounded font-bold outline-none focus:border-sp-blue">
-              <option value="todas">Todas as Regiões</option>
-              <option value="capital">Capital / Grande SP</option>
-              <option value="campinas">Campinas</option>
-              <option value="ribeirao">Ribeirão Preto</option>
-              <option value="santos">Baixada Santista</option>
-            </select>
+            <h4 class="font-black text-neutral-900 text-sm uppercase">Transparência & Gastos</h4>
+            <p class="text-neutral-500 text-xs mt-1 leading-relaxed">Consulte o orçamento total aprovado, saldos e aplicação por área.</p>
           </div>
+          <span class="text-xs font-bold text-sp-blue mt-4 group-hover:underline flex items-center gap-1">Acessar Prestação →</span>
         </div>
-        <div id="gridHospitais" class="grid grid-cols-1 md:grid-cols-3 gap-5"></div>
-        <p id="semResultadoHospital" class="hidden text-center text-neutral-500 text-xs py-8 font-semibold">Nenhuma unidade encontrada para esse filtro de busca.</p>
+
+        <div onclick="irParaPagina('hospitais')" class="bg-white p-5 rounded-xl border border-neutral-200 shadow-sm hover:shadow-md hover:border-sp-blue cursor-pointer transition flex flex-col justify-between group">
+          <div>
+            <div class="w-10 h-10 rounded-lg bg-emerald-50 text-emerald-600 flex items-center justify-center mb-3 group-hover:scale-110 transition">
+              <i data-lucide="building-2" class="w-5 h-5"></i>
+            </div>
+            <h4 class="font-black text-neutral-900 text-sm uppercase">Rede Hospitalar 24h</h4>
+            <p class="text-neutral-500 text-xs mt-1 leading-relaxed">Monitore os hospitais e AMEs em operação com status em tempo real.</p>
+          </div>
+          <span class="text-xs font-bold text-emerald-600 mt-4 group-hover:underline flex items-center gap-1">Ver Unidades →</span>
+        </div>
+
+        <div onclick="irParaPagina('equipe')" class="bg-white p-5 rounded-xl border border-neutral-200 shadow-sm hover:shadow-md hover:border-sp-blue cursor-pointer transition flex flex-col justify-between group">
+          <div>
+            <div class="w-10 h-10 rounded-lg bg-amber-50 text-amber-600 flex items-center justify-center mb-3 group-hover:scale-110 transition">
+              <i data-lucide="users" class="w-5 h-5"></i>
+            </div>
+            <h4 class="font-black text-neutral-900 text-sm uppercase">Corpo Diretivo SES</h4>
+            <p class="text-neutral-500 text-xs mt-1 leading-relaxed">Conheça o Secretário de Estado e os titulares dos 7 cargos de gestão.</p>
+          </div>
+          <span class="text-xs font-bold text-amber-600 mt-4 group-hover:underline flex items-center gap-1">Ver Estrutura →</span>
+        </div>
+
+        <div onclick="irParaPagina('programas')" class="bg-white p-5 rounded-xl border border-neutral-200 shadow-sm hover:shadow-md hover:border-sp-blue cursor-pointer transition flex flex-col justify-between group">
+          <div>
+            <div class="w-10 h-10 rounded-lg bg-purple-50 text-purple-600 flex items-center justify-center mb-3 group-hover:scale-110 transition">
+              <i data-lucide="heart-handshake" class="w-5 h-5"></i>
+            </div>
+            <h4 class="font-black text-neutral-900 text-sm uppercase">Programas e Serviços</h4>
+            <p class="text-neutral-500 text-xs mt-1 leading-relaxed">Dose Certa, Mulher de Peito, Central CROSS e Fundação Pró-Sangue.</p>
+          </div>
+          <span class="text-xs font-bold text-purple-600 mt-4 group-hover:underline flex items-center gap-1">Ver Programas →</span>
+        </div>
+
       </div>
     </section>
 
-    <!-- NOTÍCIAS OFICIAIS (COM LINK OPCIONAL) -->
-    <section id="noticias" class="max-w-7xl mx-auto px-4 py-10">
-      <div class="border-l-4 border-sp-blue pl-3 mb-6">
-        <h3 class="text-xl font-black text-sp-darkBlue uppercase">Últimas Notícias — Comunicados Oficiais</h3>
+    <!-- RESUMO DA TRANSPARÊNCIA NA HOME -->
+    <section class="bg-white border-y border-neutral-200 py-10 px-4">
+      <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
+        <div class="max-w-xl">
+          <span class="text-xs font-bold text-sp-blue uppercase">Transparência Ativa</span>
+          <h3 class="text-xl sm:text-2xl font-black text-sp-darkBlue uppercase mt-1">Orçamento Estadual da Saúde</h3>
+          <p class="text-neutral-500 text-xs sm:text-sm mt-2 leading-relaxed">
+            Mais de <strong id="homeOrcTotal" class="text-neutral-900 font-black">R$ 0,00</strong> empenhados na manutenção de leitos, compra de remédios gratuitos e assistência aos 645 municípios de SP.
+          </p>
+        </div>
+        <button onclick="irParaPagina('transparencia')" class="bg-sp-blue hover:bg-sp-darkBlue text-white text-xs font-bold px-6 py-3 rounded-lg uppercase shadow transition whitespace-nowrap">
+          Acessar Detalhamento de Gastos →
+        </button>
       </div>
-      <div id="gridNoticias" class="divide-y divide-neutral-200 bg-white rounded-lg border border-neutral-200 shadow-sm overflow-hidden"></div>
+    </section>
+
+    <!-- NOTÍCIAS RECENTES NA HOME -->
+    <section class="max-w-7xl mx-auto px-4 py-12">
+      <div class="flex justify-between items-center mb-6 border-b-2 border-sp-blue pb-2">
+        <h3 class="text-lg font-black text-sp-darkBlue uppercase">Últimos Comunicados Oficiais</h3>
+        <button onclick="irParaPagina('noticias')" class="text-xs font-bold text-sp-blue hover:underline">
+          Ver Todas as Notícias →
+        </button>
+      </div>
+      <div id="homeGridNoticias" class="grid grid-cols-1 md:grid-cols-2 gap-6"></div>
     </section>
 
   </main>
 
-  <!-- ==================== PAINEL DO GESTOR / ADMIN ==================== -->
-  <main id="viewAdmin" class="hidden flex-grow max-w-7xl mx-auto px-4 py-6 w-full">
+  <!-- ==================== 2. PÁGINA DEDICADA: TRANSPARÊNCIA & GASTOS ==================== -->
+  <main id="viewTransparencia" class="view-section hidden flex-grow max-w-7xl mx-auto px-4 py-8 w-full">
+    <div class="border-l-4 border-sp-blue pl-3 mb-6">
+      <span class="text-xs font-bold text-sp-blue uppercase tracking-wider">Prestação de Contas Pública</span>
+      <h2 class="text-xl sm:text-3xl font-black text-sp-darkBlue uppercase">
+        Transparência Orçamentária e Gastos da Saúde
+      </h2>
+      <p class="text-xs text-neutral-500 mt-1">Acompanhamento contínuo da aplicação dos recursos públicos no SUS Paulista.</p>
+    </div>
+
+    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
+      <div class="bg-white p-5 rounded-lg border border-neutral-200 shadow-sm border-l-4 border-sp-blue">
+        <span class="text-xs font-bold text-neutral-500 uppercase">Orçamento Total Aprovado</span>
+        <h4 id="pubOrcTotal" class="text-2xl font-black text-neutral-900 mt-1">R$ 0,00</h4>
+        <p class="text-[11px] text-neutral-400 mt-1">Recursos estaduais e repasses federais</p>
+      </div>
+      <div class="bg-white p-5 rounded-lg border border-neutral-200 shadow-sm border-l-4 border-emerald-600">
+        <span class="text-xs font-bold text-neutral-500 uppercase">Total Destinado / Executado</span>
+        <h4 id="pubOrcExecutado" class="text-2xl font-black text-emerald-700 mt-1">R$ 0,00</h4>
+        <p id="pubOrcPercent" class="text-[11px] text-emerald-600 font-bold mt-1">0% do orçamento estadual empenhado</p>
+      </div>
+      <div class="bg-white p-5 rounded-lg border border-neutral-200 shadow-sm border-l-4 border-sp-yellow">
+        <span class="text-xs font-bold text-neutral-500 uppercase">Saldo em Caixa / Disponível</span>
+        <h4 id="pubOrcSaldo" class="text-2xl font-black text-neutral-900 mt-1">R$ 0,00</h4>
+        <p class="text-[11px] text-neutral-400 mt-1">Reserva para empenho em 2026</p>
+      </div>
+    </div>
+
+    <!-- Barra de Progresso Financeiro -->
+    <div class="bg-white p-4 rounded-lg border border-neutral-200 shadow-sm mb-6">
+      <div class="flex justify-between text-xs font-bold mb-2 text-neutral-700">
+        <span>Progresso da Execução Financeira de SP</span>
+        <span id="labelBarraProgresso" class="text-sp-blue font-black">0%</span>
+      </div>
+      <div class="w-full bg-neutral-200 rounded-full h-3.5 overflow-hidden">
+        <div id="barraProgresso" class="bg-emerald-600 h-3.5 rounded-full transition-all duration-700" style="width: 0%"></div>
+      </div>
+    </div>
+
+    <!-- Lista de Destinações -->
+    <div class="bg-white rounded-lg border border-neutral-200 shadow-sm overflow-hidden mb-6">
+      <div class="p-3.5 bg-neutral-100 font-bold text-xs uppercase text-neutral-700 border-b border-neutral-200 flex justify-between items-center">
+        <span>Destinação e Execução por Área Escolhida</span>
+        <span id="contagemDestinacoes" class="text-[10px] bg-neutral-200 text-neutral-700 px-2 py-0.5 rounded font-bold">0 Áreas</span>
+      </div>
+      <div id="listaPublicaDestinacoes" class="divide-y divide-neutral-200 text-xs"></div>
+    </div>
+  </main>
+
+  <!-- ==================== 3. PÁGINA DEDICADA: CORPO DIRETIVO ==================== -->
+  <main id="viewEquipe" class="view-section hidden flex-grow max-w-7xl mx-auto px-4 py-8 w-full">
+    <div class="border-l-4 border-sp-blue pl-3 mb-6">
+      <span class="text-xs font-bold text-sp-blue uppercase tracking-wider">Estrutura Organizacional</span>
+      <h2 class="text-xl sm:text-3xl font-black text-sp-darkBlue uppercase">
+        Corpo Diretivo e Gestão SES-SP
+      </h2>
+      <p class="text-xs text-neutral-500 mt-1">Conheça os titulares responsáveis pelas diretorias e coordenadorias da Saúde.</p>
+    </div>
+    <div id="gridEquipe" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4"></div>
+  </main>
+
+  <!-- ==================== 4. PÁGINA DEDICADA: REDE HOSPITALAR ==================== -->
+  <main id="viewHospitais" class="view-section hidden flex-grow max-w-7xl mx-auto px-4 py-8 w-full">
+    <div class="flex flex-col sm:flex-row sm:items-end justify-between mb-6 gap-3">
+      <div class="border-l-4 border-sp-blue pl-3">
+        <span class="text-xs font-bold text-sp-blue uppercase">Monitoramento da Rede Hospitalar</span>
+        <h2 class="text-xl sm:text-3xl font-black text-sp-darkBlue uppercase">Hospitais e AMEs em Operação</h2>
+      </div>
+      <div class="flex gap-2 flex-wrap">
+        <div class="relative">
+          <input id="buscaHospital" oninput="renderizarHospitais()" type="text" placeholder="Buscar por nome..." class="text-xs p-2 pl-7 bg-white border border-neutral-300 rounded outline-none w-44 sm:w-56 focus:border-sp-blue">
+          <i data-lucide="search" class="w-3.5 h-3.5 text-neutral-400 absolute left-2 top-2.5"></i>
+        </div>
+        <select id="filtroRegiao" onchange="renderizarHospitais()" class="text-xs p-2 bg-white border border-neutral-300 rounded font-bold outline-none focus:border-sp-blue">
+          <option value="todas">Todas as Regiões</option>
+          <option value="capital">Capital / Grande SP</option>
+          <option value="campinas">Campinas</option>
+          <option value="ribeirao">Ribeirão Preto</option>
+          <option value="santos">Baixada Santista</option>
+        </select>
+      </div>
+    </div>
+    <div id="gridHospitais" class="grid grid-cols-1 md:grid-cols-3 gap-5"></div>
+    <p id="semResultadoHospital" class="hidden text-center text-neutral-500 text-xs py-12 font-semibold">Nenhuma unidade hospitalar encontrada para este filtro.</p>
+  </main>
+
+  <!-- ==================== 5. PÁGINA DEDICADA: PROGRAMAS ==================== -->
+  <main id="viewProgramas" class="view-section hidden flex-grow max-w-7xl mx-auto px-4 py-8 w-full">
+    <div class="border-l-4 border-sp-blue pl-3 mb-6">
+      <span class="text-xs font-bold text-sp-blue uppercase tracking-wider">Serviços ao Cidadão</span>
+      <h2 class="text-xl sm:text-3xl font-black text-sp-darkBlue uppercase">Programas Oficiais da Saúde Paulista</h2>
+      <p class="text-xs text-neutral-500 mt-1">Iniciativas e benefícios de saúde disponíveis gratuitamente para a população de SP.</p>
+    </div>
+    <div id="gridProgramas" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4"></div>
+  </main>
+
+  <!-- ==================== 6. PÁGINA DEDICADA: NOTÍCIAS ==================== -->
+  <main id="viewNoticias" class="view-section hidden flex-grow max-w-7xl mx-auto px-4 py-8 w-full">
+    <div class="border-l-4 border-sp-blue pl-3 mb-6">
+      <span class="text-xs font-bold text-sp-blue uppercase tracking-wider">Comunicação e Imprensa</span>
+      <h2 class="text-xl sm:text-3xl font-black text-sp-darkBlue uppercase">Todas as Notícias e Comunicados</h2>
+      <p class="text-xs text-neutral-500 mt-1">Acompanhe as ações, mutirões e investimentos da Secretaria da Saúde.</p>
+    </div>
+    <div id="gridNoticias" class="divide-y divide-neutral-200 bg-white rounded-lg border border-neutral-200 shadow-sm overflow-hidden"></div>
+  </main>
+
+  <!-- ==================== 7. PAINEL DO GESTOR / ADMIN ==================== -->
+  <main id="viewAdmin" class="view-section hidden flex-grow max-w-7xl mx-auto px-4 py-6 w-full">
 
     <div class="bg-white p-4 rounded-lg border border-neutral-300 shadow-sm flex flex-wrap justify-between items-center gap-3 mb-6">
       <div>
@@ -341,7 +432,7 @@
         </h2>
       </div>
       <div class="flex gap-2">
-        <button onclick="alternarVisao(false)" class="bg-sp-blue hover:bg-sp-darkBlue text-white text-xs font-bold px-3 py-1.5 rounded transition">
+        <button onclick="irParaPagina('inicio')" class="bg-sp-blue hover:bg-sp-darkBlue text-white text-xs font-bold px-3 py-1.5 rounded transition">
           Ver Portal Público
         </button>
         <button onclick="deslogar()" class="bg-neutral-200 hover:bg-neutral-300 text-neutral-700 text-xs font-bold px-3 py-1.5 rounded transition">
@@ -350,7 +441,7 @@
       </div>
     </div>
 
-    <!-- Abas de Navegação -->
+    <!-- Abas do Admin -->
     <div class="flex flex-wrap gap-2 mb-6 border-b border-neutral-300 pb-3">
       <button onclick="mudarAba('transparencia')" id="tabTransparencia" class="px-3 py-2 rounded text-xs font-bold uppercase bg-sp-blue text-white shadow-sm">
         💰 Orçamento & Gastos
@@ -375,7 +466,7 @@
       </button>
     </div>
 
-    <!-- ABA 1: ORÇAMENTO & DESTINAÇÕES -->
+    <!-- ABA 1: ORÇAMENTO -->
     <section id="secTransparencia" class="space-y-6">
       <div class="bg-white p-5 rounded-lg border border-neutral-300 shadow-sm">
         <h3 class="text-xs font-black uppercase text-sp-blue mb-1">1. Orçamento Anual Total da Secretaria</h3>
@@ -420,7 +511,7 @@
       </div>
     </section>
 
-    <!-- ABA 2: EQUIPE E CARGOS -->
+    <!-- ABA 2: EQUIPE -->
     <section id="secEquipe" class="hidden space-y-6">
       <div class="bg-white p-5 rounded-lg border border-neutral-300 shadow-sm">
         <h3 id="formEquipeTitle" class="text-xs font-black uppercase text-sp-blue mb-1">Nomear / Editar Cargo</h3>
@@ -475,7 +566,7 @@
       </div>
     </section>
 
-    <!-- ABA 3: PROGRAMAS (COM LINK OPCIONAL) -->
+    <!-- ABA 3: PROGRAMAS -->
     <section id="secProgramas" class="hidden space-y-6">
       <div class="bg-white p-5 rounded-lg border border-neutral-300 shadow-sm">
         <h3 id="formProgTitle" class="text-xs font-black uppercase text-sp-blue mb-3">Cadastrar Novo Programa</h3>
@@ -487,7 +578,7 @@
           </div>
           <div>
             <label class="font-bold text-neutral-700">Categoria</label>
-            <input type="text" id="pCategoria" required class="w-full p-2 border rounded mt-1" placeholder="Ex: Prevenção, Medicamentos">
+            <input type="text" id="pCategoria" required class="w-full p-2 border rounded mt-1" placeholder="Ex: Prevenção">
           </div>
           <div class="sm:col-span-3">
             <label class="font-bold text-neutral-700">Descrição do Benefício ao Cidadão</label>
@@ -583,9 +674,8 @@
       </div>
     </section>
 
-    <!-- ABA 5: ALERTA DA CAPA & OUVIDORIA -->
+    <!-- ABA 5: ALERTA & OUVIDORIA -->
     <section id="secAlerta" class="hidden space-y-6">
-      <!-- Card Alerta -->
       <div class="bg-white p-5 rounded-lg border border-neutral-300 shadow-sm max-w-xl">
         <h3 class="text-xs font-black uppercase text-sp-blue mb-3">1. Controle do Banner de Alerta</h3>
         
@@ -613,7 +703,6 @@
         </div>
       </div>
 
-      <!-- Card Ouvidoria Link -->
       <div class="bg-white p-5 rounded-lg border border-neutral-300 shadow-sm max-w-xl">
         <h3 class="text-xs font-black uppercase text-sp-blue mb-1">2. Link Oficial da Ouvidoria Geral</h3>
         <p class="text-xs text-neutral-500 mb-3">Defina o link direto para o canal de manifestação (ex: Fala.SP ou formulário online).</p>
@@ -629,7 +718,7 @@
       </div>
     </section>
 
-    <!-- ABA 6: NOTÍCIAS (COM LINK OPCIONAL) -->
+    <!-- ABA 6: NOTÍCIAS -->
     <section id="secNoticias" class="hidden">
       <div class="bg-white p-5 rounded-lg border border-neutral-300 shadow-sm mb-6">
         <h3 class="text-xs font-black uppercase text-sp-blue mb-3">Nova Matéria Oficial</h3>
@@ -782,7 +871,6 @@
       <p id="mNoticiaData" class="text-xs text-neutral-400 mb-4"></p>
       <p id="mNoticiaTexto" class="text-xs text-neutral-700 leading-relaxed whitespace-pre-line"></p>
       
-      <!-- Botão para link externo opcional da notícia -->
       <div id="mNoticiaLinkBox" class="mt-5 pt-4 border-t border-neutral-100 hidden">
         <a id="mNoticiaLink" href="#" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 bg-sp-blue hover:bg-sp-darkBlue text-white text-xs font-bold px-4 py-2.5 rounded uppercase transition shadow">
           Acessar Publicação Oficial Completa <i data-lucide="external-link" class="w-3.5 h-3.5"></i>
@@ -812,13 +900,13 @@
         </p>
       </div>
       <div>
-        <h4 class="font-bold uppercase tracking-wider mb-3 text-neutral-200">Acesso Rápido</h4>
+        <h4 class="font-bold uppercase tracking-wider mb-3 text-neutral-200">Portais Temáticos</h4>
         <ul class="space-y-1.5 text-neutral-300 text-[11px]">
-          <li><a href="#transparencia" class="hover:underline">Transparência Orçamentária</a></li>
-          <li><a href="#equipe" class="hover:underline">Corpo Diretivo & Cargos</a></li>
-          <li><a href="#hospitais" class="hover:underline">Rede Hospitalar em SP</a></li>
-          <li><a href="#programas" class="hover:underline">Programas de Saúde</a></li>
-          <li><a href="#noticias" class="hover:underline">Comunicados Oficiais</a></li>
+          <li><button onclick="irParaPagina('transparencia')" class="hover:underline text-left">Transparência Orçamentária</button></li>
+          <li><button onclick="irParaPagina('equipe')" class="hover:underline text-left">Corpo Diretivo & Cargos</button></li>
+          <li><button onclick="irParaPagina('hospitais')" class="hover:underline text-left">Rede Hospitalar em SP</button></li>
+          <li><button onclick="irParaPagina('programas')" class="hover:underline text-left">Programas de Saúde</button></li>
+          <li><button onclick="irParaPagina('noticias')" class="hover:underline text-left">Comunicados Oficiais</button></li>
         </ul>
       </div>
       <div>
@@ -992,6 +1080,69 @@
       };
     }
 
+    // ==========================================
+    // ROTEADOR DE SUBPÁGINAS (SPA NAVIGATION)
+    // ==========================================
+    const TITULOS_PAGINAS = {
+      inicio: "Início",
+      transparencia: "Transparência & Gastos",
+      equipe: "Corpo Diretivo e Gestão",
+      hospitais: "Rede Hospitalar em Operação",
+      programas: "Programas Oficiais de Saúde",
+      noticias: "Notícias e Comunicados",
+      admin: "Painel do Gestor"
+    };
+
+    function irParaPagina(pagina, atualizarHash = true) {
+      if (!TITULOS_PAGINAS[pagina]) pagina = "inicio";
+
+      // Oculta todas as telas
+      document.querySelectorAll(".view-section").forEach(sec => sec.classList.add("hidden"));
+
+      // Mostra a selecionada
+      const viewId = pagina === "admin" ? "viewAdmin" : "view" + pagina.charAt(0).toUpperCase() + pagina.slice(1);
+      const targetSec = document.getElementById(viewId);
+      if (targetSec) targetSec.classList.remove("hidden");
+
+      // Atualiza Navegação / Hash
+      if (atualizarHash) {
+        window.location.hash = "#/" + pagina;
+      }
+
+      // Atualiza Breadcrumb
+      const sep = document.getElementById("breadcrumbSeparator");
+      const cur = document.getElementById("breadcrumbCurrent");
+      if (pagina === "inicio") {
+        sep.classList.add("hidden");
+        cur.classList.add("hidden");
+      } else {
+        sep.classList.remove("hidden");
+        cur.classList.remove("hidden");
+        cur.innerText = TITULOS_PAGINAS[pagina];
+      }
+
+      // Destaque nos itens de menu
+      document.querySelectorAll(".nav-item").forEach(item => {
+        if (item.getAttribute("data-page") === pagina) {
+          item.classList.add("text-sp-blue", "border-b-2", "border-sp-blue");
+        } else {
+          item.classList.remove("text-sp-blue", "border-b-2", "border-sp-blue");
+        }
+      });
+
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    // OUVINTE DO BOTÃO VOLTAR DO CELULAR (HASH CHANGE)
+    window.addEventListener("hashchange", () => {
+      const rota = window.location.hash.replace("#/", "").trim();
+      if (rota === "admin" && !app.logado) {
+        abrirModalLogin();
+      } else {
+        irParaPagina(rota || "inicio", false);
+      }
+    });
+
     let firebaseDB = null;
 
     function ocultarLoader() {
@@ -1083,6 +1234,10 @@
     window.addEventListener("DOMContentLoaded", () => {
       atualizarTudo(false);
       inicializarNuvem();
+
+      // Identifica rota inicial por hash ou padrão
+      const hashAtual = window.location.hash.replace("#/", "").trim();
+      irParaPagina(hashAtual || "inicio", false);
     });
 
     function formatarMoeda(val) {
@@ -1147,6 +1302,7 @@
       const perc = totalOrc > 0 ? Math.min(100, Math.round((executado / totalOrc) * 100)) : 0;
 
       document.getElementById("pubOrcTotal").innerText = formatarMoeda(totalOrc);
+      document.getElementById("homeOrcTotal").innerText = formatarMoeda(totalOrc);
       document.getElementById("pubOrcExecutado").innerText = formatarMoeda(executado);
       document.getElementById("pubOrcSaldo").innerText = formatarMoeda(saldo);
       document.getElementById("pubOrcPercent").innerText = `${perc}% do orçamento estadual destinado`;
@@ -1161,6 +1317,7 @@
       renderizarProgramas();
       renderizarHospitais();
       renderizarNoticias();
+      renderizarHomeNoticias();
       renderizarAdminListas();
 
       document.getElementById("kpiHospitais").innerText = app.hospitais.length;
@@ -1175,7 +1332,6 @@
       }
     }
 
-    // --- SALVAR LINK DA OUVIDORIA ---
     function salvarOuvidoria(e) {
       e.preventDefault();
       const link = document.getElementById("adminInputOuvidoria").value.trim();
@@ -1188,7 +1344,6 @@
       mostrarToast("Link da Ouvidoria atualizado!");
     }
 
-    // --- DESTINAÇÕES PÚBLICAS ---
     function renderizarDestinacoesPublicas(totalOrc) {
       const container = document.getElementById("listaPublicaDestinacoes");
       if (app.orcamento.destinacoes.length === 0) {
@@ -1291,18 +1446,15 @@
       document.getElementById("formDestTitle").innerText = "2. Escolher Destinação do Dinheiro";
     }
 
-    // --- CORPO DIRETIVO E EQUIPE ---
     function renderizarEquipe() {
-      const secao = document.getElementById("equipe");
       const container = document.getElementById("gridEquipe");
       const nomeados = app.equipe.filter(m => m.ativo && m.nome && m.nome.trim() !== "");
 
       if (nomeados.length === 0) {
-        secao.classList.add("hidden");
+        container.innerHTML = `<p class="col-span-4 p-8 text-center text-neutral-400 text-xs">Nenhum membro do corpo diretivo nomeado no momento.</p>`;
         return;
       }
 
-      secao.classList.remove("hidden");
       container.innerHTML = nomeados.map(m => `
         <div class="bg-white rounded-xl border border-neutral-200 shadow-sm p-4 flex flex-col justify-between hover:shadow-md transition">
           <div class="flex items-start gap-3.5">
@@ -1409,11 +1561,10 @@
       document.getElementById("formEquipeTitle").innerText = "Nomear / Editar Cargo";
     }
 
-    // --- PROGRAMAS DE SAÚDE (COM LINK OPCIONAL) ---
     function renderizarProgramas() {
       const container = document.getElementById("gridProgramas");
       container.innerHTML = app.programas.filter(p => p.ativo).map(p => `
-        <div class="bg-white p-4 rounded-lg border-t-4 border-sp-blue shadow-sm flex flex-col justify-between hover:shadow-md transition">
+        <div class="bg-white p-5 rounded-lg border-t-4 border-sp-blue shadow-sm flex flex-col justify-between hover:shadow-md transition">
           <div>
             <span class="text-[10px] font-bold text-sp-blue bg-blue-50 px-2 py-0.5 rounded uppercase">${p.categoria}</span>
             <h4 class="font-bold text-neutral-800 text-sm mt-2 mb-1 uppercase">${p.nome}</h4>
@@ -1421,7 +1572,7 @@
           </div>
           ${p.link ? `
             <a href="${p.link}" target="_blank" rel="noopener noreferrer" class="text-xs font-bold text-sp-blue hover:underline flex items-center gap-1 mt-2">
-              Informações do Programa <i data-lucide="external-link" class="w-3 h-3"></i>
+              Acessar Serviço Oficial <i data-lucide="external-link" class="w-3 h-3"></i>
             </a>
           ` : `
             <span class="text-xs font-semibold text-neutral-400 mt-2 flex items-center gap-1">
@@ -1430,6 +1581,7 @@
           `}
         </div>
       `).join("");
+      lucide.createIcons();
     }
 
     function salvarPrograma(e) {
@@ -1490,7 +1642,6 @@
       document.getElementById("formProgTitle").innerText = "Cadastrar Novo Programa";
     }
 
-    // --- HOSPITAIS EM OPERAÇÃO (SEM ROTA) ---
     function renderizarHospitais() {
       const filtro = document.getElementById("filtroRegiao").value;
       const busca = (document.getElementById("buscaHospital").value || "").toLowerCase().trim();
@@ -1530,7 +1681,6 @@
                   <span>${h.endereco}</span>
                 </p>
               </div>
-              <!-- Telefone e Leitos (Sem botão Rota) -->
               <div class="mt-4 pt-3 border-t border-neutral-100 flex justify-between items-center text-xs">
                 <a href="tel:${h.telefone.replace(/\D/g, '')}" class="text-neutral-600 hover:text-sp-blue font-semibold flex items-center gap-1">
                   <i data-lucide="phone" class="w-3 h-3 text-sp-blue"></i> ${h.telefone}
@@ -1620,7 +1770,6 @@
       document.getElementById("formHospTitle").innerText = "Adicionar / Editar Hospital";
     }
 
-    // --- ALERTA DA CAPA ---
     function salvarAlerta() {
       const ativo = document.getElementById("chkAlertaAtivo").checked;
       const nivel = document.getElementById("selAlertaNivel").value;
@@ -1635,7 +1784,26 @@
       atualizarTudo(true);
     }
 
-    // --- NOTÍCIAS OFICIAIS (COM LINK OPCIONAL) ---
+    // --- NOTÍCIAS NA PÁGINA INICIAL ---
+    function renderizarHomeNoticias() {
+      const container = document.getElementById("homeGridNoticias");
+      const ultimas = app.noticias.slice(0, 2);
+      container.innerHTML = ultimas.map(n => `
+        <article class="bg-white rounded-xl border border-neutral-200 shadow-sm overflow-hidden flex flex-col sm:flex-row hover:border-sp-blue cursor-pointer transition" onclick="abrirNoticiaModal('${n.id}')">
+          <img src="${n.imagem}" alt="${n.titulo}" onerror="this.onerror=null;this.src='${IMG_FALLBACK}'" class="w-full sm:w-44 h-36 object-cover flex-shrink-0">
+          <div class="p-4 flex flex-col justify-between flex-grow">
+            <div>
+              <span class="text-[9px] font-bold text-sp-blue uppercase bg-blue-50 px-2 py-0.5 rounded">${n.categoria}</span>
+              <h4 class="font-bold text-neutral-900 text-sm mt-1.5 leading-snug">${n.titulo}</h4>
+              <p class="text-neutral-500 text-xs mt-1 line-clamp-2">${n.resumo}</p>
+            </div>
+            <span class="text-xs font-bold text-sp-blue mt-3">Ler comunicado completo →</span>
+          </div>
+        </article>
+      `).join("");
+    }
+
+    // --- TODAS AS NOTÍCIAS NA PÁGINA DEDICADA ---
     function renderizarNoticias() {
       const container = document.getElementById("gridNoticias");
       container.innerHTML = app.noticias.map(n => `
@@ -1712,7 +1880,7 @@
     // --- SEGURANÇA E LOGIN ---
     function abrirModalLogin() {
       if (app.logado) {
-        alternarVisao(true);
+        irParaPagina('admin');
         return;
       }
       document.getElementById("modalLogin").style.display = "flex";
@@ -1749,7 +1917,7 @@
         fecharModalLogin();
         document.getElementById("labelAcesso").innerText = "Painel Conectado";
         mostrarToast("Login realizado com sucesso!");
-        alternarVisao(true);
+        irParaPagina('admin');
       } else {
         document.getElementById("loginErro").classList.remove("hidden");
       }
@@ -1796,23 +1964,8 @@
     function deslogar() {
       app.logado = false;
       document.getElementById("labelAcesso").innerText = "Área do Servidor";
-      alternarVisao(false);
+      irParaPagina('inicio');
       mostrarToast("Sessão finalizada!");
-    }
-
-    function alternarVisao(mostrarAdmin) {
-      const pub = document.getElementById("viewPublica");
-      const adm = document.getElementById("viewAdmin");
-      document.getElementById("menuMobile").classList.remove("open");
-
-      if (mostrarAdmin) {
-        pub.classList.add("hidden");
-        adm.classList.remove("hidden");
-        window.scrollTo({ top: 0, behavior: "smooth" });
-      } else {
-        pub.classList.remove("hidden");
-        adm.classList.add("hidden");
-      }
     }
 
     function mudarAba(aba) {
@@ -1963,7 +2116,7 @@
           app.noticias = DADOS_INICIAIS.noticias;
           atualizarTudo(true);
           mostrarToast("Banco de dados redefinido!");
-          alternarVisao(false);
+          irParaPagina('inicio');
         }
       }
     }
