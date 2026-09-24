@@ -364,10 +364,10 @@
       </button>
     </div>
 
-    <!-- ABA 1: ORÇAMENTO & ESCOLHA DAS DESTINAÇÕES (SEM ERRO AO DIGITAR) -->
+    <!-- ABA 1: ORÇAMENTO & DESTINAÇÕES -->
     <section id="secTransparencia" class="space-y-6">
       
-      <!-- Card 1: Orçamento Geral Total -->
+      <!-- Orçamento Geral Total -->
       <div class="bg-white p-5 rounded-lg border border-neutral-300 shadow-sm">
         <h3 class="text-xs font-black uppercase text-sp-blue mb-1">1. Orçamento Anual Total da Secretaria</h3>
         <p class="text-xs text-neutral-500 mb-3">Defina o montante total aprovado para o ano (digite livremente o valor).</p>
@@ -381,7 +381,7 @@
         </form>
       </div>
 
-      <!-- Card 2: Escolher as Destinações do Dinheiro (Adicionar / Editar / Excluir) -->
+      <!-- Escolher Destinações do Dinheiro -->
       <div class="bg-white p-5 rounded-lg border border-neutral-300 shadow-sm">
         <h3 id="formDestTitle" class="text-xs font-black uppercase text-sp-blue mb-1">2. Escolher Destinação do Dinheiro</h3>
         <p class="text-xs text-neutral-500 mb-4">Adicione ou edite para onde o dinheiro da saúde vai (hospitais, remédios, obras, servidores ou qualquer área que você quiser).</p>
@@ -411,7 +411,7 @@
         </form>
       </div>
 
-      <!-- Card 3: Lista de Destinações Cadastradas -->
+      <!-- Lista de Destinações Cadastradas -->
       <div class="bg-white rounded-lg border border-neutral-300 shadow-sm overflow-hidden">
         <div class="p-3 bg-neutral-100 font-bold text-xs uppercase text-neutral-700">
           Destinações de Recursos Ativas no Portal
@@ -422,13 +422,16 @@
       </div>
     </section>
 
-    <!-- ABA 2: EQUIPE E CARGOS DA SES-SP -->
+    <!-- ABA 2: EQUIPE E CARGOS (COM UPLOAD DE FOTO DIRETO DO CELULAR) -->
     <section id="secEquipe" class="hidden space-y-6">
       <div class="bg-white p-5 rounded-lg border border-neutral-300 shadow-sm">
         <h3 id="formEquipeTitle" class="text-xs font-black uppercase text-sp-blue mb-1">Nomear / Editar Cargo</h3>
         <p class="text-xs text-neutral-500 mb-4">Selecione o cargo e preencha a pessoa responsável. <strong>Cargos vazios ou desativados não aparecem para o público.</strong></p>
+        
         <form onsubmit="salvarMembroEquipe(event)" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 text-xs">
           <input type="hidden" id="eqId">
+          <input type="hidden" id="eqFotoBase64">
+          
           <div class="sm:col-span-2">
             <label class="font-bold text-neutral-700">Cargo Oficial</label>
             <select id="eqCargo" required class="w-full p-2 border rounded mt-1 font-bold">
@@ -441,22 +444,34 @@
               <option value="Analista Técnico / Assistente Administrativo">7. Analista Técnico / Assistente Administrativo</option>
             </select>
           </div>
+
           <div>
             <label class="font-bold text-neutral-700">Nome do Titular / Responsável</label>
             <input type="text" id="eqNome" placeholder="Ex: Dr. Nome Completo" required class="w-full p-2 border rounded mt-1">
           </div>
+
           <div class="sm:col-span-2">
             <label class="font-bold text-neutral-700">Atribuições / Formação / Resumo</label>
             <input type="text" id="eqDescricao" placeholder="Ex: Especialista em Gestão de Saúde Coletiva e Políticas Públicas." class="w-full p-2 border rounded mt-1">
           </div>
+
+          <!-- UPLOAD DE IMAGEM DA GALERIA -->
           <div>
-            <label class="font-bold text-neutral-700">URL da Foto (Opcional)</label>
-            <input type="url" id="eqFoto" placeholder="https://exemplo.com/foto.jpg" class="w-full p-2 border rounded mt-1">
+            <label class="font-bold text-neutral-700 flex items-center justify-between">
+              <span>Foto do Titular</span>
+              <span class="text-[10px] text-sp-blue font-semibold">Galeria / Câmera</span>
+            </label>
+            <div class="flex items-center gap-2 mt-1">
+              <input type="file" accept="image/*" id="inEqArquivo" onchange="processarArquivoImagem(event, 'eqFotoBase64', 'prevEqFoto')" class="text-[11px] file:mr-2 file:py-1.5 file:px-2.5 file:rounded file:border-0 file:text-[10px] file:font-bold file:bg-sp-blue file:text-white hover:file:bg-sp-darkBlue cursor-pointer">
+              <img id="prevEqFoto" src="" class="hidden w-8 h-8 rounded-full object-cover border border-neutral-300">
+            </div>
           </div>
+
           <div class="sm:col-span-3 flex items-center gap-2 pt-1">
             <input type="checkbox" id="eqAtivo" checked class="w-4 h-4 text-sp-blue cursor-pointer">
             <label for="eqAtivo" class="text-xs font-bold text-neutral-800 cursor-pointer">Exibir este cargo no portal público</label>
           </div>
+
           <div class="sm:col-span-3 flex gap-2 pt-2">
             <button type="submit" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-4 py-2 rounded uppercase shadow">Salvar Titular</button>
             <button type="button" onclick="limparFormEquipe()" class="bg-neutral-200 px-4 py-2 rounded font-bold">Cancelar</button>
@@ -466,9 +481,7 @@
 
       <div class="bg-white rounded-lg border border-neutral-300 shadow-sm overflow-hidden">
         <div class="p-3 bg-neutral-100 font-bold text-xs uppercase text-neutral-700">Status dos 7 Cargos Oficiais</div>
-        <div id="listaAdminEquipe" class="divide-y divide-neutral-200 text-xs">
-          <!-- Renderizado via JS -->
-        </div>
+        <div id="listaAdminEquipe" class="divide-y divide-neutral-200 text-xs"></div>
       </div>
     </section>
 
@@ -502,12 +515,14 @@
       </div>
     </section>
 
-    <!-- ABA 4: HOSPITAIS -->
+    <!-- ABA 4: HOSPITAIS (COM UPLOAD DE FOTO DIRETO DO CELULAR) -->
     <section id="secHospitais" class="hidden space-y-6">
       <div class="bg-white p-5 rounded-lg border border-neutral-300 shadow-sm">
         <h3 id="formHospTitle" class="text-xs font-black uppercase text-sp-blue mb-3">Adicionar / Editar Hospital</h3>
         <form onsubmit="salvarHospital(event)" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 text-xs">
           <input type="hidden" id="hId">
+          <input type="hidden" id="hFotoBase64">
+
           <div class="sm:col-span-2">
             <label class="font-bold text-neutral-700">Nome da Unidade</label>
             <input type="text" id="hNome" required class="w-full p-2 border rounded mt-1">
@@ -542,20 +557,30 @@
             <label class="font-bold text-neutral-700">Telefone / PABX</label>
             <input type="text" id="hTelefone" required class="w-full p-2 border rounded mt-1" placeholder="(11) 0000-0000">
           </div>
-          <div class="sm:col-span-2">
+          <div>
             <label class="font-bold text-neutral-700">Endereço Completo</label>
             <input type="text" id="hEndereco" required class="w-full p-2 border rounded mt-1">
           </div>
-          <div class="sm:col-span-2 lg:col-span-4">
-            <label class="font-bold text-neutral-700">URL da Foto Ilustrativa</label>
-            <input type="url" id="hFoto" class="w-full p-2 border rounded mt-1" placeholder="https://exemplo.com/foto.jpg">
+
+          <!-- UPLOAD DE FOTO DO HOSPITAL -->
+          <div class="sm:col-span-2 lg:col-span-4 bg-neutral-50 p-3 rounded border">
+            <label class="font-bold text-neutral-700 flex items-center justify-between">
+              <span>Foto da Fachada / Hospital</span>
+              <span class="text-[10px] text-sp-blue font-semibold">Escolher da Galeria do Celular</span>
+            </label>
+            <div class="flex items-center gap-3 mt-1.5">
+              <input type="file" accept="image/*" id="inHospArquivo" onchange="processarArquivoImagem(event, 'hFotoBase64', 'prevHospFoto')" class="text-[11px] file:mr-2 file:py-1.5 file:px-2.5 file:rounded file:border-0 file:text-[10px] file:font-bold file:bg-sp-blue file:text-white hover:file:bg-sp-darkBlue cursor-pointer">
+              <img id="prevHospFoto" src="" class="hidden w-12 h-10 rounded object-cover border border-neutral-300">
+            </div>
           </div>
+
           <div class="sm:col-span-2 lg:col-span-4 flex gap-2 pt-2">
             <button type="submit" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-4 py-2 rounded uppercase shadow">Salvar Unidade</button>
             <button type="button" onclick="limparFormHospital()" class="bg-neutral-200 px-4 py-2 rounded font-bold">Cancelar</button>
           </div>
         </form>
       </div>
+
       <div class="bg-white rounded-lg border border-neutral-300 shadow-sm overflow-x-auto">
         <table class="w-full text-left text-xs">
           <thead class="bg-neutral-100 uppercase text-[10px] text-neutral-700">
@@ -600,11 +625,12 @@
       </div>
     </section>
 
-    <!-- ABA 6: NOTÍCIAS -->
+    <!-- ABA 6: NOTÍCIAS (COM UPLOAD DE FOTO DIRETO DO CELULAR) -->
     <section id="secNoticias" class="hidden">
       <div class="bg-white p-5 rounded-lg border border-neutral-300 shadow-sm mb-6">
         <h3 class="text-xs font-black uppercase text-sp-blue mb-3">Nova Matéria Oficial</h3>
         <form onsubmit="salvarNoticia(event)" class="space-y-3 text-xs">
+          <input type="hidden" id="nFotoBase64">
           <div>
             <label class="font-bold">Título da Notícia</label>
             <input type="text" id="nTitulo" required class="w-full p-2 border rounded mt-1">
@@ -614,9 +640,17 @@
               <label class="font-bold">Categoria</label>
               <input type="text" id="nCategoria" required class="w-full p-2 border rounded mt-1" value="Campanha">
             </div>
+            
+            <!-- UPLOAD DE FOTO DA NOTÍCIA -->
             <div>
-              <label class="font-bold">URL da Imagem</label>
-              <input type="url" id="nImagem" required class="w-full p-2 border rounded mt-1" value="https://images.unsplash.com/photo-1584515979956-d9f6e5d09982?w=800&auto=format&fit=crop&q=80">
+              <label class="font-bold flex items-center justify-between">
+                <span>Imagem da Matéria</span>
+                <span class="text-[10px] text-sp-blue font-semibold">Escolher Arquivo</span>
+              </label>
+              <div class="flex items-center gap-2 mt-1">
+                <input type="file" accept="image/*" id="inNoticiaArquivo" onchange="processarArquivoImagem(event, 'nFotoBase64', 'prevNoticiaFoto')" class="text-[11px] file:mr-2 file:py-1 file:px-2 file:rounded file:border-0 file:text-[10px] file:font-bold file:bg-sp-blue file:text-white cursor-pointer">
+                <img id="prevNoticiaFoto" src="" class="hidden w-10 h-8 rounded object-cover border border-neutral-300">
+              </div>
             </div>
           </div>
           <div>
@@ -795,7 +829,6 @@
       "Analista Técnico / Assistente Administrativo"
     ];
 
-    // CORES DINÂMICAS PARA AS BARRAS DE CADA DESTINAÇÃO
     const CORES_DESTINACOES = ["bg-sp-blue", "bg-emerald-600", "bg-sp-yellow", "bg-sp-red", "bg-purple-600", "bg-sky-600", "bg-amber-600"];
 
     const DADOS_INICIAIS = {
@@ -843,7 +876,7 @@
       ]
     };
 
-    // CONVERSOR LIVRE DE VALORES (NUNCA DÁ ERRO AO DIGITAR)
+    // CONVERSOR LIVRE DE VALORES (NUNCA DÁ ERRO)
     function limparEConverterValor(val) {
       if (val === null || val === undefined || val === '') return 0;
       if (typeof val === 'number') return isNaN(val) ? 0 : val;
@@ -856,6 +889,51 @@
       s = s.replace(/[^0-9.-]/g, '');
       const num = parseFloat(s);
       return isNaN(num) ? 0 : Math.max(0, num);
+    }
+
+    // COMPRESSOR AUTOMÁTICO DE IMAGEM VIA CANVAS (CONVERTE FOTO DA CÂMERA/GALERIA PARA BASE64 LEVE)
+    function processarArquivoImagem(event, hiddenInputId, previewImgId) {
+      const file = event.target.files[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        const img = new Image();
+        img.onload = function() {
+          const canvas = document.createElement('canvas');
+          let width = img.width;
+          let height = img.height;
+
+          // Redimensiona para no máximo 800px de largura mantendo proporção (evita travar localStorage)
+          const MAX_SIZE = 800;
+          if (width > height && width > MAX_SIZE) {
+            height = Math.round((height * MAX_SIZE) / width);
+            width = MAX_SIZE;
+          } else if (height > MAX_SIZE) {
+            width = Math.round((width * MAX_SIZE) / height);
+            height = MAX_SIZE;
+          }
+
+          canvas.width = width;
+          canvas.height = height;
+          const ctx = canvas.getContext('2d');
+          ctx.drawImage(img, 0, 0, width, height);
+
+          // Converte para JPEG com qualidade 0.75 (super leve ~60KB)
+          const base64Otimizado = canvas.toDataURL('image/jpeg', 0.75);
+
+          // Salva no input oculto e atualiza preview
+          document.getElementById(hiddenInputId).value = base64Otimizado;
+          const prev = document.getElementById(previewImgId);
+          if (prev) {
+            prev.src = base64Otimizado;
+            prev.classList.remove('hidden');
+          }
+          mostrarToast("Foto carregada com sucesso!");
+        };
+        img.src = e.target.result;
+      };
+      reader.readAsDataURL(file);
     }
 
     function safeStorageGet(chave, fallback) {
@@ -882,7 +960,6 @@
       noticias: safeStorageGet("ses_noticias", DADOS_INICIAIS.noticias)
     };
 
-    // MIGRAÇÃO SEGURA: SE O USUÁRIO TINHA O ORÇAMENTO ANTIGO, CONVERTE PARA DESTINAÇÕES DINÂMICAS
     if (!app.orcamento || !app.orcamento.destinacoes || !Array.isArray(app.orcamento.destinacoes)) {
       app.orcamento = {
         total: app.orcamento && app.orcamento.total ? limparEConverterValor(app.orcamento.total) : DADOS_INICIAIS.orcamento.total,
@@ -953,10 +1030,8 @@
       document.getElementById("barraProgresso").style.width = `${perc}%`;
       document.getElementById("contagemDestinacoes").innerText = `${o.destinacoes.length} Destinações`;
 
-      // Input do Orçamento Total no Admin
       document.getElementById("inOrcTotal").value = totalOrc;
 
-      // Renderizar Seções
       renderizarDestinacoesPublicas(totalOrc);
       renderizarEquipe();
       renderizarProgramas();
@@ -964,7 +1039,6 @@
       renderizarNoticias();
       renderizarAdminListas();
 
-      // Indicadores de Topo
       document.getElementById("kpiHospitais").innerText = app.hospitais.length;
       document.getElementById("kpiLeitos").innerText = app.hospitais.reduce((s, h) => s + Number(h.leitos || 0), 0);
       document.getElementById("kpiProgramas").innerText = app.programas.filter(p => p.ativo).length;
@@ -973,7 +1047,7 @@
       lucide.createIcons();
     }
 
-    // --- RENDERIZAR AS DESTINAÇÕES DO DINHEIRO NA PÁGINA PÚBLICA ---
+    // --- DESTINAÇÕES PÚBLICAS ---
     function renderizarDestinacoesPublicas(totalOrc) {
       const container = document.getElementById("listaPublicaDestinacoes");
       if (app.orcamento.destinacoes.length === 0) {
@@ -1004,7 +1078,6 @@
       }).join("");
     }
 
-    // --- SALVAR O ORÇAMENTO TOTAL (SEM ERRO AO DIGITAR) ---
     function salvarOrcamentoTotal(e) {
       e.preventDefault();
       const rawValor = document.getElementById("inOrcTotal").value;
@@ -1018,10 +1091,9 @@
       app.orcamento.total = valorFinal;
       localStorage.setItem("ses_orcamento", JSON.stringify(app.orcamento));
       atualizarTudo();
-      mostrarToast("Orçamento Total salvo com sucesso!");
+      mostrarToast("Orçamento Total salvo!");
     }
 
-    // --- SALVAR/EDITAR DESTINAÇÃO DO DINHEIRO (SEM ERRO) ---
     function salvarDestinacao(e) {
       e.preventDefault();
       const id = document.getElementById("destId").value;
@@ -1084,7 +1156,7 @@
       document.getElementById("formDestTitle").innerText = "2. Escolher Destinação do Dinheiro";
     }
 
-    // --- CORPO DIRETIVO E EQUIPE (GESTÃO DOS CARGOS) ---
+    // --- CORPO DIRETIVO E EQUIPE ---
     function renderizarEquipe() {
       const secao = document.getElementById("equipe");
       const container = document.getElementById("gridEquipe");
@@ -1124,12 +1196,19 @@
       const cargo = document.getElementById("eqCargo").value;
       const nome = document.getElementById("eqNome").value.trim();
       const descricao = document.getElementById("eqDescricao").value.trim();
-      const foto = document.getElementById("eqFoto").value.trim();
+      const foto = document.getElementById("eqFotoBase64").value;
       const ativo = document.getElementById("eqAtivo").checked;
 
       const idx = app.equipe.findIndex(m => m.cargo === cargo || (id && m.id === id));
       if (idx !== -1) {
-        app.equipe[idx] = { ...app.equipe[idx], cargo, nome, descricao, foto, ativo };
+        app.equipe[idx] = { 
+          ...app.equipe[idx], 
+          cargo, 
+          nome, 
+          descricao, 
+          foto: foto || app.equipe[idx].foto, 
+          ativo 
+        };
       } else {
         app.equipe.push({ id: Date.now().toString(), cargo, nome, descricao, foto, ativo });
       }
@@ -1147,15 +1226,19 @@
         document.getElementById("eqId").value = m.id || "";
         document.getElementById("eqNome").value = m.nome || "";
         document.getElementById("eqDescricao").value = m.descricao || "";
-        document.getElementById("eqFoto").value = m.foto || "";
+        document.getElementById("eqFotoBase64").value = m.foto || "";
         document.getElementById("eqAtivo").checked = m.ativo;
+        const prev = document.getElementById("prevEqFoto");
+        if (m.foto) {
+          prev.src = m.foto;
+          prev.classList.remove("hidden");
+        } else {
+          prev.classList.add("hidden");
+        }
         document.getElementById("formEquipeTitle").innerText = "Editando Titular: " + cargo;
       } else {
-        document.getElementById("eqId").value = "";
-        document.getElementById("eqNome").value = "";
-        document.getElementById("eqDescricao").value = "";
-        document.getElementById("eqFoto").value = "";
-        document.getElementById("eqAtivo").checked = true;
+        limparFormEquipe();
+        document.getElementById("eqCargo").value = cargo;
         document.getElementById("formEquipeTitle").innerText = "Nomear Cargo: " + cargo;
       }
       mudarAba('equipe');
@@ -1191,7 +1274,9 @@
       document.getElementById("eqId").value = "";
       document.getElementById("eqNome").value = "";
       document.getElementById("eqDescricao").value = "";
-      document.getElementById("eqFoto").value = "";
+      document.getElementById("eqFotoBase64").value = "";
+      document.getElementById("inEqArquivo").value = "";
+      document.getElementById("prevEqFoto").classList.add("hidden");
       document.getElementById("eqAtivo").checked = true;
       document.getElementById("formEquipeTitle").innerText = "Nomear / Editar Cargo";
     }
@@ -1333,6 +1418,7 @@
     function salvarHospital(e) {
       e.preventDefault();
       const id = document.getElementById("hId").value;
+      const foto = document.getElementById("hFotoBase64").value;
       const hData = {
         id: id || Date.now().toString(),
         nome: document.getElementById("hNome").value.trim(),
@@ -1342,12 +1428,15 @@
         leitos: Number(document.getElementById("hLeitos").value),
         telefone: document.getElementById("hTelefone").value.trim(),
         endereco: document.getElementById("hEndereco").value.trim(),
-        foto: document.getElementById("hFoto").value.trim() || IMG_FALLBACK
+        foto: foto || IMG_FALLBACK
       };
 
       if (id) {
         const idx = app.hospitais.findIndex(h => h.id === id);
-        if (idx !== -1) app.hospitais[idx] = hData;
+        if (idx !== -1) {
+          hData.foto = foto || app.hospitais[idx].foto;
+          app.hospitais[idx] = hData;
+        }
       } else {
         app.hospitais.unshift(hData);
       }
@@ -1355,7 +1444,7 @@
       localStorage.setItem("ses_hospitais", JSON.stringify(app.hospitais));
       limparFormHospital();
       atualizarTudo();
-      mostrarToast("Hospital atualizado com sucesso!");
+      mostrarToast("Hospital salvo com sucesso!");
     }
 
     function editarHospital(id) {
@@ -1369,7 +1458,14 @@
       document.getElementById("hLeitos").value = h.leitos;
       document.getElementById("hTelefone").value = h.telefone;
       document.getElementById("hEndereco").value = h.endereco;
-      document.getElementById("hFoto").value = h.foto || "";
+      document.getElementById("hFotoBase64").value = h.foto || "";
+      const prev = document.getElementById("prevHospFoto");
+      if (h.foto) {
+        prev.src = h.foto;
+        prev.classList.remove("hidden");
+      } else {
+        prev.classList.add("hidden");
+      }
       document.getElementById("formHospTitle").innerText = "Editando: " + h.nome;
       mudarAba('hospitais');
       window.scrollTo({ top: 0, behavior: "smooth" });
@@ -1389,7 +1485,9 @@
       document.getElementById("hNome").value = "";
       document.getElementById("hEndereco").value = "";
       document.getElementById("hTelefone").value = "";
-      document.getElementById("hFoto").value = "";
+      document.getElementById("hFotoBase64").value = "";
+      document.getElementById("inHospArquivo").value = "";
+      document.getElementById("prevHospFoto").classList.add("hidden");
       document.getElementById("formHospTitle").innerText = "Adicionar / Editar Hospital";
     }
 
@@ -1448,11 +1546,12 @@
     function salvarNoticia(e) {
       e.preventDefault();
       const hoje = new Date().toLocaleDateString("pt-BR");
+      const foto = document.getElementById("nFotoBase64").value;
       const nData = {
         id: Date.now().toString(),
         titulo: document.getElementById("nTitulo").value.trim(),
         categoria: document.getElementById("nCategoria").value.trim(),
-        imagem: document.getElementById("nImagem").value.trim() || IMG_FALLBACK,
+        imagem: foto || IMG_FALLBACK,
         resumo: document.getElementById("nResumo").value.trim(),
         data: hoje
       };
@@ -1460,6 +1559,9 @@
       localStorage.setItem("ses_noticias", JSON.stringify(app.noticias));
       document.getElementById("nTitulo").value = "";
       document.getElementById("nResumo").value = "";
+      document.getElementById("nFotoBase64").value = "";
+      document.getElementById("inNoticiaArquivo").value = "";
+      document.getElementById("prevNoticiaFoto").classList.add("hidden");
       atualizarTudo();
       mostrarToast("Notícia publicada no portal!");
     }
