@@ -12,7 +12,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 
-  <!-- Firebase SDK (Sincronização em tempo real na nuvem) -->
+  <!-- Firebase SDK -->
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
 
@@ -54,6 +54,17 @@
   </style>
 </head>
 <body class="bg-sp-gray text-neutral-800 min-h-screen flex flex-col antialiased font-sans">
+
+  <!-- TELA DE CARREGAMENTO OFICIAL (ELIMINA O PISCA-PISCA DE DADOS ANTIGOS) -->
+  <div id="loadingOverlay" class="fixed inset-0 bg-white z-[100] flex flex-col items-center justify-center transition-opacity duration-300">
+    <div class="bg-sp-blue text-white rounded-xl w-16 h-16 flex items-center justify-center font-black text-2xl shadow-lg mb-4 animate-pulse">
+      SUS
+    </div>
+    <p class="text-xs font-black uppercase tracking-wider text-sp-darkBlue">Secretaria de Estado da Saúde</p>
+    <p class="text-[11px] text-neutral-400 mt-1 flex items-center gap-1.5">
+      <span class="w-2 h-2 rounded-full bg-sp-blue pulse-dot"></span> Carregando informações em tempo real...
+    </p>
+  </div>
 
   <!-- BARRA DE ACESSIBILIDADE GOVERNO DE SP -->
   <div class="bg-sp-darkBlue text-white text-[11px] border-b border-white/10">
@@ -207,7 +218,7 @@
       </div>
     </section>
 
-    <!-- TRANSPARÊNCIA E GASTOS (ORÇAMENTO E DESTINAÇÕES ESCOLHIDAS) -->
+    <!-- TRANSPARÊNCIA E GASTOS -->
     <section id="transparencia" class="max-w-7xl mx-auto px-4 py-10">
       <div class="border-l-4 border-sp-blue pl-3 mb-6">
         <span class="text-xs font-bold text-sp-blue uppercase tracking-wider">Prestação de Contas Pública</span>
@@ -403,7 +414,7 @@
       </div>
     </section>
 
-    <!-- ABA 2: EQUIPE E CARGOS (UPLOAD DA GALERIA) -->
+    <!-- ABA 2: EQUIPE E CARGOS -->
     <section id="secEquipe" class="hidden space-y-6">
       <div class="bg-white p-5 rounded-lg border border-neutral-300 shadow-sm">
         <h3 id="formEquipeTitle" class="text-xs font-black uppercase text-sp-blue mb-1">Nomear / Editar Cargo</h3>
@@ -488,7 +499,7 @@
       </div>
     </section>
 
-    <!-- ABA 4: HOSPITAIS (UPLOAD DA GALERIA) -->
+    <!-- ABA 4: HOSPITAIS -->
     <section id="secHospitais" class="hidden space-y-6">
       <div class="bg-white p-5 rounded-lg border border-neutral-300 shadow-sm">
         <h3 id="formHospTitle" class="text-xs font-black uppercase text-sp-blue mb-3">Adicionar / Editar Hospital</h3>
@@ -592,7 +603,7 @@
       </div>
     </section>
 
-    <!-- ABA 6: NOTÍCIAS (UPLOAD DA GALERIA) -->
+    <!-- ABA 6: NOTÍCIAS -->
     <section id="secNoticias" class="hidden">
       <div class="bg-white p-5 rounded-lg border border-neutral-300 shadow-sm mb-6">
         <h3 class="text-xs font-black uppercase text-sp-blue mb-3">Nova Matéria Oficial</h3>
@@ -633,7 +644,6 @@
     <!-- ABA 7: NUVEM, SENHA & RESET -->
     <section id="secSenha" class="hidden space-y-6">
       
-      <!-- STATUS DO BANCO DE DADOS NA NUVEM -->
       <div class="bg-white p-5 rounded-lg border border-neutral-300 shadow-sm max-w-lg">
         <h3 class="text-xs font-black uppercase text-sp-blue mb-1 flex items-center gap-1.5">
           <i data-lucide="cloud" class="w-4 h-4"></i> Banco de Dados Global (Firebase)
@@ -793,11 +803,8 @@
     </div>
   </footer>
 
-  <!-- ==================== JAVASCRIPT COM FIREBASE (NUVEM GLOBAL) ==================== -->
+  <!-- ==================== JAVASCRIPT CORRIGIDO COM SYNC PERFEITO ==================== -->
   <script>
-    // =========================================================================
-    // CONFIGURAÇÃO DO SEU FIREBASE (JÁ CONFIGURADO COM A SUA URL)
-    // =========================================================================
     const FIREBASE_CONFIG = {
       databaseURL: "https://saude-sp-195c3-default-rtdb.firebaseio.com" 
     };
@@ -928,7 +935,6 @@
       }
     }
 
-    // ESTADO DA APLICAÇÃO
     let app = {
       logado: false,
       user: localStorage.getItem("ses_user") || DADOS_INICIAIS.user,
@@ -948,12 +954,25 @@
       };
     }
 
-    // CONEXÃO COM O FIREBASE
+    // CONEXÃO COM O FIREBASE REALTIME DATABASE
     let firebaseDB = null;
+
+    function ocultarLoader() {
+      const loader = document.getElementById("loadingOverlay");
+      if (loader && loader.style.display !== "none") {
+        loader.style.opacity = "0";
+        setTimeout(() => {
+          loader.style.display = "none";
+        }, 300);
+      }
+    }
 
     function inicializarNuvem() {
       const urlBanco = FIREBASE_CONFIG.databaseURL;
       const tagNuvem = document.getElementById("cloudStatus");
+
+      // Temporizador de segurança: se a internet estiver lenta, o site abre de qualquer forma em 2s
+      setTimeout(ocultarLoader, 2000);
 
       if (urlBanco && urlBanco.startsWith("http")) {
         try {
@@ -963,7 +982,7 @@
           firebaseDB = firebase.database();
           if (tagNuvem) tagNuvem.classList.remove("hidden");
 
-          // ESCUTA ATUALIZAÇÕES DA NUVEM EM TEMPO REAL PARA TODOS OS APARELHOS
+          // ESCUTA A NUVEM: QUANDO CHEGAR, ATUALIZA A TELA E SÓ ENTÃO SOME COM O LOADER
           firebaseDB.ref("dados_saude_sp").on("value", (snapshot) => {
             const dadosNuvem = snapshot.val();
             if (dadosNuvem) {
@@ -973,14 +992,28 @@
               if (dadosNuvem.hospitais) app.hospitais = dadosNuvem.hospitais;
               if (dadosNuvem.programas) app.programas = dadosNuvem.programas;
               if (dadosNuvem.noticias) app.noticias = dadosNuvem.noticias;
+
+              // Salva no cache local para acelerar próximas aberturas
+              localStorage.setItem("ses_alerta", JSON.stringify(app.alerta));
+              localStorage.setItem("ses_orcamento", JSON.stringify(app.orcamento));
+              localStorage.setItem("ses_equipe", JSON.stringify(app.equipe));
+              localStorage.setItem("ses_hospitais", JSON.stringify(app.hospitais));
+              localStorage.setItem("ses_programas", JSON.stringify(app.programas));
+              localStorage.setItem("ses_noticias", JSON.stringify(app.noticias));
+
               atualizarTudo(false);
+              ocultarLoader();
             } else {
               salvarEstadoGlobal();
+              ocultarLoader();
             }
           });
         } catch (e) {
-          console.error("Erro ao conectar no Firebase:", e);
+          console.error("Erro no Firebase:", e);
+          ocultarLoader();
         }
+      } else {
+        ocultarLoader();
       }
     }
 
@@ -1003,11 +1036,9 @@
         }).then(() => {
           mostrarToast("Salvo na Nuvem para todos!");
         }).catch(err => {
-          console.error("Erro ao salvar na nuvem:", err);
+          console.error("Erro ao salvar:", err);
           mostrarToast("Salvo localmente!");
         });
-      } else {
-        mostrarToast("Salvo apenas neste navegador!");
       }
     }
 
