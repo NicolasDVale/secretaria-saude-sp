@@ -12,6 +12,10 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 
+  <!-- Firebase SDK (Sincronização em tempo real na nuvem) -->
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+
   <script>
     tailwind.config = {
       theme: {
@@ -59,6 +63,9 @@
         <span class="font-semibold uppercase tracking-wide text-neutral-200">Governo do Estado de São Paulo</span>
       </div>
       <div class="flex items-center gap-3">
+        <span id="cloudStatus" class="inline-flex items-center gap-1 text-[10px] text-emerald-400 font-semibold">
+          <span class="w-2 h-2 rounded-full bg-emerald-400 pulse-dot"></span> Nuvem Conectada
+        </span>
         <button onclick="alternarContraste()" class="hover:underline flex items-center gap-1 text-neutral-300 hover:text-white">
           <i data-lucide="contrast" class="w-3 h-3"></i> <span class="hidden sm:inline">Contraste</span>
         </button>
@@ -227,7 +234,6 @@
         </div>
       </div>
 
-      <!-- Barra de Progresso Financeiro -->
       <div class="bg-white p-4 rounded-lg border border-neutral-200 shadow-sm mb-6">
         <div class="flex justify-between text-xs font-bold mb-2 text-neutral-700">
           <span>Progresso da Execução Financeira de SP</span>
@@ -238,19 +244,16 @@
         </div>
       </div>
 
-      <!-- Destinações do Dinheiro Escolhidas pelo Gestor -->
       <div class="bg-white rounded-lg border border-neutral-200 shadow-sm overflow-hidden">
         <div class="p-3.5 bg-neutral-100 font-bold text-xs uppercase text-neutral-700 border-b border-neutral-200 flex justify-between items-center">
           <span>Destinação e Execução por Área Escolhida</span>
           <span id="contagemDestinacoes" class="text-[10px] bg-neutral-200 text-neutral-700 px-2 py-0.5 rounded font-bold">0 Áreas</span>
         </div>
-        <div id="listaPublicaDestinacoes" class="divide-y divide-neutral-200 text-xs">
-          <!-- Renderizado dinamicamente -->
-        </div>
+        <div id="listaPublicaDestinacoes" class="divide-y divide-neutral-200 text-xs"></div>
       </div>
     </section>
 
-    <!-- SEÇÃO DE CORPO DIRETIVO E EQUIPE (SÓ MOSTRA SE HOUVER MEMBROS NOMEADOS) -->
+    <!-- CORPO DIRETIVO E EQUIPE -->
     <section id="equipe" class="hidden max-w-7xl mx-auto px-4 py-8">
       <div class="border-l-4 border-sp-blue pl-3 mb-6">
         <span class="text-xs font-bold text-sp-blue uppercase tracking-wider">Estrutura Organizacional</span>
@@ -258,9 +261,7 @@
           Corpo Diretivo e Gestão SES-SP
         </h3>
       </div>
-      <div id="gridEquipe" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-        <!-- Renderizado dinamicamente -->
-      </div>
+      <div id="gridEquipe" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4"></div>
     </section>
 
     <!-- PROGRAMAS DE SAÚDE -->
@@ -270,9 +271,7 @@
           <i data-lucide="heart-pulse" class="w-4 h-4 text-sp-blue"></i> Programas Oficiais da Saúde Paulista
         </h3>
       </div>
-      <div id="gridProgramas" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        <!-- Renderizado dinamicamente -->
-      </div>
+      <div id="gridProgramas" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4"></div>
     </section>
 
     <!-- HOSPITAIS EM OPERAÇÃO -->
@@ -297,10 +296,7 @@
             </select>
           </div>
         </div>
-
-        <div id="gridHospitais" class="grid grid-cols-1 md:grid-cols-3 gap-5">
-          <!-- Renderizado dinamicamente -->
-        </div>
+        <div id="gridHospitais" class="grid grid-cols-1 md:grid-cols-3 gap-5"></div>
         <p id="semResultadoHospital" class="hidden text-center text-neutral-500 text-xs py-8 font-semibold">Nenhuma unidade encontrada para esse filtro de busca.</p>
       </div>
     </section>
@@ -310,9 +306,7 @@
       <div class="border-l-4 border-sp-blue pl-3 mb-6">
         <h3 class="text-xl font-black text-sp-darkBlue uppercase">Últimas Notícias — Comunicados Oficiais</h3>
       </div>
-      <div id="gridNoticias" class="divide-y divide-neutral-200 bg-white rounded-lg border border-neutral-200 shadow-sm overflow-hidden">
-        <!-- Renderizado dinamicamente -->
-      </div>
+      <div id="gridNoticias" class="divide-y divide-neutral-200 bg-white rounded-lg border border-neutral-200 shadow-sm overflow-hidden"></div>
     </section>
 
   </main>
@@ -360,17 +354,15 @@
         📰 Notícias
       </button>
       <button onclick="mudarAba('senha')" id="tabSenha" class="px-3 py-2 rounded text-xs font-bold uppercase bg-white text-neutral-700 hover:bg-neutral-100">
-        🔑 Segurança & Acesso
+        🔑 Nuvem & Segurança
       </button>
     </div>
 
     <!-- ABA 1: ORÇAMENTO & DESTINAÇÕES -->
     <section id="secTransparencia" class="space-y-6">
-      
-      <!-- Orçamento Geral Total -->
       <div class="bg-white p-5 rounded-lg border border-neutral-300 shadow-sm">
         <h3 class="text-xs font-black uppercase text-sp-blue mb-1">1. Orçamento Anual Total da Secretaria</h3>
-        <p class="text-xs text-neutral-500 mb-3">Defina o montante total aprovado para o ano (digite livremente o valor).</p>
+        <p class="text-xs text-neutral-500 mb-3">Defina o montante total aprovado para o ano.</p>
         <form onsubmit="salvarOrcamentoTotal(event)" class="flex flex-col sm:flex-row gap-3">
           <div class="flex-grow">
             <input type="text" inputmode="decimal" id="inOrcTotal" required class="w-full p-2.5 border rounded font-black text-sm text-neutral-800 outline-none focus:border-sp-blue" placeholder="Ex: 38500000000 ou 38.500.000.000">
@@ -381,16 +373,14 @@
         </form>
       </div>
 
-      <!-- Escolher Destinações do Dinheiro -->
       <div class="bg-white p-5 rounded-lg border border-neutral-300 shadow-sm">
         <h3 id="formDestTitle" class="text-xs font-black uppercase text-sp-blue mb-1">2. Escolher Destinação do Dinheiro</h3>
-        <p class="text-xs text-neutral-500 mb-4">Adicione ou edite para onde o dinheiro da saúde vai (hospitais, remédios, obras, servidores ou qualquer área que você quiser).</p>
-
+        <p class="text-xs text-neutral-500 mb-4">Adicione para onde os recursos serão destinados.</p>
         <form onsubmit="salvarDestinacao(event)" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 text-xs">
           <input type="hidden" id="destId">
           <div class="sm:col-span-2">
             <label class="font-bold text-neutral-700">Nome da Área / Destinação</label>
-            <input type="text" id="destNome" required placeholder="Ex: Rede Hospitalar e UTIs, Dose Certa, Novas Obras..." class="w-full p-2 border rounded mt-1 font-bold">
+            <input type="text" id="destNome" required placeholder="Ex: Rede Hospitalar, Dose Certa, Novas Obras..." class="w-full p-2 border rounded mt-1 font-bold">
           </div>
           <div>
             <label class="font-bold text-neutral-700">Valor Destinado (R$)</label>
@@ -401,37 +391,26 @@
             <input type="text" id="destDescricao" required placeholder="Ex: Custeio de insumos, leitos de internação e cirurgias eletivas." class="w-full p-2 border rounded mt-1">
           </div>
           <div class="sm:col-span-3 flex gap-2 pt-1">
-            <button type="submit" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-4 py-2 rounded uppercase shadow">
-              Salvar Destinação
-            </button>
-            <button type="button" onclick="limparFormDestinacao()" class="bg-neutral-200 px-4 py-2 rounded font-bold">
-              Cancelar
-            </button>
+            <button type="submit" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-4 py-2 rounded uppercase shadow">Salvar Destinação</button>
+            <button type="button" onclick="limparFormDestinacao()" class="bg-neutral-200 px-4 py-2 rounded font-bold">Cancelar</button>
           </div>
         </form>
       </div>
 
-      <!-- Lista de Destinações Cadastradas -->
       <div class="bg-white rounded-lg border border-neutral-300 shadow-sm overflow-hidden">
-        <div class="p-3 bg-neutral-100 font-bold text-xs uppercase text-neutral-700">
-          Destinações de Recursos Ativas no Portal
-        </div>
-        <div id="listaAdminDestinacoes" class="divide-y divide-neutral-200 text-xs">
-          <!-- Renderizado via JS -->
-        </div>
+        <div class="p-3 bg-neutral-100 font-bold text-xs uppercase text-neutral-700">Destinações de Recursos Ativas no Portal</div>
+        <div id="listaAdminDestinacoes" class="divide-y divide-neutral-200 text-xs"></div>
       </div>
     </section>
 
-    <!-- ABA 2: EQUIPE E CARGOS (COM UPLOAD DE FOTO DIRETO DO CELULAR) -->
+    <!-- ABA 2: EQUIPE E CARGOS (UPLOAD DA GALERIA) -->
     <section id="secEquipe" class="hidden space-y-6">
       <div class="bg-white p-5 rounded-lg border border-neutral-300 shadow-sm">
         <h3 id="formEquipeTitle" class="text-xs font-black uppercase text-sp-blue mb-1">Nomear / Editar Cargo</h3>
-        <p class="text-xs text-neutral-500 mb-4">Selecione o cargo e preencha a pessoa responsável. <strong>Cargos vazios ou desativados não aparecem para o público.</strong></p>
-        
+        <p class="text-xs text-neutral-500 mb-4">Cargos vazios ou desativados não aparecem para o público.</p>
         <form onsubmit="salvarMembroEquipe(event)" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 text-xs">
           <input type="hidden" id="eqId">
           <input type="hidden" id="eqFotoBase64">
-          
           <div class="sm:col-span-2">
             <label class="font-bold text-neutral-700">Cargo Oficial</label>
             <select id="eqCargo" required class="w-full p-2 border rounded mt-1 font-bold">
@@ -444,34 +423,28 @@
               <option value="Analista Técnico / Assistente Administrativo">7. Analista Técnico / Assistente Administrativo</option>
             </select>
           </div>
-
           <div>
             <label class="font-bold text-neutral-700">Nome do Titular / Responsável</label>
             <input type="text" id="eqNome" placeholder="Ex: Dr. Nome Completo" required class="w-full p-2 border rounded mt-1">
           </div>
-
           <div class="sm:col-span-2">
             <label class="font-bold text-neutral-700">Atribuições / Formação / Resumo</label>
-            <input type="text" id="eqDescricao" placeholder="Ex: Especialista em Gestão de Saúde Coletiva e Políticas Públicas." class="w-full p-2 border rounded mt-1">
+            <input type="text" id="eqDescricao" placeholder="Ex: Especialista em Políticas Públicas." class="w-full p-2 border rounded mt-1">
           </div>
-
-          <!-- UPLOAD DE IMAGEM DA GALERIA -->
           <div>
             <label class="font-bold text-neutral-700 flex items-center justify-between">
               <span>Foto do Titular</span>
               <span class="text-[10px] text-sp-blue font-semibold">Galeria / Câmera</span>
             </label>
             <div class="flex items-center gap-2 mt-1">
-              <input type="file" accept="image/*" id="inEqArquivo" onchange="processarArquivoImagem(event, 'eqFotoBase64', 'prevEqFoto')" class="text-[11px] file:mr-2 file:py-1.5 file:px-2.5 file:rounded file:border-0 file:text-[10px] file:font-bold file:bg-sp-blue file:text-white hover:file:bg-sp-darkBlue cursor-pointer">
+              <input type="file" accept="image/*" id="inEqArquivo" onchange="processarArquivoImagem(event, 'eqFotoBase64', 'prevEqFoto')" class="text-[11px] file:mr-2 file:py-1.5 file:px-2.5 file:rounded file:border-0 file:text-[10px] file:font-bold file:bg-sp-blue file:text-white cursor-pointer">
               <img id="prevEqFoto" src="" class="hidden w-8 h-8 rounded-full object-cover border border-neutral-300">
             </div>
           </div>
-
           <div class="sm:col-span-3 flex items-center gap-2 pt-1">
             <input type="checkbox" id="eqAtivo" checked class="w-4 h-4 text-sp-blue cursor-pointer">
             <label for="eqAtivo" class="text-xs font-bold text-neutral-800 cursor-pointer">Exibir este cargo no portal público</label>
           </div>
-
           <div class="sm:col-span-3 flex gap-2 pt-2">
             <button type="submit" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-4 py-2 rounded uppercase shadow">Salvar Titular</button>
             <button type="button" onclick="limparFormEquipe()" class="bg-neutral-200 px-4 py-2 rounded font-bold">Cancelar</button>
@@ -497,7 +470,7 @@
           </div>
           <div>
             <label class="font-bold text-neutral-700">Categoria</label>
-            <input type="text" id="pCategoria" required class="w-full p-2 border rounded mt-1" placeholder="Ex: Prevenção, Medicamentos">
+            <input type="text" id="pCategoria" required class="w-full p-2 border rounded mt-1" placeholder="Ex: Prevenção">
           </div>
           <div class="sm:col-span-3">
             <label class="font-bold text-neutral-700">Descrição do Benefício ao Cidadão</label>
@@ -515,14 +488,13 @@
       </div>
     </section>
 
-    <!-- ABA 4: HOSPITAIS (COM UPLOAD DE FOTO DIRETO DO CELULAR) -->
+    <!-- ABA 4: HOSPITAIS (UPLOAD DA GALERIA) -->
     <section id="secHospitais" class="hidden space-y-6">
       <div class="bg-white p-5 rounded-lg border border-neutral-300 shadow-sm">
         <h3 id="formHospTitle" class="text-xs font-black uppercase text-sp-blue mb-3">Adicionar / Editar Hospital</h3>
         <form onsubmit="salvarHospital(event)" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 text-xs">
           <input type="hidden" id="hId">
           <input type="hidden" id="hFotoBase64">
-
           <div class="sm:col-span-2">
             <label class="font-bold text-neutral-700">Nome da Unidade</label>
             <input type="text" id="hNome" required class="w-full p-2 border rounded mt-1">
@@ -562,14 +534,13 @@
             <input type="text" id="hEndereco" required class="w-full p-2 border rounded mt-1">
           </div>
 
-          <!-- UPLOAD DE FOTO DO HOSPITAL -->
           <div class="sm:col-span-2 lg:col-span-4 bg-neutral-50 p-3 rounded border">
             <label class="font-bold text-neutral-700 flex items-center justify-between">
               <span>Foto da Fachada / Hospital</span>
-              <span class="text-[10px] text-sp-blue font-semibold">Escolher da Galeria do Celular</span>
+              <span class="text-[10px] text-sp-blue font-semibold">Galeria do Celular</span>
             </label>
             <div class="flex items-center gap-3 mt-1.5">
-              <input type="file" accept="image/*" id="inHospArquivo" onchange="processarArquivoImagem(event, 'hFotoBase64', 'prevHospFoto')" class="text-[11px] file:mr-2 file:py-1.5 file:px-2.5 file:rounded file:border-0 file:text-[10px] file:font-bold file:bg-sp-blue file:text-white hover:file:bg-sp-darkBlue cursor-pointer">
+              <input type="file" accept="image/*" id="inHospArquivo" onchange="processarArquivoImagem(event, 'hFotoBase64', 'prevHospFoto')" class="text-[11px] file:mr-2 file:py-1.5 file:px-2.5 file:rounded file:border-0 file:text-[10px] file:font-bold file:bg-sp-blue file:text-white cursor-pointer">
               <img id="prevHospFoto" src="" class="hidden w-12 h-10 rounded object-cover border border-neutral-300">
             </div>
           </div>
@@ -615,17 +586,13 @@
         <p class="text-[10px] text-neutral-400 mb-4"><span id="contadorAlerta">0</span>/240 caracteres</p>
         
         <div class="flex gap-2">
-          <button onclick="salvarAlerta()" class="bg-sp-blue hover:bg-sp-darkBlue text-white text-xs font-bold px-4 py-2 rounded uppercase shadow">
-            Salvar Alterações
-          </button>
-          <button onclick="removerAlerta()" class="bg-red-600 hover:bg-red-700 text-white text-xs font-bold px-4 py-2 rounded uppercase shadow">
-            Desativar da Capa
-          </button>
+          <button onclick="salvarAlerta()" class="bg-sp-blue hover:bg-sp-darkBlue text-white text-xs font-bold px-4 py-2 rounded uppercase shadow">Salvar Alterações</button>
+          <button onclick="removerAlerta()" class="bg-red-600 hover:bg-red-700 text-white text-xs font-bold px-4 py-2 rounded uppercase shadow">Desativar da Capa</button>
         </div>
       </div>
     </section>
 
-    <!-- ABA 6: NOTÍCIAS (COM UPLOAD DE FOTO DIRETO DO CELULAR) -->
+    <!-- ABA 6: NOTÍCIAS (UPLOAD DA GALERIA) -->
     <section id="secNoticias" class="hidden">
       <div class="bg-white p-5 rounded-lg border border-neutral-300 shadow-sm mb-6">
         <h3 class="text-xs font-black uppercase text-sp-blue mb-3">Nova Matéria Oficial</h3>
@@ -640,12 +607,10 @@
               <label class="font-bold">Categoria</label>
               <input type="text" id="nCategoria" required class="w-full p-2 border rounded mt-1" value="Campanha">
             </div>
-            
-            <!-- UPLOAD DE FOTO DA NOTÍCIA -->
             <div>
               <label class="font-bold flex items-center justify-between">
                 <span>Imagem da Matéria</span>
-                <span class="text-[10px] text-sp-blue font-semibold">Escolher Arquivo</span>
+                <span class="text-[10px] text-sp-blue font-semibold">Galeria / Arquivo</span>
               </label>
               <div class="flex items-center gap-2 mt-1">
                 <input type="file" accept="image/*" id="inNoticiaArquivo" onchange="processarArquivoImagem(event, 'nFotoBase64', 'prevNoticiaFoto')" class="text-[11px] file:mr-2 file:py-1 file:px-2 file:rounded file:border-0 file:text-[10px] file:font-bold file:bg-sp-blue file:text-white cursor-pointer">
@@ -665,11 +630,25 @@
       <div id="listaAdminNoticias" class="space-y-2"></div>
     </section>
 
-    <!-- ABA 7: SEGURANÇA, SENHA & RESET PROTEGIDO -->
+    <!-- ABA 7: NUVEM, SENHA & RESET -->
     <section id="secSenha" class="hidden space-y-6">
+      
+      <!-- STATUS DO BANCO DE DADOS NA NUVEM -->
+      <div class="bg-white p-5 rounded-lg border border-neutral-300 shadow-sm max-w-lg">
+        <h3 class="text-xs font-black uppercase text-sp-blue mb-1 flex items-center gap-1.5">
+          <i data-lucide="cloud" class="w-4 h-4"></i> Banco de Dados Global (Firebase)
+        </h3>
+        <p class="text-xs text-neutral-500 mb-3">
+          Permite que qualquer pessoa no mundo veja exatamente os hospitais, orçamentos e fotos que você cadastrar.
+        </p>
+        <div id="boxStatusNuvem" class="p-3 rounded-lg text-xs font-semibold bg-emerald-50 text-emerald-800 mb-3 border border-emerald-200">
+          🟢 Sincronizado com: https://saude-sp-195c3-default-rtdb.firebaseio.com
+        </div>
+      </div>
+
       <div class="bg-white p-5 rounded-lg border border-neutral-300 shadow-sm max-w-md">
         <h3 class="text-xs font-black uppercase text-sp-blue mb-1">Alterar Usuário e Senha</h3>
-        <p class="text-xs text-neutral-500 mb-4">Escolha uma nova senha para garantir que apenas você acerte o acesso.</p>
+        <p class="text-xs text-neutral-500 mb-4">Escolha uma nova senha para o seu painel.</p>
         <form onsubmit="alterarCredenciais(event)" class="space-y-3 text-xs">
           <div>
             <label class="font-bold text-neutral-700">Novo Nome de Usuário</label>
@@ -695,7 +674,7 @@
           <i data-lucide="alert-octagon" class="w-4 h-4"></i> Zona Restrita: Redefinição de Sistema
         </h3>
         <p class="text-xs text-red-600 mb-4">
-          Esta opção restaura os valores originais do Estado de São Paulo. Ela fica <strong>exclusivamente aqui dentro do painel</strong> para que ninguém de fora acerte acidentalmente.
+          Esta opção restaura os valores originais do Estado de São Paulo na nuvem e no dispositivo.
         </p>
         <button onclick="restaurarPadroesProtegido()" class="bg-red-600 hover:bg-red-700 text-white text-xs font-bold px-4 py-2 rounded uppercase shadow">
           Restaurar Banco de Dados Padrão SP
@@ -705,7 +684,7 @@
 
   </main>
 
-  <!-- MODAL DE LOGIN (COM OLHINHO E RECUPERAÇÃO) -->
+  <!-- MODAL DE LOGIN -->
   <div id="modalLogin" style="display: none;" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 items-center justify-center p-4">
     <div class="bg-white rounded-xl max-w-sm w-full p-6 shadow-2xl border-t-4 border-sp-blue relative">
       <button onclick="fecharModalLogin()" class="absolute top-3.5 right-3.5 text-neutral-400 hover:text-neutral-700">
@@ -766,13 +745,13 @@
     </div>
   </div>
 
-  <!-- TOAST DE NOTIFICAÇÃO (FEEDBACK NO CELULAR) -->
+  <!-- TOAST DE NOTIFICAÇÃO -->
   <div id="toast" class="fixed bottom-5 left-1/2 -translate-x-1/2 bg-neutral-900 text-white text-xs px-4 py-2.5 rounded-full shadow-2xl opacity-0 pointer-events-none transition-all duration-300 z-50 flex items-center gap-2">
     <i data-lucide="check-circle" class="w-4 h-4 text-emerald-400"></i>
     <span id="toastMsg">Alterações salvas!</span>
   </div>
 
-  <!-- RODAPÉ INSTITUCIONAL (100% LIMPO - SEM BOTÃO DE RESET PÚBLICO) -->
+  <!-- RODAPÉ INSTITUCIONAL (100% LIMPO) -->
   <footer class="bg-sp-darkBlue text-white text-xs mt-12 border-t-4 border-sp-red">
     <div class="max-w-7xl mx-auto px-4 py-10 grid grid-cols-1 md:grid-cols-4 gap-8">
       <div>
@@ -805,7 +784,7 @@
         </p>
       </div>
       <div class="flex flex-col justify-between">
-        <p class="text-neutral-400 text-[10px]">Portal em conformidade com o Modelo de Acessibilidade em Governo Eletrônico (e-MAG) e Lei Geral de Proteção de Dados (LGPD).</p>
+        <p class="text-neutral-400 text-[10px]">Portal em conformidade com o Modelo de Acessibilidade em Governo Eletrônico (e-MAG) e LGPD.</p>
         <span class="text-neutral-500 text-[10px] mt-4 block">Portal Oficial do Estado de São Paulo</span>
       </div>
     </div>
@@ -814,8 +793,15 @@
     </div>
   </footer>
 
-  <!-- ==================== JAVASCRIPT SEGURO ==================== -->
+  <!-- ==================== JAVASCRIPT COM FIREBASE (NUVEM GLOBAL) ==================== -->
   <script>
+    // =========================================================================
+    // CONFIGURAÇÃO DO SEU FIREBASE (JÁ CONFIGURADO COM A SUA URL)
+    // =========================================================================
+    const FIREBASE_CONFIG = {
+      databaseURL: "https://saude-sp-195c3-default-rtdb.firebaseio.com" 
+    };
+
     const IMG_FALLBACK = "data:image/svg+xml;charset=UTF-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22600%22%20height%3D%22400%22%20viewBox%3D%220%200%20600%20400%22%3E%3Crect%20fill%3D%22%23071D41%22%20width%3D%22600%22%20height%3D%22400%22%2F%3E%3Ctext%20fill%3D%22%23FFCD07%22%20font-family%3D%22sans-serif%22%20font-size%3D%2220%22%20font-weight%3D%22bold%22%20x%3D%2250%25%22%20y%3D%2248%25%22%20text-anchor%3D%22middle%22%3EGOVERNO%20DO%20ESTADO%20DE%20S%C3%83O%20PAULO%3C%2Ftext%3E%3Ctext%20fill%3D%22%23ffffff%22%20font-family%3D%22sans-serif%22%20font-size%3D%2214%22%20x%3D%2250%25%22%20y%3D%2256%25%22%20text-anchor%3D%22middle%22%3ESecretaria%20de%20Estado%20da%20Sa%C3%BAde%3C%2Ftext%3E%3C%2Fsvg%3E";
     const AVATAR_FALLBACK = "data:image/svg+xml;charset=UTF-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22200%22%20height%3D%22200%22%20viewBox%3D%220%200%20200%20200%22%3E%3Crect%20fill%3D%22%23E2E8F0%22%20width%3D%22200%22%20height%3D%22200%22%2F%3E%3Ccircle%20cx%3D%22100%22%20cy%3D%2275%22%20r%3D%2240%22%20fill%3D%22%2394A3B8%22%2F%3E%3Cpath%20d%3D%22M30%20180%20c0%20-40%2035%20-60%2070%20-60%20s70%2020%2070%2060%20z%22%20fill%3D%22%2394A3B8%22%2F%3E%3C%2Fsvg%3E";
 
@@ -876,7 +862,6 @@
       ]
     };
 
-    // CONVERSOR LIVRE DE VALORES (NUNCA DÁ ERRO)
     function limparEConverterValor(val) {
       if (val === null || val === undefined || val === '') return 0;
       if (typeof val === 'number') return isNaN(val) ? 0 : val;
@@ -891,7 +876,6 @@
       return isNaN(num) ? 0 : Math.max(0, num);
     }
 
-    // COMPRESSOR AUTOMÁTICO DE IMAGEM VIA CANVAS (CONVERTE FOTO DA CÂMERA/GALERIA PARA BASE64 LEVE)
     function processarArquivoImagem(event, hiddenInputId, previewImgId) {
       const file = event.target.files[0];
       if (!file) return;
@@ -904,7 +888,6 @@
           let width = img.width;
           let height = img.height;
 
-          // Redimensiona para no máximo 800px de largura mantendo proporção (evita travar localStorage)
           const MAX_SIZE = 800;
           if (width > height && width > MAX_SIZE) {
             height = Math.round((height * MAX_SIZE) / width);
@@ -919,17 +902,15 @@
           const ctx = canvas.getContext('2d');
           ctx.drawImage(img, 0, 0, width, height);
 
-          // Converte para JPEG com qualidade 0.75 (super leve ~60KB)
           const base64Otimizado = canvas.toDataURL('image/jpeg', 0.75);
 
-          // Salva no input oculto e atualiza preview
           document.getElementById(hiddenInputId).value = base64Otimizado;
           const prev = document.getElementById(previewImgId);
           if (prev) {
             prev.src = base64Otimizado;
             prev.classList.remove('hidden');
           }
-          mostrarToast("Foto carregada com sucesso!");
+          mostrarToast("Foto carregada!");
         };
         img.src = e.target.result;
       };
@@ -965,11 +946,74 @@
         total: app.orcamento && app.orcamento.total ? limparEConverterValor(app.orcamento.total) : DADOS_INICIAIS.orcamento.total,
         destinacoes: [...DADOS_INICIAIS.orcamento.destinacoes]
       };
+    }
+
+    // CONEXÃO COM O FIREBASE
+    let firebaseDB = null;
+
+    function inicializarNuvem() {
+      const urlBanco = FIREBASE_CONFIG.databaseURL;
+      const tagNuvem = document.getElementById("cloudStatus");
+
+      if (urlBanco && urlBanco.startsWith("http")) {
+        try {
+          if (!firebase.apps.length) {
+            firebase.initializeApp({ databaseURL: urlBanco });
+          }
+          firebaseDB = firebase.database();
+          if (tagNuvem) tagNuvem.classList.remove("hidden");
+
+          // ESCUTA ATUALIZAÇÕES DA NUVEM EM TEMPO REAL PARA TODOS OS APARELHOS
+          firebaseDB.ref("dados_saude_sp").on("value", (snapshot) => {
+            const dadosNuvem = snapshot.val();
+            if (dadosNuvem) {
+              if (dadosNuvem.alerta) app.alerta = dadosNuvem.alerta;
+              if (dadosNuvem.orcamento) app.orcamento = dadosNuvem.orcamento;
+              if (dadosNuvem.equipe) app.equipe = dadosNuvem.equipe;
+              if (dadosNuvem.hospitais) app.hospitais = dadosNuvem.hospitais;
+              if (dadosNuvem.programas) app.programas = dadosNuvem.programas;
+              if (dadosNuvem.noticias) app.noticias = dadosNuvem.noticias;
+              atualizarTudo(false);
+            } else {
+              salvarEstadoGlobal();
+            }
+          });
+        } catch (e) {
+          console.error("Erro ao conectar no Firebase:", e);
+        }
+      }
+    }
+
+    function salvarEstadoGlobal() {
+      localStorage.setItem("ses_alerta", JSON.stringify(app.alerta));
       localStorage.setItem("ses_orcamento", JSON.stringify(app.orcamento));
+      localStorage.setItem("ses_equipe", JSON.stringify(app.equipe));
+      localStorage.setItem("ses_hospitais", JSON.stringify(app.hospitais));
+      localStorage.setItem("ses_programas", JSON.stringify(app.programas));
+      localStorage.setItem("ses_noticias", JSON.stringify(app.noticias));
+
+      if (firebaseDB) {
+        firebaseDB.ref("dados_saude_sp").set({
+          alerta: app.alerta,
+          orcamento: app.orcamento,
+          equipe: app.equipe,
+          hospitais: app.hospitais,
+          programas: app.programas,
+          noticias: app.noticias
+        }).then(() => {
+          mostrarToast("Salvo na Nuvem para todos!");
+        }).catch(err => {
+          console.error("Erro ao salvar na nuvem:", err);
+          mostrarToast("Salvo localmente!");
+        });
+      } else {
+        mostrarToast("Salvo apenas neste navegador!");
+      }
     }
 
     window.addEventListener("DOMContentLoaded", () => {
-      atualizarTudo();
+      atualizarTudo(false);
+      inicializarNuvem();
     });
 
     function formatarMoeda(val) {
@@ -987,7 +1031,7 @@
       }, 2500);
     }
 
-    function atualizarTudo() {
+    function atualizarTudo(persistir = true) {
       // 1. Alerta da Capa
       const banner = document.getElementById("bannerAlerta");
       const iconeAlerta = document.getElementById("iconeAlerta");
@@ -1045,6 +1089,10 @@
       document.getElementById("kpiExecucao").innerText = `${perc}%`;
 
       lucide.createIcons();
+
+      if (persistir) {
+        salvarEstadoGlobal();
+      }
     }
 
     // --- DESTINAÇÕES PÚBLICAS ---
@@ -1089,9 +1137,7 @@
       }
 
       app.orcamento.total = valorFinal;
-      localStorage.setItem("ses_orcamento", JSON.stringify(app.orcamento));
-      atualizarTudo();
-      mostrarToast("Orçamento Total salvo!");
+      atualizarTudo(true);
     }
 
     function salvarDestinacao(e) {
@@ -1121,10 +1167,8 @@
         });
       }
 
-      localStorage.setItem("ses_orcamento", JSON.stringify(app.orcamento));
       limparFormDestinacao();
-      atualizarTudo();
-      mostrarToast("Destinação de recursos salva com sucesso!");
+      atualizarTudo(true);
     }
 
     function editarDestinacao(id) {
@@ -1142,9 +1186,7 @@
     function excluirDestinacao(id) {
       if (confirm("Remover esta destinação de gastos do orçamento da saúde?")) {
         app.orcamento.destinacoes = app.orcamento.destinacoes.filter(x => x.id !== id);
-        localStorage.setItem("ses_orcamento", JSON.stringify(app.orcamento));
-        atualizarTudo();
-        mostrarToast("Destinação removida!");
+        atualizarTudo(true);
       }
     }
 
@@ -1160,7 +1202,6 @@
     function renderizarEquipe() {
       const secao = document.getElementById("equipe");
       const container = document.getElementById("gridEquipe");
-      
       const nomeados = app.equipe.filter(m => m.ativo && m.nome && m.nome.trim() !== "");
 
       if (nomeados.length === 0) {
@@ -1213,10 +1254,8 @@
         app.equipe.push({ id: Date.now().toString(), cargo, nome, descricao, foto, ativo });
       }
 
-      localStorage.setItem("ses_equipe", JSON.stringify(app.equipe));
       limparFormEquipe();
-      atualizarTudo();
-      mostrarToast("Cargo atualizado com sucesso!");
+      atualizarTudo(true);
     }
 
     function editarEquipe(cargo) {
@@ -1253,9 +1292,7 @@
           app.equipe[idx].descricao = "";
           app.equipe[idx].foto = "";
           app.equipe[idx].ativo = false;
-          localStorage.setItem("ses_equipe", JSON.stringify(app.equipe));
-          atualizarTudo();
-          mostrarToast("Cargo declarado como vago!");
+          atualizarTudo(true);
         }
       }
     }
@@ -1264,9 +1301,7 @@
       const idx = app.equipe.findIndex(x => x.cargo === cargo);
       if (idx !== -1) {
         app.equipe[idx].ativo = !app.equipe[idx].ativo;
-        localStorage.setItem("ses_equipe", JSON.stringify(app.equipe));
-        atualizarTudo();
-        mostrarToast(app.equipe[idx].ativo ? "Cargo visível no portal!" : "Cargo ocultado do portal!");
+        atualizarTudo(true);
       }
     }
 
@@ -1314,10 +1349,8 @@
         app.programas.unshift({ id: Date.now().toString(), nome, categoria, descricao, ativo: true });
       }
 
-      localStorage.setItem("ses_programas", JSON.stringify(app.programas));
       limparFormPrograma();
-      atualizarTudo();
-      mostrarToast("Programa salvo com sucesso!");
+      atualizarTudo(true);
     }
 
     function editarPrograma(id) {
@@ -1336,18 +1369,14 @@
       const p = app.programas.find(x => x.id === id);
       if (p) {
         p.ativo = !p.ativo;
-        localStorage.setItem("ses_programas", JSON.stringify(app.programas));
-        atualizarTudo();
-        mostrarToast(p.ativo ? "Programa ativado na capa!" : "Programa ocultado!");
+        atualizarTudo(true);
       }
     }
 
     function excluirPrograma(id) {
       if (confirm("Deseja realmente remover este programa?")) {
         app.programas = app.programas.filter(x => x.id !== id);
-        localStorage.setItem("ses_programas", JSON.stringify(app.programas));
-        atualizarTudo();
-        mostrarToast("Programa removido!");
+        atualizarTudo(true);
       }
     }
 
@@ -1441,10 +1470,8 @@
         app.hospitais.unshift(hData);
       }
 
-      localStorage.setItem("ses_hospitais", JSON.stringify(app.hospitais));
       limparFormHospital();
-      atualizarTudo();
-      mostrarToast("Hospital salvo com sucesso!");
+      atualizarTudo(true);
     }
 
     function editarHospital(id) {
@@ -1474,9 +1501,7 @@
     function excluirHospital(id) {
       if (confirm("Remover este hospital da rede monitorada?")) {
         app.hospitais = app.hospitais.filter(x => x.id !== id);
-        localStorage.setItem("ses_hospitais", JSON.stringify(app.hospitais));
-        atualizarTudo();
-        mostrarToast("Hospital removido!");
+        atualizarTudo(true);
       }
     }
 
@@ -1498,16 +1523,12 @@
       const msg = document.getElementById("adminInputAlerta").value.trim();
 
       app.alerta = { ativo, nivel, mensagem: msg };
-      localStorage.setItem("ses_alerta", JSON.stringify(app.alerta));
-      atualizarTudo();
-      mostrarToast("Alerta sanitário atualizado!");
+      atualizarTudo(true);
     }
 
     function removerAlerta() {
       app.alerta.ativo = false;
-      localStorage.setItem("ses_alerta", JSON.stringify(app.alerta));
-      atualizarTudo();
-      mostrarToast("Alerta desativado da capa!");
+      atualizarTudo(true);
     }
 
     // --- NOTÍCIAS OFICIAIS ---
@@ -1556,14 +1577,12 @@
         data: hoje
       };
       app.noticias.unshift(nData);
-      localStorage.setItem("ses_noticias", JSON.stringify(app.noticias));
       document.getElementById("nTitulo").value = "";
       document.getElementById("nResumo").value = "";
       document.getElementById("nFotoBase64").value = "";
       document.getElementById("inNoticiaArquivo").value = "";
       document.getElementById("prevNoticiaFoto").classList.add("hidden");
-      atualizarTudo();
-      mostrarToast("Notícia publicada no portal!");
+      atualizarTudo(true);
     }
 
     // --- SEGURANÇA E LOGIN ---
@@ -1781,7 +1800,7 @@
       divN.innerHTML = app.noticias.map(n => `
         <div class="bg-white p-3 rounded border flex justify-between items-center text-xs">
           <span class="font-semibold text-neutral-800">${n.titulo}</span>
-          <button onclick="app.noticias = app.noticias.filter(x => x.id !== '${n.id}'); localStorage.setItem('ses_noticias', JSON.stringify(app.noticias)); atualizarTudo(); mostrarToast('Notícia excluída!');" class="text-red-600 font-bold ml-2 hover:underline">Excluir</button>
+          <button onclick="app.noticias = app.noticias.filter(x => x.id !== '${n.id}'); atualizarTudo(true);" class="text-red-600 font-bold ml-2 hover:underline">Excluir</button>
         </div>
       `).join("");
     }
@@ -1797,7 +1816,7 @@
       document.body.classList.toggle("alto-contraste");
     }
 
-    // RESTAURAR PADRÕES (PROTEGIDO DENTRO DO ADMIN)
+    // RESTAURAR PADRÕES (PROTEGIDO)
     function restaurarPadroesProtegido() {
       if (confirm("ATENÇÃO: Deseja redefinir todo o portal para as informações padrão de São Paulo? Todas as alterações serão perdidas.")) {
         if (confirm("Confirmação final: Tem absoluta certeza?")) {
@@ -1813,7 +1832,7 @@
           app.hospitais = DADOS_INICIAIS.hospitais;
           app.programas = DADOS_INICIAIS.programas;
           app.noticias = DADOS_INICIAIS.noticias;
-          atualizarTudo();
+          atualizarTudo(true);
           mostrarToast("Banco de dados redefinido!");
           alternarVisao(false);
         }
