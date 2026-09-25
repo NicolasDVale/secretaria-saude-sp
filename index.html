@@ -181,17 +181,22 @@
             Saúde pública de qualidade, transparência e acolhimento para todo o Estado.
           </h2>
           <p class="text-blue-100 text-xs sm:text-sm mb-6 max-w-xl leading-relaxed">
-            Consulte a aplicação orçamentária do Estado, localize hospitais em tempo real, acesse programas de saúde e comunicados oficiais.
+            Acesse diretamente os serviços de acolhimento psicológico, solicitação de medicamentos essenciais, hospitais em tempo real e prestação de contas.
           </p>
+          
+          <!-- ATALHOS NO HERO -->
           <div class="flex flex-wrap gap-2.5">
-            <button onclick="irParaPagina('programas')" class="bg-white text-sp-blue font-bold px-4 py-2.5 rounded text-xs uppercase shadow hover:bg-neutral-100 transition">
-              Acessar Programas
+            <button onclick="irParaPagina('iep')" class="bg-white text-indigo-950 font-black px-4 py-2.5 rounded-lg text-xs uppercase shadow hover:bg-neutral-100 transition flex items-center gap-1.5">
+              <i data-lucide="brain" class="w-4 h-4 text-indigo-700"></i> Instituto de Psicologia (IEP)
             </button>
-            <button onclick="irParaPagina('transparencia')" class="bg-sp-yellow text-sp-darkBlue font-bold px-4 py-2.5 rounded text-xs uppercase shadow hover:bg-amber-400 transition">
-              Transparência Orçamentária
+            <button onclick="irParaPagina('medicamentos')" class="bg-emerald-600 text-white font-black px-4 py-2.5 rounded-lg text-xs uppercase shadow hover:bg-emerald-700 transition flex items-center gap-1.5">
+              <i data-lucide="pill" class="w-4 h-4 text-emerald-200"></i> Solicitar Medicamento
             </button>
-            <button onclick="irParaPagina('hospitais')" class="bg-sp-blue border border-white/40 text-white font-bold px-4 py-2.5 rounded text-xs uppercase shadow hover:bg-sp-darkBlue transition">
-              Rede Hospitalar
+            <button onclick="irParaPagina('programas')" class="bg-sp-blue border border-white/40 text-white font-bold px-4 py-2.5 rounded-lg text-xs uppercase shadow hover:bg-sp-darkBlue transition">
+              Programas Oficiais
+            </button>
+            <button onclick="irParaPagina('transparencia')" class="bg-sp-yellow text-sp-darkBlue font-bold px-4 py-2.5 rounded-lg text-xs uppercase shadow hover:bg-amber-400 transition">
+              Transparência
             </button>
           </div>
         </div>
@@ -219,6 +224,26 @@
       </div>
     </section>
 
+    <!-- FAIXA DE ATALHOS RÁPIDOS DE ATENDIMENTO DIRETO -->
+    <section class="bg-neutral-100 border-b border-neutral-200 py-4 px-4">
+      <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3">
+        <span class="text-xs font-black uppercase text-sp-darkBlue flex items-center gap-1.5">
+          <i data-lucide="zap" class="w-4 h-4 text-sp-yellow fill-sp-yellow"></i> Atalhos de Atendimento Rápido:
+        </span>
+        <div class="flex flex-wrap gap-2 w-full sm:w-auto">
+          <button onclick="irParaPagina('iep')" class="flex-1 sm:flex-none bg-white hover:bg-indigo-50 border border-indigo-200 text-indigo-900 font-bold px-3 py-2 rounded-lg text-xs flex items-center justify-center gap-1.5 shadow-sm transition">
+            <i data-lucide="brain" class="w-4 h-4 text-indigo-600"></i> Acolhimento & Perícias (IEP)
+          </button>
+          <button onclick="irParaPagina('medicamentos')" class="flex-1 sm:flex-none bg-white hover:bg-emerald-50 border border-emerald-200 text-emerald-900 font-bold px-3 py-2 rounded-lg text-xs flex items-center justify-center gap-1.5 shadow-sm transition">
+            <i data-lucide="pill" class="w-4 h-4 text-emerald-600"></i> Pedido de Remédio (Dose Certa)
+          </button>
+          <button onclick="irParaPagina('hospitais')" class="flex-1 sm:flex-none bg-white hover:bg-blue-50 border border-neutral-300 text-neutral-800 font-bold px-3 py-2 rounded-lg text-xs flex items-center justify-center gap-1.5 shadow-sm transition">
+            <i data-lucide="building-2" class="w-4 h-4 text-sp-blue"></i> Hospitais & AMEs 24h
+          </button>
+        </div>
+      </div>
+    </section>
+
     <!-- INDICADORES RÁPIDOS -->
     <section class="bg-white border-b border-neutral-200">
       <div class="max-w-7xl mx-auto px-4 py-5 grid grid-cols-2 sm:grid-cols-4 gap-4 text-center divide-x divide-neutral-100">
@@ -241,58 +266,6 @@
       </div>
     </section>
 
-    <!-- PORTAIS TEMÁTICOS (ACESSO RÁPIDO) -->
-    <section class="max-w-7xl mx-auto px-4 py-8">
-      <h3 class="text-xs font-black text-sp-blue uppercase tracking-wider mb-4">Portais Temáticos do Estado</h3>
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        
-        <div onclick="irParaPagina('transparencia')" class="bg-white p-5 rounded-xl border border-neutral-200 shadow-sm hover:shadow-md hover:border-sp-blue cursor-pointer transition flex flex-col justify-between group">
-          <div>
-            <div class="w-10 h-10 rounded-lg bg-blue-50 text-sp-blue flex items-center justify-center mb-3 group-hover:scale-110 transition">
-              <i data-lucide="pie-chart" class="w-5 h-5"></i>
-            </div>
-            <h4 class="font-black text-neutral-900 text-sm uppercase">Transparência & Repasses</h4>
-            <p class="text-neutral-500 text-xs mt-1 leading-relaxed">Consulte o orçamento total e os repasses diretos aos hospitais e institutos.</p>
-          </div>
-          <span class="text-xs font-bold text-sp-blue mt-4 group-hover:underline flex items-center gap-1">Acessar Detalhamento →</span>
-        </div>
-
-        <div onclick="irParaPagina('hospitais')" class="bg-white p-5 rounded-xl border border-neutral-200 shadow-sm hover:shadow-md hover:border-sp-blue cursor-pointer transition flex flex-col justify-between group">
-          <div>
-            <div class="w-10 h-10 rounded-lg bg-sky-50 text-sky-600 flex items-center justify-center mb-3 group-hover:scale-110 transition">
-              <i data-lucide="building-2" class="w-5 h-5"></i>
-            </div>
-            <h4 class="font-black text-neutral-900 text-sm uppercase">Rede Hospitalar 24h</h4>
-            <p class="text-neutral-500 text-xs mt-1 leading-relaxed">Monitoramento de leitos, AMEs e hospitais estaduais de referência.</p>
-          </div>
-          <span class="text-xs font-bold text-sky-600 mt-4 group-hover:underline flex items-center gap-1">Ver Unidades →</span>
-        </div>
-
-        <div onclick="irParaPagina('equipe')" class="bg-white p-5 rounded-xl border border-neutral-200 shadow-sm hover:shadow-md hover:border-amber-600 cursor-pointer transition flex flex-col justify-between group">
-          <div>
-            <div class="w-10 h-10 rounded-lg bg-amber-50 text-amber-600 flex items-center justify-center mb-3 group-hover:scale-110 transition">
-              <i data-lucide="users" class="w-5 h-5"></i>
-            </div>
-            <h4 class="font-black text-neutral-900 text-sm uppercase">Corpo Diretivo SES</h4>
-            <p class="text-neutral-500 text-xs mt-1 leading-relaxed">Secretário da Saúde e equipe de gestão dos 7 cargos de liderança pública.</p>
-          </div>
-          <span class="text-xs font-bold text-amber-600 mt-4 group-hover:underline flex items-center gap-1">Ver Gestão →</span>
-        </div>
-
-        <div onclick="irParaPagina('programas')" class="bg-white p-5 rounded-xl border border-neutral-200 shadow-sm hover:shadow-md hover:border-purple-600 cursor-pointer transition flex flex-col justify-between group">
-          <div>
-            <div class="w-10 h-10 rounded-lg bg-purple-50 text-purple-600 flex items-center justify-center mb-3 group-hover:scale-110 transition">
-              <i data-lucide="heart-handshake" class="w-5 h-5"></i>
-            </div>
-            <h4 class="font-black text-neutral-900 text-sm uppercase">Programas e Campanhas</h4>
-            <p class="text-neutral-500 text-xs mt-1 leading-relaxed">Acesse os programas ativos gerenciados pela Secretaria de Estado da Saúde.</p>
-          </div>
-          <span class="text-xs font-bold text-purple-600 mt-4 group-hover:underline flex items-center gap-1">Ver Programas →</span>
-        </div>
-
-      </div>
-    </section>
-
     <!-- PROGRAMAS QUE VOCÊ ESCOLHEU ATIVAR (VITRINE DINÂMICA) -->
     <section class="max-w-7xl mx-auto px-4 py-8">
       <div class="flex justify-between items-center mb-4 border-b-2 border-sp-blue pb-2">
@@ -303,9 +276,7 @@
           Ver Todos os Programas →
         </button>
       </div>
-      <div id="homeGridProgramas" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-        <!-- Renderizado dinamicamente com base nos programas ATIVOS que você configurou no Admin -->
-      </div>
+      <div id="homeGridProgramas" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4"></div>
     </section>
 
     <!-- RESUMO DA TRANSPARÊNCIA ORÇAMENTÁRIA -->
@@ -428,15 +399,13 @@
 
     </div>
 
-    <!-- CORPO DIRETIVO E CARGOS INTERNOS DO IEP-SP (CORRIGIDO SEM BUG DE IMAGEM) -->
+    <!-- CORPO DIRETIVO E CARGOS INTERNOS DO IEP-SP (SEM BUG DE IMAGEM) -->
     <div id="secaoEquipeIep" class="mb-10">
       <div class="border-l-4 border-indigo-700 pl-3 mb-6">
         <span class="text-xs font-bold text-indigo-700 uppercase tracking-wider">Estrutura Interna</span>
         <h3 class="text-xl font-black text-sp-darkBlue uppercase">Corpo Diretivo & Lideranças do IEP-SP</h3>
       </div>
-      <div id="gridEquipeIep" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-        <!-- Renderizado dinamicamente via JS sem deformação -->
-      </div>
+      <div id="gridEquipeIep" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4"></div>
     </div>
 
     <!-- Banner Informativo -->
@@ -617,13 +586,31 @@
     <p id="semResultadoHospital" class="hidden text-center text-neutral-500 text-xs py-12 font-semibold">Nenhuma unidade hospitalar encontrada para este filtro.</p>
   </main>
 
-  <!-- ==================== 7. PÁGINA: PROGRAMAS ==================== -->
+  <!-- ==================== 7. PÁGINA: PROGRAMAS (COM DESTAQUE DOSE CERTA) ==================== -->
   <main id="viewProgramas" class="view-section hidden flex-grow max-w-7xl mx-auto px-4 py-8 w-full">
     <div class="border-l-4 border-sp-blue pl-3 mb-6">
       <span class="text-xs font-bold text-sp-blue uppercase tracking-wider">Serviços ao Cidadão</span>
       <h2 class="text-xl sm:text-3xl font-black text-sp-darkBlue uppercase">Programas Oficiais da Saúde Paulista</h2>
       <p class="text-xs text-neutral-500 mt-1">Iniciativas, carretas de mamografia e doação de sangue no SUS.</p>
     </div>
+
+    <!-- BANNER DE DESTAQUE: SOLICITAR REMÉDIO DENTRO DE PROGRAMAS -->
+    <div class="bg-gradient-to-r from-emerald-900 to-teal-950 text-white p-6 rounded-2xl shadow-md border border-emerald-400/40 mb-8 flex flex-col sm:flex-row items-center justify-between gap-4">
+      <div class="flex items-center gap-4">
+        <div class="w-12 h-12 rounded-xl bg-emerald-500/20 text-emerald-300 flex items-center justify-center flex-shrink-0 border border-emerald-400/30">
+          <i data-lucide="pill" class="w-6 h-6"></i>
+        </div>
+        <div>
+          <span class="text-[10px] font-black uppercase tracking-wider bg-emerald-500/30 text-emerald-200 px-2 py-0.5 rounded">Programa Farmacêutico</span>
+          <h3 class="text-base sm:text-lg font-black uppercase mt-1">Programa Dose Certa — Medicamentos Gratuitos</h3>
+          <p class="text-xs text-emerald-100 mt-0.5">Faça a solicitação eletrônica de medicamentos contínuos e de alto custo sem filas.</p>
+        </div>
+      </div>
+      <button onclick="irParaPagina('medicamentos')" class="w-full sm:w-auto bg-white text-emerald-950 hover:bg-neutral-100 font-black px-5 py-2.5 rounded-lg text-xs uppercase shadow transition whitespace-nowrap">
+        Solicitar Remédio Online →
+      </button>
+    </div>
+
     <div id="gridProgramas" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4"></div>
   </main>
 
@@ -659,7 +646,7 @@
       </div>
     </div>
 
-    <!-- Abas do Admin com Rolagem Suave no Mobile -->
+    <!-- Abas do Admin com Rolagem Suave -->
     <div class="flex gap-2 mb-6 border-b border-neutral-300 pb-3 overflow-x-auto whitespace-nowrap">
       <button onclick="mudarAba('transparencia')" id="tabTransparencia" class="px-3 py-2 rounded text-xs font-bold uppercase bg-sp-blue text-white shadow-sm flex-shrink-0">
         💰 Orçamento & Repasses
@@ -713,9 +700,7 @@
           <input type="hidden" id="destId">
           <div>
             <label class="font-bold text-neutral-700">Entidade / Programa Beneficiado</label>
-            <select id="destEntidade" onchange="atualizarNomeDestinacaoAuto()" class="w-full p-2 border rounded mt-1 font-bold">
-              <!-- Gerado via JS dinamicamente -->
-            </select>
+            <select id="destEntidade" onchange="atualizarNomeDestinacaoAuto()" class="w-full p-2 border rounded mt-1 font-bold"></select>
           </div>
           <div>
             <label class="font-bold text-neutral-700">Título do Repasse</label>
@@ -1030,7 +1015,7 @@
       </div>
     </section>
 
-    <!-- ABA 7: ALERTAS & WEBHOOKS (2 WEBHOOKS SEPARADOS) -->
+    <!-- ABA 7: ALERTAS & WEBHOOKS -->
     <section id="secAlerta" class="hidden space-y-6">
       
       <!-- 2 WEBHOOKS DISCORD -->
@@ -1091,7 +1076,7 @@
             <label class="font-bold text-neutral-700">URL / Link da Ouvidoria</label>
             <input type="url" id="adminInputOuvidoria" required placeholder="https://fala.sp.gov.br" class="w-full text-xs p-2.5 border rounded mt-1 font-semibold focus:border-sp-blue outline-none">
           </div>
-          <button type="submit" class="bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold px-4 py-2 rounded uppercase shadow">
+          <button type="submit" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-4 py-2 rounded uppercase shadow">
             Salvar Link da Ouvidoria
           </button>
         </form>
@@ -1358,7 +1343,15 @@
     };
 
     const IMG_FALLBACK = "data:image/svg+xml;charset=UTF-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22600%22%20height%3D%22400%22%20viewBox%3D%220%200%20600%20400%22%3E%3Crect%20fill%3D%22%23071D41%22%20width%3D%22600%22%20height%3D%22400%22%2F%3E%3Ctext%20fill%3D%22%23FFCD07%22%20font-family%3D%22sans-serif%22%20font-size%3D%2220%22%20font-weight%3D%22bold%22%20x%3D%2250%25%22%20y%3D%2248%25%22%20text-anchor%3D%22middle%22%3EGOVERNO%20DO%20ESTADO%20DE%20S%C3%83O%20PAULO%3C%2Ftext%3E%3Ctext%20fill%3D%22%23ffffff%22%20font-family%3D%22sans-serif%22%20font-size%3D%2214%22%20x%3D%2250%25%22%20y%3D%2256%25%22%20text-anchor%3D%22middle%22%3ESecretaria%20de%20Estado%20da%20Sa%C3%BAde%3C%2Ftext%3E%3C%2Fsvg%3E";
-    const AVATAR_FALLBACK = "data:image/svg+xml;charset=UTF-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22200%22%20height%3D%22200%22%20viewBox%3D%220%200%20200%20200%22%3E%3Crect%20fill%3D%22%23E2E8F0%22%20width%3D%22200%22%20height%3D%22200%22%2F%3E%3Ccircle%20cx%3D%22100%22%20cy%3D%2275%22%20r%3D%2240%22%20fill%3D%22%2394A3B8%22%2F%3E%3Cpath%20d%3D%22M30%20180%20c0%20-40%2035%20-60%2070%20-60%20s70%2020%2070%2060%20z%22%20fill%3D%22%2394A3B8%22%2F%3E%3C%2Fsvg%3E";
+
+    // GERADOR DE EMBLEMA INSTITUCIONAL NEUTRO (SEM FOTOS FAKES DE PESSOAS)
+    function gerarEmblemaPadraoHtml(corBorda = 'border-sp-blue', corFundo = 'bg-sp-darkBlue') {
+      return `
+        <div style="width: 64px; height: 64px; min-width: 64px; min-height: 64px;" class="w-16 h-16 rounded-full ${corFundo} text-sp-yellow flex items-center justify-center border-2 ${corBorda} flex-shrink-0 shadow-sm">
+          <i data-lucide="user" class="w-7 h-7 text-white/90"></i>
+        </div>
+      `;
+    }
 
     const CARGOS_OFICIAIS_SES = [
       "Secretário de Estado da Saúde",
@@ -1393,7 +1386,7 @@
         descricao: "Atendimento psicológico comunitário, suporte contínuo a servidores, laudos de aptidão funcional para forças de segurança, homologação de porte de arma e regulação de urgências psiquiátricas integradas ao SAMU 192."
       },
       iepEquipe: [
-        { id: "1", cargo: "Diretor-Geral do IEP-SP", nome: "Dr. Delamo Meira", descricao: "Médico Psiquiatra e Especialista em Gestão de Unidades de Saúde Mental.", foto: "https://images.unsplash.com/photo-1537368910025-700350fe46c7?w=500&auto=format&fit=crop&q=80", ativo: true },
+        { id: "1", cargo: "Diretor-Geral do IEP-SP", nome: "Dr. Delamo Meira", descricao: "Médico Psiquiatra e Especialista em Gestão de Unidades de Saúde Mental.", foto: "", ativo: true },
         { id: "2", cargo: "Diretor Clínico / Psiquiatria de Referência", nome: "", descricao: "", foto: "", ativo: false },
         { id: "3", cargo: "Coordenador de Perícias e Laudos Funcionais", nome: "", descricao: "", foto: "", ativo: false },
         { id: "4", cargo: "Coordenador de Urgências Psiquiátricas / SAMU", nome: "", descricao: "", foto: "", ativo: false },
@@ -1419,7 +1412,7 @@
         { id: "4", nome: "Losartana Potássica 50mg", categoria: "Uso Contínuo / Crônicos", descricao: "Anti-hipertensivo para controle da pressão arterial em adultos e idosos." }
       ],
       equipe: [
-        { id: "1", cargo: "Secretário de Estado da Saúde", nome: "Dr. Eleuses Paiva", descricao: "Médico e Gestor Público. Titular da pasta da Saúde de São Paulo.", foto: "https://images.unsplash.com/photo-1537368910025-700350fe46c7?w=500&auto=format&fit=crop&q=80", ativo: true },
+        { id: "1", cargo: "Secretário de Estado da Saúde", nome: "Dr. Eleuses Paiva", descricao: "Médico e Gestor Público. Titular da pasta da Saúde de São Paulo.", foto: "", ativo: true },
         { id: "2", cargo: "Secretário-Adjunto da Saúde", nome: "", descricao: "", foto: "", ativo: false },
         { id: "3", cargo: "Chefe de Gabinete da SES", nome: "", descricao: "", foto: "", ativo: false },
         { id: "4", cargo: "Coordenador de Regulação e Leitos", nome: "", descricao: "", foto: "", ativo: false },
@@ -1751,14 +1744,10 @@
       const elIepSede = document.getElementById("iepPubSede");
       const elIepGestor = document.getElementById("iepPubGestor");
       const elIepDir = document.getElementById("iepPubDiretorSamu");
-      const elHomeIepSede = document.getElementById("homeIepSedeDestaque");
-      const elHomeIepDesc = document.getElementById("homeIepDescricao");
 
       if (elIepSede) elIepSede.innerText = cfg.sede;
       if (elIepGestor) elIepGestor.innerText = cfg.gestor;
       if (elIepDir) elIepDir.innerText = cfg.diretorSamu;
-      if (elHomeIepSede) elHomeIepSede.innerText = cfg.sede;
-      if (elHomeIepDesc) elHomeIepDesc.innerText = cfg.descricao;
 
       const inCfgSede = document.getElementById("iepCfgSede");
       const inCfgDir = document.getElementById("iepCfgDiretorSamu");
@@ -2246,7 +2235,7 @@
       document.getElementById("formRemedioTitle").innerText = "Adicionar Medicamento ao Estoque";
     }
 
-    // --- CARGOS INTERNOS DO IEP-SP (CORRIGIDO: DIMENSÕES FIXAS W-16 H-16) ---
+    // --- CARGOS INTERNOS DO IEP-SP (SEM FOTOS FAKES) ---
     function renderizarEquipeIep() {
       const secao = document.getElementById("secaoEquipeIep");
       const container = document.getElementById("gridEquipeIep");
@@ -2258,18 +2247,24 @@
       }
 
       secao.classList.remove("hidden");
-      container.innerHTML = lista.map(m => `
-        <div class="bg-white rounded-xl border border-neutral-200 shadow-sm p-4 flex items-center gap-3.5 hover:shadow-md transition">
-          <img src="${m.foto || AVATAR_FALLBACK}" alt="${m.nome}" onerror="this.onerror=null;this.src='${AVATAR_FALLBACK}'" style="width: 64px; height: 64px; min-width: 64px; min-height: 64px;" class="w-16 h-16 rounded-full object-cover border-2 border-indigo-700 flex-shrink-0 bg-neutral-100 shadow-sm">
-          <div class="min-w-0 flex-1">
-            <span class="text-[9px] font-black uppercase text-indigo-700 bg-indigo-50 px-2 py-0.5 rounded tracking-wider block mb-1 truncate">
-              ${m.cargo}
-            </span>
-            <h4 class="font-bold text-neutral-900 text-sm leading-snug truncate">${m.nome}</h4>
-            <p class="text-[11px] text-neutral-500 mt-0.5 line-clamp-2 leading-relaxed">${m.descricao || 'Corpo clínico e pericial do IEP-SP.'}</p>
+      container.innerHTML = lista.map(m => {
+        const fotoHtml = (m.foto && m.foto.trim() !== "")
+          ? `<img src="${m.foto}" alt="${m.nome}" style="width: 64px; height: 64px; min-width: 64px; min-height: 64px;" class="w-16 h-16 rounded-full object-cover border-2 border-indigo-700 flex-shrink-0 bg-neutral-100 shadow-sm">`
+          : gerarEmblemaPadraoHtml('border-indigo-700', 'bg-indigo-950');
+
+        return `
+          <div class="bg-white rounded-xl border border-neutral-200 shadow-sm p-4 flex items-center gap-3.5 hover:shadow-md transition">
+            ${fotoHtml}
+            <div class="min-w-0 flex-1">
+              <span class="text-[9px] font-black uppercase text-indigo-700 bg-indigo-50 px-2 py-0.5 rounded tracking-wider block mb-1 truncate">
+                ${m.cargo}
+              </span>
+              <h4 class="font-bold text-neutral-900 text-sm leading-snug truncate">${m.nome}</h4>
+              <p class="text-[11px] text-neutral-500 mt-0.5 line-clamp-2 leading-relaxed">${m.descricao || 'Corpo clínico e pericial do IEP-SP.'}</p>
+            </div>
           </div>
-        </div>
-      `).join("");
+        `;
+      }).join("");
       lucide.createIcons();
     }
 
@@ -2356,7 +2351,7 @@
       document.getElementById("formEquipeIepTitle").innerText = "2. Nomear / Editar Cargos Internos do IEP-SP";
     }
 
-    // --- CORPO DIRETIVO GERAL SES ---
+    // --- CORPO DIRETIVO GERAL SES (SEM FOTOS FAKES) ---
     function renderizarEquipe() {
       const container = document.getElementById("gridEquipe");
       const nomeados = app.equipe.filter(m => m.ativo && m.nome && m.nome.trim() !== "");
@@ -2366,18 +2361,24 @@
         return;
       }
 
-      container.innerHTML = nomeados.map(m => `
-        <div class="bg-white rounded-xl border border-neutral-200 shadow-sm p-4 flex items-center gap-3.5 hover:shadow-md transition">
-          <img src="${m.foto || AVATAR_FALLBACK}" alt="${m.nome}" onerror="this.onerror=null;this.src='${AVATAR_FALLBACK}'" style="width: 64px; height: 64px; min-width: 64px; min-height: 64px;" class="w-16 h-16 rounded-full object-cover border-2 border-sp-blue flex-shrink-0 bg-neutral-100 shadow-sm">
-          <div class="min-w-0 flex-1">
-            <span class="text-[9px] font-black uppercase text-sp-blue bg-blue-50 px-2 py-0.5 rounded tracking-wider block mb-1 truncate">
-              ${m.cargo}
-            </span>
-            <h4 class="font-bold text-neutral-900 text-sm leading-snug truncate">${m.nome}</h4>
-            <p class="text-[11px] text-neutral-500 mt-0.5 line-clamp-2 leading-relaxed">${m.descricao || 'Nomeação Oficial pelo Diário do Estado.'}</p>
+      container.innerHTML = nomeados.map(m => {
+        const fotoHtml = (m.foto && m.foto.trim() !== "")
+          ? `<img src="${m.foto}" alt="${m.nome}" style="width: 64px; height: 64px; min-width: 64px; min-height: 64px;" class="w-16 h-16 rounded-full object-cover border-2 border-sp-blue flex-shrink-0 bg-neutral-100 shadow-sm">`
+          : gerarEmblemaPadraoHtml('border-sp-blue', 'bg-sp-darkBlue');
+
+        return `
+          <div class="bg-white rounded-xl border border-neutral-200 shadow-sm p-4 flex items-center gap-3.5 hover:shadow-md transition">
+            ${fotoHtml}
+            <div class="min-w-0 flex-1">
+              <span class="text-[9px] font-black uppercase text-sp-blue bg-blue-50 px-2 py-0.5 rounded tracking-wider block mb-1 truncate">
+                ${m.cargo}
+              </span>
+              <h4 class="font-bold text-neutral-900 text-sm leading-snug truncate">${m.nome}</h4>
+              <p class="text-[11px] text-neutral-500 mt-0.5 line-clamp-2 leading-relaxed">${m.descricao || 'Nomeação Oficial pelo Diário do Estado.'}</p>
+            </div>
           </div>
-        </div>
-      `).join("");
+        `;
+      }).join("");
       lucide.createIcons();
     }
 
@@ -2460,7 +2461,7 @@
       document.getElementById("formEquipeTitle").innerText = "Nomear / Editar Cargo Geral SES";
     }
 
-    // --- PROGRAMAS NA HOME (VOCÊ ESCOLHE QUAIS APARECEM) ---
+    // --- PROGRAMAS NA HOME (VOCÊ ESCOLHE O QUE MOSTRAR) ---
     function renderizarHomeProgramas() {
       const container = document.getElementById("homeGridProgramas");
       const ativos = app.programas.filter(p => p.ativo);
