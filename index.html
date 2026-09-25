@@ -52,9 +52,24 @@
     #menuMobile { max-height: 0; overflow: hidden; transition: max-height .3s ease; }
     .pulse-dot { animation: pulse 2s infinite; }
     @keyframes pulse { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: .4; transform: scale(1.2); } }
+    @keyframes splash-pulso { 0%, 100% { transform: scale(1); opacity: 1; } 50% { transform: scale(1.07); opacity: .85; } }
+    .splash-logo { animation: splash-pulso 1.6s ease-in-out infinite; }
   </style>
+<base target="_blank">
 </head>
 <body class="bg-sp-gray text-neutral-800 min-h-screen flex flex-col antialiased font-sans">
+
+  <!-- ============ TELA DE CARREGAMENTO INICIAL ============ -->
+  <div id="splashScreen" class="fixed inset-0 z-[100] bg-sp-darkBlue flex flex-col items-center justify-center px-6 transition-opacity duration-700">
+    <div class="splash-logo bg-sp-blue text-white rounded-2xl w-16 h-16 flex items-center justify-center font-black text-2xl shadow-2xl mb-4">SUS</div>
+    <p class="text-white font-black uppercase tracking-widest text-sm text-center">Secretaria de Estado da Saúde</p>
+    <p class="text-blue-200 text-[10px] uppercase tracking-wider mt-1 text-center">Governo do Estado de São Paulo</p>
+    <div class="mt-7 w-52 h-1.5 bg-white/10 rounded-full overflow-hidden">
+      <div id="splashBarra" class="h-full bg-sp-yellow rounded-full transition-all duration-500" style="width: 10%"></div>
+    </div>
+    <p id="splashTexto" class="text-blue-200/70 text-[10px] mt-3 uppercase tracking-wider">Iniciando portal oficial...</p>
+  </div>
+
 
   <!-- BARRA DE ACESSIBILIDADE GOVERNO DE SP -->
   <div class="bg-sp-darkBlue text-white text-[11px] border-b border-white/10">
@@ -1611,8 +1626,10 @@
               localStorage.setItem("ses_noticias", JSON.stringify(app.noticias));
 
               atualizarTudo(false);
+              ocultarSplash(); // dados oficiais carregados: libera o portal
             } else {
               salvarEstadoGlobal();
+              ocultarSplash();
             }
           });
         } catch (e) {
@@ -1660,12 +1677,18 @@
 
     window.addEventListener("DOMContentLoaded", () => {
       try {
+        definirSplashProgresso(30, "Carregando dados salvos...");
         atualizarTudo(false);
+        definirSplashProgresso(60, "Conectando à nuvem oficial...");
         inicializarNuvem();
         const hashAtual = window.location.hash.replace("#/", "").trim();
         irParaPagina(hashAtual || "inicio", false);
+        definirSplashProgresso(85, "Preparando o portal...");
       } catch (err) {
         console.error("Erro na inicialização:", err);
+      } finally {
+        // Só some de vez se a nuvem responder OU após 2s (fallback local)
+        setTimeout(() => { definirSplashProgresso(100, "Pronto!"); ocultarSplash(); }, 2000);
       }
     });
 
@@ -2659,6 +2682,347 @@
           </div>
         `).join("");
       }
+    }
+
+    // ==================== TELA DE CARREGAMENTO (SPLASH) ====================
+    let splashResolvido = false;
+
+    function definirSplashProgresso(pct, msg) {
+      const barra = document.getElementById("splashBarra");
+      const texto = document.getElementById("splashTexto");
+      if (barra) barra.style.width = pct + "%";
+      if (texto && msg) texto.innerText = msg;
+    }
+
+    function ocultarSplash() {
+      if (splashResolvido) return;
+      splashResolvido = true;
+      const s = document.getElementById("splashScreen");
+      if (!s) return;
+      definirSplashProgresso(100, "Pronto!");
+      s.classList.add("opacity-0");
+      setTimeout(() => { s.style.display = "none"; }, 700);
+    }
+
+    // ==================== RENDERIZAÇÕES PÚBLICAS (RESTAURADAS) ====================
+
+    // --- DESTINAÇÕES / REPASSES (PÁGINA TRANSPARÊNCIA) ---
+    function renderizarDestinacoesPublicas(totalOrc) {
+      const div = document.getElementById("listaPublicaDestinacoes");
+      if (!div) return;
+      const lista = garantirArray(app.orcamento.destinacoes, []);
+      if (lista.length === 0) {
+        div.innerHTML = '<p class="p-6 text-center text-neutral-400 font-semibold">Nenhum repasse cadastrado até o momento.</p>';
+        return;
+      }
+      div.innerHTML = lista.map((d, i) => {
+        const perc = totalOrc > 0 ? Math.min(100, (Number(d.valor || 0) / totalOrc) * 100) : 0;
+        const cor = CORES_DESTINACOES[i % CORES_DESTINACOES.length];
+        return `
+          <div class="p-4 hover:bg-neutral-50 transition">
+            <div class="flex flex-wrap justify-between items-center gap-2 mb-1.5">
+              <div class="flex items-center gap-2 min-w-0">
+                <span class="w-2.5 h-2.5 rounded-full ${cor} flex-shrink-0"></span>
+                <strong class="text-neutral-900 truncate">${d.nome}</strong>
+              </div>
+              <span class="font-black text-emerald-700">${formatarMoeda(d.valor)}</span>
+            </div>
+            <p class="text-[11px] text-neutral-500 mb-2 pl-5">${d.entidade ? d.entidade + ' — ' : ''}${d.descricao || ''}</p>
+            <div class="w-full bg-neutral-200 rounded-full h-2 overflow-hidden">
+              <div class="${cor} h-2 rounded-full transition-all duration-700" style="width:${perc}%"></div>
+            </div>
+          </div>`;
+      }).join("");
+    }
+
+    // --- PROGRAMAS (CARD PADRÃO UNIFORME) ---
+    function iconeProgramaHtml(p) {
+      const cat = ((p.categoria || '') + ' ' + (p.nome || '')).toLowerCase();
+      let icone = 'heart-handshake';
+      let corIcone = 'text-sp-blue bg-blue-50';
+      if (cat.includes('psicolog') || cat.includes('mental') || cat.includes('pericia')) {
+        icone = 'brain'; corIcone = 'text-indigo-700 bg-indigo-50';
+      } else if (cat.includes('medicamento') || cat.includes('farmac')) {
+        icone = 'pill'; corIcone = 'text-emerald-700 bg-emerald-50';
+      } else if (cat.includes('sangue') || cat.includes('doa')) {
+        icone = 'droplets'; corIcone = 'text-red-600 bg-red-50';
+      } else if (cat.includes('preven') || cat.includes('vacin') || cat.includes('mulher')) {
+        icone = 'ribbon'; corIcone = 'text-pink-600 bg-pink-50';
+      }
+      return `<div class="w-11 h-11 rounded-xl ${corIcone} flex items-center justify-center mb-3"><i data-lucide="${icone}" class="w-5 h-5"></i></div>`;
+    }
+
+    function botaoProgramaHtml(p) {
+      const link = (p.link || '').trim();
+      const classe = "mt-5 w-full bg-sp-blue hover:bg-sp-darkBlue text-white font-black py-2.5 rounded-lg text-xs uppercase tracking-wide transition shadow";
+      if (link.startsWith('#/')) {
+        return `<button onclick="irParaPagina('${link.replace('#/', '')}')" class="${classe}">Acessar Programa →</button>`;
+      }
+      if (link.startsWith('http')) {
+        return `<button onclick="window.open('${link}','_blank','noopener')" class="${classe}">Acessar Programa →</button>`;
+      }
+      return `<div class="mt-5 w-full bg-neutral-100 text-neutral-400 font-black py-2.5 rounded-lg text-xs uppercase tracking-wide text-center">Em Breve</div>`;
+    }
+
+    function cardProgramaHtml(p) {
+      return `
+        <div class="bg-white rounded-xl border border-neutral-200 border-t-4 border-sp-blue shadow-sm p-6 flex flex-col hover:shadow-md transition">
+          ${iconeProgramaHtml(p)}
+          <span class="text-[9px] font-black uppercase tracking-wider text-sp-blue">${p.categoria || 'Programa'}</span>
+          <h4 class="font-black text-neutral-900 text-sm uppercase mt-1 leading-tight">${p.nome}</h4>
+          <p class="text-[11px] text-neutral-500 mt-2 leading-relaxed flex-grow">${p.descricao || ''}</p>
+          ${botaoProgramaHtml(p)}
+        </div>`;
+    }
+
+    function renderizarProgramas() {
+      const grid = document.getElementById("gridProgramas");
+      if (!grid) return;
+      const lista = garantirArray(app.programas, []).filter(p => p.ativo !== false);
+      if (lista.length === 0) {
+        grid.innerHTML = '<p class="col-span-full text-center text-neutral-400 text-xs font-semibold py-10">Nenhum programa oficial cadastrado.</p>';
+        return;
+      }
+      grid.innerHTML = lista.map(p => cardProgramaHtml(p)).join("");
+    }
+
+    function renderizarHomeProgramas() {
+      const grid = document.getElementById("homeGridProgramas");
+      if (!grid) return;
+      const lista = garantirArray(app.programas, []).filter(p => p.ativo !== false).slice(0, 6);
+      if (lista.length === 0) {
+        grid.innerHTML = '<p class="col-span-full text-center text-neutral-400 text-xs font-semibold py-10">Nenhum programa oficial cadastrado.</p>';
+        return;
+      }
+      grid.innerHTML = lista.map(p => cardProgramaHtml(p)).join("");
+    }
+
+    // --- HOSPITAIS ---
+    function renderizarHospitais() {
+      const grid = document.getElementById("gridHospitais");
+      if (!grid) return;
+      const inputBusca = document.getElementById("buscaHospital");
+      const selRegiao = document.getElementById("filtroRegiao");
+      const busca = inputBusca ? inputBusca.value.toLowerCase().trim() : "";
+      const regiao = selRegiao ? selRegiao.value : "todas";
+
+      const lista = garantirArray(app.hospitais, []).filter(h => {
+        const okRegiao = regiao === "todas" || h.regiao === regiao;
+        const okBusca = !busca || (h.nome || "").toLowerCase().includes(busca);
+        return okRegiao && okBusca;
+      });
+
+      const semRes = document.getElementById("semResultadoHospital");
+      if (lista.length === 0) {
+        grid.innerHTML = "";
+        if (semRes) semRes.classList.remove("hidden");
+        return;
+      }
+      if (semRes) semRes.classList.add("hidden");
+
+      const coresStatus = {
+        "Operando Normalmente": "bg-emerald-100 text-emerald-800",
+        "Alta Demanda": "bg-amber-100 text-amber-800",
+        "Em Obras / Parcial": "bg-neutral-200 text-neutral-700",
+        "Pronto-Socorro Restrito": "bg-red-100 text-red-700"
+      };
+
+      grid.innerHTML = lista.map(h => `
+        <div class="bg-white rounded-xl border border-neutral-200 shadow-sm overflow-hidden hover:shadow-md transition flex flex-col">
+          <div class="relative h-36 bg-sp-darkBlue">
+            <img src="${h.foto || IMG_FALLBACK}" onerror="this.onerror=null;this.src='${IMG_FALLBACK}'" alt="${h.nome}" class="w-full h-full object-cover">
+            <span class="absolute top-2.5 left-2.5 text-[9px] font-black uppercase px-2 py-1 rounded ${coresStatus[h.status] || 'bg-emerald-100 text-emerald-800'}">${h.status || 'Operando'}</span>
+          </div>
+          <div class="p-4 flex flex-col flex-grow">
+            <span class="text-[9px] font-bold uppercase text-sp-blue tracking-wider">${h.tipo || 'Unidade'} • ${(h.regiao || '').toUpperCase()}</span>
+            <h4 class="font-black text-neutral-900 text-sm mt-1 leading-tight">${h.nome}</h4>
+            <p class="text-[11px] text-neutral-500 mt-1.5 leading-relaxed">${h.endereco || ''}</p>
+            <div class="mt-3 pt-3 border-t border-neutral-100 flex flex-wrap items-center justify-between gap-2 text-[11px] text-neutral-600">
+              <span class="flex items-center gap-1.5"><i data-lucide="bed" class="w-3.5 h-3.5 text-sp-blue"></i> <strong>${h.leitos || 0}</strong> leitos/vagas</span>
+              <span class="flex items-center gap-1.5"><i data-lucide="phone" class="w-3.5 h-3.5 text-sp-blue"></i> ${h.telefone || '-'}</span>
+            </div>
+          </div>
+        </div>`).join("");
+      if (window.lucide) lucide.createIcons();
+    }
+
+    // --- NOTÍCIAS ---
+    function abrirNoticia(id) {
+      const n = garantirArray(app.noticias, []).find(x => String(x.id) === String(id));
+      if (!n) return;
+      const img = document.getElementById("mNoticiaImg");
+      if (img) {
+        img.src = n.imagem || IMG_FALLBACK;
+        img.onerror = function(){ this.onerror = null; this.src = IMG_FALLBACK; };
+      }
+      document.getElementById("mNoticiaCat").innerText = n.categoria || 'Geral';
+      document.getElementById("mNoticiaTitulo").innerText = n.titulo || '';
+      document.getElementById("mNoticiaData").innerText = n.data || '';
+      document.getElementById("mNoticiaTexto").innerText = n.resumo || '';
+      const box = document.getElementById("mNoticiaLinkBox");
+      if (n.link && n.link.startsWith('http')) {
+        box.classList.remove('hidden');
+        document.getElementById("mNoticiaLink").href = n.link;
+      } else if (box) {
+        box.classList.add('hidden');
+      }
+      document.getElementById("modalNoticia").style.display = "flex";
+      if (window.lucide) lucide.createIcons();
+    }
+
+    function renderizarNoticias() {
+      const grid = document.getElementById("gridNoticias");
+      if (!grid) return;
+      const lista = garantirArray(app.noticias, []);
+      if (lista.length === 0) {
+        grid.innerHTML = '<p class="p-6 text-center text-neutral-400 text-xs font-semibold">Nenhuma notícia publicada.</p>';
+        return;
+      }
+      grid.innerHTML = lista.map(n => `
+        <button onclick="abrirNoticia('${n.id}')" class="w-full text-left p-4 sm:p-5 hover:bg-neutral-50 transition flex items-start gap-4">
+          <img src="${n.imagem || IMG_FALLBACK}" onerror="this.onerror=null;this.src='${IMG_FALLBACK}'" alt="" class="w-20 h-16 sm:w-28 sm:h-20 rounded-lg object-cover flex-shrink-0 border border-neutral-200 bg-sp-darkBlue">
+          <div class="min-w-0">
+            <div class="flex items-center gap-2 flex-wrap">
+              <span class="text-[9px] font-black uppercase text-sp-blue bg-blue-50 px-2 py-0.5 rounded">${n.categoria || 'Geral'}</span>
+              <span class="text-[10px] text-neutral-400 font-semibold">${n.data || ''}</span>
+            </div>
+            <h4 class="font-black text-neutral-900 text-sm mt-1.5 leading-snug">${n.titulo || ''}</h4>
+            <p class="text-[11px] text-neutral-500 mt-1 line-clamp-2">${n.resumo || ''}</p>
+          </div>
+        </button>`).join("");
+    }
+
+    function renderizarHomeNoticias() {
+      const grid = document.getElementById("homeGridNoticias");
+      if (!grid) return;
+      const lista = garantirArray(app.noticias, []).slice(0, 2);
+      if (lista.length === 0) {
+        grid.innerHTML = '<p class="col-span-full text-center text-neutral-400 text-xs font-semibold py-8">Nenhuma notícia publicada.</p>';
+        return;
+      }
+      grid.innerHTML = lista.map(n => `
+        <button onclick="abrirNoticia('${n.id}')" class="text-left bg-white rounded-xl border border-neutral-200 shadow-sm overflow-hidden hover:shadow-md transition group">
+          <div class="h-40 bg-sp-darkBlue overflow-hidden">
+            <img src="${n.imagem || IMG_FALLBACK}" onerror="this.onerror=null;this.src='${IMG_FALLBACK}'" alt="" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+          </div>
+          <div class="p-4">
+            <div class="flex items-center gap-2">
+              <span class="text-[9px] font-black uppercase text-sp-blue bg-blue-50 px-2 py-0.5 rounded">${n.categoria || 'Geral'}</span>
+              <span class="text-[10px] text-neutral-400 font-semibold">${n.data || ''}</span>
+            </div>
+            <h4 class="font-black text-neutral-900 text-sm mt-2 leading-snug group-hover:text-sp-blue transition">${n.titulo || ''}</h4>
+            <p class="text-[11px] text-neutral-500 mt-1.5 line-clamp-2">${n.resumo || ''}</p>
+          </div>
+        </button>`).join("");
+    }
+
+    // --- EQUIPE SES (PÁGINA PÚBLICA) ---
+    function renderizarEquipe() {
+      const grid = document.getElementById("gridEquipe");
+      if (!grid) return;
+      const lista = garantirArray(app.equipe, []).filter(m => m.ativo && m.nome && m.nome.trim() !== "");
+      if (lista.length === 0) {
+        grid.innerHTML = '<p class="col-span-full text-center text-neutral-400 text-xs font-semibold py-10">Nenhum titular nomeado no momento.</p>';
+        return;
+      }
+      grid.innerHTML = lista.map(m => {
+        const fotoHtml = (m.foto && m.foto.startsWith('data:'))
+          ? `<img src="${m.foto}" alt="${m.nome}" class="w-16 h-16 rounded-full object-cover border-2 border-sp-blue flex-shrink-0">`
+          : gerarEmblemaPadraoHtml('border-sp-blue', 'bg-sp-darkBlue');
+        return `
+          <div class="bg-white rounded-xl border border-neutral-200 shadow-sm p-5 flex items-start gap-4 hover:shadow-md transition">
+            ${fotoHtml}
+            <div class="min-w-0">
+              <span class="text-[9px] font-black uppercase text-sp-blue bg-blue-50 px-2 py-0.5 rounded">${m.cargo}</span>
+              <h4 class="font-black text-neutral-900 text-sm mt-1.5 leading-tight">${m.nome}</h4>
+              <p class="text-[11px] text-neutral-500 mt-1 leading-relaxed">${m.descricao || ''}</p>
+            </div>
+          </div>`;
+      }).join("");
+    }
+
+    // --- EQUIPE IEP-SP (PÁGINA PÚBLICA) ---
+    function renderizarEquipeIep() {
+      const grid = document.getElementById("gridEquipeIep");
+      if (!grid) return;
+      const lista = garantirArray(app.iepEquipe, []).filter(m => m.ativo && m.nome && m.nome.trim() !== "");
+      if (lista.length === 0) {
+        grid.innerHTML = '<p class="col-span-full text-center text-neutral-400 text-xs font-semibold py-8">Lideranças serão publicadas em breve.</p>';
+        return;
+      }
+      grid.innerHTML = lista.map(m => {
+        const fotoHtml = (m.foto && m.foto.startsWith('data:'))
+          ? `<img src="${m.foto}" alt="${m.nome}" class="w-16 h-16 rounded-full object-cover border-2 border-indigo-700 flex-shrink-0">`
+          : gerarEmblemaPadraoHtml('border-indigo-700', 'bg-indigo-800');
+        return `
+          <div class="bg-white rounded-xl border border-neutral-200 shadow-sm p-5 flex items-start gap-4 hover:shadow-md transition">
+            ${fotoHtml}
+            <div class="min-w-0">
+              <span class="text-[9px] font-black uppercase text-indigo-700 bg-indigo-50 px-2 py-0.5 rounded">${m.cargo}</span>
+              <h4 class="font-black text-neutral-900 text-sm mt-1.5 leading-tight">${m.nome}</h4>
+              <p class="text-[11px] text-neutral-500 mt-1 leading-relaxed">${m.descricao || ''}</p>
+            </div>
+          </div>`;
+      }).join("");
+    }
+
+    // --- LISTA PÚBLICA DE MEDICAMENTOS ---
+    function renderizarListaRemediosPublica() {
+      const grid = document.getElementById("gridRemediosPublica");
+      if (!grid) return;
+      const inputBusca = document.getElementById("buscaRemedio");
+      const busca = inputBusca ? inputBusca.value.toLowerCase().trim() : "";
+      const lista = garantirArray(app.medicamentos, []).filter(m =>
+        !busca ||
+        (m.nome || '').toLowerCase().includes(busca) ||
+        (m.categoria || '').toLowerCase().includes(busca) ||
+        (m.descricao || '').toLowerCase().includes(busca)
+      );
+      const cont = document.getElementById("contagemRemedios");
+      if (cont) cont.innerText = lista.length + " item(ns)";
+      if (lista.length === 0) {
+        grid.innerHTML = '<p class="py-8 text-center text-neutral-400 font-semibold">Nenhum medicamento encontrado.</p>';
+        return;
+      }
+      grid.innerHTML = lista.map(m => `
+        <div class="py-3 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+          <div class="min-w-0">
+            <div class="flex items-center gap-2 flex-wrap">
+              <strong class="text-neutral-900">${m.nome}</strong>
+              <span class="text-[9px] font-bold text-emerald-800 bg-emerald-50 px-1.5 py-0.5 rounded uppercase">${m.categoria || ''}</span>
+            </div>
+            <p class="text-[11px] text-neutral-500 mt-0.5">${m.descricao || ''}</p>
+          </div>
+          <button onclick="selecionarRemedioDiretoNoForm('${String(m.nome).replace(/'/g, "\\'")}')" class="self-end sm:self-center bg-emerald-600 hover:bg-emerald-700 text-white font-black text-[10px] uppercase px-3 py-1.5 rounded-lg shadow-sm transition flex-shrink-0">
+            Pedir Este
+          </button>
+        </div>`).join("");
+      if (window.lucide) lucide.createIcons();
+    }
+
+    // --- FUNÇÕES DO PAINEL QUE ESTAVAM SEM DEFINIÇÃO ---
+    function salvarAlerta() {
+      app.alerta = {
+        ativo: document.getElementById("chkAlertaAtivo").checked,
+        nivel: document.getElementById("selAlertaNivel").value,
+        mensagem: document.getElementById("adminInputAlerta").value.trim()
+      };
+      atualizarTudo(true);
+      mostrarToast("Alerta atualizado com sucesso!");
+    }
+
+    function removerAlerta() {
+      app.alerta = { ativo: false, nivel: "atencao", mensagem: "" };
+      atualizarTudo(true);
+      mostrarToast("Banner de alerta desativado!");
+    }
+
+    function salvarOuvidoria(e) {
+      e.preventDefault();
+      const url = document.getElementById("adminInputOuvidoria").value.trim();
+      app.ouvidoria = url || "https://fala.sp.gov.br";
+      atualizarTudo(true);
+      mostrarToast("Link da Ouvidoria salvo!");
     }
 
     // --- SEGURANÇA E LOGIN ---
