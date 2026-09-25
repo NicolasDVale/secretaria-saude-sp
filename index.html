@@ -56,17 +56,6 @@
 </head>
 <body class="bg-sp-gray text-neutral-800 min-h-screen flex flex-col antialiased font-sans">
 
-  <!-- LOADER SUAVE COM DESTRAVADOR AUTOMÁTICO -->
-  <div id="loadingOverlay" class="fixed inset-0 bg-white z-[100] flex flex-col items-center justify-center transition-opacity duration-300">
-    <div class="bg-sp-blue text-white rounded-xl w-16 h-16 flex items-center justify-center font-black text-2xl shadow-lg mb-4 animate-pulse">
-      SUS
-    </div>
-    <p class="text-xs font-black uppercase tracking-wider text-sp-darkBlue">Secretaria de Estado da Saúde</p>
-    <p class="text-[11px] text-neutral-400 mt-1 flex items-center gap-1.5">
-      <span class="w-2 h-2 rounded-full bg-sp-blue pulse-dot"></span> Carregando portal institucional...
-    </p>
-  </div>
-
   <!-- BARRA DE ACESSIBILIDADE GOVERNO DE SP -->
   <div class="bg-sp-darkBlue text-white text-[11px] border-b border-white/10">
     <div class="max-w-7xl mx-auto px-3 py-1.5 flex items-center justify-between flex-wrap gap-y-1">
@@ -131,7 +120,7 @@
     <div id="menuMobile" class="lg:hidden border-t border-neutral-200 bg-white">
       <div class="flex flex-col px-4 py-3 text-xs font-bold text-neutral-700 uppercase space-y-2.5">
         <button onclick="irParaPagina('inicio'); fecharMenuMobile()" class="text-left py-1">Início</button>
-        <button onclick="irParaPagina('programas'); fecharMenuMobile()" class="text-left py-1 text-sp-blue font-black">Programas Oficiais</button>
+        <button onclick="irParaPagina('programas'); fecharMenuMobile()" class="text-left py-1 text-sp-blue font-black">Programas Oficiais (IEP, Remédios e SUS)</button>
         <button onclick="irParaPagina('transparencia'); fecharMenuMobile()" class="text-left py-1">Transparência & Gastos</button>
         <button onclick="irParaPagina('hospitais'); fecharMenuMobile()" class="text-left py-1">Rede Hospitalar</button>
         <button onclick="irParaPagina('equipe'); fecharMenuMobile()" class="text-left py-1">Corpo Diretivo da Secretaria</button>
@@ -1156,51 +1145,6 @@
     </div>
   </div>
 
-  <!-- MODAL: CHAMADO IEP-SP (DISCORD) -->
-  <div id="modalChamadoIEP" style="display: none;" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 items-center justify-center p-4">
-    <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl relative border-t-4 border-indigo-700">
-      <button onclick="fecharModalChamadoIEP()" class="absolute top-3.5 right-3.5 text-neutral-400 hover:text-neutral-700"><i data-lucide="x" class="w-5 h-5"></i></button>
-      <div class="text-center mb-4">
-        <span class="text-[9px] bg-indigo-100 text-indigo-800 font-extrabold px-2 py-0.5 rounded uppercase">Instituto Estadual de Psicologia</span>
-        <h3 class="text-base font-black text-neutral-900 uppercase mt-1">Solicitação Oficial de Acolhimento</h3>
-        <p id="iepModalServico" class="text-xs text-indigo-700 font-bold mt-0.5"></p>
-      </div>
-      <form onsubmit="enviarChamadoIEPDiscord(event)" class="space-y-3 text-xs">
-        <input type="hidden" id="iepFormServico">
-        <div>
-          <label class="font-bold text-neutral-700">Nome Completo</label>
-          <input type="text" id="iepNome" required placeholder="Nome do Cidadão ou Agente" class="w-full p-2 border rounded mt-1 outline-none focus:border-indigo-600">
-        </div>
-        <div class="grid grid-cols-2 gap-2">
-          <div>
-            <label class="font-bold text-neutral-700">Cartão SUS / Matrícula</label>
-            <input type="text" id="iepDocumento" required placeholder="898 0000 0000 0000" class="w-full p-2 border rounded mt-1 outline-none focus:border-indigo-600">
-          </div>
-          <div>
-            <label class="font-bold text-neutral-700">WhatsApp / Contato</label>
-            <input type="text" id="iepContato" required placeholder="(11) 90000-0000" class="w-full p-2 border rounded mt-1 outline-none focus:border-indigo-600">
-          </div>
-        </div>
-        <div>
-          <label class="font-bold text-neutral-700">Perfil do Solicitante</label>
-          <select id="iepPerfil" class="w-full p-2 border rounded mt-1 font-semibold">
-            <option value="População Geral (Comunitário)">População Geral (Comunitário)</option>
-            <option value="Servidor Público Estadual">Servidor Público Estadual</option>
-            <option value="Agente de Segurança Pública (Polícia / Guarda)">Agente de Segurança Pública (Polícia / Guarda)</option>
-            <option value="SAMU / Urgência Operacional">SAMU / Urgência Operacional</option>
-          </select>
-        </div>
-        <div>
-          <label class="font-bold text-neutral-700">Relato Breve da Necessidade</label>
-          <textarea id="iepRelato" rows="3" required placeholder="Descreva brevemente a queixa ou urgência..." class="w-full p-2 border rounded mt-1 outline-none focus:border-indigo-600"></textarea>
-        </div>
-        <button type="submit" class="w-full bg-indigo-700 hover:bg-indigo-800 text-white font-bold p-2.5 rounded-lg uppercase tracking-wide transition shadow mt-1">
-          Transmitir Solicitação para Central
-        </button>
-      </form>
-    </div>
-  </div>
-
   <!-- MODAL DE LOGIN -->
   <div id="modalLogin" style="display: none;" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 items-center justify-center p-4">
     <div class="bg-white rounded-xl max-w-sm w-full p-6 shadow-2xl border-t-4 border-sp-blue relative">
@@ -1304,7 +1248,7 @@
     </div>
   </footer>
 
-  <!-- ==================== JAVASCRIPT SEGURO E RÁPIDO ==================== -->
+  <!-- ==================== JAVASCRIPT ==================== -->
   <script>
     const FIREBASE_CONFIG = {
       databaseURL: "https://saude-sp-195c3-default-rtdb.firebaseio.com" 
@@ -1369,7 +1313,7 @@
         destinacoes: [
           { id: "1", nome: "Custeio Operacional IEP-SP", entidade: "Hospital Jefferson — Sede IEP-SP", descricao: "Repasse para atendimento assistencial comunitário, acolhimento de servidores e perícias operacionais.", valor: 850000000 },
           { id: "2", nome: "Manutenção de Leitos de Alta Complexidade", entidade: "Hospital das Clínicas da FMUSP (HC)", descricao: "Manutenção de leitos de alta complexidade, cirurgias e custeio do complexo hospitalar.", valor: 13500000000 },
-          { id: "3", nome: "Aquisição de Remédios Gratuitos", entidade: "Dose Certa SP", descricao: "Distribuição gratuita de remédios de alto custo e insumos básicos nas farmácias do Estado.", valor: 4800000000 }
+          { id: "3", nome: "Aquisição de Remédios Gratuitos", entidade: "Programa Dose Certa (Medicamentos)", descricao: "Distribuição gratuita de remédios de alto custo e insumos básicos nas farmácias do Estado.", valor: 4800000000 }
         ]
       },
       medicamentos: [
@@ -1394,12 +1338,12 @@
         { id: "3", nome: "Hospital de Clínicas da UNICAMP", tipo: "Hospital Geral", regiao: "campinas", status: "Operando Normalmente", leitos: 25, endereco: "Rua Vital Brasil, 251 - Barão Geraldo, Campinas - SP", telefone: "(19) 3521-2121", foto: "https://images.unsplash.com/photo-1587351021355-a479a299d2f9?w=800&auto=format&fit=crop&q=80" },
         { id: "4", nome: "Hospital Estadual de Ribeirão Preto", tipo: "Hospital Geral", regiao: "ribeirao", status: "Em Obras / Parcial", leitos: 10, endereco: "Av. Independência, 4600 - Ribeirão Preto - SP", telefone: "(16) 3602-8000", foto: "https://images.unsplash.com/photo-1551076805-e1869033e561?w=800&auto=format&fit=crop&q=80" }
       ],
-      // PROGRAMAS OFICIAIS (INCLUINDO IEP-SP E DOSE CERTA DE FORMA UNIFORME)
+      // PROGRAMAS OFICIAIS: IEP-SP E DOSE CERTA INCLUÍDOS DE FORMA UNIFORME
       programas: [
         { id: "p_iep", nome: "Instituto Estadual de Psicologia (IEP-SP)", categoria: "Saúde Mental & Perícia", descricao: "Acolhimento comunitário, perícias funcionais e regulação de urgências psiquiátricas no Hospital Jefferson.", link: "#/iep", ativo: true },
         { id: "p_dosecerta", nome: "Programa Dose Certa (Medicamentos)", categoria: "Assistência Farmacêutica", descricao: "Distribuição gratuita de medicamentos essenciais e de alto custo nas farmácias do Estado.", link: "#/medicamentos", ativo: true },
         { id: "1", nome: "Programa Mulher de Peito", categoria: "Prevenção", descricao: "Mamografia gratuita sem necessidade de pedido médico nas carretas itinerantes e hospitais estaduais.", link: "https://www.saude.sp.gov.br", ativo: true },
-        { id: "2", nome: "Fundação Pró-Sangue", categoria: "Doação", descricao: "Rede integrada de captação e abastecimento contínuo de sangue para mais de 100 hospitais públicos.", link: "https://prosangue.sp.gov.br", ativo: true }
+        { id: "2", nome: "Fundação Pró-Sangue", categoria: "Doação de Sangue", descricao: "Rede integrada de captação e abastecimento contínuo de sangue para mais de 100 hospitais públicos.", link: "https://prosangue.sp.gov.br", ativo: true }
       ],
       noticias: [
         { id: "1", titulo: "Instituto de Psicologia (IEP-SP) expande suporte a policiais e acolhimento comunitário", categoria: "Gestão", resumo: "Com sede no Hospital Jefferson, órgão fortalece atuação articulada com o SAMU em saúde mental.", imagem: "https://images.unsplash.com/photo-1579684385127-1ef15d508118?w=800&auto=format&fit=crop&q=80", data: "24/09/2026", link: "#/iep" },
@@ -1473,570 +1417,228 @@
       }
     }
 
-    let app = {
-      logado: false,
-      user: localStorage.getItem("ses_user") || DADOS_INICIAIS.user,
-      pass: localStorage.getItem("ses_pass") || DADOS_INICIAIS.pass,
-      ouvidoria: localStorage.getItem("ses_ouvidoria") || DADOS_INICIAIS.ouvidoria,
-      webhookIep: localStorage.getItem("ses_webhook_iep") || DADOS_INICIAIS.webhookIep,
-      webhookMedicamentos: localStorage.getItem("ses_webhook_med") || DADOS_INICIAIS.webhookMedicamentos,
-      iepConfig: safeStorageGet("ses_iep_cfg", DADOS_INICIAIS.iepConfig),
-      iepEquipe: safeStorageGet("ses_iep_equipe", DADOS_INICIAIS.iepEquipe),
-      alerta: safeStorageGet("ses_alerta", DADOS_INICIAIS.alerta),
-      orcamento: safeStorageGet("ses_orcamento", DADOS_INICIAIS.orcamento),
-      medicamentos: safeStorageGet("ses_medicamentos", DADOS_INICIAIS.medicamentos),
-      equipe: safeStorageGet("ses_equipe", DADOS_INICIAIS.equipe),
-      hospitais: safeStorageGet("ses_hospitais", DADOS_INICIAIS.hospitais),
-      programas: safeStorageGet("ses_programas", DADOS_INICIAIS.programas),
-      noticias: safeStorageGet("ses_noticias", DADOS_INICIAIS.noticias)
-    };
+    // --- PROGRAMAS NA CAPA (GRADE UNIFORME - IEP, DOSE CERTA E DEMAIS PROGRAMAS) ---
+    function renderizarHomeProgramas() {
+      const container = document.getElementById("homeGridProgramas");
+      if (!container) return;
+      const ativos = (app.programas || []).filter(p => p.ativo);
 
-    if (!app.orcamento || !app.orcamento.destinacoes || !Array.isArray(app.orcamento.destinacoes)) {
-      app.orcamento = {
-        total: app.orcamento && app.orcamento.total ? limparEConverterValor(app.orcamento.total) : DADOS_INICIAIS.orcamento.total,
-        destinacoes: [...DADOS_INICIAIS.orcamento.destinacoes]
-      };
-    }
-
-    // NAVEGAÇÃO SPA
-    const TITULOS_PAGINAS = {
-      inicio: "Início",
-      iep: "Instituto de Psicologia (IEP-SP)",
-      medicamentos: "Farmácia Dose Certa",
-      transparencia: "Transparência & Gastos",
-      equipe: "Corpo Diretivo da Secretaria",
-      hospitais: "Rede Hospitalar em Operação",
-      programas: "Programas Oficiais de Saúde",
-      noticias: "Notícias e Comunicados",
-      admin: "Painel do Gestor"
-    };
-
-    function irParaPagina(pagina, atualizarHash = true) {
-      if (!TITULOS_PAGINAS[pagina]) pagina = "inicio";
-
-      document.querySelectorAll(".view-section").forEach(sec => sec.classList.add("hidden"));
-
-      const viewId = pagina === "admin" ? "viewAdmin" : "view" + pagina.charAt(0).toUpperCase() + pagina.slice(1);
-      const targetSec = document.getElementById(viewId);
-      if (targetSec) targetSec.classList.remove("hidden");
-
-      if (atualizarHash) {
-        window.location.hash = "#/" + pagina;
+      if (ativos.length === 0) {
+        container.innerHTML = `<p class="col-span-3 text-neutral-400 text-xs py-4">Nenhum programa oficial ativo no momento.</p>`;
+        return;
       }
 
-      const sep = document.getElementById("breadcrumbSeparator");
-      const cur = document.getElementById("breadcrumbCurrent");
-      if (pagina === "inicio") {
-        sep.classList.add("hidden");
-        cur.classList.add("hidden");
-      } else {
-        sep.classList.remove("hidden");
-        cur.classList.remove("hidden");
-        cur.innerText = TITULOS_PAGINAS[pagina];
-      }
-
-      document.querySelectorAll(".nav-item").forEach(item => {
-        if (item.getAttribute("data-page") === pagina) {
-          item.classList.add("text-sp-blue", "border-b-2", "border-sp-blue");
-        } else {
-          item.classList.remove("text-sp-blue", "border-b-2", "border-sp-blue");
-        }
-      });
-
-      window.scrollTo({ top: 0, behavior: "smooth" });
-    }
-
-    function fecharMenuMobile() {
-      document.getElementById('menuMobile').classList.remove('open');
-    }
-
-    window.addEventListener("hashchange", () => {
-      const rota = window.location.hash.replace("#/", "").trim();
-      if (rota === "admin" && !app.logado) {
-        abrirModalLogin();
-      } else {
-        irParaPagina(rota || "inicio", false);
-      }
-    });
-
-    // CONTROLE SEGURO DO LOADER (NUNCA FICA TRAVADO)
-    function ocultarLoader() {
-      const loader = document.getElementById("loadingOverlay");
-      if (loader) {
-        loader.style.opacity = "0";
-        loader.style.pointerEvents = "none";
-        setTimeout(() => { loader.style.display = "none"; }, 300);
-      }
-    }
-
-    let firebaseDB = null;
-
-    function inicializarNuvem() {
-      const urlBanco = FIREBASE_CONFIG.databaseURL;
-      const tagNuvem = document.getElementById("cloudStatus");
-
-      if (urlBanco && urlBanco.startsWith("http")) {
-        try {
-          if (!firebase.apps.length) {
-            firebase.initializeApp({ databaseURL: urlBanco });
-          }
-          firebaseDB = firebase.database();
-          if (tagNuvem) tagNuvem.classList.remove("hidden");
-
-          firebaseDB.ref("dados_saude_sp").on("value", (snapshot) => {
-            const dadosNuvem = snapshot.val();
-            if (dadosNuvem) {
-              if (dadosNuvem.ouvidoria) app.ouvidoria = dadosNuvem.ouvidoria;
-              if (dadosNuvem.webhookIep) app.webhookIep = dadosNuvem.webhookIep;
-              if (dadosNuvem.webhookMedicamentos) app.webhookMedicamentos = dadosNuvem.webhookMedicamentos;
-              if (dadosNuvem.iepConfig) app.iepConfig = dadosNuvem.iepConfig;
-              if (dadosNuvem.iepEquipe) app.iepEquipe = dadosNuvem.iepEquipe;
-              if (dadosNuvem.alerta) app.alerta = dadosNuvem.alerta;
-              if (dadosNuvem.orcamento) app.orcamento = dadosNuvem.orcamento;
-              if (dadosNuvem.medicamentos) app.medicamentos = dadosNuvem.medicamentos;
-              if (dadosNuvem.equipe) app.equipe = dadosNuvem.equipe;
-              if (dadosNuvem.hospitais) app.hospitais = dadosNuvem.hospitais;
-              if (dadosNuvem.programas) app.programas = dadosNuvem.programas;
-              if (dadosNuvem.noticias) app.noticias = dadosNuvem.noticias;
-
-              localStorage.setItem("ses_ouvidoria", app.ouvidoria);
-              localStorage.setItem("ses_webhook_iep", app.webhookIep);
-              localStorage.setItem("ses_webhook_med", app.webhookMedicamentos);
-              localStorage.setItem("ses_iep_cfg", JSON.stringify(app.iepConfig));
-              localStorage.setItem("ses_iep_equipe", JSON.stringify(app.iepEquipe));
-              localStorage.setItem("ses_alerta", JSON.stringify(app.alerta));
-              localStorage.setItem("ses_orcamento", JSON.stringify(app.orcamento));
-              localStorage.setItem("ses_medicamentos", JSON.stringify(app.medicamentos));
-              localStorage.setItem("ses_equipe", JSON.stringify(app.equipe));
-              localStorage.setItem("ses_hospitais", JSON.stringify(app.hospitais));
-              localStorage.setItem("ses_programas", JSON.stringify(app.programas));
-              localStorage.setItem("ses_noticias", JSON.stringify(app.noticias));
-
-              atualizarTudo(false);
-              ocultarLoader();
-            } else {
-              salvarEstadoGlobal();
-              ocultarLoader();
-            }
-          });
-        } catch (e) {
-          console.error("Erro no Firebase:", e);
-          ocultarLoader();
-        }
-      } else {
-        ocultarLoader();
-      }
-    }
-
-    function salvarEstadoGlobal() {
-      localStorage.setItem("ses_ouvidoria", app.ouvidoria);
-      localStorage.setItem("ses_webhook_iep", app.webhookIep);
-      localStorage.setItem("ses_webhook_med", app.webhookMedicamentos);
-      localStorage.setItem("ses_iep_cfg", JSON.stringify(app.iepConfig));
-      localStorage.setItem("ses_iep_equipe", JSON.stringify(app.iepEquipe));
-      localStorage.setItem("ses_alerta", JSON.stringify(app.alerta));
-      localStorage.setItem("ses_orcamento", JSON.stringify(app.orcamento));
-      localStorage.setItem("ses_medicamentos", JSON.stringify(app.medicamentos));
-      localStorage.setItem("ses_equipe", JSON.stringify(app.equipe));
-      localStorage.setItem("ses_hospitais", JSON.stringify(app.hospitais));
-      localStorage.setItem("ses_programas", JSON.stringify(app.programas));
-      localStorage.setItem("ses_noticias", JSON.stringify(app.noticias));
-
-      if (firebaseDB) {
-        firebaseDB.ref("dados_saude_sp").set({
-          ouvidoria: app.ouvidoria,
-          webhookIep: app.webhookIep,
-          webhookMedicamentos: app.webhookMedicamentos,
-          iepConfig: app.iepConfig,
-          iepEquipe: app.iepEquipe,
-          alerta: app.alerta,
-          orcamento: app.orcamento,
-          medicamentos: app.medicamentos,
-          equipe: app.equipe,
-          hospitais: app.hospitais,
-          programas: app.programas,
-          noticias: app.noticias
-        }).then(() => {
-          mostrarToast("Salvo na Nuvem para todos!");
-        }).catch(err => {
-          console.error("Erro ao salvar:", err);
-          mostrarToast("Salvo localmente!");
-        });
-      }
-    }
-
-    // INICIALIZAÇÃO BLINDADA
-    window.addEventListener("DOMContentLoaded", () => {
-      try {
-        atualizarTudo(false);
-        inicializarNuvem();
-        const hashAtual = window.location.hash.replace("#/", "").trim();
-        irParaPagina(hashAtual || "inicio", false);
-      } catch (err) {
-        console.error("Erro na inicialização:", err);
-      } finally {
-        setTimeout(ocultarLoader, 600);
-      }
-    });
-
-    window.addEventListener("load", () => {
-      setTimeout(ocultarLoader, 800);
-    });
-
-    function formatarMoeda(val) {
-      return Number(val).toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
-    }
-
-    function mostrarToast(msg) {
-      const t = document.getElementById("toast");
-      document.getElementById("toastMsg").innerText = msg;
-      t.style.opacity = "1";
-      t.style.pointerEvents = "auto";
-      setTimeout(() => {
-        t.style.opacity = "0";
-        t.style.pointerEvents = "none";
-      }, 2500);
-    }
-
-    function atualizarTudo(persistir = true) {
-      try {
-        // Links Ouvidoria & 2 Webhooks
-        const linkOuv = app.ouvidoria || "https://fala.sp.gov.br";
-        const elTopo = document.getElementById("pubOuvidoriaTopo");
-        const elHero = document.getElementById("pubOuvidoriaHero");
-        const elRodape = document.getElementById("pubOuvidoriaRodape");
-        const inOuv = document.getElementById("adminInputOuvidoria");
-        const inWbIep = document.getElementById("adminWebhookIep");
-        const inWbMed = document.getElementById("adminWebhookMed");
-
-        if (elTopo) elTopo.href = linkOuv;
-        if (elHero) elHero.href = linkOuv;
-        if (elRodape) elRodape.href = linkOuv;
-        if (inOuv) inOuv.value = linkOuv;
-        if (inWbIep) inWbIep.value = app.webhookIep || "";
-        if (inWbMed) inWbMed.value = app.webhookMedicamentos || "";
-
-        // Dados IEP-SP
-        const cfg = app.iepConfig || DADOS_INICIAIS.iepConfig;
-        const elIepSede = document.getElementById("iepPubSede");
-        const elIepGestor = document.getElementById("iepPubGestor");
-        const elIepDir = document.getElementById("iepPubDiretorSamu");
-
-        if (elIepSede) elIepSede.innerText = cfg.sede;
-        if (elIepGestor) elIepGestor.innerText = cfg.gestor;
-        if (elIepDir) elIepDir.innerText = cfg.diretorSamu;
-
-        const inCfgSede = document.getElementById("iepCfgSede");
-        const inCfgDir = document.getElementById("iepCfgDiretorSamu");
-        const inCfgGestor = document.getElementById("iepCfgGestor");
-        const inCfgDesc = document.getElementById("iepCfgDescricao");
-        if (inCfgSede) inCfgSede.value = cfg.sede;
-        if (inCfgDir) inCfgDir.value = cfg.diretorSamu;
-        if (inCfgGestor) inCfgGestor.value = cfg.gestor;
-        if (inCfgDesc) inCfgDesc.value = cfg.descricao;
-
-        // Alerta
-        const banner = document.getElementById("bannerAlerta");
-        const iconeAlerta = document.getElementById("iconeAlerta");
-        if (app.alerta && app.alerta.ativo) {
-          banner.style.display = "block";
-          document.getElementById("textoAlerta").innerText = app.alerta.mensagem;
-
-          banner.className = "text-neutral-950 px-4 py-2.5 text-xs sm:text-sm font-semibold border-b shadow-inner ";
-          if (app.alerta.nivel === "urgente") {
-            banner.classList.add("bg-red-500", "text-white", "border-red-600");
-            iconeAlerta.setAttribute("data-lucide", "alert-octagon");
-          } else if (app.alerta.nivel === "informativo") {
-            banner.classList.add("bg-sky-500", "text-white", "border-sky-600");
-            iconeAlerta.setAttribute("data-lucide", "info");
-          } else {
-            banner.classList.add("bg-sp-yellow", "text-neutral-950", "border-amber-500");
-            iconeAlerta.setAttribute("data-lucide", "alert-triangle");
-          }
-        } else {
-          banner.style.display = "none";
-        }
-
-        document.getElementById("chkAlertaAtivo").checked = app.alerta.ativo;
-        document.getElementById("selAlertaNivel").value = app.alerta.nivel || "atencao";
-        document.getElementById("adminInputAlerta").value = app.alerta.mensagem;
-        document.getElementById("contadorAlerta").innerText = app.alerta.mensagem.length;
-
-        // Orçamento & Repasses
-        const o = app.orcamento;
-        const totalOrc = Number(o.total) || 0;
-        const executado = o.destinacoes.reduce((soma, d) => soma + Number(d.valor || 0), 0);
-        const saldo = Math.max(0, totalOrc - executado);
-        const perc = totalOrc > 0 ? Math.min(100, Math.round((executado / totalOrc) * 100)) : 0;
-
-        document.getElementById("pubOrcTotal").innerText = formatarMoeda(totalOrc);
-        document.getElementById("homeOrcTotal").innerText = formatarMoeda(totalOrc);
-        document.getElementById("pubOrcExecutado").innerText = formatarMoeda(executado);
-        document.getElementById("pubOrcSaldo").innerText = formatarMoeda(saldo);
-        document.getElementById("pubOrcPercent").innerText = `${perc}% do orçamento estadual destinado`;
-        document.getElementById("labelBarraProgresso").innerText = `${perc}% Destinado`;
-        document.getElementById("barraProgresso").style.width = `${perc}%`;
-        document.getElementById("contagemDestinacoes").innerText = `${o.destinacoes.length} Repasses`;
-
-        document.getElementById("inOrcTotal").value = totalOrc;
-
-        atualizarSelectEntidadesDinamico();
-        popularSelectMedicamentosFormulario();
-
-        renderizarDestinacoesPublicas(totalOrc);
-        renderizarEquipe();
-        renderizarEquipeIep();
-        renderizarProgramas();
-        renderizarHomeProgramas();
-        renderizarHospitais();
-        renderizarNoticias();
-        renderizarHomeNoticias();
-        renderizarListaRemediosPublica();
-        renderizarAdminListas();
-
-        document.getElementById("kpiHospitais").innerText = app.hospitais.length;
-        document.getElementById("kpiLeitos").innerText = app.hospitais.reduce((s, h) => s + Number(h.leitos || 0), 0);
-        document.getElementById("kpiMedicamentos").innerText = app.medicamentos ? app.medicamentos.length : 0;
-        document.getElementById("kpiExecucao").innerText = `${perc}%`;
-
-        lucide.createIcons();
-
-        if (persistir) {
-          salvarEstadoGlobal();
-        }
-      } catch (err) {
-        console.error("Erro ao atualizar tudo:", err);
-      }
-    }
-
-    // --- SALVAR OS 2 WEBHOOKS DISCORD ---
-    function salvarDiscordWebhooks(e) {
-      e.preventDefault();
-      app.webhookIep = document.getElementById("adminWebhookIep").value.trim();
-      app.webhookMedicamentos = document.getElementById("adminWebhookMed").value.trim();
-      atualizarTudo(true);
-      mostrarToast("Ambos os Webhooks foram salvos com sucesso!");
-    }
-
-    // --- SALVAR CONFIGURAÇÕES DO IEP-SP ---
-    function salvarConfiguracaoIep(e) {
-      e.preventDefault();
-      app.iepConfig = {
-        sede: document.getElementById("iepCfgSede").value.trim(),
-        diretorSamu: document.getElementById("iepCfgDiretorSamu").value.trim(),
-        gestor: document.getElementById("iepCfgGestor").value.trim(),
-        descricao: document.getElementById("iepCfgDescricao").value.trim()
-      };
-      atualizarTudo(true);
-      mostrarToast("Dados institucionais do IEP-SP atualizados!");
-    }
-
-    // ENVIO DISCORD GENÉRICO
-    async function dispararWebhookDiscord(urlWebhook, embed, tipoServico) {
-      if (!urlWebhook || !urlWebhook.startsWith("http")) {
-        alert(`Atenção: O Webhook para ${tipoServico} não foi configurado no Painel do Gestor.\n\nSua solicitação foi registrada no sistema.`);
-        return false;
-      }
-
-      try {
-        const resp = await fetch(urlWebhook, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            username: `Central SES-SP | ${tipoServico}`,
-            avatar_url: "https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/Bandeira_do_estado_de_S%C3%A3o_Paulo.svg/300px-Bandeira_do_estado_de_S%C3%A3o_Paulo.svg.png",
-            embeds: [embed]
-          })
-        });
-        return resp.ok;
-      } catch (err) {
-        console.error("Falha ao enviar webhook:", err);
-        return false;
-      }
-    }
-
-    // DISPARO 1: CHAMADO DO IEP-SP
-    function abrirModalChamadoIEP(servico) {
-      document.getElementById("iepModalServico").innerText = servico;
-      document.getElementById("iepFormServico").value = servico;
-      document.getElementById("modalChamadoIEP").style.display = "flex";
+      container.innerHTML = ativos.map(p => `
+        <div class="bg-white p-5 rounded-xl border border-neutral-200 shadow-sm flex flex-col justify-between hover:shadow-md hover:border-sp-blue transition">
+          <div>
+            <span class="text-[9px] font-black uppercase text-sp-blue bg-blue-50 px-2 py-0.5 rounded">${p.categoria}</span>
+            <h4 class="font-bold text-neutral-900 text-sm mt-2 mb-1 leading-snug">${p.nome}</h4>
+            <p class="text-neutral-500 text-xs line-clamp-3 leading-relaxed">${p.descricao}</p>
+          </div>
+          ${p.link ? `
+            <a href="${p.link}" class="text-xs font-bold text-sp-blue hover:underline flex items-center gap-1 mt-4">
+              Acessar Programa <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
+            </a>
+          ` : `
+            <span class="text-[11px] font-semibold text-neutral-400 mt-4">Atendimento na Rede SUS</span>
+          `}
+        </div>
+      `).join("");
       lucide.createIcons();
     }
 
-    function fecharModalChamadoIEP() {
-      document.getElementById("modalChamadoIEP").style.display = "none";
-    }
+    // --- PROGRAMAS NA PÁGINA DEDICADA (EXATAMENTE O MESMO LAYOUT) ---
+    function renderizarProgramas() {
+      const container = document.getElementById("gridProgramas");
+      if (!container) return;
+      const ativos = (app.programas || []).filter(p => p.ativo);
 
-    async function enviarChamadoIEPDiscord(e) {
-      e.preventDefault();
-      const cfg = app.iepConfig || DADOS_INICIAIS.iepConfig;
-      const servico = document.getElementById("iepFormServico").value;
-      const nome = document.getElementById("iepNome").value.trim();
-      const doc = document.getElementById("iepDocumento").value.trim();
-      const tel = document.getElementById("iepContato").value.trim();
-      const perfil = document.getElementById("iepPerfil").value;
-      const relato = document.getElementById("iepRelato").value.trim();
-
-      const embed = {
-        title: "🧠 IEP-SP | Novo Chamado Oficial de Saúde Mental & Perícia",
-        description: `**Unidade Sede:** ${cfg.sede}\n**Coordenação Operacional SAMU:** ${cfg.diretorSamu}\n**Gestão:** ${cfg.gestor}`,
-        color: 0x4338CA,
-        fields: [
-          { name: "📋 Serviço Solicitado", value: servico, inline: false },
-          { name: "👤 Solicitante", value: nome, inline: true },
-          { name: "🪪 Cartão SUS / Matrícula", value: doc, inline: true },
-          { name: "📞 Contato", value: tel, inline: true },
-          { name: "🎖️ Perfil", value: perfil, inline: true },
-          { name: "📝 Relato da Necessidade", value: relato || "Sem observações adicionais.", inline: false }
-        ],
-        footer: { text: "Secretaria de Estado da Saúde de SP • Triagem Operacional IEP" },
-        timestamp: new Date().toISOString()
-      };
-
-      mostrarToast("Despachando chamado para o Webhook do IEP...");
-      await dispararWebhookDiscord(app.webhookIep, embed, "IEP-SP");
-      fecharModalChamadoIEP();
-
-      document.getElementById("iepNome").value = "";
-      document.getElementById("iepDocumento").value = "";
-      document.getElementById("iepContato").value = "";
-      document.getElementById("iepRelato").value = "";
-
-      alert("Solicitação transmitida com sucesso para a central de triagem do IEP-SP!");
-    }
-
-    // DISPARO 2: PEDIDO DE MEDICAMENTO
-    async function enviarPedidoMedicamentoDiscord(e) {
-      e.preventDefault();
-      const selMed = document.getElementById("medSelectField").value;
-      const outroMed = document.getElementById("medOutroNome").value.trim();
-      const remedioFinal = selMed === "OUTRO" ? (outroMed || "Medicamento Especializado") : selMed;
-
-      const nome = document.getElementById("medPedNome").value.trim();
-      const sus = document.getElementById("medPedSus").value.trim();
-      const tel = document.getElementById("medPedTel").value.trim();
-      const local = document.getElementById("medPedLocal").value.trim();
-
-      const embed = {
-        title: "💊 Dose Certa SP | Solicitação Eletrônica de Medicamento",
-        color: 0x059669,
-        fields: [
-          { name: "💊 Medicamento Solicitado", value: remedioFinal, inline: false },
-          { name: "👤 Paciente", value: nome, inline: true },
-          { name: "💳 Cartão SUS", value: sus, inline: true },
-          { name: "📞 Telefone/WhatsApp", value: tel, inline: true },
-          { name: "📍 Farmácia / Local de Retirada", value: local, inline: false }
-        ],
-        footer: { text: "Assistência Farmacêutica Estadual • SES-SP" },
-        timestamp: new Date().toISOString()
-      };
-
-      mostrarToast("Despachando pedido de medicamento...");
-      await dispararWebhookDiscord(app.webhookMedicamentos, embed, "Farmácia Dose Certa");
-
-      document.getElementById("medPedNome").value = "";
-      document.getElementById("medPedSus").value = "";
-      document.getElementById("medPedTel").value = "";
-      document.getElementById("medPedLocal").value = "";
-      document.getElementById("medOutroNome").value = "";
-
-      alert(`Pedido de "${remedioFinal}" protocolado com sucesso! A receita será conferida pela farmácia.`);
-    }
-
-    // --- FORMULÁRIO DE REMÉDIO INTELIGENTE ---
-    function popularSelectMedicamentosFormulario() {
-      const sel = document.getElementById("medSelectField");
-      if (!sel) return;
-      const valorAtual = sel.value;
-
-      let html = "";
-      if (app.medicamentos && app.medicamentos.length > 0) {
-        html += app.medicamentos.map(m => `<option value="${m.nome}">${m.nome} — (${m.categoria})</option>`).join("");
+      if (ativos.length === 0) {
+        container.innerHTML = `<p class="col-span-3 text-neutral-400 text-xs py-4">Nenhum programa oficial ativo no momento.</p>`;
+        return;
       }
-      html += `<option value="OUTRO">+ Outro / Medicamento não listado no catálogo</option>`;
 
-      sel.innerHTML = html;
-      if (valorAtual) sel.value = valorAtual;
-      aoMudarSelectMedicamento();
+      container.innerHTML = ativos.map(p => `
+        <div class="bg-white p-5 rounded-xl border border-neutral-200 shadow-sm flex flex-col justify-between hover:shadow-md hover:border-sp-blue transition">
+          <div>
+            <span class="text-[9px] font-black uppercase text-sp-blue bg-blue-50 px-2 py-0.5 rounded">${p.categoria}</span>
+            <h4 class="font-bold text-neutral-900 text-sm mt-2 mb-1 uppercase leading-snug">${p.nome}</h4>
+            <p class="text-neutral-500 text-xs mb-3 leading-relaxed">${p.descricao}</p>
+          </div>
+          ${p.link ? `
+            <a href="${p.link}" class="text-xs font-bold text-sp-blue hover:underline flex items-center gap-1 mt-2">
+              Acessar Programa <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
+            </a>
+          ` : `
+            <span class="text-xs font-semibold text-neutral-400 mt-2 flex items-center gap-1">
+              Atendimento na Rede SUS
+            </span>
+          `}
+        </div>
+      `).join("");
+      lucide.createIcons();
     }
 
-    function aoMudarSelectMedicamento() {
-      const sel = document.getElementById("medSelectField");
-      const boxOutro = document.getElementById("boxMedOutro");
-      const prevBox = document.getElementById("medDetalhesPreview");
-      const prevCat = document.getElementById("medPrevCategoria");
-      const prevDesc = document.getElementById("medPrevDescricao");
+    // --- CARGOS INTERNOS DO IEP-SP (64x64px RÍGIDO - SEM DEFORMAÇÃO) ---
+    function renderizarEquipeIep() {
+      const secao = document.getElementById("secaoEquipeIep");
+      const container = document.getElementById("gridEquipeIep");
+      if (!container) return;
+      const lista = (app.iepEquipe || []).filter(m => m.ativo && m.nome && m.nome.trim() !== "");
 
-      if (sel.value === "OUTRO") {
-        boxOutro.classList.remove("hidden");
-        prevBox.classList.add("hidden");
-      } else {
-        boxOutro.classList.add("hidden");
-        const medObj = app.medicamentos.find(m => m.nome === sel.value);
-        if (medObj) {
-          prevBox.classList.remove("hidden");
-          prevCat.innerText = medObj.categoria;
-          prevDesc.innerText = medObj.descricao;
-        } else {
-          prevBox.classList.add("hidden");
-        }
+      if (lista.length === 0) {
+        if (secao) secao.classList.add("hidden");
+        return;
       }
+
+      if (secao) secao.classList.remove("hidden");
+      container.innerHTML = lista.map(m => {
+        const fotoHtml = (m.foto && m.foto.trim() !== "")
+          ? `<img src="${m.foto}" alt="${m.nome}" style="width: 64px; height: 64px; min-width: 64px; min-height: 64px; max-width: 64px; max-height: 64px;" class="w-16 h-16 rounded-full object-cover border-2 border-indigo-700 flex-shrink-0 bg-neutral-100 shadow-sm">`
+          : gerarEmblemaPadraoHtml('border-indigo-700', 'bg-indigo-950');
+
+        return `
+          <div class="bg-white rounded-xl border border-neutral-200 shadow-sm p-4 flex items-center gap-3.5 hover:shadow-md transition">
+            ${fotoHtml}
+            <div class="min-w-0 flex-1">
+              <span class="text-[9px] font-black uppercase text-indigo-700 bg-indigo-50 px-2 py-0.5 rounded tracking-wider block mb-1 truncate">
+                ${m.cargo}
+              </span>
+              <h4 class="font-bold text-neutral-900 text-sm leading-snug truncate">${m.nome}</h4>
+              <p class="text-[11px] text-neutral-500 mt-0.5 line-clamp-2 leading-relaxed">${m.descricao || 'Corpo clínico e pericial do IEP-SP.'}</p>
+            </div>
+          </div>
+        `;
+      }).join("");
+      lucide.createIcons();
     }
 
-    function selecionarRemedioDiretoNoForm(nome) {
-      const sel = document.getElementById("medSelectField");
-      sel.value = nome;
-      aoMudarSelectMedicamento();
-      document.getElementById("boxPedidoMedicamento").scrollIntoView({ behavior: "smooth" });
-      document.getElementById("medPedNome").focus();
-      mostrarToast(`Medicamento "${nome}" selecionado!`);
-    }
+    // --- CORPO DIRETIVO GERAL SES (64x64px RÍGIDO) ---
+    function renderizarEquipe() {
+      const container = document.getElementById("gridEquipe");
+      if (!container) return;
+      const nomeados = (app.equipe || []).filter(m => m.ativo && m.nome && m.nome.trim() !== "");
 
-    // --- DROPDOWN DINÂMICO DE ENTIDADES ---
-    function atualizarSelectEntidadesDinamico() {
-      const sel = document.getElementById("destEntidade");
-      if (!sel) return;
-      const valorAtual = sel.value;
-
-      let opcoesHtml = `
-        <optgroup label="Hospitais e Institutos Cadastrados">
-      `;
-
-      app.hospitais.forEach(h => {
-        opcoesHtml += `<option value="${h.nome}">${h.nome}</option>`;
-      });
-
-      opcoesHtml += `
-        </optgroup>
-        <optgroup label="Programas Estaduais Cadastrados">
-      `;
-
-      app.programas.forEach(p => {
-        opcoesHtml += `<option value="${p.nome}">${p.nome}</option>`;
-      });
-
-      opcoesHtml += `
-        </optgroup>
-        <optgroup label="Outro">
-          <option value="Outro (Personalizado)">Outra Área / Categoria Livre</option>
-        </optgroup>
-      `;
-
-      sel.innerHTML = opcoesHtml;
-      if (valorAtual) sel.value = valorAtual;
-    }
-
-    function atualizarNomeDestinacaoAuto() {
-      const sel = document.getElementById("destEntidade").value;
-      const inNome = document.getElementById("destNome");
-      if (sel !== "Outro (Personalizado)") {
-        inNome.value = "Repasse Orçamentário: " + sel;
+      if (nomeados.length === 0) {
+        container.innerHTML = `<p class="col-span-4 p-8 text-center text-neutral-400 text-xs">Nenhum titular nomeado no momento.</p>`;
+        return;
       }
+
+      container.innerHTML = nomeados.map(m => {
+        const fotoHtml = (m.foto && m.foto.trim() !== "")
+          ? `<img src="${m.foto}" alt="${m.nome}" style="width: 64px; height: 64px; min-width: 64px; min-height: 64px; max-width: 64px; max-height: 64px;" class="w-16 h-16 rounded-full object-cover border-2 border-sp-blue flex-shrink-0 bg-neutral-100 shadow-sm">`
+          : gerarEmblemaPadraoHtml('border-sp-blue', 'bg-sp-darkBlue');
+
+        return `
+          <div class="bg-white rounded-xl border border-neutral-200 shadow-sm p-4 flex items-center gap-3.5 hover:shadow-md transition">
+            ${fotoHtml}
+            <div class="min-w-0 flex-1">
+              <span class="text-[9px] font-black uppercase text-sp-blue bg-blue-50 px-2 py-0.5 rounded tracking-wider block mb-1 truncate">
+                ${m.cargo}
+              </span>
+              <h4 class="font-bold text-neutral-900 text-sm leading-snug truncate">${m.nome}</h4>
+              <p class="text-[11px] text-neutral-500 mt-0.5 line-clamp-2 leading-relaxed">${m.descricao || 'Nomeação Oficial pelo Diário do Estado.'}</p>
+            </div>
+          </div>
+        `;
+      }).join("");
+      lucide.createIcons();
     }
 
+    // --- LISTA DE REMÉDIOS PÚBLICA ---
+    function renderizarListaRemediosPublica() {
+      const container = document.getElementById("gridRemediosPublica");
+      if (!container) return;
+      const filtro = (document.getElementById("buscaRemedio")?.value || "").toLowerCase().trim();
+      const lista = (app.medicamentos || []).filter(m => 
+        filtro === "" || m.nome.toLowerCase().includes(filtro) || m.categoria.toLowerCase().includes(filtro)
+      );
+
+      const contagem = document.getElementById("contagemRemedios");
+      if (contagem) contagem.innerText = `${lista.length} medicamentos`;
+
+      if (lista.length === 0) {
+        container.innerHTML = `<p class="p-4 text-center text-neutral-400">Nenhum medicamento encontrado para esta busca.</p>`;
+        return;
+      }
+
+      container.innerHTML = lista.map(m => `
+        <div class="py-3.5 flex justify-between items-start gap-3 hover:bg-neutral-50 p-2 rounded-lg transition">
+          <div>
+            <span class="text-[9px] font-black uppercase text-emerald-800 bg-emerald-50 px-2 py-0.5 rounded">${m.categoria}</span>
+            <h4 class="font-bold text-neutral-900 text-sm mt-1">${m.nome}</h4>
+            <p class="text-[11px] text-neutral-500 mt-0.5">${m.descricao}</p>
+          </div>
+          <button onclick="selecionarRemedioDiretoNoForm('${m.nome}')" class="text-xs font-bold text-emerald-700 bg-emerald-50 hover:bg-emerald-100 px-3 py-1.5 rounded-lg flex-shrink-0 transition">
+            Pedir Este →
+          </button>
+        </div>
+      `).join("");
+    }
+
+    // --- REDE HOSPITALAR PÚBLICA ---
+    function renderizarHospitais() {
+      const filtro = document.getElementById("filtroRegiao")?.value || "todas";
+      const busca = (document.getElementById("buscaHospital")?.value || "").toLowerCase().trim();
+      const container = document.getElementById("gridHospitais");
+      const semResultado = document.getElementById("semResultadoHospital");
+      if (!container) return;
+
+      const lista = (app.hospitais || []).filter(h =>
+        (filtro === "todas" || h.regiao === filtro) &&
+        (busca === "" || h.nome.toLowerCase().includes(busca))
+      );
+
+      if (semResultado) semResultado.classList.toggle("hidden", lista.length > 0);
+
+      container.innerHTML = lista.map(h => {
+        let badgeColor = "bg-emerald-100 text-emerald-800";
+        let dotColor = "bg-emerald-500";
+        if (h.status === "Alta Demanda") { badgeColor = "bg-amber-100 text-amber-800"; dotColor = "bg-amber-500"; }
+        if (h.status === "Em Obras / Parcial") { badgeColor = "bg-blue-100 text-blue-800"; dotColor = "bg-blue-500"; }
+        if (h.status === "Pronto-Socorro Restrito") { badgeColor = "bg-red-100 text-red-800"; dotColor = "bg-red-500"; }
+
+        const foto = h.foto || IMG_FALLBACK;
+
+        return `
+          <div class="bg-white rounded-xl border border-neutral-200 shadow-sm flex flex-col justify-between overflow-hidden hover:shadow-md transition">
+            <div class="relative h-40 bg-neutral-100 overflow-hidden">
+              <img src="${foto}" alt="${h.nome}" onerror="this.onerror=null;this.src='${IMG_FALLBACK}'" class="w-full h-full object-cover">
+              <span class="absolute top-2.5 right-2.5 inline-flex items-center gap-1.5 text-[10px] font-bold px-2 py-0.5 rounded shadow-sm ${badgeColor}">
+                <span class="w-2 h-2 rounded-full ${dotColor} pulse-dot"></span> ${h.status}
+              </span>
+            </div>
+            <div class="p-4 flex flex-col justify-between flex-grow">
+              <div>
+                <span class="text-[9px] font-extrabold uppercase bg-neutral-100 text-neutral-600 px-2 py-0.5 rounded">${h.tipo}</span>
+                <h4 class="font-bold text-neutral-900 text-sm mt-1.5 leading-snug">${h.nome}</h4>
+                <p class="text-xs text-neutral-500 mt-1 flex items-start gap-1">
+                  <i data-lucide="map-pin" class="w-3.5 h-3.5 text-sp-red flex-shrink-0 mt-0.5"></i>
+                  <span>${h.endereco}</span>
+                </p>
+              </div>
+              <div class="mt-4 pt-3 border-t border-neutral-100 flex justify-between items-center text-xs">
+                <a href="tel:${h.telefone.replace(/\D/g, '')}" class="text-neutral-600 hover:text-sp-blue font-semibold flex items-center gap-1">
+                  <i data-lucide="phone" class="w-3 h-3 text-sp-blue"></i> ${h.telefone}
+                </a>
+                ${h.leitos > 0 ? `
+                  <span class="text-emerald-700 font-bold bg-emerald-50 px-2 py-0.5 rounded text-[11px]">
+                    ${h.leitos} vagas disponíveis
+                  </span>
+                ` : ''}
+              </div>
+            </div>
+          </div>
+        `;
+      }).join("");
+      lucide.createIcons();
+    }
+
+    // --- REPASSES TRANSPARÊNCIA PÚBLICA ---
     function renderizarDestinacoesPublicas(totalOrc) {
       const container = document.getElementById("listaPublicaDestinacoes");
-      if (app.orcamento.destinacoes.length === 0) {
+      if (!container) return;
+      if (!app.orcamento || !app.orcamento.destinacoes || app.orcamento.destinacoes.length === 0) {
         container.innerHTML = `<p class="p-4 text-center text-neutral-400 text-xs">Nenhum repasse ou destinação cadastrada no momento.</p>`;
         return;
       }
@@ -2065,19 +1667,160 @@
       }).join("");
     }
 
-    function salvarOrcamentoTotal(e) {
-      e.preventDefault();
-      const rawValor = document.getElementById("inOrcTotal").value;
-      const valorFinal = limparEConverterValor(rawValor);
-      if (valorFinal <= 0) {
-        alert("Por favor, digite um valor válido maior que zero.");
-        return;
-      }
-      app.orcamento.total = valorFinal;
-      atualizarTudo(true);
+    // --- NOTÍCIAS HOME & PÚBLICO ---
+    function renderizarHomeNoticias() {
+      const container = document.getElementById("homeGridNoticias");
+      if (!container) return;
+      const ultimas = (app.noticias || []).slice(0, 2);
+      container.innerHTML = ultimas.map(n => `
+        <article class="bg-white rounded-xl border border-neutral-200 shadow-sm overflow-hidden flex flex-col sm:flex-row hover:border-sp-blue cursor-pointer transition" onclick="abrirNoticiaModal('${n.id}')">
+          <img src="${n.imagem}" alt="${n.titulo}" onerror="this.onerror=null;this.src='${IMG_FALLBACK}'" class="w-full sm:w-44 h-36 object-cover flex-shrink-0">
+          <div class="p-4 flex flex-col justify-between flex-grow">
+            <div>
+              <span class="text-[9px] font-bold text-sp-blue uppercase bg-blue-50 px-2 py-0.5 rounded">${n.categoria}</span>
+              <h4 class="font-bold text-neutral-900 text-sm mt-1.5 leading-snug">${n.titulo}</h4>
+              <p class="text-neutral-500 text-xs mt-1 line-clamp-2">${n.resumo}</p>
+            </div>
+            <span class="text-xs font-bold text-sp-blue mt-3">Ler comunicado completo →</span>
+          </div>
+        </article>
+      `).join("");
+      lucide.createIcons();
     }
 
-    // --- FUNÇÕES DE CONTROLE DE MODAIS DO ADMIN ---
+    function renderizarNoticias() {
+      const container = document.getElementById("gridNoticias");
+      if (!container) return;
+      container.innerHTML = (app.noticias || []).map(n => `
+        <article class="flex flex-col sm:flex-row gap-4 p-4 hover:bg-neutral-50 transition cursor-pointer" onclick="abrirNoticiaModal('${n.id}')">
+          <img src="${n.imagem}" alt="${n.titulo}" onerror="this.onerror=null;this.src='${IMG_FALLBACK}'" class="w-full sm:w-44 h-28 object-cover rounded-lg flex-shrink-0">
+          <div class="flex flex-col justify-between flex-grow">
+            <div>
+              <div class="flex items-center gap-2 mb-1">
+                <span class="text-[10px] font-bold text-sp-blue uppercase bg-blue-50 px-2 py-0.5 rounded">${n.categoria}</span>
+                <span class="text-[10px] text-neutral-400">${n.data || ''}</span>
+              </div>
+              <h4 class="font-bold text-neutral-900 text-sm mb-1 leading-snug">${n.titulo}</h4>
+              <p class="text-neutral-500 text-xs line-clamp-2">${n.resumo}</p>
+            </div>
+            <div class="flex items-center justify-between mt-2 pt-2 border-t border-neutral-100">
+              <span class="text-xs font-bold text-sp-blue">Ler comunicado →</span>
+              ${n.link ? `
+                <a href="${n.link}" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation()" class="text-xs font-bold text-sp-lightBlue hover:underline inline-flex items-center gap-1">
+                  Link Oficial <i data-lucide="external-link" class="w-3 h-3"></i>
+                </a>
+              ` : ''}
+            </div>
+          </div>
+        </article>
+      `).join("");
+      lucide.createIcons();
+    }
+
+    function abrirNoticiaModal(id) {
+      const n = (app.noticias || []).find(x => x.id === id);
+      if (!n) return;
+      document.getElementById("mNoticiaImg").src = n.imagem || IMG_FALLBACK;
+      document.getElementById("mNoticiaCat").innerText = n.categoria;
+      document.getElementById("mNoticiaTitulo").innerText = n.titulo;
+      document.getElementById("mNoticiaData").innerText = "Publicado em: " + (n.data || "2026");
+      document.getElementById("mNoticiaTexto").innerText = n.resumo;
+      
+      const linkBox = document.getElementById("mNoticiaLinkBox");
+      const linkBtn = document.getElementById("mNoticiaLink");
+      if (n.link && n.link.trim() !== "") {
+        linkBtn.href = n.link;
+        linkBox.classList.remove("hidden");
+      } else {
+        linkBox.classList.add("hidden");
+      }
+
+      document.getElementById("modalNoticia").style.display = "flex";
+      lucide.createIcons();
+    }
+
+    // --- FORMULÁRIO DE REMÉDIO INTELIGENTE ---
+    function popularSelectMedicamentosFormulario() {
+      const sel = document.getElementById("medSelectField");
+      if (!sel) return;
+      const valorAtual = sel.value;
+
+      let html = "";
+      if (app.medicamentos && app.medicamentos.length > 0) {
+        html += app.medicamentos.map(m => `<option value="${m.nome}">${m.nome} — (${m.categoria})</option>`).join("");
+      }
+      html += `<option value="OUTRO">+ Outro / Medicamento não listado no catálogo</option>`;
+
+      sel.innerHTML = html;
+      if (valorAtual) sel.value = valorAtual;
+      aoMudarSelectMedicamento();
+    }
+
+    function aoMudarSelectMedicamento() {
+      const sel = document.getElementById("medSelectField");
+      const boxOutro = document.getElementById("boxMedOutro");
+      const prevBox = document.getElementById("medDetalhesPreview");
+      const prevCat = document.getElementById("medPrevCategoria");
+      const prevDesc = document.getElementById("medPrevDescricao");
+      if (!sel) return;
+
+      if (sel.value === "OUTRO") {
+        if (boxOutro) boxOutro.classList.remove("hidden");
+        if (prevBox) prevBox.classList.add("hidden");
+      } else {
+        if (boxOutro) boxOutro.classList.add("hidden");
+        const medObj = (app.medicamentos || []).find(m => m.nome === sel.value);
+        if (medObj) {
+          if (prevBox) prevBox.classList.remove("hidden");
+          if (prevCat) prevCat.innerText = medObj.categoria;
+          if (prevDesc) prevDesc.innerText = medObj.descricao;
+        } else {
+          if (prevBox) prevBox.classList.add("hidden");
+        }
+      }
+    }
+
+    function selecionarRemedioDiretoNoForm(nome) {
+      const sel = document.getElementById("medSelectField");
+      if (!sel) return;
+      sel.value = nome;
+      aoMudarSelectMedicamento();
+      document.getElementById("boxPedidoMedicamento").scrollIntoView({ behavior: "smooth" });
+      document.getElementById("medPedNome").focus();
+      mostrarToast(`Medicamento "${nome}" selecionado!`);
+    }
+
+    // --- DROPDOWN DINÂMICO DE ENTIDADES ---
+    function atualizarSelectEntidadesDinamico() {
+      const sel = document.getElementById("destEntidade");
+      if (!sel) return;
+      const valorAtual = sel.value;
+
+      let opcoesHtml = `<optgroup label="Hospitais e Institutos Cadastrados">`;
+      (app.hospitais || []).forEach(h => {
+        opcoesHtml += `<option value="${h.nome}">${h.nome}</option>`;
+      });
+
+      opcoesHtml += `</optgroup><optgroup label="Programas Estaduais Cadastrados">`;
+      (app.programas || []).forEach(p => {
+        opcoesHtml += `<option value="${p.nome}">${p.nome}</option>`;
+      });
+
+      opcoesHtml += `</optgroup><optgroup label="Outro"><option value="Outro (Personalizado)">Outra Área / Categoria Livre</option></optgroup>`;
+
+      sel.innerHTML = opcoesHtml;
+      if (valorAtual) sel.value = valorAtual;
+    }
+
+    function atualizarNomeDestinacaoAuto() {
+      const sel = document.getElementById("destEntidade").value;
+      const inNome = document.getElementById("destNome");
+      if (sel !== "Outro (Personalizado)" && inNome) {
+        inNome.value = "Repasse Orçamentário: " + sel;
+      }
+    }
+
+    // --- FUNÇÕES DE CADASTRO / MODAIS DO ADMIN ---
     function abrirModalFormDestinacao(id = null) {
       document.getElementById("destId").value = "";
       document.getElementById("destNome").value = "";
@@ -2086,7 +1829,7 @@
       document.getElementById("formDestTitle").innerText = "Lançar Repasse Orçamentário";
 
       if (id) {
-        const d = app.orcamento.destinacoes.find(x => x.id === id);
+        const d = (app.orcamento.destinacoes || []).find(x => x.id === id);
         if (d) {
           document.getElementById("destId").value = d.id;
           document.getElementById("destEntidade").value = d.entidade || "Outro (Personalizado)";
@@ -2111,23 +1854,15 @@
       const valor = limparEConverterValor(rawValor);
 
       if (valor <= 0) {
-        alert("Digite um valor válido para a destinação.");
+        alert("Digite um valor válido para o repasse.");
         return;
       }
 
       if (id) {
         const idx = app.orcamento.destinacoes.findIndex(d => d.id === id);
-        if (idx !== -1) {
-          app.orcamento.destinacoes[idx] = { id, entidade, nome, valor, descricao };
-        }
+        if (idx !== -1) app.orcamento.destinacoes[idx] = { id, entidade, nome, valor, descricao };
       } else {
-        app.orcamento.destinacoes.push({
-          id: Date.now().toString(),
-          entidade,
-          nome,
-          valor,
-          descricao
-        });
+        app.orcamento.destinacoes.push({ id: Date.now().toString(), entidade, nome, valor, descricao });
       }
 
       fecharModalFormDestinacao();
@@ -2142,6 +1877,19 @@
       }
     }
 
+    function salvarOrcamentoTotal(e) {
+      e.preventDefault();
+      const rawValor = document.getElementById("inOrcTotal").value;
+      const valorFinal = limparEConverterValor(rawValor);
+      if (valorFinal <= 0) {
+        alert("Digite um valor válido maior que zero.");
+        return;
+      }
+      app.orcamento.total = valorFinal;
+      atualizarTudo(true);
+      mostrarToast("Orçamento Total salvo!");
+    }
+
     // MODAL MEDICAMENTOS
     function abrirModalFormMedicamento(id = null) {
       document.getElementById("medId").value = "";
@@ -2150,7 +1898,7 @@
       document.getElementById("formRemedioTitle").innerText = "Adicionar Medicamento";
 
       if (id) {
-        const m = app.medicamentos.find(x => x.id === id);
+        const m = (app.medicamentos || []).find(x => x.id === id);
         if (m) {
           document.getElementById("medId").value = m.id;
           document.getElementById("medNome").value = m.nome;
@@ -2186,7 +1934,7 @@
     }
 
     function excluirMedicamentoAdmin(id) {
-      if (confirm("Remover este medicamento do catálogo do Estado?")) {
+      if (confirm("Remover este medicamento do catálogo?")) {
         app.medicamentos = app.medicamentos.filter(x => x.id !== id);
         atualizarTudo(true);
       }
@@ -2204,7 +1952,7 @@
       document.getElementById("formHospTitle").innerText = "Cadastrar Unidade Hospitalar";
 
       if (id) {
-        const h = app.hospitais.find(x => x.id === id);
+        const h = (app.hospitais || []).find(x => x.id === id);
         if (h) {
           document.getElementById("hId").value = h.id;
           document.getElementById("hNome").value = h.nome;
@@ -2260,7 +2008,7 @@
     }
 
     function excluirHospital(id) {
-      if (confirm("Remover esta unidade da rede monitorada?")) {
+      if (confirm("Remover esta unidade da rede?")) {
         app.hospitais = app.hospitais.filter(x => x.id !== id);
         atualizarTudo(true);
       }
@@ -2319,7 +2067,7 @@
 
       fecharModalFormEquipeIep();
       atualizarTudo(true);
-      mostrarToast("Titular do IEP-SP salvo!");
+      mostrarToast("Titular do IEP-SP salvo com sucesso!");
     }
 
     function desocuparCargoIep(cargo) {
@@ -2344,7 +2092,7 @@
       }
     }
 
-    // MODAL EQUIPE SES GERAL
+    // MODAL EQUIPE SES
     function abrirModalFormEquipeSES(cargo = null) {
       document.getElementById("eqId").value = "";
       document.getElementById("eqNome").value = "";
@@ -2357,7 +2105,7 @@
 
       if (cargo) {
         document.getElementById("eqCargo").value = cargo;
-        const m = app.equipe.find(x => x.cargo === cargo);
+        const m = (app.equipe || []).find(x => x.cargo === cargo);
         if (m && m.nome) {
           document.getElementById("eqId").value = m.id || "";
           document.getElementById("eqNome").value = m.nome || "";
@@ -2430,7 +2178,7 @@
       document.getElementById("formProgTitle").innerText = "Cadastrar Programa Oficial";
 
       if (id) {
-        const p = app.programas.find(x => x.id === id);
+        const p = (app.programas || []).find(x => x.id === id);
         if (p) {
           document.getElementById("pId").value = p.id;
           document.getElementById("pNome").value = p.nome;
@@ -2515,128 +2263,316 @@
       mostrarToast("Notícia publicada com sucesso!");
     }
 
-    // --- CARGOS INTERNOS DO IEP-SP (64x64px RÍGIDO - SEM DEFORMAÇÃO) ---
-    function renderizarEquipeIep() {
-      const secao = document.getElementById("secaoEquipeIep");
-      const container = document.getElementById("gridEquipeIep");
-      const lista = (app.iepEquipe || []).filter(m => m.ativo && m.nome && m.nome.trim() !== "");
+    // --- ALERTA DA CAPA & OUVIDORIA ---
+    function salvarAlerta() {
+      const ativo = document.getElementById("chkAlertaAtivo").checked;
+      const nivel = document.getElementById("selAlertaNivel").value;
+      const msg = document.getElementById("adminInputAlerta").value.trim();
+      app.alerta = { ativo, nivel, mensagem: msg };
+      atualizarTudo(true);
+      mostrarToast("Alerta atualizado!");
+    }
 
-      if (lista.length === 0) {
-        secao.classList.add("hidden");
+    function removerAlerta() {
+      app.alerta.ativo = false;
+      atualizarTudo(true);
+      mostrarToast("Alerta desativado!");
+    }
+
+    function salvarOuvidoria(e) {
+      e.preventDefault();
+      const link = document.getElementById("adminInputOuvidoria").value.trim();
+      if (!link) {
+        alert("Digite o link da ouvidoria.");
         return;
       }
+      app.ouvidoria = link;
+      atualizarTudo(true);
+      mostrarToast("Link da Ouvidoria salvo!");
+    }
 
-      secao.classList.remove("hidden");
-      container.innerHTML = lista.map(m => {
-        const fotoHtml = (m.foto && m.foto.trim() !== "")
-          ? `<img src="${m.foto}" alt="${m.nome}" style="width: 64px; height: 64px; min-width: 64px; min-height: 64px; max-width: 64px; max-height: 64px;" class="w-16 h-16 rounded-full object-cover border-2 border-indigo-700 flex-shrink-0 bg-neutral-100 shadow-sm">`
-          : gerarEmblemaPadraoHtml('border-indigo-700', 'bg-indigo-950');
-
-        return `
-          <div class="bg-white rounded-xl border border-neutral-200 shadow-sm p-4 flex items-center gap-3.5 hover:shadow-md transition">
-            ${fotoHtml}
-            <div class="min-w-0 flex-1">
-              <span class="text-[9px] font-black uppercase text-indigo-700 bg-indigo-50 px-2 py-0.5 rounded tracking-wider block mb-1 truncate">
-                ${m.cargo}
-              </span>
-              <h4 class="font-bold text-neutral-900 text-sm leading-snug truncate">${m.nome}</h4>
-              <p class="text-[11px] text-neutral-500 mt-0.5 line-clamp-2 leading-relaxed">${m.descricao || 'Corpo clínico e pericial do IEP-SP.'}</p>
+    // --- RENDERIZAÇÃO DE LISTAS NO ADMIN ---
+    function renderizarAdminListas() {
+      // Repasses
+      const divD = document.getElementById("listaAdminDestinacoes");
+      if (divD) {
+        divD.innerHTML = (app.orcamento.destinacoes || []).map(d => `
+          <div class="p-3.5 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 hover:bg-neutral-50">
+            <div>
+              <div class="flex items-center gap-2">
+                <span class="text-[9px] font-black uppercase text-sp-blue bg-blue-50 px-2 py-0.5 rounded">${d.entidade || 'Geral'}</span>
+                <span class="font-bold text-neutral-900">${d.nome}</span>
+                <span class="text-[11px] font-black text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded">${formatarMoeda(d.valor)}</span>
+              </div>
+              <p class="text-[11px] text-neutral-500 mt-0.5">${d.descricao}</p>
+            </div>
+            <div class="flex items-center gap-2 self-end sm:self-center">
+              <button onclick="abrirModalFormDestinacao('${d.id}')" class="text-sp-blue font-bold hover:underline">Editar</button>
+              <button onclick="excluirDestinacao('${d.id}')" class="text-red-600 font-bold hover:underline">Excluir</button>
             </div>
           </div>
-        `;
-      }).join("");
-      lucide.createIcons();
-    }
-
-    // --- CORPO DIRETIVO GERAL SES (64x64px RÍGIDO) ---
-    function renderizarEquipe() {
-      const container = document.getElementById("gridEquipe");
-      const nomeados = app.equipe.filter(m => m.ativo && m.nome && m.nome.trim() !== "");
-
-      if (nomeados.length === 0) {
-        container.innerHTML = `<p class="col-span-4 p-8 text-center text-neutral-400 text-xs">Nenhum titular nomeado no momento.</p>`;
-        return;
+        `).join("");
       }
 
-      container.innerHTML = nomeados.map(m => {
-        const fotoHtml = (m.foto && m.foto.trim() !== "")
-          ? `<img src="${m.foto}" alt="${m.nome}" style="width: 64px; height: 64px; min-width: 64px; min-height: 64px; max-width: 64px; max-height: 64px;" class="w-16 h-16 rounded-full object-cover border-2 border-sp-blue flex-shrink-0 bg-neutral-100 shadow-sm">`
-          : gerarEmblemaPadraoHtml('border-sp-blue', 'bg-sp-darkBlue');
-
-        return `
-          <div class="bg-white rounded-xl border border-neutral-200 shadow-sm p-4 flex items-center gap-3.5 hover:shadow-md transition">
-            ${fotoHtml}
-            <div class="min-w-0 flex-1">
-              <span class="text-[9px] font-black uppercase text-sp-blue bg-blue-50 px-2 py-0.5 rounded tracking-wider block mb-1 truncate">
-                ${m.cargo}
-              </span>
-              <h4 class="font-bold text-neutral-900 text-sm leading-snug truncate">${m.nome}</h4>
-              <p class="text-[11px] text-neutral-500 mt-0.5 line-clamp-2 leading-relaxed">${m.descricao || 'Nomeação Oficial pelo Diário do Estado.'}</p>
+      // Remédios
+      const divR = document.getElementById("listaAdminRemedios");
+      if (divR) {
+        divR.innerHTML = (app.medicamentos || []).map(m => `
+          <div class="p-3.5 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 hover:bg-neutral-50">
+            <div>
+              <div class="flex items-center gap-2">
+                <span class="font-bold text-neutral-900">${m.nome}</span>
+                <span class="text-[9px] font-bold text-emerald-800 bg-emerald-50 px-1.5 py-0.5 rounded uppercase">${m.categoria}</span>
+              </div>
+              <p class="text-[11px] text-neutral-500 mt-0.5">${m.descricao}</p>
+            </div>
+            <div class="flex items-center gap-2 self-end sm:self-center">
+              <button onclick="abrirModalFormMedicamento('${m.id}')" class="text-sp-blue font-bold hover:underline">Editar</button>
+              <button onclick="excluirMedicamentoAdmin('${m.id}')" class="text-red-600 font-bold hover:underline">Excluir</button>
             </div>
           </div>
-        `;
-      }).join("");
+        `).join("");
+      }
+
+      // Equipe IEP-SP
+      const divEIep = document.getElementById("listaAdminEquipeIep");
+      if (divEIep) {
+        divEIep.innerHTML = CARGOS_OFICIAIS_IEP.map(cargo => {
+          const m = (app.iepEquipe || []).find(x => x.cargo === cargo) || { cargo, nome: "", ativo: false };
+          const ocupado = m.nome && m.nome.trim() !== "";
+          return `
+            <div class="p-3 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 hover:bg-neutral-50">
+              <div>
+                <div class="flex items-center gap-2">
+                  <span class="font-bold text-neutral-900">${cargo}</span>
+                  <span class="text-[9px] font-bold px-1.5 py-0.5 rounded uppercase ${ocupado ? (m.ativo ? 'bg-indigo-100 text-indigo-800' : 'bg-amber-100 text-amber-800') : 'bg-neutral-200 text-neutral-600'}">
+                    ${ocupado ? (m.ativo ? 'Ativo' : 'Oculto') : 'Vago'}
+                  </span>
+                </div>
+                <p class="text-[11px] text-neutral-600 mt-0.5">
+                  ${ocupado ? `<strong>Titular:</strong> ${m.nome}` : '<em class="text-neutral-400">Cargo não preenchido</em>'}
+                </p>
+              </div>
+              <div class="flex items-center gap-2 self-end sm:self-center">
+                ${ocupado ? `
+                  <button onclick="alternarAtivoEquipeIep('${cargo}')" class="px-2 py-1 rounded font-bold text-[10px] ${m.ativo ? 'bg-indigo-100 text-indigo-800' : 'bg-neutral-200 text-neutral-600'}">
+                    ${m.ativo ? 'Exibindo' : 'Oculto'}
+                  </button>
+                ` : ''}
+                <button onclick="abrirModalFormEquipeIep('${cargo}')" class="text-indigo-700 font-bold hover:underline">
+                  ${ocupado ? 'Editar' : 'Nomear'}
+                </button>
+                ${ocupado ? `
+                  <button onclick="desocuparCargoIep('${cargo}')" class="text-red-600 font-bold hover:underline">Desocupar</button>
+                ` : ''}
+              </div>
+            </div>
+          `;
+        }).join("");
+      }
+
+      // Equipe SES
+      const divE = document.getElementById("listaAdminEquipe");
+      if (divE) {
+        divE.innerHTML = CARGOS_OFICIAIS_SES.map(cargo => {
+          const m = (app.equipe || []).find(x => x.cargo === cargo) || { cargo, nome: "", ativo: false };
+          const ocupado = m.nome && m.nome.trim() !== "";
+          return `
+            <div class="p-3.5 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2.5 hover:bg-neutral-50">
+              <div>
+                <div class="flex items-center gap-2">
+                  <span class="font-bold text-neutral-900">${cargo}</span>
+                  <span class="text-[9px] font-bold px-1.5 py-0.5 rounded uppercase ${ocupado ? (m.ativo ? 'bg-emerald-100 text-emerald-800' : 'bg-amber-100 text-amber-800') : 'bg-neutral-200 text-neutral-600'}">
+                    ${ocupado ? (m.ativo ? 'Ocupado & Ativo' : 'Ocupado (Oculto)') : 'Vago'}
+                  </span>
+                </div>
+                <p class="text-[11px] text-neutral-600 mt-0.5">
+                  ${ocupado ? `<strong>Titular:</strong> ${m.nome}` : '<em class="text-neutral-400">Cargo não preenchido</em>'}
+                </p>
+              </div>
+              <div class="flex items-center gap-2 self-end sm:self-center">
+                ${ocupado ? `
+                  <button onclick="alternarAtivoEquipe('${cargo}')" class="px-2 py-1 rounded font-bold text-[10px] ${m.ativo ? 'bg-emerald-100 text-emerald-800' : 'bg-neutral-200 text-neutral-600'}">
+                    ${m.ativo ? 'Exibindo' : 'Oculto'}
+                  </button>
+                ` : ''}
+                <button onclick="abrirModalFormEquipeSES('${cargo}')" class="text-sp-blue font-bold hover:underline">
+                  ${ocupado ? 'Editar' : 'Nomear'}
+                </button>
+                ${ocupado ? `
+                  <button onclick="desocuparCargo('${cargo}')" class="text-red-600 font-bold hover:underline">Desocupar</button>
+                ` : ''}
+              </div>
+            </div>
+          `;
+        }).join("");
+      }
+
+      // Programas
+      const divP = document.getElementById("listaAdminProgramas");
+      if (divP) {
+        divP.innerHTML = (app.programas || []).map(p => `
+          <div class="p-3 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2">
+            <div>
+              <div class="flex items-center gap-2">
+                <span class="font-bold text-neutral-900">${p.nome}</span>
+                <span class="text-[10px] bg-neutral-100 text-neutral-600 px-1.5 py-0.5 rounded font-semibold uppercase">${p.categoria}</span>
+              </div>
+              <p class="text-[11px] text-neutral-500 mt-0.5">${p.descricao}</p>
+            </div>
+            <div class="flex items-center gap-2 self-end sm:self-center">
+              <button onclick="alternarAtivoPrograma('${p.id}')" class="px-2 py-1 rounded font-bold text-[10px] ${p.ativo ? 'bg-emerald-100 text-emerald-800' : 'bg-neutral-200 text-neutral-600'}">
+                ${p.ativo ? 'Ativo na Capa' : 'Oculto'}
+              </button>
+              <button onclick="abrirModalFormPrograma('${p.id}')" class="text-sp-blue font-bold hover:underline">Editar</button>
+              <button onclick="excluirPrograma('${p.id}')" class="text-red-600 font-bold hover:underline">Excluir</button>
+            </div>
+          </div>
+        `).join("");
+      }
+
+      // Hospitais
+      const tabH = document.getElementById("tabelaAdminHospitais");
+      if (tabH) {
+        tabH.innerHTML = (app.hospitais || []).map(h => `
+          <tr class="hover:bg-neutral-50">
+            <td class="p-3 font-bold text-neutral-900">${h.nome}</td>
+            <td class="p-3 font-semibold">${h.status}</td>
+            <td class="p-3 uppercase text-[10px]">${h.regiao}</td>
+            <td class="p-3 text-right space-x-2">
+              <button onclick="abrirModalFormHospital('${h.id}')" class="text-sp-blue font-bold hover:underline">Editar</button>
+              <button onclick="excluirHospital('${h.id}')" class="text-red-600 font-bold hover:underline">Excluir</button>
+            </td>
+          </tr>
+        `).join("");
+      }
+
+      // Notícias
+      const divN = document.getElementById("listaAdminNoticias");
+      if (divN) {
+        divN.innerHTML = (app.noticias || []).map(n => `
+          <div class="p-3 rounded border flex justify-between items-center text-xs">
+            <div><span class="font-semibold text-neutral-800">${n.titulo}</span></div>
+            <button onclick="app.noticias = app.noticias.filter(x => x.id !== '${n.id}'); atualizarTudo(true);" class="text-red-600 font-bold ml-2 hover:underline">Excluir</button>
+          </div>
+        `).join("");
+      }
+    }
+
+    // --- SEGURANÇA E LOGIN ---
+    function abrirModalLogin() {
+      if (app.logado) {
+        irParaPagina('admin');
+        return;
+      }
+      document.getElementById("modalLogin").style.display = "flex";
+      document.getElementById("loginErro").classList.add("hidden");
+      document.getElementById("loginUser").value = "";
+      document.getElementById("loginPass").value = "";
       lucide.createIcons();
     }
 
-    // --- PROGRAMAS NA CAPA (GRADE UNIFORME - IEP, DOSE CERTA E OUTROS) ---
-    function renderizarHomeProgramas() {
-      const container = document.getElementById("homeGridProgramas");
-      const ativos = app.programas.filter(p => p.ativo);
+    function fecharModalLogin() {
+      document.getElementById("modalLogin").style.display = "none";
+    }
 
-      if (ativos.length === 0) {
-        container.innerHTML = `<p class="col-span-3 text-neutral-400 text-xs py-4">Nenhum programa oficial ativo no momento.</p>`;
-        return;
+    function alternarVerSenha() {
+      const input = document.getElementById("loginPass");
+      const icone = document.getElementById("iconeOlho");
+      if (input.type === "password") {
+        input.type = "text";
+        icone.setAttribute("data-lucide", "eye-off");
+      } else {
+        input.type = "password";
+        icone.setAttribute("data-lucide", "eye");
       }
-
-      container.innerHTML = ativos.map(p => `
-        <div class="bg-white p-5 rounded-xl border border-neutral-200 shadow-sm flex flex-col justify-between hover:shadow-md hover:border-sp-blue transition">
-          <div>
-            <span class="text-[9px] font-black uppercase text-sp-blue bg-blue-50 px-2 py-0.5 rounded">${p.categoria}</span>
-            <h4 class="font-bold text-neutral-900 text-sm mt-2 mb-1 leading-snug">${p.nome}</h4>
-            <p class="text-neutral-500 text-xs line-clamp-3 leading-relaxed">${p.descricao}</p>
-          </div>
-          ${p.link ? `
-            <a href="${p.link}" class="text-xs font-bold text-sp-blue hover:underline flex items-center gap-1 mt-4">
-              Acessar Programa <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
-            </a>
-          ` : `
-            <span class="text-[11px] font-semibold text-neutral-400 mt-4">Atendimento na Rede SUS</span>
-          `}
-        </div>
-      `).join("");
       lucide.createIcons();
     }
 
-    // --- PROGRAMAS NA PÁGINA DEDICADA ---
-    function renderizarProgramas() {
-      const container = document.getElementById("gridProgramas");
-      const ativos = app.programas.filter(p => p.ativo);
+    function realizarLogin(e) {
+      e.preventDefault();
+      const u = document.getElementById("loginUser").value.trim();
+      const p = document.getElementById("loginPass").value.trim();
 
-      if (ativos.length === 0) {
-        container.innerHTML = `<p class="col-span-3 text-neutral-400 text-xs py-4">Nenhum programa oficial ativo no momento.</p>`;
+      if (u === app.user && p === app.pass) {
+        app.logado = true;
+        fecharModalLogin();
+        document.getElementById("labelAcesso").innerText = "Painel Conectado";
+        mostrarToast("Login realizado com sucesso!");
+        irParaPagina('admin');
+      } else {
+        document.getElementById("loginErro").classList.remove("hidden");
+      }
+    }
+
+    function redefinirSenhaPadrao() {
+      if (confirm("Deseja redefinir o acesso para o padrão (admin / saude@sp2026)?")) {
+        app.user = "admin";
+        app.pass = "saude@sp2026";
+        localStorage.setItem("ses_user", "admin");
+        localStorage.setItem("ses_pass", "saude@sp2026");
+        document.getElementById("loginUser").value = "admin";
+        document.getElementById("loginPass").value = "saude@sp2026";
+        alert("Acesso redefinido com sucesso:\nUsuário: admin\nSenha: saude@sp2026");
+      }
+    }
+
+    function alterarCredenciais(e) {
+      e.preventDefault();
+      const novoU = document.getElementById("novoUsuario").value.trim();
+      const novaP = document.getElementById("novaSenha").value.trim();
+      const confP = document.getElementById("confirmaSenha").value.trim();
+
+      if (novaP.length < 5) {
+        alert("A senha precisa ter pelo menos 5 caracteres!");
+        return;
+      }
+      if (novaP !== confP) {
+        alert("As senhas não coincidem!");
         return;
       }
 
-      container.innerHTML = ativos.map(p => `
-        <div class="bg-white p-5 rounded-xl border border-neutral-200 shadow-sm flex flex-col justify-between hover:shadow-md hover:border-sp-blue transition">
-          <div>
-            <span class="text-[10px] font-black uppercase text-sp-blue bg-blue-50 px-2 py-0.5 rounded">${p.categoria}</span>
-            <h4 class="font-bold text-neutral-800 text-sm mt-2 mb-1 uppercase">${p.nome}</h4>
-            <p class="text-neutral-500 text-xs mb-3 leading-relaxed">${p.descricao}</p>
-          </div>
-          ${p.link ? `
-            <a href="${p.link}" class="text-xs font-bold text-sp-blue hover:underline flex items-center gap-1 mt-2">
-              Acessar Programa <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
-            </a>
-          ` : `
-            <span class="text-xs font-semibold text-neutral-400 mt-2 flex items-center gap-1">
-              Atendimento na Rede SUS
-            </span>
-          `}
-        </div>
-      `).join("");
-      lucide.createIcons();
+      app.user = novoU;
+      app.pass = novaP;
+      localStorage.setItem("ses_user", novoU);
+      localStorage.setItem("ses_pass", novaP);
+
+      document.getElementById("novoUsuario").value = "";
+      document.getElementById("novaSenha").value = "";
+      document.getElementById("confirmaSenha").value = "";
+      mostrarToast("Novas credenciais salvas com sucesso!");
+    }
+
+    function deslogar() {
+      app.logado = false;
+      document.getElementById("labelAcesso").innerText = "Área do Servidor";
+      irParaPagina('inicio');
+      mostrarToast("Sessão finalizada!");
+    }
+
+    function mudarAba(aba) {
+      const abas = ["transparencia", "iep", "remedios", "hospitais", "equipe", "programas", "alerta", "noticias"];
+      abas.forEach(a => {
+        const sec = document.getElementById("sec" + a.charAt(0).toUpperCase() + a.slice(1));
+        const tab = document.getElementById("tab" + a.charAt(0).toUpperCase() + a.slice(1));
+        if (a === aba) {
+          if (sec) sec.classList.remove("hidden");
+          if (tab) tab.className = "px-3 py-2 rounded text-xs font-bold uppercase bg-sp-blue text-white shadow-sm flex-shrink-0";
+        } else {
+          if (sec) sec.classList.add("hidden");
+          if (tab) tab.className = "px-3 py-2 rounded text-xs font-bold uppercase bg-white text-neutral-700 hover:bg-neutral-100 flex-shrink-0";
+        }
+      });
+    }
+
+    function alternarContraste() {
+      document.body.classList.toggle("alto-contraste");
+    }
+
+    let nivelFonte = 0;
+    function ajustarFonte(delta) {
+      nivelFonte = delta === 0 ? 0 : Math.max(-2, Math.min(3, nivelFonte + delta));
+      document.documentElement.style.fontSize = (100 + (nivelFonte * 10)) + "%";
     }
   </script>
 </body>
