@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Portal Oficial da Secretaria de Estado da Saúde de São Paulo — transparência orçamentária, IEP-SP, hospitais, programas e notícias do SUS Paulista." />
+  <meta name="description" content="Portal Oficial da Secretaria de Estado da Saúde de São Paulo — transparência orçamentária, programas oficiais, hospitais e notícias do SUS Paulista." />
   <title>Secretaria de Estado da Saúde | Governo do Estado de São Paulo</title>
 
   <!-- Tailwind CSS & Lucide Icons -->
@@ -48,7 +48,7 @@
       background-size: cover;
       background-position: center;
     }
-    #menuMobile.open { max-height: 560px; }
+    #menuMobile.open { max-height: 500px; }
     #menuMobile { max-height: 0; overflow: hidden; transition: max-height .3s ease; }
     .pulse-dot { animation: pulse 2s infinite; }
     @keyframes pulse { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: .4; transform: scale(1.2); } }
@@ -111,15 +111,13 @@
         </div>
       </a>
 
-      <!-- Menu Computador -->
-      <nav class="hidden lg:flex items-center gap-3 xl:gap-4 text-xs font-bold text-neutral-700 uppercase">
+      <!-- Menu Principal (Limpo e Oficial) -->
+      <nav class="hidden lg:flex items-center gap-4 xl:gap-6 text-xs font-bold text-neutral-700 uppercase">
         <button onclick="irParaPagina('inicio')" class="nav-item hover:text-sp-blue transition" data-page="inicio">Início</button>
-        <button onclick="irParaPagina('transparencia')" class="nav-item hover:text-sp-blue transition" data-page="transparencia">Transparência</button>
-        <button onclick="irParaPagina('iep')" class="nav-item hover:text-indigo-600 transition text-indigo-700 font-extrabold" data-page="iep">Psicologia (IEP-SP)</button>
-        <button onclick="irParaPagina('medicamentos')" class="nav-item hover:text-emerald-600 transition text-emerald-700 font-extrabold" data-page="medicamentos">Remédios</button>
-        <button onclick="irParaPagina('hospitais')" class="nav-item hover:text-sp-blue transition" data-page="hospitais">Hospitais</button>
+        <button onclick="irParaPagina('programas')" class="nav-item hover:text-sp-blue transition" data-page="programas">Programas Oficiais</button>
+        <button onclick="irParaPagina('transparencia')" class="nav-item hover:text-sp-blue transition" data-page="transparencia">Transparência & Gastos</button>
+        <button onclick="irParaPagina('hospitais')" class="nav-item hover:text-sp-blue transition" data-page="hospitais">Rede Hospitalar</button>
         <button onclick="irParaPagina('equipe')" class="nav-item hover:text-sp-blue transition" data-page="equipe">Corpo Diretivo</button>
-        <button onclick="irParaPagina('programas')" class="nav-item hover:text-sp-blue transition" data-page="programas">Programas</button>
         <button onclick="irParaPagina('noticias')" class="nav-item hover:text-sp-blue transition" data-page="noticias">Notícias</button>
       </nav>
 
@@ -131,14 +129,12 @@
 
     <!-- Menu Mobile Dropdown -->
     <div id="menuMobile" class="lg:hidden border-t border-neutral-200 bg-white">
-      <div class="flex flex-col px-4 py-3 text-xs font-bold text-neutral-700 uppercase space-y-2">
+      <div class="flex flex-col px-4 py-3 text-xs font-bold text-neutral-700 uppercase space-y-2.5">
         <button onclick="irParaPagina('inicio'); fecharMenuMobile()" class="text-left py-1">Início</button>
-        <button onclick="irParaPagina('transparencia'); fecharMenuMobile()" class="text-left py-1">Transparência & Repasses</button>
-        <button onclick="irParaPagina('iep'); fecharMenuMobile()" class="text-left py-1 text-indigo-700 font-black">Instituto de Psicologia (IEP-SP)</button>
-        <button onclick="irParaPagina('medicamentos'); fecharMenuMobile()" class="text-left py-1 text-emerald-700 font-black">Farmácia & Pedido de Remédios</button>
+        <button onclick="irParaPagina('programas'); fecharMenuMobile()" class="text-left py-1 text-sp-blue font-black">Programas Oficiais (IEP, Remédios e SUS)</button>
+        <button onclick="irParaPagina('transparencia'); fecharMenuMobile()" class="text-left py-1">Transparência & Gastos</button>
         <button onclick="irParaPagina('hospitais'); fecharMenuMobile()" class="text-left py-1">Rede Hospitalar</button>
         <button onclick="irParaPagina('equipe'); fecharMenuMobile()" class="text-left py-1">Corpo Diretivo da Secretaria</button>
-        <button onclick="irParaPagina('programas'); fecharMenuMobile()" class="text-left py-1">Programas Oficiais</button>
         <button onclick="irParaPagina('noticias'); fecharMenuMobile()" class="text-left py-1">Notícias Oficiais</button>
       </div>
     </div>
@@ -167,36 +163,29 @@
     </div>
   </div>
 
-  <!-- ==================== 1. PÁGINA INICIAL ==================== -->
+  <!-- ==================== 1. PÁGINA INICIAL (FOCO EM PROGRAMAS & TRANSPARÊNCIA) ==================== -->
   <main id="viewInicio" class="view-section flex-grow">
     
     <!-- HERO SECTION -->
-    <section class="hero-bg text-white py-12 sm:py-16 px-4">
+    <section class="hero-bg text-white py-14 sm:py-16 px-4">
       <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8 items-center">
         <div class="md:col-span-2">
           <span class="bg-sp-yellow text-sp-darkBlue text-[10px] font-black uppercase px-2.5 py-1 rounded mb-3 inline-block shadow-sm">
             Portal Oficial SUS Paulista
           </span>
           <h2 class="text-2xl sm:text-4xl font-black leading-tight mb-4 tracking-tight">
-            Saúde pública de qualidade, transparência e acolhimento para todo o Estado.
+            Saúde pública de qualidade com transparência e responsabilidade.
           </h2>
           <p class="text-blue-100 text-xs sm:text-sm mb-6 max-w-xl leading-relaxed">
-            Acesse diretamente os serviços de acolhimento psicológico, solicitação de medicamentos essenciais, hospitais em tempo real e prestação de contas.
+            Consulte a aplicação dos recursos públicos estaduais, acesse os programas e serviços de saúde da população e acompanhe a rede hospitalar.
           </p>
           
-          <!-- ATALHOS NO HERO -->
-          <div class="flex flex-wrap gap-2.5">
-            <button onclick="irParaPagina('iep')" class="bg-white text-indigo-950 font-black px-4 py-2.5 rounded-lg text-xs uppercase shadow hover:bg-neutral-100 transition flex items-center gap-1.5">
-              <i data-lucide="brain" class="w-4 h-4 text-indigo-700"></i> Instituto de Psicologia (IEP)
+          <div class="flex flex-wrap gap-3">
+            <button onclick="irParaPagina('programas')" class="bg-white text-sp-blue font-black px-5 py-3 rounded-lg text-xs uppercase shadow hover:bg-neutral-100 transition flex items-center gap-2">
+              <i data-lucide="heart-handshake" class="w-4 h-4 text-sp-blue"></i> Ver Programas Oficiais
             </button>
-            <button onclick="irParaPagina('medicamentos')" class="bg-emerald-600 text-white font-black px-4 py-2.5 rounded-lg text-xs uppercase shadow hover:bg-emerald-700 transition flex items-center gap-1.5">
-              <i data-lucide="pill" class="w-4 h-4 text-emerald-200"></i> Solicitar Medicamento
-            </button>
-            <button onclick="irParaPagina('programas')" class="bg-sp-blue border border-white/40 text-white font-bold px-4 py-2.5 rounded-lg text-xs uppercase shadow hover:bg-sp-darkBlue transition">
-              Programas Oficiais
-            </button>
-            <button onclick="irParaPagina('transparencia')" class="bg-sp-yellow text-sp-darkBlue font-bold px-4 py-2.5 rounded-lg text-xs uppercase shadow hover:bg-amber-400 transition">
-              Transparência
+            <button onclick="irParaPagina('transparencia')" class="bg-sp-yellow text-sp-darkBlue font-black px-5 py-3 rounded-lg text-xs uppercase shadow hover:bg-amber-400 transition flex items-center gap-2">
+              <i data-lucide="pie-chart" class="w-4 h-4 text-sp-darkBlue"></i> Transparência & Gastos
             </button>
           </div>
         </div>
@@ -224,26 +213,6 @@
       </div>
     </section>
 
-    <!-- FAIXA DE ATALHOS RÁPIDOS DE ATENDIMENTO DIRETO -->
-    <section class="bg-neutral-100 border-b border-neutral-200 py-4 px-4">
-      <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3">
-        <span class="text-xs font-black uppercase text-sp-darkBlue flex items-center gap-1.5">
-          <i data-lucide="zap" class="w-4 h-4 text-sp-yellow fill-sp-yellow"></i> Atalhos de Atendimento Rápido:
-        </span>
-        <div class="flex flex-wrap gap-2 w-full sm:w-auto">
-          <button onclick="irParaPagina('iep')" class="flex-1 sm:flex-none bg-white hover:bg-indigo-50 border border-indigo-200 text-indigo-900 font-bold px-3 py-2 rounded-lg text-xs flex items-center justify-center gap-1.5 shadow-sm transition">
-            <i data-lucide="brain" class="w-4 h-4 text-indigo-600"></i> Acolhimento & Perícias (IEP)
-          </button>
-          <button onclick="irParaPagina('medicamentos')" class="flex-1 sm:flex-none bg-white hover:bg-emerald-50 border border-emerald-200 text-emerald-900 font-bold px-3 py-2 rounded-lg text-xs flex items-center justify-center gap-1.5 shadow-sm transition">
-            <i data-lucide="pill" class="w-4 h-4 text-emerald-600"></i> Pedido de Remédio (Dose Certa)
-          </button>
-          <button onclick="irParaPagina('hospitais')" class="flex-1 sm:flex-none bg-white hover:bg-blue-50 border border-neutral-300 text-neutral-800 font-bold px-3 py-2 rounded-lg text-xs flex items-center justify-center gap-1.5 shadow-sm transition">
-            <i data-lucide="building-2" class="w-4 h-4 text-sp-blue"></i> Hospitais & AMEs 24h
-          </button>
-        </div>
-      </div>
-    </section>
-
     <!-- INDICADORES RÁPIDOS -->
     <section class="bg-white border-b border-neutral-200">
       <div class="max-w-7xl mx-auto px-4 py-5 grid grid-cols-2 sm:grid-cols-4 gap-4 text-center divide-x divide-neutral-100">
@@ -257,7 +226,7 @@
         </div>
         <div>
           <p id="kpiProgramas" class="text-xl sm:text-2xl font-black text-indigo-700">0</p>
-          <p class="text-[10px] uppercase font-bold text-neutral-500 mt-0.5">Programas Ativos</p>
+          <p class="text-[10px] uppercase font-bold text-neutral-500 mt-0.5">Programas Oficiais</p>
         </div>
         <div>
           <p id="kpiExecucao" class="text-xl sm:text-2xl font-black text-amber-600">0%</p>
@@ -266,17 +235,20 @@
       </div>
     </section>
 
-    <!-- PROGRAMAS QUE VOCÊ ESCOLHEU ATIVAR (VITRINE DINÂMICA) -->
-    <section class="max-w-7xl mx-auto px-4 py-8">
-      <div class="flex justify-between items-center mb-4 border-b-2 border-sp-blue pb-2">
-        <h3 class="text-sm font-black text-sp-darkBlue uppercase tracking-wider flex items-center gap-2">
-          <i data-lucide="check-circle" class="w-4 h-4 text-emerald-600"></i> Programas Oficiais em Destaque
-        </h3>
+    <!-- PROGRAMAS OFICIAIS NA CAPA (SELEÇÃO FEITA POR VOCÊ) -->
+    <section class="max-w-7xl mx-auto px-4 py-10">
+      <div class="flex justify-between items-center mb-6 border-b-2 border-sp-blue pb-2">
+        <div>
+          <span class="text-xs font-bold text-sp-blue uppercase tracking-wider">Ações Governamentais</span>
+          <h3 class="text-lg sm:text-xl font-black text-sp-darkBlue uppercase">Programas Oficiais de Saúde</h3>
+        </div>
         <button onclick="irParaPagina('programas')" class="text-xs font-bold text-sp-blue hover:underline">
-          Ver Todos os Programas →
+          Acessar Todos os Programas →
         </button>
       </div>
-      <div id="homeGridProgramas" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4"></div>
+      <div id="homeGridProgramas" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+        <!-- Renderizado dinamicamente -->
+      </div>
     </section>
 
     <!-- RESUMO DA TRANSPARÊNCIA ORÇAMENTÁRIA -->
@@ -308,7 +280,69 @@
 
   </main>
 
-  <!-- ==================== 2. PÁGINA: INSTITUTO DE PSICOLOGIA (IEP-SP) ==================== -->
+  <!-- ==================== 2. PÁGINA: PROGRAMAS OFICIAIS (HUB DO IEP, REMÉDIOS E MAIS) ==================== -->
+  <main id="viewProgramas" class="view-section hidden flex-grow max-w-7xl mx-auto px-4 py-8 w-full">
+    <div class="border-l-4 border-sp-blue pl-3 mb-6">
+      <span class="text-xs font-bold text-sp-blue uppercase tracking-wider">Ações e Atendimento</span>
+      <h2 class="text-xl sm:text-3xl font-black text-sp-darkBlue uppercase">Programas e Institutos Oficiais de Saúde</h2>
+      <p class="text-xs text-neutral-500 mt-1">Consulte os programas vigentes, solicite medicamentos e acesse os serviços do IEP-SP.</p>
+    </div>
+
+    <!-- 2 DESTAQUES PRINCIPAIS: IEP-SP E DOSE CERTA -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-10">
+      
+      <!-- Card IEP-SP -->
+      <div class="bg-white rounded-2xl border border-indigo-200 p-6 shadow-sm border-t-8 border-indigo-700 flex flex-col justify-between hover:shadow-md transition">
+        <div>
+          <div class="flex items-center justify-between mb-3">
+            <span class="text-[9px] font-black uppercase tracking-wider bg-indigo-50 text-indigo-700 px-2 py-0.5 rounded">Unidade Vinculada</span>
+            <span class="text-[10px] text-neutral-500 font-bold">Hospital Jefferson</span>
+          </div>
+          <h3 class="text-lg font-black text-sp-darkBlue uppercase flex items-center gap-2">
+            <i data-lucide="brain" class="w-5 h-5 text-indigo-700"></i> Instituto de Psicologia (IEP-SP)
+          </h3>
+          <p class="text-xs text-neutral-600 mt-2 leading-relaxed">
+            Atendimento psicológico comunitário, suporte a servidores, laudos de aptidão funcional, homologação de porte de arma de fogo e urgências psiquiátricas integradas ao SAMU 192.
+          </p>
+        </div>
+        <div class="mt-6 flex flex-wrap gap-2">
+          <button onclick="irParaPagina('iep')" class="w-full bg-indigo-700 hover:bg-indigo-800 text-white font-black py-2.5 rounded-lg text-xs uppercase shadow transition">
+            Acessar Instituto IEP-SP & Serviços →
+          </button>
+        </div>
+      </div>
+
+      <!-- Card Dose Certa (Medicamentos) -->
+      <div class="bg-white rounded-2xl border border-emerald-200 p-6 shadow-sm border-t-8 border-emerald-600 flex flex-col justify-between hover:shadow-md transition">
+        <div>
+          <div class="flex items-center justify-between mb-3">
+            <span class="text-[9px] font-black uppercase tracking-wider bg-emerald-50 text-emerald-700 px-2 py-0.5 rounded">Farmácia Estadual</span>
+            <span class="text-[10px] text-neutral-500 font-bold">Distribuição Gratuita</span>
+          </div>
+          <h3 class="text-lg font-black text-sp-darkBlue uppercase flex items-center gap-2">
+            <i data-lucide="pill" class="w-5 h-5 text-emerald-600"></i> Programa Dose Certa — Medicamentos
+          </h3>
+          <p class="text-xs text-neutral-600 mt-2 leading-relaxed">
+            Distribuição de remédios essenciais, de uso contínuo e alto custo nas farmácias do Estado. Faça sua solicitação eletrônica direta no formulário.
+          </p>
+        </div>
+        <div class="mt-6 flex flex-wrap gap-2">
+          <button onclick="irParaPagina('medicamentos')" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-black py-2.5 rounded-lg text-xs uppercase shadow transition">
+            Solicitar Medicamentos Online →
+          </button>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- DEMAIS PROGRAMAS CADASTRADOS -->
+    <div class="border-b border-neutral-200 pb-2 mb-4">
+      <h3 class="font-black text-sm uppercase text-neutral-800">Demais Programas e Campanhas Oficiais</h3>
+    </div>
+    <div id="gridProgramas" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5"></div>
+  </main>
+
+  <!-- ==================== 3. PÁGINA: INSTITUTO DE PSICOLOGIA (IEP-SP) ==================== -->
   <main id="viewIep" class="view-section hidden flex-grow max-w-7xl mx-auto px-4 py-8 w-full">
     
     <!-- Cabeçalho Dinâmico IEP-SP -->
@@ -399,7 +433,7 @@
 
     </div>
 
-    <!-- CORPO DIRETIVO E CARGOS INTERNOS DO IEP-SP (SEM BUG DE IMAGEM) -->
+    <!-- CORPO DIRETIVO E CARGOS INTERNOS DO IEP-SP (100% CORRIGIDO SEM FOTO FAKE) -->
     <div id="secaoEquipeIep" class="mb-10">
       <div class="border-l-4 border-indigo-700 pl-3 mb-6">
         <span class="text-xs font-bold text-indigo-700 uppercase tracking-wider">Estrutura Interna</span>
@@ -415,7 +449,7 @@
     </div>
   </main>
 
-  <!-- ==================== 3. PÁGINA: MEDICAMENTOS (FORMULÁRIO INTEGRADO) ==================== -->
+  <!-- ==================== 4. PÁGINA: MEDICAMENTOS (FORMULÁRIO INTEGRADO) ==================== -->
   <main id="viewMedicamentos" class="view-section hidden flex-grow max-w-7xl mx-auto px-4 py-8 w-full">
     <div class="border-l-4 border-emerald-600 pl-3 mb-6">
       <span class="text-xs font-bold text-emerald-700 uppercase tracking-wider">Assistência Farmacêutica Estadual</span>
@@ -502,7 +536,7 @@
     </div>
   </main>
 
-  <!-- ==================== 4. PÁGINA: TRANSPARÊNCIA & REPASSES ==================== -->
+  <!-- ==================== 5. PÁGINA: TRANSPARÊNCIA & REPASSES ==================== -->
   <main id="viewTransparencia" class="view-section hidden flex-grow max-w-7xl mx-auto px-4 py-8 w-full">
     <div class="border-l-4 border-sp-blue pl-3 mb-6">
       <span class="text-xs font-bold text-sp-blue uppercase tracking-wider">Prestação de Contas Pública</span>
@@ -551,7 +585,7 @@
     </div>
   </main>
 
-  <!-- ==================== 5. PÁGINA: CORPO DIRETIVO DA SECRETARIA ==================== -->
+  <!-- ==================== 6. PÁGINA: CORPO DIRETIVO DA SECRETARIA ==================== -->
   <main id="viewEquipe" class="view-section hidden flex-grow max-w-7xl mx-auto px-4 py-8 w-full">
     <div class="border-l-4 border-sp-blue pl-3 mb-6">
       <span class="text-xs font-bold text-sp-blue uppercase tracking-wider">Estrutura Organizacional</span>
@@ -561,7 +595,7 @@
     <div id="gridEquipe" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4"></div>
   </main>
 
-  <!-- ==================== 6. PÁGINA: REDE HOSPITALAR ==================== -->
+  <!-- ==================== 7. PÁGINA: REDE HOSPITALAR ==================== -->
   <main id="viewHospitais" class="view-section hidden flex-grow max-w-7xl mx-auto px-4 py-8 w-full">
     <div class="flex flex-col sm:flex-row sm:items-end justify-between mb-6 gap-3">
       <div class="border-l-4 border-sp-blue pl-3">
@@ -584,34 +618,6 @@
     </div>
     <div id="gridHospitais" class="grid grid-cols-1 md:grid-cols-3 gap-5"></div>
     <p id="semResultadoHospital" class="hidden text-center text-neutral-500 text-xs py-12 font-semibold">Nenhuma unidade hospitalar encontrada para este filtro.</p>
-  </main>
-
-  <!-- ==================== 7. PÁGINA: PROGRAMAS (COM DESTAQUE DOSE CERTA) ==================== -->
-  <main id="viewProgramas" class="view-section hidden flex-grow max-w-7xl mx-auto px-4 py-8 w-full">
-    <div class="border-l-4 border-sp-blue pl-3 mb-6">
-      <span class="text-xs font-bold text-sp-blue uppercase tracking-wider">Serviços ao Cidadão</span>
-      <h2 class="text-xl sm:text-3xl font-black text-sp-darkBlue uppercase">Programas Oficiais da Saúde Paulista</h2>
-      <p class="text-xs text-neutral-500 mt-1">Iniciativas, carretas de mamografia e doação de sangue no SUS.</p>
-    </div>
-
-    <!-- BANNER DE DESTAQUE: SOLICITAR REMÉDIO DENTRO DE PROGRAMAS -->
-    <div class="bg-gradient-to-r from-emerald-900 to-teal-950 text-white p-6 rounded-2xl shadow-md border border-emerald-400/40 mb-8 flex flex-col sm:flex-row items-center justify-between gap-4">
-      <div class="flex items-center gap-4">
-        <div class="w-12 h-12 rounded-xl bg-emerald-500/20 text-emerald-300 flex items-center justify-center flex-shrink-0 border border-emerald-400/30">
-          <i data-lucide="pill" class="w-6 h-6"></i>
-        </div>
-        <div>
-          <span class="text-[10px] font-black uppercase tracking-wider bg-emerald-500/30 text-emerald-200 px-2 py-0.5 rounded">Programa Farmacêutico</span>
-          <h3 class="text-base sm:text-lg font-black uppercase mt-1">Programa Dose Certa — Medicamentos Gratuitos</h3>
-          <p class="text-xs text-emerald-100 mt-0.5">Faça a solicitação eletrônica de medicamentos contínuos e de alto custo sem filas.</p>
-        </div>
-      </div>
-      <button onclick="irParaPagina('medicamentos')" class="w-full sm:w-auto bg-white text-emerald-950 hover:bg-neutral-100 font-black px-5 py-2.5 rounded-lg text-xs uppercase shadow transition whitespace-nowrap">
-        Solicitar Remédio Online →
-      </button>
-    </div>
-
-    <div id="gridProgramas" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4"></div>
   </main>
 
   <!-- ==================== 8. PÁGINA: NOTÍCIAS ==================== -->
@@ -1311,11 +1317,11 @@
       <div>
         <h4 class="font-bold uppercase tracking-wider mb-3 text-neutral-200">Portais Temáticos</h4>
         <ul class="space-y-1.5 text-neutral-300 text-[11px]">
-          <li><button onclick="irParaPagina('iep')" class="hover:underline text-left text-indigo-300 font-bold">Instituto de Psicologia (IEP-SP)</button></li>
-          <li><button onclick="irParaPagina('medicamentos')" class="hover:underline text-left text-emerald-300 font-bold">Farmácia Dose Certa</button></li>
-          <li><button onclick="irParaPagina('transparencia')" class="hover:underline text-left">Transparência & Repasses</button></li>
+          <li><button onclick="irParaPagina('programas')" class="hover:underline text-left text-sp-yellow font-bold">Programas Oficiais de Saúde</button></li>
+          <li><button onclick="irParaPagina('transparencia')" class="hover:underline text-left">Transparência & Gastos</button></li>
           <li><button onclick="irParaPagina('hospitais')" class="hover:underline text-left">Rede Hospitalar em SP</button></li>
-          <li><button onclick="irParaPagina('equipe')" class="hover:underline text-left">Corpo Diretivo & Cargos</button></li>
+          <li><button onclick="irParaPagina('equipe')" class="hover:underline text-left">Corpo Diretivo da Secretaria</button></li>
+          <li><button onclick="irParaPagina('noticias')" class="hover:underline text-left">Comunicados Oficiais</button></li>
         </ul>
       </div>
       <div>
@@ -1535,7 +1541,7 @@
       inicio: "Início",
       iep: "Instituto de Psicologia (IEP-SP)",
       medicamentos: "Farmácia Dose Certa",
-      transparencia: "Transparência & Repasses",
+      transparencia: "Transparência & Gastos",
       equipe: "Corpo Diretivo da Secretaria",
       hospitais: "Rede Hospitalar em Operação",
       programas: "Programas Oficiais de Saúde",
@@ -2472,18 +2478,18 @@
       }
 
       container.innerHTML = ativos.map(p => `
-        <div class="bg-white p-4 rounded-xl border border-neutral-200 shadow-sm flex flex-col justify-between hover:shadow-md transition">
+        <div class="bg-white p-5 rounded-xl border border-neutral-200 shadow-sm flex flex-col justify-between hover:shadow-md transition">
           <div>
             <span class="text-[9px] font-bold text-sp-blue uppercase bg-blue-50 px-2 py-0.5 rounded">${p.categoria}</span>
-            <h4 class="font-bold text-neutral-900 text-sm mt-1.5 mb-1 leading-snug">${p.nome}</h4>
+            <h4 class="font-bold text-neutral-900 text-sm mt-2 mb-1 leading-snug">${p.nome}</h4>
             <p class="text-neutral-500 text-xs line-clamp-2 leading-relaxed">${p.descricao}</p>
           </div>
           ${p.link ? `
-            <a href="${p.link}" class="text-xs font-bold text-sp-blue hover:underline flex items-center gap-1 mt-3">
+            <a href="${p.link}" class="text-xs font-bold text-sp-blue hover:underline flex items-center gap-1 mt-4">
               Acessar Programa <i data-lucide="external-link" class="w-3 h-3"></i>
             </a>
           ` : `
-            <span class="text-[11px] font-semibold text-neutral-400 mt-3">Atendimento na Rede SUS</span>
+            <span class="text-[11px] font-semibold text-neutral-400 mt-4">Atendimento na Rede SUS</span>
           `}
         </div>
       `).join("");
