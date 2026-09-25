@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Portal Oficial da Secretaria de Estado da Saúde de São Paulo — transparência orçamentária, programas oficiais, hospitais e notícias do SUS Paulista." />
+  <meta name="description" content="Portal Oficial da Secretaria de Estado da Saúde de São Paulo — transparência orçamentária, IEP-SP, hospitais, medicamentos e programas do SUS Paulista." />
   <title>Secretaria de Estado da Saúde | Governo do Estado de São Paulo</title>
 
   <!-- Tailwind CSS & Lucide Icons -->
@@ -48,7 +48,7 @@
       background-size: cover;
       background-position: center;
     }
-    #menuMobile.open { max-height: 500px; }
+    #menuMobile.open { max-height: 560px; }
     #menuMobile { max-height: 0; overflow: hidden; transition: max-height .3s ease; }
     .pulse-dot { animation: pulse 2s infinite; }
     @keyframes pulse { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: .4; transform: scale(1.2); } }
@@ -111,12 +111,14 @@
         </div>
       </a>
 
-      <!-- Menu Principal (Limpo e Oficial) -->
-      <nav class="hidden lg:flex items-center gap-4 xl:gap-6 text-xs font-bold text-neutral-700 uppercase">
+      <!-- Menu Computador -->
+      <nav class="hidden lg:flex items-center gap-3.5 xl:gap-5 text-xs font-bold text-neutral-700 uppercase">
         <button onclick="irParaPagina('inicio')" class="nav-item hover:text-sp-blue transition" data-page="inicio">Início</button>
         <button onclick="irParaPagina('programas')" class="nav-item hover:text-sp-blue transition" data-page="programas">Programas Oficiais</button>
-        <button onclick="irParaPagina('transparencia')" class="nav-item hover:text-sp-blue transition" data-page="transparencia">Transparência & Gastos</button>
-        <button onclick="irParaPagina('hospitais')" class="nav-item hover:text-sp-blue transition" data-page="hospitais">Rede Hospitalar</button>
+        <button onclick="irParaPagina('iep')" class="nav-item hover:text-indigo-600 transition text-indigo-700 font-extrabold" data-page="iep">Psicologia (IEP-SP)</button>
+        <button onclick="irParaPagina('medicamentos')" class="nav-item hover:text-emerald-600 transition text-emerald-700 font-extrabold" data-page="medicamentos">Remédios</button>
+        <button onclick="irParaPagina('transparencia')" class="nav-item hover:text-sp-blue transition" data-page="transparencia">Transparência</button>
+        <button onclick="irParaPagina('hospitais')" class="nav-item hover:text-sp-blue transition" data-page="hospitais">Hospitais</button>
         <button onclick="irParaPagina('equipe')" class="nav-item hover:text-sp-blue transition" data-page="equipe">Corpo Diretivo</button>
         <button onclick="irParaPagina('noticias')" class="nav-item hover:text-sp-blue transition" data-page="noticias">Notícias</button>
       </nav>
@@ -129,10 +131,12 @@
 
     <!-- Menu Mobile Dropdown -->
     <div id="menuMobile" class="lg:hidden border-t border-neutral-200 bg-white">
-      <div class="flex flex-col px-4 py-3 text-xs font-bold text-neutral-700 uppercase space-y-2.5">
+      <div class="flex flex-col px-4 py-3 text-xs font-bold text-neutral-700 uppercase space-y-2">
         <button onclick="irParaPagina('inicio'); fecharMenuMobile()" class="text-left py-1">Início</button>
-        <button onclick="irParaPagina('programas'); fecharMenuMobile()" class="text-left py-1 text-sp-blue font-black">Programas Oficiais (IEP, Remédios e SUS)</button>
-        <button onclick="irParaPagina('transparencia'); fecharMenuMobile()" class="text-left py-1">Transparência & Gastos</button>
+        <button onclick="irParaPagina('programas'); fecharMenuMobile()" class="text-left py-1 text-sp-blue font-black">Programas Oficiais</button>
+        <button onclick="irParaPagina('iep'); fecharMenuMobile()" class="text-left py-1 text-indigo-700 font-black">Instituto de Psicologia (IEP-SP)</button>
+        <button onclick="irParaPagina('medicamentos'); fecharMenuMobile()" class="text-left py-1 text-emerald-700 font-black">Farmácia & Pedido de Remédios</button>
+        <button onclick="irParaPagina('transparencia'); fecharMenuMobile()" class="text-left py-1">Transparência & Repasses</button>
         <button onclick="irParaPagina('hospitais'); fecharMenuMobile()" class="text-left py-1">Rede Hospitalar</button>
         <button onclick="irParaPagina('equipe'); fecharMenuMobile()" class="text-left py-1">Corpo Diretivo da Secretaria</button>
         <button onclick="irParaPagina('noticias'); fecharMenuMobile()" class="text-left py-1">Notícias Oficiais</button>
@@ -163,7 +167,7 @@
     </div>
   </div>
 
-  <!-- ==================== 1. PÁGINA INICIAL (FOCO EM PROGRAMAS & TRANSPARÊNCIA) ==================== -->
+  <!-- ==================== 1. PÁGINA INICIAL ==================== -->
   <main id="viewInicio" class="view-section flex-grow">
     
     <!-- HERO SECTION -->
@@ -177,12 +181,12 @@
             Saúde pública de qualidade com transparência e responsabilidade.
           </h2>
           <p class="text-blue-100 text-xs sm:text-sm mb-6 max-w-xl leading-relaxed">
-            Consulte a aplicação dos recursos públicos estaduais, acesse os programas e serviços de saúde da população e acompanhe a rede hospitalar.
+            Consulte a aplicação dos recursos públicos estaduais, acompanhe programas de saúde, acolhimento especializado e a rede hospitalar de São Paulo.
           </p>
           
           <div class="flex flex-wrap gap-3">
             <button onclick="irParaPagina('programas')" class="bg-white text-sp-blue font-black px-5 py-3 rounded-lg text-xs uppercase shadow hover:bg-neutral-100 transition flex items-center gap-2">
-              <i data-lucide="heart-handshake" class="w-4 h-4 text-sp-blue"></i> Ver Programas Oficiais
+              <i data-lucide="heart-handshake" class="w-4 h-4 text-sp-blue"></i> Acessar Programas
             </button>
             <button onclick="irParaPagina('transparencia')" class="bg-sp-yellow text-sp-darkBlue font-black px-5 py-3 rounded-lg text-xs uppercase shadow hover:bg-amber-400 transition flex items-center gap-2">
               <i data-lucide="pie-chart" class="w-4 h-4 text-sp-darkBlue"></i> Transparência & Gastos
@@ -225,8 +229,8 @@
           <p class="text-[10px] uppercase font-bold text-neutral-500 mt-0.5">Leitos / Vagas Livres</p>
         </div>
         <div>
-          <p id="kpiProgramas" class="text-xl sm:text-2xl font-black text-indigo-700">0</p>
-          <p class="text-[10px] uppercase font-bold text-neutral-500 mt-0.5">Programas Oficiais</p>
+          <p id="kpiMedicamentos" class="text-xl sm:text-2xl font-black text-indigo-700">0</p>
+          <p class="text-[10px] uppercase font-bold text-neutral-500 mt-0.5">Remédios em Estoque</p>
         </div>
         <div>
           <p id="kpiExecucao" class="text-xl sm:text-2xl font-black text-amber-600">0%</p>
@@ -235,20 +239,56 @@
       </div>
     </section>
 
-    <!-- PROGRAMAS OFICIAIS NA CAPA (SELEÇÃO FEITA POR VOCÊ) -->
+    <!-- SERVIÇOS & PROGRAMAS PRINCIPAIS NA PÁGINA INICIAL -->
     <section class="max-w-7xl mx-auto px-4 py-10">
-      <div class="flex justify-between items-center mb-6 border-b-2 border-sp-blue pb-2">
-        <div>
-          <span class="text-xs font-bold text-sp-blue uppercase tracking-wider">Ações Governamentais</span>
-          <h3 class="text-lg sm:text-xl font-black text-sp-darkBlue uppercase">Programas Oficiais de Saúde</h3>
+      <div class="border-b-2 border-sp-blue pb-2 mb-6">
+        <span class="text-xs font-bold text-sp-blue uppercase tracking-wider">Acesso Direto ao Cidadão</span>
+        <h3 class="text-lg sm:text-xl font-black text-sp-darkBlue uppercase">Serviços e Institutos de Saúde</h3>
+      </div>
+      
+      <!-- CARDS DE ACESSO AO IEP, REMÉDIOS E TRANSPARÊNCIA -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+        
+        <div onclick="irParaPagina('iep')" class="bg-white p-5 rounded-xl border border-indigo-200 shadow-sm hover:shadow-md hover:border-indigo-600 cursor-pointer transition flex flex-col justify-between group border-t-4 border-t-indigo-700">
+          <div>
+            <span class="text-[9px] font-black uppercase text-indigo-700 bg-indigo-50 px-2 py-0.5 rounded">Hospital Jefferson</span>
+            <h4 class="font-black text-neutral-900 text-sm uppercase mt-2">Instituto de Psicologia (IEP-SP)</h4>
+            <p class="text-neutral-500 text-xs mt-1 leading-relaxed">Acolhimento comunitário, perícias funcionais de segurança e suporte com SAMU 192.</p>
+          </div>
+          <span class="text-xs font-bold text-indigo-700 mt-4 group-hover:underline flex items-center gap-1">Acessar Instituto IEP →</span>
         </div>
-        <button onclick="irParaPagina('programas')" class="text-xs font-bold text-sp-blue hover:underline">
-          Acessar Todos os Programas →
-        </button>
+
+        <div onclick="irParaPagina('medicamentos')" class="bg-white p-5 rounded-xl border border-emerald-200 shadow-sm hover:shadow-md hover:border-emerald-600 cursor-pointer transition flex flex-col justify-between group border-t-4 border-t-emerald-600">
+          <div>
+            <span class="text-[9px] font-black uppercase text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded">Dose Certa SP</span>
+            <h4 class="font-black text-neutral-900 text-sm uppercase mt-2">Farmácia & Medicamentos</h4>
+            <p class="text-neutral-500 text-xs mt-1 leading-relaxed">Consulte o catálogo gratuito e envie sua solicitação eletrônica de remédios.</p>
+          </div>
+          <span class="text-xs font-bold text-emerald-700 mt-4 group-hover:underline flex items-center gap-1">Fazer Pedido de Remédio →</span>
+        </div>
+
+        <div onclick="irParaPagina('transparencia')" class="bg-white p-5 rounded-xl border border-neutral-200 shadow-sm hover:shadow-md hover:border-sp-blue cursor-pointer transition flex flex-col justify-between group border-t-4 border-t-sp-blue">
+          <div>
+            <span class="text-[9px] font-black uppercase text-sp-blue bg-blue-50 px-2 py-0.5 rounded">Prestação de Contas</span>
+            <h4 class="font-black text-neutral-900 text-sm uppercase mt-2">Transparência & Gastos</h4>
+            <p class="text-neutral-500 text-xs mt-1 leading-relaxed">Repasses orçamentários por entidade, hospitais, IEP-SP e saldo estadual.</p>
+          </div>
+          <span class="text-xs font-bold text-sp-blue mt-4 group-hover:underline flex items-center gap-1">Ver Orçamento Completo →</span>
+        </div>
+
+        <div onclick="irParaPagina('hospitais')" class="bg-white p-5 rounded-xl border border-neutral-200 shadow-sm hover:shadow-md hover:border-sp-yellow cursor-pointer transition flex flex-col justify-between group border-t-4 border-t-sp-yellow">
+          <div>
+            <span class="text-[9px] font-black uppercase text-amber-800 bg-amber-50 px-2 py-0.5 rounded">Rede Estadual</span>
+            <h4 class="font-black text-neutral-900 text-sm uppercase mt-2">Hospitais & AMEs 24h</h4>
+            <p class="text-neutral-500 text-xs mt-1 leading-relaxed">Monitoramento de leitos e status operacional em todas as regiões de SP.</p>
+          </div>
+          <span class="text-xs font-bold text-amber-800 mt-4 group-hover:underline flex items-center gap-1">Consultar Unidades →</span>
+        </div>
+
       </div>
-      <div id="homeGridProgramas" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-        <!-- Renderizado dinamicamente -->
-      </div>
+
+      <!-- DEMAIS PROGRAMAS QUE VOCÊ ATIVA NO ADMIN -->
+      <div id="homeGridProgramas" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4"></div>
     </section>
 
     <!-- RESUMO DA TRANSPARÊNCIA ORÇAMENTÁRIA -->
@@ -280,7 +320,7 @@
 
   </main>
 
-  <!-- ==================== 2. PÁGINA: PROGRAMAS OFICIAIS (HUB DO IEP, REMÉDIOS E MAIS) ==================== -->
+  <!-- ==================== 2. PÁGINA: PROGRAMAS OFICIAIS ==================== -->
   <main id="viewProgramas" class="view-section hidden flex-grow max-w-7xl mx-auto px-4 py-8 w-full">
     <div class="border-l-4 border-sp-blue pl-3 mb-6">
       <span class="text-xs font-bold text-sp-blue uppercase tracking-wider">Ações e Atendimento</span>
@@ -289,7 +329,7 @@
     </div>
 
     <!-- 2 DESTAQUES PRINCIPAIS: IEP-SP E DOSE CERTA -->
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-10">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
       
       <!-- Card IEP-SP -->
       <div class="bg-white rounded-2xl border border-indigo-200 p-6 shadow-sm border-t-8 border-indigo-700 flex flex-col justify-between hover:shadow-md transition">
@@ -305,7 +345,7 @@
             Atendimento psicológico comunitário, suporte a servidores, laudos de aptidão funcional, homologação de porte de arma de fogo e urgências psiquiátricas integradas ao SAMU 192.
           </p>
         </div>
-        <div class="mt-6 flex flex-wrap gap-2">
+        <div class="mt-6">
           <button onclick="irParaPagina('iep')" class="w-full bg-indigo-700 hover:bg-indigo-800 text-white font-black py-2.5 rounded-lg text-xs uppercase shadow transition">
             Acessar Instituto IEP-SP & Serviços →
           </button>
@@ -326,7 +366,7 @@
             Distribuição de remédios essenciais, de uso contínuo e alto custo nas farmácias do Estado. Faça sua solicitação eletrônica direta no formulário.
           </p>
         </div>
-        <div class="mt-6 flex flex-wrap gap-2">
+        <div class="mt-6">
           <button onclick="irParaPagina('medicamentos')" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-black py-2.5 rounded-lg text-xs uppercase shadow transition">
             Solicitar Medicamentos Online →
           </button>
@@ -337,7 +377,7 @@
 
     <!-- DEMAIS PROGRAMAS CADASTRADOS -->
     <div class="border-b border-neutral-200 pb-2 mb-4">
-      <h3 class="font-black text-sm uppercase text-neutral-800">Demais Programas e Campanhas Oficiais</h3>
+      <h3 class="font-black text-sm uppercase text-neutral-800">Demais Programas Cadastrados</h3>
     </div>
     <div id="gridProgramas" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5"></div>
   </main>
@@ -433,7 +473,7 @@
 
     </div>
 
-    <!-- CORPO DIRETIVO E CARGOS INTERNOS DO IEP-SP (100% CORRIGIDO SEM FOTO FAKE) -->
+    <!-- CORPO DIRETIVO E CARGOS INTERNOS DO IEP-SP -->
     <div id="secaoEquipeIep" class="mb-10">
       <div class="border-l-4 border-indigo-700 pl-3 mb-6">
         <span class="text-xs font-bold text-indigo-700 uppercase tracking-wider">Estrutura Interna</span>
@@ -630,7 +670,7 @@
     <div id="gridNoticias" class="divide-y divide-neutral-200 bg-white rounded-lg border border-neutral-200 shadow-sm overflow-hidden"></div>
   </main>
 
-  <!-- ==================== 9. PAINEL DO GESTOR / ADMIN ==================== -->
+  <!-- ==================== 9. PAINEL DO GESTOR / ADMIN CATEGORIZADO ==================== -->
   <main id="viewAdmin" class="view-section hidden flex-grow max-w-7xl mx-auto px-4 py-6 w-full">
 
     <div class="bg-white p-4 rounded-lg border border-neutral-300 shadow-sm flex flex-wrap justify-between items-center gap-3 mb-6">
@@ -652,94 +692,68 @@
       </div>
     </div>
 
-    <!-- Abas do Admin com Rolagem Suave -->
+    <!-- Abas com Rolagem Suave no Mobile -->
     <div class="flex gap-2 mb-6 border-b border-neutral-300 pb-3 overflow-x-auto whitespace-nowrap">
       <button onclick="mudarAba('transparencia')" id="tabTransparencia" class="px-3 py-2 rounded text-xs font-bold uppercase bg-sp-blue text-white shadow-sm flex-shrink-0">
-        💰 Orçamento & Repasses
+        💰 Finanças & Repasses
       </button>
       <button onclick="mudarAba('iep')" id="tabIep" class="px-3 py-2 rounded text-xs font-bold uppercase bg-white text-neutral-700 hover:bg-neutral-100 flex-shrink-0">
         🧠 Gestão IEP-SP
       </button>
       <button onclick="mudarAba('remedios')" id="tabRemedios" class="px-3 py-2 rounded text-xs font-bold uppercase bg-white text-neutral-700 hover:bg-neutral-100 flex-shrink-0">
-        💊 Medicamentos
+        💊 Farmácia & Dose Certa
       </button>
       <button onclick="mudarAba('hospitais')" id="tabHospitais" class="px-3 py-2 rounded text-xs font-bold uppercase bg-white text-neutral-700 hover:bg-neutral-100 flex-shrink-0">
-        🏥 Hospitais
+        🏥 Unidades de Saúde
       </button>
       <button onclick="mudarAba('equipe')" id="tabEquipe" class="px-3 py-2 rounded text-xs font-bold uppercase bg-white text-neutral-700 hover:bg-neutral-100 flex-shrink-0">
-        👥 Equipe & Cargos SES
+        👥 Liderança SES
       </button>
       <button onclick="mudarAba('programas')" id="tabProgramas" class="px-3 py-2 rounded text-xs font-bold uppercase bg-white text-neutral-700 hover:bg-neutral-100 flex-shrink-0">
-        💉 Programas
+        💉 Programas Oficiais
       </button>
       <button onclick="mudarAba('alerta')" id="tabAlerta" class="px-3 py-2 rounded text-xs font-bold uppercase bg-white text-neutral-700 hover:bg-neutral-100 flex-shrink-0">
-        ⚠️ Alertas & Webhooks
+        ⚙️ Alertas, Discord & Senha
       </button>
       <button onclick="mudarAba('noticias')" id="tabNoticias" class="px-3 py-2 rounded text-xs font-bold uppercase bg-white text-neutral-700 hover:bg-neutral-100 flex-shrink-0">
         📰 Notícias
       </button>
-      <button onclick="mudarAba('senha')" id="tabSenha" class="px-3 py-2 rounded text-xs font-bold uppercase bg-white text-neutral-700 hover:bg-neutral-100 flex-shrink-0">
-        🔑 Nuvem & Senha
-      </button>
     </div>
 
-    <!-- ABA 1: ORÇAMENTO & DESTINAÇÕES -->
+    <!-- ABA 1: FINANÇAS & REPASSES (COM BOTÃO ADICIONAR) -->
     <section id="secTransparencia" class="space-y-6">
-      <div class="bg-white p-5 rounded-lg border border-neutral-300 shadow-sm">
-        <h3 class="text-xs font-black uppercase text-sp-blue mb-1">1. Orçamento Anual Total da Secretaria</h3>
-        <p class="text-xs text-neutral-500 mb-3">Defina o montante total aprovado para o ano.</p>
-        <form onsubmit="salvarOrcamentoTotal(event)" class="flex flex-col sm:flex-row gap-3">
-          <div class="flex-grow">
-            <input type="text" inputmode="decimal" id="inOrcTotal" required class="w-full p-2.5 border rounded font-black text-sm text-neutral-800 outline-none focus:border-sp-blue" placeholder="Ex: 38500000000 ou 38.500.000.000">
-          </div>
-          <button type="submit" class="bg-sp-blue hover:bg-sp-darkBlue text-white font-bold px-5 py-2.5 rounded uppercase text-xs shadow">
-            Salvar Orçamento Total
-          </button>
-        </form>
-      </div>
-
-      <div class="bg-white p-5 rounded-lg border border-neutral-300 shadow-sm">
-        <h3 id="formDestTitle" class="text-xs font-black uppercase text-sp-blue mb-1">2. Escolher Repasse / Destinação de Verba</h3>
-        <p class="text-xs text-neutral-500 mb-4">Selecione para qual hospital, instituto ou programa cadastrado a verba será enviada.</p>
-
-        <form onsubmit="salvarDestinacao(event)" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 text-xs">
-          <input type="hidden" id="destId">
-          <div>
-            <label class="font-bold text-neutral-700">Entidade / Programa Beneficiado</label>
-            <select id="destEntidade" onchange="atualizarNomeDestinacaoAuto()" class="w-full p-2 border rounded mt-1 font-bold"></select>
-          </div>
-          <div>
-            <label class="font-bold text-neutral-700">Título do Repasse</label>
-            <input type="text" id="destNome" required placeholder="Ex: Custeio Operacional" class="w-full p-2 border rounded mt-1 font-bold">
-          </div>
-          <div>
-            <label class="font-bold text-neutral-700">Valor Repassado (R$)</label>
-            <input type="text" inputmode="decimal" id="destValor" required placeholder="Ex: 50000000" class="w-full p-2 border rounded mt-1 font-bold">
-          </div>
-          <div class="sm:col-span-3">
-            <label class="font-bold text-neutral-700">Finalidade do Recurso / Descrição da Aplicação</label>
-            <input type="text" id="destDescricao" required placeholder="Ex: Aquisição de testes psicológicos, ampliação de leitos e compra de insumos." class="w-full p-2 border rounded mt-1">
-          </div>
-          <div class="sm:col-span-3 flex gap-2 pt-1">
-            <button type="submit" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-4 py-2 rounded uppercase shadow">Salvar Repasse</button>
-            <button type="button" onclick="limparFormDestinacao()" class="bg-neutral-200 px-4 py-2 rounded font-bold">Cancelar</button>
-          </div>
+      <div class="bg-white p-5 rounded-lg border border-neutral-300 shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div>
+          <h3 class="text-xs font-black uppercase text-sp-blue">Orçamento Anual Geral do Estado</h3>
+          <p class="text-xs text-neutral-500 mt-0.5">Montante total aprovado na Lei Orçamentária Anual (LOA).</p>
+        </div>
+        <form onsubmit="salvarOrcamentoTotal(event)" class="flex gap-2">
+          <input type="text" inputmode="decimal" id="inOrcTotal" required class="p-2 border rounded font-black text-sm text-neutral-800 outline-none w-48 focus:border-sp-blue">
+          <button type="submit" class="bg-sp-blue hover:bg-sp-darkBlue text-white font-bold px-4 py-2 rounded uppercase text-xs shadow">Salvar</button>
         </form>
       </div>
 
       <div class="bg-white rounded-lg border border-neutral-300 shadow-sm overflow-hidden">
-        <div class="p-3 bg-neutral-100 font-bold text-xs uppercase text-neutral-700">Repasses e Destinações Ativas</div>
+        <div class="p-4 bg-neutral-100 border-b border-neutral-200 flex justify-between items-center">
+          <div>
+            <h3 class="font-black text-xs uppercase text-neutral-800">Repasses e Destinações Orçamentárias</h3>
+            <p class="text-[11px] text-neutral-500">Repasses diretos a hospitais, institutos e programas cadastrados.</p>
+          </div>
+          <button onclick="abrirModalFormDestinacao()" class="bg-emerald-600 hover:bg-emerald-700 text-white font-black text-xs px-3 py-2 rounded-lg flex items-center gap-1.5 uppercase shadow">
+            <i data-lucide="plus-circle" class="w-4 h-4"></i> Novo Repasse
+          </button>
+        </div>
         <div id="listaAdminDestinacoes" class="divide-y divide-neutral-200 text-xs"></div>
       </div>
     </section>
 
     <!-- ABA 2: GESTÃO DO IEP-SP -->
-    <section id="secIep" class="hidden space-y-6">
+    <section id="secIep" class="space-y-6 hidden">
       <div class="bg-white p-5 rounded-lg border border-neutral-300 shadow-sm border-l-4 border-indigo-700">
-        <h3 class="text-xs font-black uppercase text-indigo-700 mb-1">1. Informações Institucionais do IEP-SP</h3>
+        <h3 class="text-xs font-black uppercase text-indigo-700 mb-1">Informações Institucionais do IEP-SP</h3>
         <p class="text-xs text-neutral-500 mb-4">Altere a sede, a coordenação operacional do SAMU e o texto oficial do Instituto.</p>
         
-        <form onsubmit="salvarConfiguracaoIep(event)" class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
+        <form onsubmit="salvarConfiguracaoIep(event)" class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
           <div>
             <label class="font-bold text-neutral-700">Sede Operacional do Instituto</label>
             <input type="text" id="iepCfgSede" required placeholder="Ex: Hospital Jefferson" class="w-full p-2 border rounded mt-1 font-bold">
@@ -756,7 +770,7 @@
             <label class="font-bold text-neutral-700">Descrição / Apresentação Institucional</label>
             <textarea id="iepCfgDescricao" rows="3" required class="w-full p-2 border rounded mt-1 leading-relaxed"></textarea>
           </div>
-          <div class="sm:col-span-2 pt-2">
+          <div class="sm:col-span-2 pt-1">
             <button type="submit" class="bg-indigo-700 hover:bg-indigo-800 text-white font-bold px-5 py-2.5 rounded uppercase text-xs shadow">
               Salvar Dados Institucionais
             </button>
@@ -764,167 +778,50 @@
         </form>
       </div>
 
-      <!-- Cargos Internos do IEP-SP -->
-      <div class="bg-white p-5 rounded-lg border border-neutral-300 shadow-sm border-l-4 border-indigo-600">
-        <h3 id="formEquipeIepTitle" class="text-xs font-black uppercase text-indigo-700 mb-1">2. Nomear / Editar Cargos Internos do IEP-SP</h3>
-        <p class="text-xs text-neutral-500 mb-4">Cargos vazios ou desativados não aparecem para o público.</p>
-
-        <form onsubmit="salvarMembroEquipeIep(event)" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 text-xs">
-          <input type="hidden" id="eqIepId">
-          <input type="hidden" id="eqIepFotoBase64">
-          <div class="sm:col-span-2">
-            <label class="font-bold text-neutral-700">Cargo Interno do IEP-SP</label>
-            <select id="eqIepCargo" required class="w-full p-2 border rounded mt-1 font-bold">
-              <option value="Diretor-Geral do IEP-SP">1. Diretor-Geral do IEP-SP</option>
-              <option value="Diretor Clínico / Psiquiatria de Referência">2. Diretor Clínico / Psiquiatria de Referência</option>
-              <option value="Coordenador de Perícias e Laudos Funcionais">3. Coordenador de Perícias e Laudos Funcionais</option>
-              <option value="Coordenador de Urgências Psiquiátricas / SAMU">4. Coordenador de Urgências Psiquiátricas / SAMU</option>
-              <option value="Supervisor de Atendimento Comunitário">5. Supervisor de Atendimento Comunitário</option>
-            </select>
-          </div>
+      <div class="bg-white rounded-lg border border-neutral-300 shadow-sm overflow-hidden">
+        <div class="p-4 bg-neutral-100 border-b border-neutral-200 flex justify-between items-center">
           <div>
-            <label class="font-bold text-neutral-700">Nome do Titular</label>
-            <input type="text" id="eqIepNome" placeholder="Ex: Dr. Nome Completo" required class="w-full p-2 border rounded mt-1">
+            <h3 class="font-black text-xs uppercase text-neutral-800">Cargos Internos do IEP-SP</h3>
+            <p class="text-[11px] text-neutral-500">Lideranças operacionais e médicas sediadas no Hospital Jefferson.</p>
           </div>
-          <div class="sm:col-span-2">
-            <label class="font-bold text-neutral-700">Atribuições / Resumo Curricular</label>
-            <input type="text" id="eqIepDescricao" placeholder="Ex: Especialista em Perícias Psicológicas Operacionais." class="w-full p-2 border rounded mt-1">
-          </div>
-          <div>
-            <label class="font-bold text-neutral-700 flex items-center justify-between">
-              <span>Foto do Titular</span>
-              <span class="text-[10px] text-indigo-700 font-semibold">Galeria do Celular</span>
-            </label>
-            <div class="flex items-center gap-2 mt-1">
-              <input type="file" accept="image/*" id="inEqIepArquivo" onchange="processarArquivoImagem(event, 'eqIepFotoBase64', 'prevEqIepFoto')" class="text-[11px] file:mr-2 file:py-1.5 file:px-2.5 file:rounded file:border-0 file:text-[10px] file:font-bold file:bg-indigo-700 file:text-white cursor-pointer">
-              <img id="prevEqIepFoto" src="" class="hidden w-8 h-8 rounded-full object-cover border border-neutral-300">
-            </div>
-          </div>
-          <div class="sm:col-span-3 flex items-center gap-2 pt-1">
-            <input type="checkbox" id="eqIepAtivo" checked class="w-4 h-4 text-indigo-700 cursor-pointer">
-            <label for="eqIepAtivo" class="text-xs font-bold text-neutral-800 cursor-pointer">Exibir este cargo no portal do IEP-SP</label>
-          </div>
-          <div class="sm:col-span-3 flex gap-2 pt-2">
-            <button type="submit" class="bg-indigo-700 hover:bg-indigo-800 text-white font-bold px-4 py-2 rounded uppercase shadow">Salvar Titular IEP</button>
-            <button type="button" onclick="limparFormEquipeIep()" class="bg-neutral-200 px-4 py-2 rounded font-bold">Cancelar</button>
-          </div>
-        </form>
-
-        <div class="mt-6 border-t pt-4">
-          <h4 class="font-bold text-xs uppercase text-neutral-700 mb-2">Cargos Internos Cadastrados</h4>
-          <div id="listaAdminEquipeIep" class="divide-y divide-neutral-200 text-xs"></div>
+          <button onclick="abrirModalFormEquipeIep()" class="bg-indigo-700 hover:bg-indigo-800 text-white font-black text-xs px-3 py-2 rounded-lg flex items-center gap-1.5 uppercase shadow">
+            <i data-lucide="user-plus" class="w-4 h-4"></i> Nomear Titular
+          </button>
         </div>
+        <div id="listaAdminEquipeIep" class="divide-y divide-neutral-200 text-xs"></div>
       </div>
     </section>
 
-    <!-- ABA 3: GERENCIAR REMÉDIOS -->
-    <section id="secRemedios" class="hidden space-y-6">
-      <div class="bg-white p-5 rounded-lg border border-neutral-300 shadow-sm">
-        <h3 id="formRemedioTitle" class="text-xs font-black uppercase text-sp-blue mb-1">Adicionar Medicamento ao Estoque</h3>
-        <p class="text-xs text-neutral-500 mb-4">Cadastre os remédios que aparecem disponíveis para solicitação do cidadão.</p>
-        <form onsubmit="salvarMedicamentoAdmin(event)" class="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
-          <input type="hidden" id="medId">
-          <div class="sm:col-span-2">
-            <label class="font-bold text-neutral-700">Nome do Medicamento e Dosagem</label>
-            <input type="text" id="medNome" required placeholder="Ex: Clonazepam 2mg, Insulina NPH, Losartana 50mg" class="w-full p-2 border rounded mt-1 font-bold">
-          </div>
-          <div>
-            <label class="font-bold text-neutral-700">Categoria</label>
-            <select id="medCategoria" class="w-full p-2 border rounded mt-1 font-bold">
-              <option value="Saúde Mental / Psiquiatria">Saúde Mental / Psiquiatria</option>
-              <option value="Uso Contínuo / Crônicos">Uso Contínuo / Crônicos</option>
-              <option value="Alto Custo Estadual">Alto Custo Estadual</option>
-              <option value="Atenção Básica">Atenção Básica</option>
-            </select>
-          </div>
-          <div class="sm:col-span-3">
-            <label class="font-bold text-neutral-700">Indicação / Observações de Retirada</label>
-            <input type="text" id="medDescricao" required placeholder="Ex: Retirada mediante receita médica em qualquer farmácia Dose Certa." class="w-full p-2 border rounded mt-1">
-          </div>
-          <div class="sm:col-span-3 flex gap-2 pt-1">
-            <button type="submit" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-4 py-2 rounded uppercase shadow">Salvar Medicamento</button>
-            <button type="button" onclick="limparFormMedicamento()" class="bg-neutral-200 px-4 py-2 rounded font-bold">Cancelar</button>
-          </div>
-        </form>
-      </div>
-
+    <!-- ABA 3: FARMÁCIA & MEDICAMENTOS (COM BOTÃO ADICIONAR) -->
+    <section id="secRemedios" class="space-y-6 hidden">
       <div class="bg-white rounded-lg border border-neutral-300 shadow-sm overflow-hidden">
-        <div class="p-3 bg-neutral-100 font-bold text-xs uppercase text-neutral-700">Estoque de Remédios Cadastrados</div>
+        <div class="p-4 bg-neutral-100 border-b border-neutral-200 flex justify-between items-center">
+          <div>
+            <h3 class="font-black text-xs uppercase text-neutral-800">Estoque de Medicamentos (Dose Certa)</h3>
+            <p class="text-[11px] text-neutral-500">Remédios cadastrados e disponíveis para pedido online dos cidadãos.</p>
+          </div>
+          <button onclick="abrirModalFormMedicamento()" class="bg-emerald-600 hover:bg-emerald-700 text-white font-black text-xs px-3 py-2 rounded-lg flex items-center gap-1.5 uppercase shadow">
+            <i data-lucide="plus-circle" class="w-4 h-4"></i> Adicionar Remédio
+          </button>
+        </div>
         <div id="listaAdminRemedios" class="divide-y divide-neutral-200 text-xs"></div>
       </div>
     </section>
 
-    <!-- ABA 4: HOSPITAIS & INSTITUTOS -->
-    <section id="secHospitais" class="hidden space-y-6">
-      <div class="bg-white p-5 rounded-lg border border-neutral-300 shadow-sm">
-        <h3 id="formHospTitle" class="text-xs font-black uppercase text-sp-blue mb-3">Adicionar / Editar Hospital ou Instituto</h3>
-        <form onsubmit="salvarHospital(event)" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 text-xs">
-          <input type="hidden" id="hId">
-          <input type="hidden" id="hFotoBase64">
-          <div class="sm:col-span-2">
-            <label class="font-bold text-neutral-700">Nome da Unidade / Instituto</label>
-            <input type="text" id="hNome" required class="w-full p-2 border rounded mt-1">
-          </div>
+    <!-- ABA 4: UNIDADES DE SAÚDE & HOSPITAIS (COM BOTÃO ADICIONAR) -->
+    <section id="secHospitais" class="space-y-6 hidden">
+      <div class="bg-white rounded-lg border border-neutral-300 shadow-sm overflow-hidden">
+        <div class="p-4 bg-neutral-100 border-b border-neutral-200 flex justify-between items-center">
           <div>
-            <label class="font-bold text-neutral-700">Status Operacional</label>
-            <select id="hStatus" class="w-full p-2 border rounded mt-1 font-bold">
-              <option value="Operando Normalmente">Operando 24h</option>
-              <option value="Alta Demanda">Alta Demanda / Triagem Lenta</option>
-              <option value="Em Obras / Parcial">Em Obras / Parcial</option>
-              <option value="Pronto-Socorro Restrito">P.S. Referenciado</option>
-            </select>
+            <h3 class="font-black text-xs uppercase text-neutral-800">Rede de Hospitais & Institutos Monitorados</h3>
+            <p class="text-[11px] text-neutral-500">Unidades de referência com leitos e status operacional em tempo real.</p>
           </div>
-          <div>
-            <label class="font-bold text-neutral-700">Região</label>
-            <select id="hRegiao" class="w-full p-2 border rounded mt-1">
-              <option value="capital">Capital / Grande SP</option>
-              <option value="campinas">Campinas</option>
-              <option value="ribeirao">Ribeirão Preto</option>
-              <option value="santos">Baixada Santista</option>
-            </select>
-          </div>
-          <div>
-            <label class="font-bold text-neutral-700">Tipo de Unidade</label>
-            <select id="hTipo" class="w-full p-2 border rounded mt-1">
-              <option value="Instituto Especializado">Instituto Especializado</option>
-              <option value="Hospital Geral">Hospital Geral</option>
-              <option value="AME">AME</option>
-            </select>
-          </div>
-          <div>
-            <label class="font-bold text-neutral-700">Leitos / Vagas Estimadas</label>
-            <input type="number" min="0" id="hLeitos" required class="w-full p-2 border rounded mt-1" value="12">
-          </div>
-          <div>
-            <label class="font-bold text-neutral-700">Telefone / Ramal</label>
-            <input type="text" id="hTelefone" required class="w-full p-2 border rounded mt-1" placeholder="(11) 0000-0000">
-          </div>
-          <div>
-            <label class="font-bold text-neutral-700">Endereço Completo</label>
-            <input type="text" id="hEndereco" required class="w-full p-2 border rounded mt-1">
-          </div>
-
-          <div class="sm:col-span-2 lg:col-span-4 bg-neutral-50 p-3 rounded border">
-            <label class="font-bold text-neutral-700 flex items-center justify-between">
-              <span>Foto da Fachada / Unidade</span>
-              <span class="text-[10px] text-sp-blue font-semibold">Galeria do Celular</span>
-            </label>
-            <div class="flex items-center gap-3 mt-1.5">
-              <input type="file" accept="image/*" id="inHospArquivo" onchange="processarArquivoImagem(event, 'hFotoBase64', 'prevHospFoto')" class="text-[11px] file:mr-2 file:py-1.5 file:px-2.5 file:rounded file:border-0 file:text-[10px] file:font-bold file:bg-sp-blue file:text-white cursor-pointer">
-              <img id="prevHospFoto" src="" class="hidden w-12 h-10 rounded object-cover border border-neutral-300">
-            </div>
-          </div>
-
-          <div class="sm:col-span-2 lg:col-span-4 flex gap-2 pt-2">
-            <button type="submit" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-4 py-2 rounded uppercase shadow">Salvar Unidade</button>
-            <button type="button" onclick="limparFormHospital()" class="bg-neutral-200 px-4 py-2 rounded font-bold">Cancelar</button>
-          </div>
-        </form>
-      </div>
-
-      <div class="bg-white rounded-lg border border-neutral-300 shadow-sm overflow-x-auto">
+          <button onclick="abrirModalFormHospital()" class="bg-sp-blue hover:bg-sp-darkBlue text-white font-black text-xs px-3 py-2 rounded-lg flex items-center gap-1.5 uppercase shadow">
+            <i data-lucide="plus-circle" class="w-4 h-4"></i> Adicionar Unidade
+          </button>
+        </div>
         <table class="w-full text-left text-xs">
-          <thead class="bg-neutral-100 uppercase text-[10px] text-neutral-700">
+          <thead class="bg-neutral-50 uppercase text-[10px] text-neutral-600 border-b">
             <tr><th class="p-3">Unidade</th><th class="p-3">Status</th><th class="p-3">Região</th><th class="p-3 text-right">Ação</th></tr>
           </thead>
           <tbody id="tabelaAdminHospitais" class="divide-y divide-neutral-200"></tbody>
@@ -932,116 +829,59 @@
       </div>
     </section>
 
-    <!-- ABA 5: EQUIPE & CARGOS SES -->
-    <section id="secEquipe" class="hidden space-y-6">
-      <div class="bg-white p-5 rounded-lg border border-neutral-300 shadow-sm">
-        <h3 id="formEquipeTitle" class="text-xs font-black uppercase text-sp-blue mb-1">Nomear / Editar Cargo Geral SES</h3>
-        <p class="text-xs text-neutral-500 mb-4">Cargos vazios ou desativados não aparecem para o público.</p>
-        <form onsubmit="salvarMembroEquipe(event)" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 text-xs">
-          <input type="hidden" id="eqId">
-          <input type="hidden" id="eqFotoBase64">
-          <div class="sm:col-span-2">
-            <label class="font-bold text-neutral-700">Cargo Oficial</label>
-            <select id="eqCargo" required class="w-full p-2 border rounded mt-1 font-bold">
-              <option value="Secretário de Estado da Saúde">1. Secretário de Estado da Saúde</option>
-              <option value="Secretário-Adjunto da Saúde">2. Secretário-Adjunto da Saúde</option>
-              <option value="Chefe de Gabinete da SES">3. Chefe de Gabinete da SES</option>
-              <option value="Coordenador de Regulação e Leitos">4. Coordenador de Regulação e Leitos</option>
-              <option value="Diretor de Vigilância Sanitária">5. Diretor de Vigilância Sanitária</option>
-              <option value="Auditor / Inspetor de Saúde Pública">6. Auditor / Inspetor de Saúde Pública</option>
-              <option value="Analista Técnico / Assistente Administrativo">7. Analista Técnico / Assistente Administrativo</option>
-            </select>
-          </div>
-          <div>
-            <label class="font-bold text-neutral-700">Nome do Titular / Responsável</label>
-            <input type="text" id="eqNome" placeholder="Ex: Dr. Nome Completo" required class="w-full p-2 border rounded mt-1">
-          </div>
-          <div class="sm:col-span-2">
-            <label class="font-bold text-neutral-700">Atribuições / Formação / Resumo</label>
-            <input type="text" id="eqDescricao" placeholder="Ex: Especialista em Políticas Públicas." class="w-full p-2 border rounded mt-1">
-          </div>
-          <div>
-            <label class="font-bold text-neutral-700 flex items-center justify-between">
-              <span>Foto do Titular</span>
-              <span class="text-[10px] text-sp-blue font-semibold">Galeria / Câmera</span>
-            </label>
-            <div class="flex items-center gap-2 mt-1">
-              <input type="file" accept="image/*" id="inEqArquivo" onchange="processarArquivoImagem(event, 'eqFotoBase64', 'prevEqFoto')" class="text-[11px] file:mr-2 file:py-1.5 file:px-2.5 file:rounded file:border-0 file:text-[10px] file:font-bold file:bg-sp-blue file:text-white cursor-pointer">
-              <img id="prevEqFoto" src="" class="hidden w-8 h-8 rounded-full object-cover border border-neutral-300">
-            </div>
-          </div>
-          <div class="sm:col-span-3 flex items-center gap-2 pt-1">
-            <input type="checkbox" id="eqAtivo" checked class="w-4 h-4 text-sp-blue cursor-pointer">
-            <label for="eqAtivo" class="text-xs font-bold text-neutral-800 cursor-pointer">Exibir este cargo no portal público</label>
-          </div>
-          <div class="sm:col-span-3 flex gap-2 pt-2">
-            <button type="submit" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-4 py-2 rounded uppercase shadow">Salvar Titular</button>
-            <button type="button" onclick="limparFormEquipe()" class="bg-neutral-200 px-4 py-2 rounded font-bold">Cancelar</button>
-          </div>
-        </form>
-      </div>
-
+    <!-- ABA 5: LIDERANÇA SES -->
+    <section id="secEquipe" class="space-y-6 hidden">
       <div class="bg-white rounded-lg border border-neutral-300 shadow-sm overflow-hidden">
-        <div class="p-3 bg-neutral-100 font-bold text-xs uppercase text-neutral-700">Status dos 7 Cargos Gerais</div>
+        <div class="p-4 bg-neutral-100 border-b border-neutral-200 flex justify-between items-center">
+          <div>
+            <h3 class="font-black text-xs uppercase text-neutral-800">Corpo Diretivo da Secretaria (7 Cargos Oficiais)</h3>
+            <p class="text-[11px] text-neutral-500">Gabinete e coordenadorias gerais do Estado de São Paulo.</p>
+          </div>
+          <button onclick="abrirModalFormEquipeSES()" class="bg-sp-blue hover:bg-sp-darkBlue text-white font-black text-xs px-3 py-2 rounded-lg flex items-center gap-1.5 uppercase shadow">
+            <i data-lucide="user-plus" class="w-4 h-4"></i> Nomear Titular
+          </button>
+        </div>
         <div id="listaAdminEquipe" class="divide-y divide-neutral-200 text-xs"></div>
       </div>
     </section>
 
-    <!-- ABA 6: PROGRAMAS -->
-    <section id="secProgramas" class="hidden space-y-6">
-      <div class="bg-white p-5 rounded-lg border border-neutral-300 shadow-sm">
-        <h3 id="formProgTitle" class="text-xs font-black uppercase text-sp-blue mb-3">Cadastrar Novo Programa</h3>
-        <form onsubmit="salvarPrograma(event)" class="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
-          <input type="hidden" id="pId">
-          <div class="sm:col-span-2">
-            <label class="font-bold text-neutral-700">Nome do Programa</label>
-            <input type="text" id="pNome" required class="w-full p-2 border rounded mt-1" placeholder="Ex: Mulher de Peito">
-          </div>
-          <div>
-            <label class="font-bold text-neutral-700">Categoria</label>
-            <input type="text" id="pCategoria" required class="w-full p-2 border rounded mt-1" placeholder="Ex: Prevenção">
-          </div>
-          <div class="sm:col-span-3">
-            <label class="font-bold text-neutral-700">Descrição do Benefício ao Cidadão</label>
-            <textarea id="pDescricao" rows="2" required class="w-full p-2 border rounded mt-1"></textarea>
-          </div>
-          <div class="sm:col-span-3">
-            <label class="font-bold text-neutral-700">Link Informativo / Portal do Serviço (Opcional)</label>
-            <input type="url" id="pLink" placeholder="https://exemplo.sp.gov.br (Deixe vazio se não houver)" class="w-full p-2 border rounded mt-1">
-          </div>
-          <div class="sm:col-span-3 flex gap-2 pt-2">
-            <button type="submit" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-4 py-2 rounded uppercase shadow">Salvar Programa</button>
-            <button type="button" onclick="limparFormPrograma()" class="bg-neutral-200 px-4 py-2 rounded font-bold">Cancelar</button>
-          </div>
-        </form>
-      </div>
+    <!-- ABA 6: PROGRAMAS OFICIAIS (COM BOTÃO ADICIONAR) -->
+    <section id="secProgramas" class="space-y-6 hidden">
       <div class="bg-white rounded-lg border border-neutral-300 shadow-sm overflow-hidden">
-        <div class="p-3 bg-neutral-100 font-bold text-xs uppercase text-neutral-700">Programas Ativos e Inativos</div>
+        <div class="p-4 bg-neutral-100 border-b border-neutral-200 flex justify-between items-center">
+          <div>
+            <h3 class="font-black text-xs uppercase text-neutral-800">Catálogo de Programas Estaduais</h3>
+            <p class="text-[11px] text-neutral-500">Iniciativas ativas que aparecem para o cidadão no portal.</p>
+          </div>
+          <button onclick="abrirModalFormPrograma()" class="bg-emerald-600 hover:bg-emerald-700 text-white font-black text-xs px-3 py-2 rounded-lg flex items-center gap-1.5 uppercase shadow">
+            <i data-lucide="plus-circle" class="w-4 h-4"></i> Novo Programa
+          </button>
+        </div>
         <div id="listaAdminProgramas" class="divide-y divide-neutral-200 text-xs"></div>
       </div>
     </section>
 
-    <!-- ABA 7: ALERTAS & WEBHOOKS -->
-    <section id="secAlerta" class="hidden space-y-6">
+    <!-- ABA 7: SISTEMA, ALERTAS & DISCORD WEBHOOKS -->
+    <section id="secAlerta" class="space-y-6 hidden">
       
       <!-- 2 WEBHOOKS DISCORD -->
       <div class="bg-white p-5 rounded-lg border border-neutral-300 shadow-sm max-w-xl border-l-4 border-indigo-700">
         <h3 class="text-xs font-black uppercase text-indigo-700 mb-1 flex items-center gap-1.5">
-          <i data-lucide="bell" class="w-4 h-4"></i> Webhooks do Discord (2 Canais Separados)
+          <i data-lucide="bell" class="w-4 h-4"></i> Notificações no Discord (2 Webhooks Separados)
         </h3>
         <p class="text-xs text-neutral-500 mb-4">
-          Configure dois canais diferentes: um para chamados do <strong>IEP-SP</strong> e outro para a <strong>Farmácia de Medicamentos</strong>.
+          Defina canais separados para receber chamados do <strong>IEP-SP</strong> e pedidos de <strong>Medicamentos</strong>.
         </p>
 
         <form onsubmit="salvarDiscordWebhooks(event)" class="space-y-4 text-xs">
           <div class="bg-indigo-50/70 p-3 rounded-lg border border-indigo-200">
             <label class="font-bold text-indigo-900 block mb-1">🧠 Webhook 1: IEP-SP (Saúde Mental & Perícias)</label>
-            <input type="url" id="adminWebhookIep" placeholder="https://discord.com/api/webhooks/... (Canal de Atendimentos IEP)" class="w-full text-xs p-2 border rounded font-semibold focus:border-indigo-600 outline-none">
+            <input type="url" id="adminWebhookIep" placeholder="https://discord.com/api/webhooks/..." class="w-full text-xs p-2 border rounded font-semibold focus:border-indigo-600 outline-none">
           </div>
 
           <div class="bg-emerald-50/70 p-3 rounded-lg border border-emerald-200">
-            <label class="font-bold text-emerald-900 block mb-1">💊 Webhook 2: Farmácia & Medicamentos (Dose Certa)</label>
-            <input type="url" id="adminWebhookMed" placeholder="https://discord.com/api/webhooks/... (Canal de Pedidos de Remédios)" class="w-full text-xs p-2 border rounded font-semibold focus:border-emerald-600 outline-none">
+            <label class="font-bold text-emerald-900 block mb-1">💊 Webhook 2: Farmácia Dose Certa (Medicamentos)</label>
+            <input type="url" id="adminWebhookMed" placeholder="https://discord.com/api/webhooks/..." class="w-full text-xs p-2 border rounded font-semibold focus:border-emerald-600 outline-none">
           </div>
 
           <button type="submit" class="bg-indigo-700 hover:bg-indigo-800 text-white text-xs font-bold px-4 py-2 rounded uppercase shadow">
@@ -1050,7 +890,7 @@
         </form>
       </div>
 
-      <!-- Card Alerta -->
+      <!-- Alerta da Capa -->
       <div class="bg-white p-5 rounded-lg border border-neutral-300 shadow-sm max-w-xl">
         <h3 class="text-xs font-black uppercase text-sp-blue mb-3">Banner de Alerta Epidemiológico</h3>
         <div class="flex items-center gap-2 mb-4 bg-amber-50 p-3 rounded border border-amber-200">
@@ -1069,83 +909,32 @@
         <textarea id="adminInputAlerta" rows="3" maxlength="240" oninput="document.getElementById('contadorAlerta').innerText = this.value.length" class="w-full text-xs p-2 border rounded mb-1"></textarea>
         <p class="text-[10px] text-neutral-400 mb-4"><span id="contadorAlerta">0</span>/240 caracteres</p>
         <div class="flex gap-2">
-          <button onclick="salvarAlerta()" class="bg-sp-blue hover:bg-sp-darkBlue text-white text-xs font-bold px-4 py-2 rounded uppercase shadow">Salvar Alterações</button>
-          <button onclick="removerAlerta()" class="bg-red-600 hover:bg-red-700 text-white text-xs font-bold px-4 py-2 rounded uppercase shadow">Desativar da Capa</button>
+          <button onclick="salvarAlerta()" class="bg-sp-blue hover:bg-sp-darkBlue text-white text-xs font-bold px-4 py-2 rounded uppercase shadow">Salvar Alerta</button>
+          <button onclick="removerAlerta()" class="bg-red-600 hover:bg-red-700 text-white text-xs font-bold px-4 py-2 rounded uppercase shadow">Desativar</button>
         </div>
       </div>
 
-      <!-- Card Ouvidoria Link -->
+      <!-- Ouvidoria Link -->
       <div class="bg-white p-5 rounded-lg border border-neutral-300 shadow-sm max-w-xl">
-        <h3 class="text-xs font-black uppercase text-sp-blue mb-1">Link Oficial da Ouvidoria Geral</h3>
+        <h3 class="text-xs font-black uppercase text-sp-blue mb-1">Link da Ouvidoria Geral</h3>
         <form onsubmit="salvarOuvidoria(event)" class="space-y-3 text-xs mt-2">
           <div>
             <label class="font-bold text-neutral-700">URL / Link da Ouvidoria</label>
             <input type="url" id="adminInputOuvidoria" required placeholder="https://fala.sp.gov.br" class="w-full text-xs p-2.5 border rounded mt-1 font-semibold focus:border-sp-blue outline-none">
           </div>
-          <button type="submit" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-4 py-2 rounded uppercase shadow">
-            Salvar Link da Ouvidoria
+          <button type="submit" class="bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold px-4 py-2 rounded uppercase shadow">
+            Salvar Link
           </button>
         </form>
       </div>
-    </section>
 
-    <!-- ABA 8: NOTÍCIAS -->
-    <section id="secNoticias" class="hidden">
-      <div class="bg-white p-5 rounded-lg border border-neutral-300 shadow-sm mb-6">
-        <h3 class="text-xs font-black uppercase text-sp-blue mb-3">Nova Matéria Oficial</h3>
-        <form onsubmit="salvarNoticia(event)" class="space-y-3 text-xs">
-          <input type="hidden" id="nFotoBase64">
-          <div>
-            <label class="font-bold">Título da Notícia</label>
-            <input type="text" id="nTitulo" required class="w-full p-2 border rounded mt-1">
-          </div>
-          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-            <div>
-              <label class="font-bold">Categoria</label>
-              <input type="text" id="nCategoria" required class="w-full p-2 border rounded mt-1" value="Campanha">
-            </div>
-            <div>
-              <label class="font-bold flex items-center justify-between">
-                <span>Imagem da Matéria</span>
-                <span class="text-[10px] text-sp-blue font-semibold">Galeria / Arquivo</span>
-              </label>
-              <div class="flex items-center gap-2 mt-1">
-                <input type="file" accept="image/*" id="inNoticiaArquivo" onchange="processarArquivoImagem(event, 'nFotoBase64', 'prevNoticiaFoto')" class="text-[11px] file:mr-2 file:py-1 file:px-2 file:rounded file:border-0 file:text-[10px] file:font-bold file:bg-sp-blue file:text-white cursor-pointer">
-                <img id="prevNoticiaFoto" src="" class="hidden w-10 h-8 rounded object-cover border border-neutral-300">
-              </div>
-            </div>
-          </div>
-          <div>
-            <label class="font-bold">Link da Matéria / Fonte Externa (Opcional)</label>
-            <input type="url" id="nLink" placeholder="https://noticias.sp.gov.br/... (Deixe vazio se não houver link)" class="w-full p-2 border rounded mt-1">
-          </div>
-          <div>
-            <label class="font-bold">Resumo / Conteúdo da Notícia</label>
-            <textarea id="nResumo" rows="4" required class="w-full p-2 border rounded mt-1"></textarea>
-          </div>
-          <button type="submit" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-4 py-2 rounded uppercase shadow">
-            Publicar Matéria Oficial
-          </button>
-        </form>
-      </div>
-      <div id="listaAdminNoticias" class="space-y-2"></div>
-    </section>
-
-    <!-- ABA 9: NUVEM & SENHA -->
-    <section id="secSenha" class="hidden space-y-6">
-      <div class="bg-white p-5 rounded-lg border border-neutral-300 shadow-sm max-w-lg">
-        <h3 class="text-xs font-black uppercase text-sp-blue mb-1 flex items-center gap-1.5">
-          <i data-lucide="cloud" class="w-4 h-4"></i> Banco de Dados Global (Firebase)
-        </h3>
-        <p class="text-xs text-neutral-500 mb-3">Sincronização global automática para qualquer celular ou computador.</p>
-        <div id="boxStatusNuvem" class="p-3 rounded-lg text-xs font-semibold bg-emerald-50 text-emerald-800 mb-3 border border-emerald-200">
+      <!-- Nuvem Firebase & Senha -->
+      <div class="bg-white p-5 rounded-lg border border-neutral-300 shadow-sm max-w-xl">
+        <h3 class="text-xs font-black uppercase text-sp-blue mb-1">Sincronização & Segurança</h3>
+        <div id="boxStatusNuvem" class="p-3 rounded-lg text-xs font-semibold bg-emerald-50 text-emerald-800 my-3 border border-emerald-200">
           🟢 Sincronizado com: https://saude-sp-195c3-default-rtdb.firebaseio.com
         </div>
-      </div>
-
-      <div class="bg-white p-5 rounded-lg border border-neutral-300 shadow-sm max-w-md">
-        <h3 class="text-xs font-black uppercase text-sp-blue mb-1">Alterar Usuário e Senha</h3>
-        <form onsubmit="alterarCredenciais(event)" class="space-y-3 text-xs mt-3">
+        <form onsubmit="alterarCredenciais(event)" class="space-y-3 text-xs">
           <div>
             <label class="font-bold text-neutral-700">Novo Nome de Usuário</label>
             <input type="text" id="novoUsuario" required class="w-full p-2 border rounded mt-1">
@@ -1158,39 +947,314 @@
             <label class="font-bold text-neutral-700">Confirmar Nova Senha</label>
             <input type="password" id="confirmaSenha" required class="w-full p-2 border rounded mt-1">
           </div>
-          <button type="submit" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-4 py-2.5 rounded uppercase w-full shadow">
+          <button type="submit" class="bg-sp-blue hover:bg-sp-darkBlue text-white font-bold px-4 py-2 rounded uppercase shadow">
             Salvar Novas Credenciais
           </button>
         </form>
       </div>
+    </section>
 
-      <!-- RESET PROTEGIDO -->
-      <div class="bg-red-50 p-5 rounded-lg border border-red-200 shadow-sm max-w-md">
-        <h3 class="text-xs font-black uppercase text-red-700 mb-1 flex items-center gap-1.5">
-          <i data-lucide="alert-octagon" class="w-4 h-4"></i> Zona Restrita: Redefinição de Sistema
-        </h3>
-        <p class="text-xs text-red-600 mb-4">Restaura os valores originais de São Paulo no Firebase.</p>
-        <button onclick="restaurarPadroesProtegido()" class="bg-red-600 hover:bg-red-700 text-white text-xs font-bold px-4 py-2 rounded uppercase shadow">
-          Restaurar Banco de Dados Padrão SP
-        </button>
+    <!-- ABA 8: NOTÍCIAS -->
+    <section id="secNoticias" class="space-y-6 hidden">
+      <div class="bg-white rounded-lg border border-neutral-300 shadow-sm overflow-hidden">
+        <div class="p-4 bg-neutral-100 border-b border-neutral-200 flex justify-between items-center">
+          <div>
+            <h3 class="font-black text-xs uppercase text-neutral-800">Publicações & Notícias</h3>
+            <p class="text-[11px] text-neutral-500">Comunicados oficiais exibidos na capa e na página de notícias.</p>
+          </div>
+          <button onclick="abrirModalFormNoticia()" class="bg-sp-blue hover:bg-sp-darkBlue text-white font-black text-xs px-3 py-2 rounded-lg flex items-center gap-1.5 uppercase shadow">
+            <i data-lucide="plus-circle" class="w-4 h-4"></i> Nova Notícia
+          </button>
+        </div>
+        <div id="listaAdminNoticias" class="divide-y divide-neutral-200 text-xs"></div>
       </div>
     </section>
 
   </main>
 
-  <!-- MODAL DE SOLICITAÇÃO IEP-SP -->
+  <!-- ==================== MODAIS DE CADASTRO LIMPOS (ABREM AO CLICAR NO BOTÃO) ==================== -->
+
+  <!-- MODAL: REPASSE ORÇAMENTÁRIO -->
+  <div id="modalFormDestinacao" style="display: none;" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 items-center justify-center p-4">
+    <div class="bg-white rounded-2xl max-w-lg w-full p-6 shadow-2xl relative">
+      <button onclick="fecharModalFormDestinacao()" class="absolute top-4 right-4 text-neutral-400 hover:text-neutral-700"><i data-lucide="x" class="w-5 h-5"></i></button>
+      <h3 id="formDestTitle" class="text-sm font-black uppercase text-sp-blue mb-3">Lançar Repasse Orçamentário</h3>
+      <form onsubmit="salvarDestinacao(event)" class="space-y-3 text-xs">
+        <input type="hidden" id="destId">
+        <div>
+          <label class="font-bold text-neutral-700">Entidade / Programa Beneficiado</label>
+          <select id="destEntidade" onchange="atualizarNomeDestinacaoAuto()" class="w-full p-2 border rounded mt-1 font-bold"></select>
+        </div>
+        <div>
+          <label class="font-bold text-neutral-700">Título do Repasse</label>
+          <input type="text" id="destNome" required placeholder="Ex: Custeio Operacional" class="w-full p-2 border rounded mt-1 font-bold">
+        </div>
+        <div>
+          <label class="font-bold text-neutral-700">Valor Repassado (R$)</label>
+          <input type="text" inputmode="decimal" id="destValor" required placeholder="Ex: 50000000" class="w-full p-2 border rounded mt-1 font-bold">
+        </div>
+        <div>
+          <label class="font-bold text-neutral-700">Finalidade / Descrição da Aplicação</label>
+          <input type="text" id="destDescricao" required placeholder="Ex: Aquisição de testes psicológicos, ampliação de leitos..." class="w-full p-2 border rounded mt-1">
+        </div>
+        <div class="flex gap-2 pt-2">
+          <button type="submit" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold p-2.5 rounded uppercase shadow">Salvar Repasse</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL: MEDICAMENTO -->
+  <div id="modalFormMedicamento" style="display: none;" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 items-center justify-center p-4">
+    <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl relative">
+      <button onclick="fecharModalFormMedicamento()" class="absolute top-4 right-4 text-neutral-400 hover:text-neutral-700"><i data-lucide="x" class="w-5 h-5"></i></button>
+      <h3 id="formRemedioTitle" class="text-sm font-black uppercase text-emerald-700 mb-3">Adicionar Medicamento</h3>
+      <form onsubmit="salvarMedicamentoAdmin(event)" class="space-y-3 text-xs">
+        <input type="hidden" id="medId">
+        <div>
+          <label class="font-bold text-neutral-700">Nome do Medicamento e Dosagem</label>
+          <input type="text" id="medNome" required placeholder="Ex: Clonazepam 2mg, Insulina NPH" class="w-full p-2 border rounded mt-1 font-bold">
+        </div>
+        <div>
+          <label class="font-bold text-neutral-700">Categoria</label>
+          <select id="medCategoria" class="w-full p-2 border rounded mt-1 font-bold">
+            <option value="Saúde Mental / Psiquiatria">Saúde Mental / Psiquiatria</option>
+            <option value="Uso Contínuo / Crônicos">Uso Contínuo / Crônicos</option>
+            <option value="Alto Custo Estadual">Alto Custo Estadual</option>
+            <option value="Atenção Básica">Atenção Básica</option>
+          </select>
+        </div>
+        <div>
+          <label class="font-bold text-neutral-700">Indicação / Observações de Retirada</label>
+          <input type="text" id="medDescricao" required placeholder="Ex: Retirada mediante receita médica controlada." class="w-full p-2 border rounded mt-1">
+        </div>
+        <button type="submit" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold p-2.5 rounded uppercase shadow mt-2">Salvar no Estoque</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL: HOSPITAL -->
+  <div id="modalFormHospital" style="display: none;" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 items-center justify-center p-4">
+    <div class="bg-white rounded-2xl max-w-lg w-full p-6 shadow-2xl relative">
+      <button onclick="fecharModalFormHospital()" class="absolute top-4 right-4 text-neutral-400 hover:text-neutral-700"><i data-lucide="x" class="w-5 h-5"></i></button>
+      <h3 id="formHospTitle" class="text-sm font-black uppercase text-sp-blue mb-3">Cadastrar Unidade Hospitalar</h3>
+      <form onsubmit="salvarHospital(event)" class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+        <input type="hidden" id="hId">
+        <input type="hidden" id="hFotoBase64">
+        <div class="sm:col-span-2">
+          <label class="font-bold text-neutral-700">Nome da Unidade / Instituto</label>
+          <input type="text" id="hNome" required class="w-full p-2 border rounded mt-1">
+        </div>
+        <div>
+          <label class="font-bold text-neutral-700">Status Operacional</label>
+          <select id="hStatus" class="w-full p-2 border rounded mt-1 font-bold">
+            <option value="Operando Normalmente">Operando 24h</option>
+            <option value="Alta Demanda">Alta Demanda / Triagem Lenta</option>
+            <option value="Em Obras / Parcial">Em Obras / Parcial</option>
+            <option value="Pronto-Socorro Restrito">P.S. Referenciado</option>
+          </select>
+        </div>
+        <div>
+          <label class="font-bold text-neutral-700">Região</label>
+          <select id="hRegiao" class="w-full p-2 border rounded mt-1">
+            <option value="capital">Capital / Grande SP</option>
+            <option value="campinas">Campinas</option>
+            <option value="ribeirao">Ribeirão Preto</option>
+            <option value="santos">Baixada Santista</option>
+          </select>
+        </div>
+        <div>
+          <label class="font-bold text-neutral-700">Tipo de Unidade</label>
+          <select id="hTipo" class="w-full p-2 border rounded mt-1">
+            <option value="Instituto Especializado">Instituto Especializado</option>
+            <option value="Hospital Geral">Hospital Geral</option>
+            <option value="AME">AME</option>
+          </select>
+        </div>
+        <div>
+          <label class="font-bold text-neutral-700">Leitos / Vagas</label>
+          <input type="number" min="0" id="hLeitos" required class="w-full p-2 border rounded mt-1" value="12">
+        </div>
+        <div>
+          <label class="font-bold text-neutral-700">Telefone / Ramal</label>
+          <input type="text" id="hTelefone" required class="w-full p-2 border rounded mt-1" placeholder="(11) 0000-0000">
+        </div>
+        <div>
+          <label class="font-bold text-neutral-700">Endereço Completo</label>
+          <input type="text" id="hEndereco" required class="w-full p-2 border rounded mt-1">
+        </div>
+        <div class="sm:col-span-2 bg-neutral-50 p-2 rounded border">
+          <label class="font-bold text-neutral-700 block text-[11px]">Foto da Unidade (Opcional - Galeria do Celular)</label>
+          <div class="flex items-center gap-2 mt-1">
+            <input type="file" accept="image/*" id="inHospArquivo" onchange="processarArquivoImagem(event, 'hFotoBase64', 'prevHospFoto')" class="text-[11px] file:mr-2 file:py-1 file:px-2 file:rounded file:border-0 file:text-[10px] file:font-bold file:bg-sp-blue file:text-white cursor-pointer">
+            <img id="prevHospFoto" src="" class="hidden w-10 h-8 rounded object-cover border">
+          </div>
+        </div>
+        <div class="sm:col-span-2 pt-1">
+          <button type="submit" class="w-full bg-sp-blue hover:bg-sp-darkBlue text-white font-bold p-2.5 rounded uppercase shadow">Salvar Unidade</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL: TITULAR IEP-SP -->
+  <div id="modalFormEquipeIep" style="display: none;" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 items-center justify-center p-4">
+    <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl relative">
+      <button onclick="fecharModalFormEquipeIep()" class="absolute top-4 right-4 text-neutral-400 hover:text-neutral-700"><i data-lucide="x" class="w-5 h-5"></i></button>
+      <h3 id="formEquipeIepTitle" class="text-sm font-black uppercase text-indigo-700 mb-3">Nomear Cargo do IEP-SP</h3>
+      <form onsubmit="salvarMembroEquipeIep(event)" class="space-y-3 text-xs">
+        <input type="hidden" id="eqIepId">
+        <input type="hidden" id="eqIepFotoBase64">
+        <div>
+          <label class="font-bold text-neutral-700">Cargo do IEP-SP</label>
+          <select id="eqIepCargo" required class="w-full p-2 border rounded mt-1 font-bold">
+            <option value="Diretor-Geral do IEP-SP">1. Diretor-Geral do IEP-SP</option>
+            <option value="Diretor Clínico / Psiquiatria de Referência">2. Diretor Clínico / Psiquiatria de Referência</option>
+            <option value="Coordenador de Perícias e Laudos Funcionais">3. Coordenador de Perícias e Laudos Funcionais</option>
+            <option value="Coordenador de Urgências Psiquiátricas / SAMU">4. Coordenador de Urgências Psiquiátricas / SAMU</option>
+            <option value="Supervisor de Atendimento Comunitário">5. Supervisor de Atendimento Comunitário</option>
+          </select>
+        </div>
+        <div>
+          <label class="font-bold text-neutral-700">Nome do Titular</label>
+          <input type="text" id="eqIepNome" placeholder="Ex: Dr. Nome Completo" required class="w-full p-2 border rounded mt-1">
+        </div>
+        <div>
+          <label class="font-bold text-neutral-700">Atribuições / Resumo Curricular</label>
+          <input type="text" id="eqIepDescricao" placeholder="Ex: Médico Psiquiatra e Especialista em Perícias." class="w-full p-2 border rounded mt-1">
+        </div>
+        <div class="bg-neutral-50 p-2 rounded border">
+          <label class="font-bold text-neutral-700 block text-[11px]">Foto do Titular (Opcional - Galeria)</label>
+          <div class="flex items-center gap-2 mt-1">
+            <input type="file" accept="image/*" id="inEqIepArquivo" onchange="processarArquivoImagem(event, 'eqIepFotoBase64', 'prevEqIepFoto')" class="text-[11px] file:mr-2 file:py-1 file:px-2 file:rounded file:border-0 file:text-[10px] file:font-bold file:bg-indigo-700 file:text-white cursor-pointer">
+            <img id="prevEqIepFoto" src="" class="hidden w-8 h-8 rounded-full object-cover border">
+          </div>
+        </div>
+        <div class="flex items-center gap-2 pt-1">
+          <input type="checkbox" id="eqIepAtivo" checked class="w-4 h-4 text-indigo-700 cursor-pointer">
+          <label for="eqIepAtivo" class="text-xs font-bold text-neutral-800 cursor-pointer">Exibir este cargo no portal do IEP-SP</label>
+        </div>
+        <button type="submit" class="w-full bg-indigo-700 hover:bg-indigo-800 text-white font-bold p-2.5 rounded uppercase shadow mt-2">Salvar Titular IEP</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL: TITULAR SES GERAL -->
+  <div id="modalFormEquipeSES" style="display: none;" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 items-center justify-center p-4">
+    <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl relative">
+      <button onclick="fecharModalFormEquipeSES()" class="absolute top-4 right-4 text-neutral-400 hover:text-neutral-700"><i data-lucide="x" class="w-5 h-5"></i></button>
+      <h3 id="formEquipeTitle" class="text-sm font-black uppercase text-sp-blue mb-3">Nomear Cargo Geral SES</h3>
+      <form onsubmit="salvarMembroEquipe(event)" class="space-y-3 text-xs">
+        <input type="hidden" id="eqId">
+        <input type="hidden" id="eqFotoBase64">
+        <div>
+          <label class="font-bold text-neutral-700">Cargo Oficial</label>
+          <select id="eqCargo" required class="w-full p-2 border rounded mt-1 font-bold">
+            <option value="Secretário de Estado da Saúde">1. Secretário de Estado da Saúde</option>
+            <option value="Secretário-Adjunto da Saúde">2. Secretário-Adjunto da Saúde</option>
+            <option value="Chefe de Gabinete da SES">3. Chefe de Gabinete da SES</option>
+            <option value="Coordenador de Regulação e Leitos">4. Coordenador de Regulação e Leitos</option>
+            <option value="Diretor de Vigilância Sanitária">5. Diretor de Vigilância Sanitária</option>
+            <option value="Auditor / Inspetor de Saúde Pública">6. Auditor / Inspetor de Saúde Pública</option>
+            <option value="Analista Técnico / Assistente Administrativo">7. Analista Técnico / Assistente Administrativo</option>
+          </select>
+        </div>
+        <div>
+          <label class="font-bold text-neutral-700">Nome do Titular / Responsável</label>
+          <input type="text" id="eqNome" placeholder="Ex: Dr. Nome Completo" required class="w-full p-2 border rounded mt-1">
+        </div>
+        <div>
+          <label class="font-bold text-neutral-700">Atribuições / Resumo Curricular</label>
+          <input type="text" id="eqDescricao" placeholder="Ex: Especialista em Gestão e Políticas Públicas." class="w-full p-2 border rounded mt-1">
+        </div>
+        <div class="bg-neutral-50 p-2 rounded border">
+          <label class="font-bold text-neutral-700 block text-[11px]">Foto do Titular (Opcional - Galeria)</label>
+          <div class="flex items-center gap-2 mt-1">
+            <input type="file" accept="image/*" id="inEqArquivo" onchange="processarArquivoImagem(event, 'eqFotoBase64', 'prevEqFoto')" class="text-[11px] file:mr-2 file:py-1 file:px-2 file:rounded file:border-0 file:text-[10px] file:font-bold file:bg-sp-blue file:text-white cursor-pointer">
+            <img id="prevEqFoto" src="" class="hidden w-8 h-8 rounded-full object-cover border">
+          </div>
+        </div>
+        <div class="flex items-center gap-2 pt-1">
+          <input type="checkbox" id="eqAtivo" checked class="w-4 h-4 text-sp-blue cursor-pointer">
+          <label for="eqAtivo" class="text-xs font-bold text-neutral-800 cursor-pointer">Exibir este cargo no portal público</label>
+        </div>
+        <button type="submit" class="w-full bg-sp-blue hover:bg-sp-darkBlue text-white font-bold p-2.5 rounded uppercase shadow mt-2">Salvar Titular SES</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL: PROGRAMA -->
+  <div id="modalFormPrograma" style="display: none;" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 items-center justify-center p-4">
+    <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl relative">
+      <button onclick="fecharModalFormPrograma()" class="absolute top-4 right-4 text-neutral-400 hover:text-neutral-700"><i data-lucide="x" class="w-5 h-5"></i></button>
+      <h3 id="formProgTitle" class="text-sm font-black uppercase text-sp-blue mb-3">Cadastrar Programa Oficial</h3>
+      <form onsubmit="salvarPrograma(event)" class="space-y-3 text-xs">
+        <input type="hidden" id="pId">
+        <div>
+          <label class="font-bold text-neutral-700">Nome do Programa</label>
+          <input type="text" id="pNome" required class="w-full p-2 border rounded mt-1" placeholder="Ex: Mulher de Peito">
+        </div>
+        <div>
+          <label class="font-bold text-neutral-700">Categoria</label>
+          <input type="text" id="pCategoria" required class="w-full p-2 border rounded mt-1" placeholder="Ex: Prevenção, Medicamentos">
+        </div>
+        <div>
+          <label class="font-bold text-neutral-700">Descrição do Benefício</label>
+          <textarea id="pDescricao" rows="2" required class="w-full p-2 border rounded mt-1"></textarea>
+        </div>
+        <div>
+          <label class="font-bold text-neutral-700">Link Opcional (Se houver portal externo)</label>
+          <input type="url" id="pLink" placeholder="https://exemplo.sp.gov.br (Opcional)" class="w-full p-2 border rounded mt-1">
+        </div>
+        <button type="submit" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold p-2.5 rounded uppercase shadow mt-2">Salvar Programa</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL: NOTÍCIA -->
+  <div id="modalFormNoticia" style="display: none;" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 items-center justify-center p-4">
+    <div class="bg-white rounded-2xl max-w-lg w-full p-6 shadow-2xl relative">
+      <button onclick="fecharModalFormNoticia()" class="absolute top-4 right-4 text-neutral-400 hover:text-neutral-700"><i data-lucide="x" class="w-5 h-5"></i></button>
+      <h3 class="text-sm font-black uppercase text-sp-blue mb-3">Publicar Notícia Oficial</h3>
+      <form onsubmit="salvarNoticia(event)" class="space-y-3 text-xs">
+        <input type="hidden" id="nFotoBase64">
+        <div>
+          <label class="font-bold">Título da Notícia</label>
+          <input type="text" id="nTitulo" required class="w-full p-2 border rounded mt-1">
+        </div>
+        <div>
+          <label class="font-bold">Categoria</label>
+          <input type="text" id="nCategoria" required class="w-full p-2 border rounded mt-1" value="Campanha">
+        </div>
+        <div class="bg-neutral-50 p-2 rounded border">
+          <label class="font-bold block text-[11px]">Foto da Matéria (Opcional - Galeria)</label>
+          <div class="flex items-center gap-2 mt-1">
+            <input type="file" accept="image/*" id="inNoticiaArquivo" onchange="processarArquivoImagem(event, 'nFotoBase64', 'prevNoticiaFoto')" class="text-[11px] file:mr-2 file:py-1 file:px-2 file:rounded file:border-0 file:text-[10px] file:font-bold file:bg-sp-blue file:text-white cursor-pointer">
+            <img id="prevNoticiaFoto" src="" class="hidden w-10 h-8 rounded object-cover border">
+          </div>
+        </div>
+        <div>
+          <label class="font-bold">Link Opcional / Fonte Externa</label>
+          <input type="url" id="nLink" placeholder="https://noticias.sp.gov.br/... (Opcional)" class="w-full p-2 border rounded mt-1">
+        </div>
+        <div>
+          <label class="font-bold">Conteúdo da Notícia</label>
+          <textarea id="nResumo" rows="4" required class="w-full p-2 border rounded mt-1"></textarea>
+        </div>
+        <button type="submit" class="w-full bg-sp-blue hover:bg-sp-darkBlue text-white font-bold p-2.5 rounded uppercase shadow mt-2">Publicar Comunicado</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL: CHAMADO IEP-SP (DISCORD) -->
   <div id="modalChamadoIEP" style="display: none;" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 items-center justify-center p-4">
     <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl relative border-t-4 border-indigo-700">
-      <button onclick="fecharModalChamadoIEP()" class="absolute top-3.5 right-3.5 text-neutral-400 hover:text-neutral-700">
-        <i data-lucide="x" class="w-5 h-5"></i>
-      </button>
-
+      <button onclick="fecharModalChamadoIEP()" class="absolute top-3.5 right-3.5 text-neutral-400 hover:text-neutral-700"><i data-lucide="x" class="w-5 h-5"></i></button>
       <div class="text-center mb-4">
         <span class="text-[9px] bg-indigo-100 text-indigo-800 font-extrabold px-2 py-0.5 rounded uppercase">Instituto Estadual de Psicologia</span>
         <h3 class="text-base font-black text-neutral-900 uppercase mt-1">Solicitação Oficial de Acolhimento</h3>
         <p id="iepModalServico" class="text-xs text-indigo-700 font-bold mt-0.5"></p>
       </div>
-
       <form onsubmit="enviarChamadoIEPDiscord(event)" class="space-y-3 text-xs">
         <input type="hidden" id="iepFormServico">
         <div>
@@ -1218,9 +1282,8 @@
         </div>
         <div>
           <label class="font-bold text-neutral-700">Relato Breve da Necessidade</label>
-          <textarea id="iepRelato" rows="3" required placeholder="Descreva brevemente a queixa, solicitação de perícia funcional ou urgência..." class="w-full p-2 border rounded mt-1 outline-none focus:border-indigo-600"></textarea>
+          <textarea id="iepRelato" rows="3" required placeholder="Descreva brevemente a queixa ou urgência..." class="w-full p-2 border rounded mt-1 outline-none focus:border-indigo-600"></textarea>
         </div>
-
         <button type="submit" class="w-full bg-indigo-700 hover:bg-indigo-800 text-white font-bold p-2.5 rounded-lg uppercase tracking-wide transition shadow mt-1">
           Transmitir Solicitação para Central
         </button>
@@ -1231,10 +1294,7 @@
   <!-- MODAL DE LOGIN -->
   <div id="modalLogin" style="display: none;" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 items-center justify-center p-4">
     <div class="bg-white rounded-xl max-w-sm w-full p-6 shadow-2xl border-t-4 border-sp-blue relative">
-      <button onclick="fecharModalLogin()" class="absolute top-3.5 right-3.5 text-neutral-400 hover:text-neutral-700">
-        <i data-lucide="x" class="w-5 h-5"></i>
-      </button>
-
+      <button onclick="fecharModalLogin()" class="absolute top-3.5 right-3.5 text-neutral-400 hover:text-neutral-700"><i data-lucide="x" class="w-5 h-5"></i></button>
       <div class="text-center mb-5">
         <div class="w-12 h-12 bg-blue-50 text-sp-blue rounded-full flex items-center justify-center mx-auto mb-2">
           <i data-lucide="shield-check" class="w-6 h-6"></i>
@@ -1242,7 +1302,6 @@
         <h3 class="text-base font-black text-neutral-900 uppercase">Área do Servidor SES-SP</h3>
         <p class="text-[11px] text-neutral-500">Gestão administrativa governamental</p>
       </div>
-
       <form onsubmit="realizarLogin(event)" class="space-y-3.5 text-xs">
         <div>
           <label class="font-bold text-neutral-700 block mb-1">Usuário</label>
@@ -1252,20 +1311,15 @@
           <label class="font-bold text-neutral-700 block mb-1">Senha</label>
           <div class="relative">
             <input type="password" id="loginPass" required class="w-full p-2.5 pr-8 border rounded-lg focus:border-sp-blue outline-none" autocomplete="current-password">
-            <button type="button" onclick="alternarVerSenha()" class="absolute right-2.5 top-3 text-neutral-400 hover:text-neutral-700">
-              <i id="iconeOlho" data-lucide="eye" class="w-4 h-4"></i>
-            </button>
+            <button type="button" onclick="alternarVerSenha()" class="absolute right-2.5 top-3 text-neutral-400 hover:text-neutral-700"><i id="iconeOlho" data-lucide="eye" class="w-4 h-4"></i></button>
           </div>
         </div>
-
         <div id="loginErro" class="hidden text-red-600 font-bold text-[11px] bg-red-50 p-2 rounded border border-red-200">
           Usuário ou senha incorretos!
         </div>
-
         <button type="submit" class="w-full bg-sp-blue hover:bg-sp-darkBlue text-white font-bold p-2.5 rounded-lg uppercase tracking-wide transition shadow-sm">
           Entrar no Sistema
         </button>
-
         <div class="pt-2 text-center border-t border-neutral-100">
           <button type="button" onclick="redefinirSenhaPadrao()" class="text-[10px] text-neutral-500 hover:text-sp-blue hover:underline">
             Esqueceu? Redefinir para senha padrão
@@ -1278,9 +1332,7 @@
   <!-- MODAL DE NOTÍCIA -->
   <div id="modalNoticia" style="display: none;" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 items-center justify-center p-4">
     <div class="bg-white rounded-xl max-w-xl w-full p-6 shadow-2xl relative max-h-[90vh] overflow-y-auto">
-      <button onclick="document.getElementById('modalNoticia').style.display='none'" class="absolute top-3.5 right-3.5 text-neutral-400 hover:text-neutral-700">
-        <i data-lucide="x" class="w-5 h-5"></i>
-      </button>
+      <button onclick="document.getElementById('modalNoticia').style.display='none'" class="absolute top-3.5 right-3.5 text-neutral-400 hover:text-neutral-700"><i data-lucide="x" class="w-5 h-5"></i></button>
       <img id="mNoticiaImg" src="" class="w-full h-48 object-cover rounded-lg mb-4">
       <span id="mNoticiaCat" class="text-[10px] font-bold text-sp-blue uppercase bg-blue-50 px-2 py-0.5 rounded"></span>
       <h3 id="mNoticiaTitulo" class="text-lg font-black text-neutral-900 mt-2 mb-2 leading-snug"></h3>
@@ -1350,7 +1402,6 @@
 
     const IMG_FALLBACK = "data:image/svg+xml;charset=UTF-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22600%22%20height%3D%22400%22%20viewBox%3D%220%200%20600%20400%22%3E%3Crect%20fill%3D%22%23071D41%22%20width%3D%22600%22%20height%3D%22400%22%2F%3E%3Ctext%20fill%3D%22%23FFCD07%22%20font-family%3D%22sans-serif%22%20font-size%3D%2220%22%20font-weight%3D%22bold%22%20x%3D%2250%25%22%20y%3D%2248%25%22%20text-anchor%3D%22middle%22%3EGOVERNO%20DO%20ESTADO%20DE%20S%C3%83O%20PAULO%3C%2Ftext%3E%3Ctext%20fill%3D%22%23ffffff%22%20font-family%3D%22sans-serif%22%20font-size%3D%2214%22%20x%3D%2250%25%22%20y%3D%2256%25%22%20text-anchor%3D%22middle%22%3ESecretaria%20de%20Estado%20da%20Sa%C3%BAde%3C%2Ftext%3E%3C%2Fsvg%3E";
 
-    // GERADOR DE EMBLEMA INSTITUCIONAL NEUTRO (SEM FOTOS FAKES DE PESSOAS)
     function gerarEmblemaPadraoHtml(corBorda = 'border-sp-blue', corFundo = 'bg-sp-darkBlue') {
       return `
         <div style="width: 64px; height: 64px; min-width: 64px; min-height: 64px;" class="w-16 h-16 rounded-full ${corFundo} text-sp-yellow flex items-center justify-center border-2 ${corBorda} flex-shrink-0 shadow-sm">
@@ -1825,7 +1876,7 @@
 
       document.getElementById("kpiHospitais").innerText = app.hospitais.length;
       document.getElementById("kpiLeitos").innerText = app.hospitais.reduce((s, h) => s + Number(h.leitos || 0), 0);
-      document.getElementById("kpiProgramas").innerText = app.programas.filter(p => p.ativo).length;
+      document.getElementById("kpiMedicamentos").innerText = app.medicamentos ? app.medicamentos.length : 0;
       document.getElementById("kpiExecucao").innerText = `${perc}%`;
 
       lucide.createIcons();
@@ -2103,6 +2154,30 @@
       atualizarTudo(true);
     }
 
+    // --- FUNÇÕES DE CONTROLE DE MODAIS DO ADMIN (ABREM AO CLICAR NO BOTÃO) ---
+    function abrirModalFormDestinacao(id = null) {
+      document.getElementById("destId").value = "";
+      document.getElementById("destNome").value = "";
+      document.getElementById("destValor").value = "";
+      document.getElementById("destDescricao").value = "";
+      document.getElementById("formDestTitle").innerText = "Lançar Repasse Orçamentário";
+
+      if (id) {
+        const d = app.orcamento.destinacoes.find(x => x.id === id);
+        if (d) {
+          document.getElementById("destId").value = d.id;
+          document.getElementById("destEntidade").value = d.entidade || "Outro (Personalizado)";
+          document.getElementById("destNome").value = d.nome;
+          document.getElementById("destValor").value = d.valor;
+          document.getElementById("destDescricao").value = d.descricao;
+          document.getElementById("formDestTitle").innerText = "Editar Repasse: " + d.nome;
+        }
+      }
+      document.getElementById("modalFormDestinacao").style.display = "flex";
+      lucide.createIcons();
+    }
+    function fecharModalFormDestinacao() { document.getElementById("modalFormDestinacao").style.display = "none"; }
+
     function salvarDestinacao(e) {
       e.preventDefault();
       const id = document.getElementById("destId").value;
@@ -2132,21 +2207,9 @@
         });
       }
 
-      limparFormDestinacao();
+      fecharModalFormDestinacao();
       atualizarTudo(true);
-    }
-
-    function editarDestinacao(id) {
-      const d = app.orcamento.destinacoes.find(x => x.id === id);
-      if (!d) return;
-      document.getElementById("destId").value = d.id;
-      document.getElementById("destEntidade").value = d.entidade || "Outro (Personalizado)";
-      document.getElementById("destNome").value = d.nome;
-      document.getElementById("destValor").value = d.valor;
-      document.getElementById("destDescricao").value = d.descricao;
-      document.getElementById("formDestTitle").innerText = "Editar Repasse: " + d.nome;
-      mudarAba('transparencia');
-      window.scrollTo({ top: 0, behavior: "smooth" });
+      mostrarToast("Repasse salvo com sucesso!");
     }
 
     function excluirDestinacao(id) {
@@ -2156,43 +2219,27 @@
       }
     }
 
-    function limparFormDestinacao() {
-      document.getElementById("destId").value = "";
-      document.getElementById("destNome").value = "";
-      document.getElementById("destValor").value = "";
-      document.getElementById("destDescricao").value = "";
-      document.getElementById("formDestTitle").innerText = "2. Escolher Repasse / Destinação de Verba";
-    }
+    // MODAL MEDICAMENTOS
+    function abrirModalFormMedicamento(id = null) {
+      document.getElementById("medId").value = "";
+      document.getElementById("medNome").value = "";
+      document.getElementById("medDescricao").value = "";
+      document.getElementById("formRemedioTitle").innerText = "Adicionar Medicamento";
 
-    // --- REMÉDIOS: CATÁLOGO ---
-    function renderizarListaRemediosPublica() {
-      const container = document.getElementById("gridRemediosPublica");
-      const filtro = (document.getElementById("buscaRemedio")?.value || "").toLowerCase().trim();
-      const lista = (app.medicamentos || []).filter(m => 
-        filtro === "" || m.nome.toLowerCase().includes(filtro) || m.categoria.toLowerCase().includes(filtro)
-      );
-
-      const contagem = document.getElementById("contagemRemedios");
-      if (contagem) contagem.innerText = `${lista.length} medicamentos`;
-
-      if (lista.length === 0) {
-        container.innerHTML = `<p class="p-4 text-center text-neutral-400">Nenhum medicamento encontrado para esta busca.</p>`;
-        return;
+      if (id) {
+        const m = app.medicamentos.find(x => x.id === id);
+        if (m) {
+          document.getElementById("medId").value = m.id;
+          document.getElementById("medNome").value = m.nome;
+          document.getElementById("medCategoria").value = m.categoria;
+          document.getElementById("medDescricao").value = m.descricao;
+          document.getElementById("formRemedioTitle").innerText = "Editar Medicamento: " + m.nome;
+        }
       }
-
-      container.innerHTML = lista.map(m => `
-        <div class="py-3.5 flex justify-between items-start gap-3 hover:bg-neutral-50 p-2 rounded-lg transition">
-          <div>
-            <span class="text-[9px] font-black uppercase text-emerald-800 bg-emerald-50 px-2 py-0.5 rounded">${m.categoria}</span>
-            <h4 class="font-bold text-neutral-900 text-sm mt-1">${m.nome}</h4>
-            <p class="text-[11px] text-neutral-500 mt-0.5">${m.descricao}</p>
-          </div>
-          <button onclick="selecionarRemedioDiretoNoForm('${m.nome}')" class="text-xs font-bold text-emerald-700 bg-emerald-50 hover:bg-emerald-100 px-3 py-1.5 rounded-lg flex-shrink-0 transition">
-            Pedir Este →
-          </button>
-        </div>
-      `).join("");
+      document.getElementById("modalFormMedicamento").style.display = "flex";
+      lucide.createIcons();
     }
+    function fecharModalFormMedicamento() { document.getElementById("modalFormMedicamento").style.display = "none"; }
 
     function salvarMedicamentoAdmin(e) {
       e.preventDefault();
@@ -2210,21 +2257,9 @@
         app.medicamentos.push({ id: Date.now().toString(), nome, categoria, descricao });
       }
 
-      limparFormMedicamento();
+      fecharModalFormMedicamento();
       atualizarTudo(true);
-      mostrarToast("Medicamento salvo!");
-    }
-
-    function editarMedicamentoAdmin(id) {
-      const m = app.medicamentos.find(x => x.id === id);
-      if (!m) return;
-      document.getElementById("medId").value = m.id;
-      document.getElementById("medNome").value = m.nome;
-      document.getElementById("medCategoria").value = m.categoria;
-      document.getElementById("medDescricao").value = m.descricao;
-      document.getElementById("formRemedioTitle").innerText = "Editar: " + m.nome;
-      mudarAba('remedios');
-      window.scrollTo({ top: 0, behavior: "smooth" });
+      mostrarToast("Medicamento salvo com sucesso!");
     }
 
     function excluirMedicamentoAdmin(id) {
@@ -2234,406 +2269,41 @@
       }
     }
 
-    function limparFormMedicamento() {
-      document.getElementById("medId").value = "";
-      document.getElementById("medNome").value = "";
-      document.getElementById("medDescricao").value = "";
-      document.getElementById("formRemedioTitle").innerText = "Adicionar Medicamento ao Estoque";
-    }
-
-    // --- CARGOS INTERNOS DO IEP-SP (SEM FOTOS FAKES) ---
-    function renderizarEquipeIep() {
-      const secao = document.getElementById("secaoEquipeIep");
-      const container = document.getElementById("gridEquipeIep");
-      const lista = (app.iepEquipe || []).filter(m => m.ativo && m.nome && m.nome.trim() !== "");
-
-      if (lista.length === 0) {
-        secao.classList.add("hidden");
-        return;
-      }
-
-      secao.classList.remove("hidden");
-      container.innerHTML = lista.map(m => {
-        const fotoHtml = (m.foto && m.foto.trim() !== "")
-          ? `<img src="${m.foto}" alt="${m.nome}" style="width: 64px; height: 64px; min-width: 64px; min-height: 64px;" class="w-16 h-16 rounded-full object-cover border-2 border-indigo-700 flex-shrink-0 bg-neutral-100 shadow-sm">`
-          : gerarEmblemaPadraoHtml('border-indigo-700', 'bg-indigo-950');
-
-        return `
-          <div class="bg-white rounded-xl border border-neutral-200 shadow-sm p-4 flex items-center gap-3.5 hover:shadow-md transition">
-            ${fotoHtml}
-            <div class="min-w-0 flex-1">
-              <span class="text-[9px] font-black uppercase text-indigo-700 bg-indigo-50 px-2 py-0.5 rounded tracking-wider block mb-1 truncate">
-                ${m.cargo}
-              </span>
-              <h4 class="font-bold text-neutral-900 text-sm leading-snug truncate">${m.nome}</h4>
-              <p class="text-[11px] text-neutral-500 mt-0.5 line-clamp-2 leading-relaxed">${m.descricao || 'Corpo clínico e pericial do IEP-SP.'}</p>
-            </div>
-          </div>
-        `;
-      }).join("");
-      lucide.createIcons();
-    }
-
-    function salvarMembroEquipeIep(e) {
-      e.preventDefault();
-      const id = document.getElementById("eqIepId").value;
-      const cargo = document.getElementById("eqIepCargo").value;
-      const nome = document.getElementById("eqIepNome").value.trim();
-      const descricao = document.getElementById("eqIepDescricao").value.trim();
-      const foto = document.getElementById("eqIepFotoBase64").value;
-      const ativo = document.getElementById("eqIepAtivo").checked;
-
-      if (!app.iepEquipe) app.iepEquipe = [];
-
-      const idx = app.iepEquipe.findIndex(m => m.cargo === cargo || (id && m.id === id));
-      if (idx !== -1) {
-        app.iepEquipe[idx] = { ...app.iepEquipe[idx], cargo, nome, descricao, foto: foto || app.iepEquipe[idx].foto, ativo };
-      } else {
-        app.iepEquipe.push({ id: Date.now().toString(), cargo, nome, descricao, foto, ativo });
-      }
-
-      limparFormEquipeIep();
-      atualizarTudo(true);
-      mostrarToast("Titular do IEP-SP salvo!");
-    }
-
-    function editarEquipeIep(cargo) {
-      if (!app.iepEquipe) app.iepEquipe = [];
-      const m = app.iepEquipe.find(x => x.cargo === cargo);
-      document.getElementById("eqIepCargo").value = cargo;
-      if (m) {
-        document.getElementById("eqIepId").value = m.id || "";
-        document.getElementById("eqIepNome").value = m.nome || "";
-        document.getElementById("eqIepDescricao").value = m.descricao || "";
-        document.getElementById("eqIepFotoBase64").value = m.foto || "";
-        document.getElementById("eqIepAtivo").checked = m.ativo;
-        const prev = document.getElementById("prevEqIepFoto");
-        if (m.foto) {
-          prev.src = m.foto;
-          prev.classList.remove("hidden");
-        } else {
-          prev.classList.add("hidden");
-        }
-        document.getElementById("formEquipeIepTitle").innerText = "Editar Titular: " + cargo;
-      } else {
-        limparFormEquipeIep();
-        document.getElementById("eqIepCargo").value = cargo;
-        document.getElementById("formEquipeIepTitle").innerText = "Nomear Cargo: " + cargo;
-      }
-      mudarAba('iep');
-      window.scrollTo({ top: 0, behavior: "smooth" });
-    }
-
-    function desocuparCargoIep(cargo) {
-      if (confirm(`Deseja declarar o cargo de "${cargo}" como VAGO no IEP-SP?`)) {
-        const idx = app.iepEquipe.findIndex(x => x.cargo === cargo);
-        if (idx !== -1) {
-          app.iepEquipe[idx].nome = "";
-          app.iepEquipe[idx].descricao = "";
-          app.iepEquipe[idx].foto = "";
-          app.iepEquipe[idx].ativo = false;
-          atualizarTudo(true);
-          mostrarToast("Cargo do IEP declarado como vago!");
-        }
-      }
-    }
-
-    function alternarAtivoEquipeIep(cargo) {
-      const idx = app.iepEquipe.findIndex(x => x.cargo === cargo);
-      if (idx !== -1) {
-        app.iepEquipe[idx].ativo = !app.iepEquipe[idx].ativo;
-        atualizarTudo(true);
-      }
-    }
-
-    function limparFormEquipeIep() {
-      document.getElementById("eqIepId").value = "";
-      document.getElementById("eqIepNome").value = "";
-      document.getElementById("eqIepDescricao").value = "";
-      document.getElementById("eqIepFotoBase64").value = "";
-      document.getElementById("inEqIepArquivo").value = "";
-      document.getElementById("prevEqIepFoto").classList.add("hidden");
-      document.getElementById("eqIepAtivo").checked = true;
-      document.getElementById("formEquipeIepTitle").innerText = "2. Nomear / Editar Cargos Internos do IEP-SP";
-    }
-
-    // --- CORPO DIRETIVO GERAL SES (SEM FOTOS FAKES) ---
-    function renderizarEquipe() {
-      const container = document.getElementById("gridEquipe");
-      const nomeados = app.equipe.filter(m => m.ativo && m.nome && m.nome.trim() !== "");
-
-      if (nomeados.length === 0) {
-        container.innerHTML = `<p class="col-span-4 p-8 text-center text-neutral-400 text-xs">Nenhum titular nomeado no momento.</p>`;
-        return;
-      }
-
-      container.innerHTML = nomeados.map(m => {
-        const fotoHtml = (m.foto && m.foto.trim() !== "")
-          ? `<img src="${m.foto}" alt="${m.nome}" style="width: 64px; height: 64px; min-width: 64px; min-height: 64px;" class="w-16 h-16 rounded-full object-cover border-2 border-sp-blue flex-shrink-0 bg-neutral-100 shadow-sm">`
-          : gerarEmblemaPadraoHtml('border-sp-blue', 'bg-sp-darkBlue');
-
-        return `
-          <div class="bg-white rounded-xl border border-neutral-200 shadow-sm p-4 flex items-center gap-3.5 hover:shadow-md transition">
-            ${fotoHtml}
-            <div class="min-w-0 flex-1">
-              <span class="text-[9px] font-black uppercase text-sp-blue bg-blue-50 px-2 py-0.5 rounded tracking-wider block mb-1 truncate">
-                ${m.cargo}
-              </span>
-              <h4 class="font-bold text-neutral-900 text-sm leading-snug truncate">${m.nome}</h4>
-              <p class="text-[11px] text-neutral-500 mt-0.5 line-clamp-2 leading-relaxed">${m.descricao || 'Nomeação Oficial pelo Diário do Estado.'}</p>
-            </div>
-          </div>
-        `;
-      }).join("");
-      lucide.createIcons();
-    }
-
-    function salvarMembroEquipe(e) {
-      e.preventDefault();
-      const id = document.getElementById("eqId").value;
-      const cargo = document.getElementById("eqCargo").value;
-      const nome = document.getElementById("eqNome").value.trim();
-      const descricao = document.getElementById("eqDescricao").value.trim();
-      const foto = document.getElementById("eqFotoBase64").value;
-      const ativo = document.getElementById("eqAtivo").checked;
-
-      const idx = app.equipe.findIndex(m => m.cargo === cargo || (id && m.id === id));
-      if (idx !== -1) {
-        app.equipe[idx] = { ...app.equipe[idx], cargo, nome, descricao, foto: foto || app.equipe[idx].foto, ativo };
-      } else {
-        app.equipe.push({ id: Date.now().toString(), cargo, nome, descricao, foto, ativo });
-      }
-
-      limparFormEquipe();
-      atualizarTudo(true);
-    }
-
-    function editarEquipe(cargo) {
-      const m = app.equipe.find(x => x.cargo === cargo);
-      document.getElementById("eqCargo").value = cargo;
-      if (m) {
-        document.getElementById("eqId").value = m.id || "";
-        document.getElementById("eqNome").value = m.nome || "";
-        document.getElementById("eqDescricao").value = m.descricao || "";
-        document.getElementById("eqFotoBase64").value = m.foto || "";
-        document.getElementById("eqAtivo").checked = m.ativo;
-        const prev = document.getElementById("prevEqFoto");
-        if (m.foto) {
-          prev.src = m.foto;
-          prev.classList.remove("hidden");
-        } else {
-          prev.classList.add("hidden");
-        }
-        document.getElementById("formEquipeTitle").innerText = "Editando Titular: " + cargo;
-      } else {
-        limparFormEquipe();
-        document.getElementById("eqCargo").value = cargo;
-        document.getElementById("formEquipeTitle").innerText = "Nomear Cargo: " + cargo;
-      }
-      mudarAba('equipe');
-      window.scrollTo({ top: 0, behavior: "smooth" });
-    }
-
-    function desocuparCargo(cargo) {
-      if (confirm(`Deseja declarar o cargo de "${cargo}" como VAGO?`)) {
-        const idx = app.equipe.findIndex(x => x.cargo === cargo);
-        if (idx !== -1) {
-          app.equipe[idx].nome = "";
-          app.equipe[idx].descricao = "";
-          app.equipe[idx].foto = "";
-          app.equipe[idx].ativo = false;
-          atualizarTudo(true);
-          mostrarToast("Cargo declarado como vago!");
-        }
-      }
-    }
-
-    function alternarAtivoEquipe(cargo) {
-      const idx = app.equipe.findIndex(x => x.cargo === cargo);
-      if (idx !== -1) {
-        app.equipe[idx].ativo = !app.equipe[idx].ativo;
-        atualizarTudo(true);
-      }
-    }
-
-    function limparFormEquipe() {
-      document.getElementById("eqId").value = "";
-      document.getElementById("eqNome").value = "";
-      document.getElementById("eqDescricao").value = "";
-      document.getElementById("eqFotoBase64").value = "";
-      document.getElementById("inEqArquivo").value = "";
-      document.getElementById("prevEqFoto").classList.add("hidden");
-      document.getElementById("eqAtivo").checked = true;
-      document.getElementById("formEquipeTitle").innerText = "Nomear / Editar Cargo Geral SES";
-    }
-
-    // --- PROGRAMAS NA HOME (VOCÊ ESCOLHE O QUE MOSTRAR) ---
-    function renderizarHomeProgramas() {
-      const container = document.getElementById("homeGridProgramas");
-      const ativos = app.programas.filter(p => p.ativo);
-
-      if (ativos.length === 0) {
-        container.innerHTML = `<p class="col-span-3 text-neutral-400 text-xs py-4">Nenhum programa ativo no momento.</p>`;
-        return;
-      }
-
-      container.innerHTML = ativos.map(p => `
-        <div class="bg-white p-5 rounded-xl border border-neutral-200 shadow-sm flex flex-col justify-between hover:shadow-md transition">
-          <div>
-            <span class="text-[9px] font-bold text-sp-blue uppercase bg-blue-50 px-2 py-0.5 rounded">${p.categoria}</span>
-            <h4 class="font-bold text-neutral-900 text-sm mt-2 mb-1 leading-snug">${p.nome}</h4>
-            <p class="text-neutral-500 text-xs line-clamp-2 leading-relaxed">${p.descricao}</p>
-          </div>
-          ${p.link ? `
-            <a href="${p.link}" class="text-xs font-bold text-sp-blue hover:underline flex items-center gap-1 mt-4">
-              Acessar Programa <i data-lucide="external-link" class="w-3 h-3"></i>
-            </a>
-          ` : `
-            <span class="text-[11px] font-semibold text-neutral-400 mt-4">Atendimento na Rede SUS</span>
-          `}
-        </div>
-      `).join("");
-      lucide.createIcons();
-    }
-
-    // --- PROGRAMAS NA PÁGINA DEDICADA ---
-    function renderizarProgramas() {
-      const container = document.getElementById("gridProgramas");
-      container.innerHTML = app.programas.filter(p => p.ativo).map(p => `
-        <div class="bg-white p-5 rounded-lg border-t-4 border-sp-blue shadow-sm flex flex-col justify-between hover:shadow-md transition">
-          <div>
-            <span class="text-[10px] font-bold text-sp-blue bg-blue-50 px-2 py-0.5 rounded uppercase">${p.categoria}</span>
-            <h4 class="font-bold text-neutral-800 text-sm mt-2 mb-1 uppercase">${p.nome}</h4>
-            <p class="text-neutral-500 text-xs mb-3 leading-relaxed">${p.descricao}</p>
-          </div>
-          ${p.link ? `
-            <a href="${p.link}" class="text-xs font-bold text-sp-blue hover:underline flex items-center gap-1 mt-2">
-              Acessar Serviço Oficial <i data-lucide="external-link" class="w-3 h-3"></i>
-            </a>
-          ` : `
-            <span class="text-xs font-semibold text-neutral-400 mt-2 flex items-center gap-1">
-              Atendimento na Rede SUS
-            </span>
-          `}
-        </div>
-      `).join("");
-      lucide.createIcons();
-    }
-
-    function salvarPrograma(e) {
-      e.preventDefault();
-      const id = document.getElementById("pId").value;
-      const nome = document.getElementById("pNome").value.trim();
-      const categoria = document.getElementById("pCategoria").value.trim();
-      const descricao = document.getElementById("pDescricao").value.trim();
-      const link = document.getElementById("pLink").value.trim();
+    // MODAL HOSPITAIS
+    function abrirModalFormHospital(id = null) {
+      document.getElementById("hId").value = "";
+      document.getElementById("hNome").value = "";
+      document.getElementById("hEndereco").value = "";
+      document.getElementById("hTelefone").value = "";
+      document.getElementById("hFotoBase64").value = "";
+      document.getElementById("inHospArquivo").value = "";
+      document.getElementById("prevHospFoto").classList.add("hidden");
+      document.getElementById("formHospTitle").innerText = "Cadastrar Unidade Hospitalar";
 
       if (id) {
-        const idx = app.programas.findIndex(p => p.id === id);
-        if (idx !== -1) {
-          app.programas[idx] = { ...app.programas[idx], nome, categoria, descricao, link };
+        const h = app.hospitais.find(x => x.id === id);
+        if (h) {
+          document.getElementById("hId").value = h.id;
+          document.getElementById("hNome").value = h.nome;
+          document.getElementById("hStatus").value = h.status;
+          document.getElementById("hRegiao").value = h.regiao;
+          document.getElementById("hTipo").value = h.tipo;
+          document.getElementById("hLeitos").value = h.leitos;
+          document.getElementById("hTelefone").value = h.telefone;
+          document.getElementById("hEndereco").value = h.endereco;
+          document.getElementById("hFotoBase64").value = h.foto || "";
+          const prev = document.getElementById("prevHospFoto");
+          if (h.foto && h.foto.startsWith("data:")) {
+            prev.src = h.foto;
+            prev.classList.remove("hidden");
+          }
+          document.getElementById("formHospTitle").innerText = "Editar Unidade: " + h.nome;
         }
-      } else {
-        app.programas.unshift({ id: Date.now().toString(), nome, categoria, descricao, link, ativo: true });
       }
-
-      limparFormPrograma();
-      atualizarTudo(true);
-    }
-
-    function editarPrograma(id) {
-      const p = app.programas.find(x => x.id === id);
-      if (!p) return;
-      document.getElementById("pId").value = p.id;
-      document.getElementById("pNome").value = p.nome;
-      document.getElementById("pCategoria").value = p.categoria;
-      document.getElementById("pDescricao").value = p.descricao;
-      document.getElementById("pLink").value = p.link || "";
-      document.getElementById("formProgTitle").innerText = "Editando: " + p.nome;
-      mudarAba('programas');
-      window.scrollTo({ top: 0, behavior: "smooth" });
-    }
-
-    function alternarAtivoPrograma(id) {
-      const p = app.programas.find(x => x.id === id);
-      if (p) {
-        p.ativo = !p.ativo;
-        atualizarTudo(true);
-      }
-    }
-
-    function excluirPrograma(id) {
-      if (confirm("Deseja realmente remover este programa?")) {
-        app.programas = app.programas.filter(x => x.id !== id);
-        atualizarTudo(true);
-      }
-    }
-
-    function limparFormPrograma() {
-      document.getElementById("pId").value = "";
-      document.getElementById("pNome").value = "";
-      document.getElementById("pCategoria").value = "";
-      document.getElementById("pDescricao").value = "";
-      document.getElementById("pLink").value = "";
-      document.getElementById("formProgTitle").innerText = "Cadastrar Novo Programa";
-    }
-
-    // --- HOSPITAIS & INSTITUTOS ---
-    function renderizarHospitais() {
-      const filtro = document.getElementById("filtroRegiao").value;
-      const busca = (document.getElementById("buscaHospital").value || "").toLowerCase().trim();
-      const container = document.getElementById("gridHospitais");
-      const semResultado = document.getElementById("semResultadoHospital");
-
-      const lista = app.hospitais.filter(h =>
-        (filtro === "todas" || h.regiao === filtro) &&
-        (busca === "" || h.nome.toLowerCase().includes(busca))
-      );
-
-      semResultado.classList.toggle("hidden", lista.length > 0);
-
-      container.innerHTML = lista.map(h => {
-        let badgeColor = "bg-emerald-100 text-emerald-800";
-        let dotColor = "bg-emerald-500";
-        if (h.status === "Alta Demanda") { badgeColor = "bg-amber-100 text-amber-800"; dotColor = "bg-amber-500"; }
-        if (h.status === "Em Obras / Parcial") { badgeColor = "bg-blue-100 text-blue-800"; dotColor = "bg-blue-500"; }
-        if (h.status === "Pronto-Socorro Restrito") { badgeColor = "bg-red-100 text-red-800"; dotColor = "bg-red-500"; }
-
-        const foto = h.foto || IMG_FALLBACK;
-
-        return `
-          <div class="bg-white rounded-xl border border-neutral-200 shadow-sm flex flex-col justify-between overflow-hidden hover:shadow-md transition">
-            <div class="relative h-40 bg-neutral-100 overflow-hidden">
-              <img src="${foto}" alt="${h.nome}" onerror="this.onerror=null;this.src='${IMG_FALLBACK}'" class="w-full h-full object-cover">
-              <span class="absolute top-2.5 right-2.5 inline-flex items-center gap-1.5 text-[10px] font-bold px-2 py-0.5 rounded shadow-sm ${badgeColor}">
-                <span class="w-2 h-2 rounded-full ${dotColor} pulse-dot"></span> ${h.status}
-              </span>
-            </div>
-            <div class="p-4 flex flex-col justify-between flex-grow">
-              <div>
-                <span class="text-[9px] font-extrabold uppercase bg-neutral-100 text-neutral-600 px-2 py-0.5 rounded">${h.tipo}</span>
-                <h4 class="font-bold text-neutral-900 text-sm mt-1.5 leading-snug">${h.nome}</h4>
-                <p class="text-xs text-neutral-500 mt-1 flex items-start gap-1">
-                  <i data-lucide="map-pin" class="w-3.5 h-3.5 text-sp-red flex-shrink-0 mt-0.5"></i>
-                  <span>${h.endereco}</span>
-                </p>
-              </div>
-              <div class="mt-4 pt-3 border-t border-neutral-100 flex justify-between items-center text-xs">
-                <a href="tel:${h.telefone.replace(/\D/g, '')}" class="text-neutral-600 hover:text-sp-blue font-semibold flex items-center gap-1">
-                  <i data-lucide="phone" class="w-3 h-3 text-sp-blue"></i> ${h.telefone}
-                </a>
-                ${h.leitos > 0 ? `
-                  <span class="text-emerald-700 font-bold bg-emerald-50 px-2 py-0.5 rounded text-[11px]">
-                    ${h.leitos} vagas disponíveis
-                  </span>
-                ` : ''}
-              </div>
-            </div>
-          </div>
-        `;
-      }).join("");
+      document.getElementById("modalFormHospital").style.display = "flex";
       lucide.createIcons();
     }
+    function fecharModalFormHospital() { document.getElementById("modalFormHospital").style.display = "none"; }
 
     function salvarHospital(e) {
       e.preventDefault();
@@ -2661,32 +2331,9 @@
         app.hospitais.unshift(hData);
       }
 
-      limparFormHospital();
+      fecharModalFormHospital();
       atualizarTudo(true);
-    }
-
-    function editarHospital(id) {
-      const h = app.hospitais.find(x => x.id === id);
-      if (!h) return;
-      document.getElementById("hId").value = h.id;
-      document.getElementById("hNome").value = h.nome;
-      document.getElementById("hStatus").value = h.status;
-      document.getElementById("hRegiao").value = h.regiao;
-      document.getElementById("hTipo").value = h.tipo;
-      document.getElementById("hLeitos").value = h.leitos;
-      document.getElementById("hTelefone").value = h.telefone;
-      document.getElementById("hEndereco").value = h.endereco;
-      document.getElementById("hFotoBase64").value = h.foto || "";
-      const prev = document.getElementById("prevHospFoto");
-      if (h.foto) {
-        prev.src = h.foto;
-        prev.classList.remove("hidden");
-      } else {
-        prev.classList.add("hidden");
-      }
-      document.getElementById("formHospTitle").innerText = "Editando: " + h.nome;
-      mudarAba('hospitais');
-      window.scrollTo({ top: 0, behavior: "smooth" });
+      mostrarToast("Unidade hospitalar salva com sucesso!");
     }
 
     function excluirHospital(id) {
@@ -2696,22 +2343,260 @@
       }
     }
 
-    function limparFormHospital() {
-      document.getElementById("hId").value = "";
-      document.getElementById("hNome").value = "";
-      document.getElementById("hEndereco").value = "";
-      document.getElementById("hTelefone").value = "";
-      document.getElementById("hFotoBase64").value = "";
-      document.getElementById("inHospArquivo").value = "";
-      document.getElementById("prevHospFoto").classList.add("hidden");
-      document.getElementById("formHospTitle").innerText = "Adicionar / Editar Hospital";
+    // MODAL EQUIPE IEP-SP
+    function abrirModalFormEquipeIep(cargo = null) {
+      document.getElementById("eqIepId").value = "";
+      document.getElementById("eqIepNome").value = "";
+      document.getElementById("eqIepDescricao").value = "";
+      document.getElementById("eqIepFotoBase64").value = "";
+      document.getElementById("inEqIepArquivo").value = "";
+      document.getElementById("prevEqIepFoto").classList.add("hidden");
+      document.getElementById("eqIepAtivo").checked = true;
+      document.getElementById("formEquipeIepTitle").innerText = "Nomear Cargo do IEP-SP";
+
+      if (cargo) {
+        document.getElementById("eqIepCargo").value = cargo;
+        const m = (app.iepEquipe || []).find(x => x.cargo === cargo);
+        if (m && m.nome) {
+          document.getElementById("eqIepId").value = m.id || "";
+          document.getElementById("eqIepNome").value = m.nome || "";
+          document.getElementById("eqIepDescricao").value = m.descricao || "";
+          document.getElementById("eqIepFotoBase64").value = m.foto || "";
+          document.getElementById("eqIepAtivo").checked = m.ativo;
+          const prev = document.getElementById("prevEqIepFoto");
+          if (m.foto && m.foto.startsWith("data:")) {
+            prev.src = m.foto;
+            prev.classList.remove("hidden");
+          }
+          document.getElementById("formEquipeIepTitle").innerText = "Editar Titular: " + cargo;
+        }
+      }
+      document.getElementById("modalFormEquipeIep").style.display = "flex";
+      lucide.createIcons();
+    }
+    function fecharModalFormEquipeIep() { document.getElementById("modalFormEquipeIep").style.display = "none"; }
+
+    function salvarMembroEquipeIep(e) {
+      e.preventDefault();
+      const id = document.getElementById("eqIepId").value;
+      const cargo = document.getElementById("eqIepCargo").value;
+      const nome = document.getElementById("eqIepNome").value.trim();
+      const descricao = document.getElementById("eqIepDescricao").value.trim();
+      const foto = document.getElementById("eqIepFotoBase64").value;
+      const ativo = document.getElementById("eqIepAtivo").checked;
+
+      if (!app.iepEquipe) app.iepEquipe = [];
+
+      const idx = app.iepEquipe.findIndex(m => m.cargo === cargo || (id && m.id === id));
+      if (idx !== -1) {
+        app.iepEquipe[idx] = { ...app.iepEquipe[idx], cargo, nome, descricao, foto: foto || app.iepEquipe[idx].foto, ativo };
+      } else {
+        app.iepEquipe.push({ id: Date.now().toString(), cargo, nome, descricao, foto, ativo });
+      }
+
+      fecharModalFormEquipeIep();
+      atualizarTudo(true);
+      mostrarToast("Titular do IEP-SP salvo!");
     }
 
+    function desocuparCargoIep(cargo) {
+      if (confirm(`Deseja declarar o cargo de "${cargo}" como VAGO no IEP-SP?`)) {
+        const idx = app.iepEquipe.findIndex(x => x.cargo === cargo);
+        if (idx !== -1) {
+          app.iepEquipe[idx].nome = "";
+          app.iepEquipe[idx].descricao = "";
+          app.iepEquipe[idx].foto = "";
+          app.iepEquipe[idx].ativo = false;
+          atualizarTudo(true);
+          mostrarToast("Cargo do IEP declarado como vago!");
+        }
+      }
+    }
+
+    function alternarAtivoEquipeIep(cargo) {
+      const idx = app.iepEquipe.findIndex(x => x.cargo === cargo);
+      if (idx !== -1) {
+        app.iepEquipe[idx].ativo = !app.iepEquipe[idx].ativo;
+        atualizarTudo(true);
+      }
+    }
+
+    // MODAL EQUIPE SES GERAL
+    function abrirModalFormEquipeSES(cargo = null) {
+      document.getElementById("eqId").value = "";
+      document.getElementById("eqNome").value = "";
+      document.getElementById("eqDescricao").value = "";
+      document.getElementById("eqFotoBase64").value = "";
+      document.getElementById("inEqArquivo").value = "";
+      document.getElementById("prevEqFoto").classList.add("hidden");
+      document.getElementById("eqAtivo").checked = true;
+      document.getElementById("formEquipeTitle").innerText = "Nomear Cargo Geral SES";
+
+      if (cargo) {
+        document.getElementById("eqCargo").value = cargo;
+        const m = app.equipe.find(x => x.cargo === cargo);
+        if (m && m.nome) {
+          document.getElementById("eqId").value = m.id || "";
+          document.getElementById("eqNome").value = m.nome || "";
+          document.getElementById("eqDescricao").value = m.descricao || "";
+          document.getElementById("eqFotoBase64").value = m.foto || "";
+          document.getElementById("eqAtivo").checked = m.ativo;
+          const prev = document.getElementById("prevEqFoto");
+          if (m.foto && m.foto.startsWith("data:")) {
+            prev.src = m.foto;
+            prev.classList.remove("hidden");
+          }
+          document.getElementById("formEquipeTitle").innerText = "Editar Titular: " + cargo;
+        }
+      }
+      document.getElementById("modalFormEquipeSES").style.display = "flex";
+      lucide.createIcons();
+    }
+    function fecharModalFormEquipeSES() { document.getElementById("modalFormEquipeSES").style.display = "none"; }
+
+    function salvarMembroEquipe(e) {
+      e.preventDefault();
+      const id = document.getElementById("eqId").value;
+      const cargo = document.getElementById("eqCargo").value;
+      const nome = document.getElementById("eqNome").value.trim();
+      const descricao = document.getElementById("eqDescricao").value.trim();
+      const foto = document.getElementById("eqFotoBase64").value;
+      const ativo = document.getElementById("eqAtivo").checked;
+
+      const idx = app.equipe.findIndex(m => m.cargo === cargo || (id && m.id === id));
+      if (idx !== -1) {
+        app.equipe[idx] = { ...app.equipe[idx], cargo, nome, descricao, foto: foto || app.equipe[idx].foto, ativo };
+      } else {
+        app.equipe.push({ id: Date.now().toString(), cargo, nome, descricao, foto, ativo });
+      }
+
+      fecharModalFormEquipeSES();
+      atualizarTudo(true);
+      mostrarToast("Titular da SES salvo!");
+    }
+
+    function desocuparCargo(cargo) {
+      if (confirm(`Deseja declarar o cargo de "${cargo}" como VAGO?`)) {
+        const idx = app.equipe.findIndex(x => x.cargo === cargo);
+        if (idx !== -1) {
+          app.equipe[idx].nome = "";
+          app.equipe[idx].descricao = "";
+          app.equipe[idx].foto = "";
+          app.equipe[idx].ativo = false;
+          atualizarTudo(true);
+          mostrarToast("Cargo declarado como vago!");
+        }
+      }
+    }
+
+    function alternarAtivoEquipe(cargo) {
+      const idx = app.equipe.findIndex(x => x.cargo === cargo);
+      if (idx !== -1) {
+        app.equipe[idx].ativo = !app.equipe[idx].ativo;
+        atualizarTudo(true);
+      }
+    }
+
+    // MODAL PROGRAMA
+    function abrirModalFormPrograma(id = null) {
+      document.getElementById("pId").value = "";
+      document.getElementById("pNome").value = "";
+      document.getElementById("pCategoria").value = "";
+      document.getElementById("pDescricao").value = "";
+      document.getElementById("pLink").value = "";
+      document.getElementById("formProgTitle").innerText = "Cadastrar Programa Oficial";
+
+      if (id) {
+        const p = app.programas.find(x => x.id === id);
+        if (p) {
+          document.getElementById("pId").value = p.id;
+          document.getElementById("pNome").value = p.nome;
+          document.getElementById("pCategoria").value = p.categoria;
+          document.getElementById("pDescricao").value = p.descricao;
+          document.getElementById("pLink").value = p.link || "";
+          document.getElementById("formProgTitle").innerText = "Editar Programa: " + p.nome;
+        }
+      }
+      document.getElementById("modalFormPrograma").style.display = "flex";
+      lucide.createIcons();
+    }
+    function fecharModalFormPrograma() { document.getElementById("modalFormPrograma").style.display = "none"; }
+
+    function salvarPrograma(e) {
+      e.preventDefault();
+      const id = document.getElementById("pId").value;
+      const nome = document.getElementById("pNome").value.trim();
+      const categoria = document.getElementById("pCategoria").value.trim();
+      const descricao = document.getElementById("pDescricao").value.trim();
+      const link = document.getElementById("pLink").value.trim();
+
+      if (id) {
+        const idx = app.programas.findIndex(p => p.id === id);
+        if (idx !== -1) {
+          app.programas[idx] = { ...app.programas[idx], nome, categoria, descricao, link };
+        }
+      } else {
+        app.programas.unshift({ id: Date.now().toString(), nome, categoria, descricao, link, ativo: true });
+      }
+
+      fecharModalFormPrograma();
+      atualizarTudo(true);
+      mostrarToast("Programa salvo!");
+    }
+
+    function alternarAtivoPrograma(id) {
+      const p = app.programas.find(x => x.id === id);
+      if (p) {
+        p.ativo = !p.ativo;
+        atualizarTudo(true);
+      }
+    }
+
+    function excluirPrograma(id) {
+      if (confirm("Deseja realmente remover este programa?")) {
+        app.programas = app.programas.filter(x => x.id !== id);
+        atualizarTudo(true);
+      }
+    }
+
+    // MODAL NOTÍCIA
+    function abrirModalFormNoticia() {
+      document.getElementById("nTitulo").value = "";
+      document.getElementById("nResumo").value = "";
+      document.getElementById("nLink").value = "";
+      document.getElementById("nFotoBase64").value = "";
+      document.getElementById("inNoticiaArquivo").value = "";
+      document.getElementById("prevNoticiaFoto").classList.add("hidden");
+      document.getElementById("modalFormNoticia").style.display = "flex";
+      lucide.createIcons();
+    }
+    function fecharModalFormNoticia() { document.getElementById("modalFormNoticia").style.display = "none"; }
+
+    function salvarNoticia(e) {
+      e.preventDefault();
+      const hoje = new Date().toLocaleDateString("pt-BR");
+      const foto = document.getElementById("nFotoBase64").value;
+      const link = document.getElementById("nLink").value.trim();
+      const nData = {
+        id: Date.now().toString(),
+        titulo: document.getElementById("nTitulo").value.trim(),
+        categoria: document.getElementById("nCategoria").value.trim(),
+        imagem: foto || IMG_FALLBACK,
+        resumo: document.getElementById("nResumo").value.trim(),
+        link: link || "",
+        data: hoje
+      };
+      app.noticias.unshift(nData);
+      fecharModalFormNoticia();
+      atualizarTudo(true);
+      mostrarToast("Notícia publicada com sucesso!");
+    }
+
+    // --- ALERTA DA CAPA ---
     function salvarAlerta() {
       const ativo = document.getElementById("chkAlertaAtivo").checked;
       const nivel = document.getElementById("selAlertaNivel").value;
       const msg = document.getElementById("adminInputAlerta").value.trim();
-
       app.alerta = { ativo, nivel, mensagem: msg };
       atualizarTudo(true);
     }
@@ -2733,7 +2618,165 @@
       mostrarToast("Link da Ouvidoria salvo!");
     }
 
-    // --- NOTÍCIAS ---
+    // --- RENDERIZAÇÃO DE LISTAS NO ADMIN ---
+    function renderizarAdminListas() {
+      // Repasses no Admin
+      const divD = document.getElementById("listaAdminDestinacoes");
+      divD.innerHTML = app.orcamento.destinacoes.map(d => `
+        <div class="p-3.5 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 hover:bg-neutral-50">
+          <div>
+            <div class="flex items-center gap-2">
+              <span class="text-[9px] font-black uppercase text-sp-blue bg-blue-50 px-2 py-0.5 rounded">${d.entidade || 'Geral'}</span>
+              <span class="font-bold text-neutral-900">${d.nome}</span>
+              <span class="text-[11px] font-black text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded">${formatarMoeda(d.valor)}</span>
+            </div>
+            <p class="text-[11px] text-neutral-500 mt-0.5">${d.descricao}</p>
+          </div>
+          <div class="flex items-center gap-2 self-end sm:self-center">
+            <button onclick="abrirModalFormDestinacao('${d.id}')" class="text-sp-blue font-bold hover:underline">Editar</button>
+            <button onclick="excluirDestinacao('${d.id}')" class="text-red-600 font-bold hover:underline">Excluir</button>
+          </div>
+        </div>
+      `).join("");
+
+      // Remédios no Admin
+      const divR = document.getElementById("listaAdminRemedios");
+      divR.innerHTML = (app.medicamentos || []).map(m => `
+        <div class="p-3.5 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 hover:bg-neutral-50">
+          <div>
+            <div class="flex items-center gap-2">
+              <span class="font-bold text-neutral-900">${m.nome}</span>
+              <span class="text-[9px] font-bold text-emerald-800 bg-emerald-50 px-1.5 py-0.5 rounded uppercase">${m.categoria}</span>
+            </div>
+            <p class="text-[11px] text-neutral-500 mt-0.5">${m.descricao}</p>
+          </div>
+          <div class="flex items-center gap-2 self-end sm:self-center">
+            <button onclick="abrirModalFormMedicamento('${m.id}')" class="text-sp-blue font-bold hover:underline">Editar</button>
+            <button onclick="excluirMedicamentoAdmin('${m.id}')" class="text-red-600 font-bold hover:underline">Excluir</button>
+          </div>
+        </div>
+      `).join("");
+
+      // Equipe IEP-SP no Admin
+      const divEIep = document.getElementById("listaAdminEquipeIep");
+      if (divEIep) {
+        divEIep.innerHTML = CARGOS_OFICIAIS_IEP.map(cargo => {
+          const m = (app.iepEquipe || []).find(x => x.cargo === cargo) || { cargo, nome: "", ativo: false };
+          const ocupado = m.nome && m.nome.trim() !== "";
+          return `
+            <div class="p-3 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 hover:bg-neutral-50">
+              <div>
+                <div class="flex items-center gap-2">
+                  <span class="font-bold text-neutral-900">${cargo}</span>
+                  <span class="text-[9px] font-bold px-1.5 py-0.5 rounded uppercase ${ocupado ? (m.ativo ? 'bg-indigo-100 text-indigo-800' : 'bg-amber-100 text-amber-800') : 'bg-neutral-200 text-neutral-600'}">
+                    ${ocupado ? (m.ativo ? 'Ativo' : 'Oculto') : 'Vago'}
+                  </span>
+                </div>
+                <p class="text-[11px] text-neutral-600 mt-0.5">
+                  ${ocupado ? `<strong>Titular:</strong> ${m.nome}` : '<em class="text-neutral-400">Cargo não preenchido</em>'}
+                </p>
+              </div>
+              <div class="flex items-center gap-2 self-end sm:self-center">
+                ${ocupado ? `
+                  <button onclick="alternarAtivoEquipeIep('${cargo}')" class="px-2 py-1 rounded font-bold text-[10px] ${m.ativo ? 'bg-indigo-100 text-indigo-800' : 'bg-neutral-200 text-neutral-600'}">
+                    ${m.ativo ? 'Exibindo' : 'Oculto'}
+                  </button>
+                ` : ''}
+                <button onclick="abrirModalFormEquipeIep('${cargo}')" class="text-indigo-700 font-bold hover:underline">
+                  ${ocupado ? 'Editar' : 'Nomear'}
+                </button>
+                ${ocupado ? `
+                  <button onclick="desocuparCargoIep('${cargo}')" class="text-red-600 font-bold hover:underline">Desocupar</button>
+                ` : ''}
+              </div>
+            </div>
+          `;
+        }).join("");
+      }
+
+      // Equipe SES no Admin
+      const divE = document.getElementById("listaAdminEquipe");
+      divE.innerHTML = CARGOS_OFICIAIS_SES.map(cargo => {
+        const m = app.equipe.find(x => x.cargo === cargo) || { cargo, nome: "", ativo: false };
+        const ocupado = m.nome && m.nome.trim() !== "";
+        return `
+          <div class="p-3.5 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2.5 hover:bg-neutral-50">
+            <div>
+              <div class="flex items-center gap-2">
+                <span class="font-bold text-neutral-900">${cargo}</span>
+                <span class="text-[9px] font-bold px-1.5 py-0.5 rounded uppercase ${ocupado ? (m.ativo ? 'bg-emerald-100 text-emerald-800' : 'bg-amber-100 text-amber-800') : 'bg-neutral-200 text-neutral-600'}">
+                  ${ocupado ? (m.ativo ? 'Ocupado & Ativo' : 'Ocupado (Oculto)') : 'Vago / Sem Titular'}
+                </span>
+              </div>
+              <p class="text-[11px] text-neutral-600 mt-0.5">
+                ${ocupado ? `<strong>Titular:</strong> ${m.nome}` : '<em class="text-neutral-400">Cargo não preenchido</em>'}
+              </p>
+            </div>
+            <div class="flex items-center gap-2 self-end sm:self-center">
+              ${ocupado ? `
+                <button onclick="alternarAtivoEquipe('${cargo}')" class="px-2 py-1 rounded font-bold text-[10px] ${m.ativo ? 'bg-emerald-100 text-emerald-800' : 'bg-neutral-200 text-neutral-600'}">
+                  ${m.ativo ? 'Exibindo' : 'Oculto'}
+                </button>
+              ` : ''}
+              <button onclick="abrirModalFormEquipeSES('${cargo}')" class="text-sp-blue font-bold hover:underline">
+                ${ocupado ? 'Editar' : 'Nomear'}
+              </button>
+              ${ocupado ? `
+                <button onclick="desocuparCargo('${cargo}')" class="text-red-600 font-bold hover:underline">Desocupar</button>
+              ` : ''}
+            </div>
+          </div>
+        `;
+      }).join("");
+
+      // Programas no Admin
+      const divP = document.getElementById("listaAdminProgramas");
+      divP.innerHTML = app.programas.map(p => `
+        <div class="p-3 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2">
+          <div>
+            <div class="flex items-center gap-2">
+              <span class="font-bold text-neutral-900">${p.nome}</span>
+              <span class="text-[10px] bg-neutral-100 text-neutral-600 px-1.5 py-0.5 rounded font-semibold uppercase">${p.categoria}</span>
+            </div>
+            <p class="text-[11px] text-neutral-500 mt-0.5">${p.descricao}</p>
+          </div>
+          <div class="flex items-center gap-2 self-end sm:self-center">
+            <button onclick="alternarAtivoPrograma('${p.id}')" class="px-2 py-1 rounded font-bold text-[10px] ${p.ativo ? 'bg-emerald-100 text-emerald-800' : 'bg-neutral-200 text-neutral-600'}">
+              ${p.ativo ? 'Ativo na Capa' : 'Oculto'}
+            </button>
+            <button onclick="abrirModalFormPrograma('${p.id}')" class="text-sp-blue font-bold hover:underline">Editar</button>
+            <button onclick="excluirPrograma('${p.id}')" class="text-red-600 font-bold hover:underline">Excluir</button>
+          </div>
+        </div>
+      `).join("");
+
+      // Hospitais no Admin
+      const tabH = document.getElementById("tabelaAdminHospitais");
+      tabH.innerHTML = app.hospitais.map(h => `
+        <tr class="hover:bg-neutral-50">
+          <td class="p-3 font-bold text-neutral-900">${h.nome}</td>
+          <td class="p-3 font-semibold">${h.status}</td>
+          <td class="p-3 uppercase text-[10px]">${h.regiao}</td>
+          <td class="p-3 text-right space-x-2">
+            <button onclick="abrirModalFormHospital('${h.id}')" class="text-sp-blue font-bold hover:underline">Editar</button>
+            <button onclick="excluirHospital('${h.id}')" class="text-red-600 font-bold hover:underline">Excluir</button>
+          </td>
+        </tr>
+      `).join("");
+
+      // Notícias no Admin
+      const divN = document.getElementById("listaAdminNoticias");
+      divN.innerHTML = app.noticias.map(n => `
+        <div class="p-3 rounded border flex justify-between items-center text-xs">
+          <div>
+            <span class="font-semibold text-neutral-800">${n.titulo}</span>
+          </div>
+          <button onclick="app.noticias = app.noticias.filter(x => x.id !== '${n.id}'); atualizarTudo(true);" class="text-red-600 font-bold ml-2 hover:underline">Excluir</button>
+        </div>
+      `).join("");
+    }
+
+    // --- NOTÍCIAS HOME & PÚBLICO ---
     function renderizarHomeNoticias() {
       const container = document.getElementById("homeGridNoticias");
       const ultimas = app.noticias.slice(0, 2);
@@ -2801,28 +2844,61 @@
       lucide.createIcons();
     }
 
-    function salvarNoticia(e) {
-      e.preventDefault();
-      const hoje = new Date().toLocaleDateString("pt-BR");
-      const foto = document.getElementById("nFotoBase64").value;
-      const link = document.getElementById("nLink").value.trim();
-      const nData = {
-        id: Date.now().toString(),
-        titulo: document.getElementById("nTitulo").value.trim(),
-        categoria: document.getElementById("nCategoria").value.trim(),
-        imagem: foto || IMG_FALLBACK,
-        resumo: document.getElementById("nResumo").value.trim(),
-        link: link || "",
-        data: hoje
-      };
-      app.noticias.unshift(nData);
-      document.getElementById("nTitulo").value = "";
-      document.getElementById("nResumo").value = "";
-      document.getElementById("nLink").value = "";
-      document.getElementById("nFotoBase64").value = "";
-      document.getElementById("inNoticiaArquivo").value = "";
-      document.getElementById("prevNoticiaFoto").classList.add("hidden");
-      atualizarTudo(true);
+    // --- REDE HOSPITALAR PÚBLICA ---
+    function renderizarHospitais() {
+      const filtro = document.getElementById("filtroRegiao").value;
+      const busca = (document.getElementById("buscaHospital").value || "").toLowerCase().trim();
+      const container = document.getElementById("gridHospitais");
+      const semResultado = document.getElementById("semResultadoHospital");
+
+      const lista = app.hospitais.filter(h =>
+        (filtro === "todas" || h.regiao === filtro) &&
+        (busca === "" || h.nome.toLowerCase().includes(busca))
+      );
+
+      semResultado.classList.toggle("hidden", lista.length > 0);
+
+      container.innerHTML = lista.map(h => {
+        let badgeColor = "bg-emerald-100 text-emerald-800";
+        let dotColor = "bg-emerald-500";
+        if (h.status === "Alta Demanda") { badgeColor = "bg-amber-100 text-amber-800"; dotColor = "bg-amber-500"; }
+        if (h.status === "Em Obras / Parcial") { badgeColor = "bg-blue-100 text-blue-800"; dotColor = "bg-blue-500"; }
+        if (h.status === "Pronto-Socorro Restrito") { badgeColor = "bg-red-100 text-red-800"; dotColor = "bg-red-500"; }
+
+        const foto = h.foto || IMG_FALLBACK;
+
+        return `
+          <div class="bg-white rounded-xl border border-neutral-200 shadow-sm flex flex-col justify-between overflow-hidden hover:shadow-md transition">
+            <div class="relative h-40 bg-neutral-100 overflow-hidden">
+              <img src="${foto}" alt="${h.nome}" onerror="this.onerror=null;this.src='${IMG_FALLBACK}'" class="w-full h-full object-cover">
+              <span class="absolute top-2.5 right-2.5 inline-flex items-center gap-1.5 text-[10px] font-bold px-2 py-0.5 rounded shadow-sm ${badgeColor}">
+                <span class="w-2 h-2 rounded-full ${dotColor} pulse-dot"></span> ${h.status}
+              </span>
+            </div>
+            <div class="p-4 flex flex-col justify-between flex-grow">
+              <div>
+                <span class="text-[9px] font-extrabold uppercase bg-neutral-100 text-neutral-600 px-2 py-0.5 rounded">${h.tipo}</span>
+                <h4 class="font-bold text-neutral-900 text-sm mt-1.5 leading-snug">${h.nome}</h4>
+                <p class="text-xs text-neutral-500 mt-1 flex items-start gap-1">
+                  <i data-lucide="map-pin" class="w-3.5 h-3.5 text-sp-red flex-shrink-0 mt-0.5"></i>
+                  <span>${h.endereco}</span>
+                </p>
+              </div>
+              <div class="mt-4 pt-3 border-t border-neutral-100 flex justify-between items-center text-xs">
+                <a href="tel:${h.telefone.replace(/\D/g, '')}" class="text-neutral-600 hover:text-sp-blue font-semibold flex items-center gap-1">
+                  <i data-lucide="phone" class="w-3 h-3 text-sp-blue"></i> ${h.telefone}
+                </a>
+                ${h.leitos > 0 ? `
+                  <span class="text-emerald-700 font-bold bg-emerald-50 px-2 py-0.5 rounded text-[11px]">
+                    ${h.leitos} vagas disponíveis
+                  </span>
+                ` : ''}
+              </div>
+            </div>
+          </div>
+        `;
+      }).join("");
+      lucide.createIcons();
     }
 
     // --- SEGURANÇA E LOGIN ---
@@ -2917,175 +2993,18 @@
     }
 
     function mudarAba(aba) {
-      const abas = ["transparencia", "iep", "remedios", "hospitais", "equipe", "programas", "alerta", "noticias", "senha"];
+      const abas = ["transparencia", "iep", "remedios", "hospitais", "equipe", "programas", "alerta", "noticias"];
       abas.forEach(a => {
         const sec = document.getElementById("sec" + a.charAt(0).toUpperCase() + a.slice(1));
         const tab = document.getElementById("tab" + a.charAt(0).toUpperCase() + a.slice(1));
         if (a === aba) {
-          sec.classList.remove("hidden");
-          tab.className = "px-3 py-2 rounded text-xs font-bold uppercase bg-sp-blue text-white shadow-sm flex-shrink-0";
+          if (sec) sec.classList.remove("hidden");
+          if (tab) tab.className = "px-3 py-2 rounded text-xs font-bold uppercase bg-sp-blue text-white shadow-sm flex-shrink-0";
         } else {
-          sec.classList.add("hidden");
-          tab.className = "px-3 py-2 rounded text-xs font-bold uppercase bg-white text-neutral-700 hover:bg-neutral-100 flex-shrink-0";
+          if (sec) sec.classList.add("hidden");
+          if (tab) tab.className = "px-3 py-2 rounded text-xs font-bold uppercase bg-white text-neutral-700 hover:bg-neutral-100 flex-shrink-0";
         }
       });
-    }
-
-    function renderizarAdminListas() {
-      // Repasses no Admin
-      const divD = document.getElementById("listaAdminDestinacoes");
-      divD.innerHTML = app.orcamento.destinacoes.map(d => `
-        <div class="p-3.5 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 hover:bg-neutral-50">
-          <div>
-            <div class="flex items-center gap-2">
-              <span class="text-[9px] font-black uppercase text-sp-blue bg-blue-50 px-2 py-0.5 rounded">${d.entidade || 'Geral'}</span>
-              <span class="font-bold text-neutral-900">${d.nome}</span>
-              <span class="text-[11px] font-black text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded">${formatarMoeda(d.valor)}</span>
-            </div>
-            <p class="text-[11px] text-neutral-500 mt-0.5">${d.descricao}</p>
-          </div>
-          <div class="flex items-center gap-2 self-end sm:self-center">
-            <button onclick="editarDestinacao('${d.id}')" class="text-sp-blue font-bold hover:underline">Editar</button>
-            <button onclick="excluirDestinacao('${d.id}')" class="text-red-600 font-bold hover:underline">Excluir</button>
-          </div>
-        </div>
-      `).join("");
-
-      // Remédios no Admin
-      const divR = document.getElementById("listaAdminRemedios");
-      divR.innerHTML = (app.medicamentos || []).map(m => `
-        <div class="p-3.5 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 hover:bg-neutral-50">
-          <div>
-            <div class="flex items-center gap-2">
-              <span class="font-bold text-neutral-900">${m.nome}</span>
-              <span class="text-[9px] font-bold text-emerald-800 bg-emerald-50 px-1.5 py-0.5 rounded uppercase">${m.categoria}</span>
-            </div>
-            <p class="text-[11px] text-neutral-500 mt-0.5">${m.descricao}</p>
-          </div>
-          <div class="flex items-center gap-2 self-end sm:self-center">
-            <button onclick="editarMedicamentoAdmin('${m.id}')" class="text-sp-blue font-bold hover:underline">Editar</button>
-            <button onclick="excluirMedicamentoAdmin('${m.id}')" class="text-red-600 font-bold hover:underline">Excluir</button>
-          </div>
-        </div>
-      `).join("");
-
-      // Equipe IEP-SP no Admin
-      const divEIep = document.getElementById("listaAdminEquipeIep");
-      if (divEIep) {
-        divEIep.innerHTML = CARGOS_OFICIAIS_IEP.map(cargo => {
-          const m = (app.iepEquipe || []).find(x => x.cargo === cargo) || { cargo, nome: "", ativo: false };
-          const ocupado = m.nome && m.nome.trim() !== "";
-          return `
-            <div class="p-3 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 hover:bg-neutral-50">
-              <div>
-                <div class="flex items-center gap-2">
-                  <span class="font-bold text-neutral-900">${cargo}</span>
-                  <span class="text-[9px] font-bold px-1.5 py-0.5 rounded uppercase ${ocupado ? (m.ativo ? 'bg-indigo-100 text-indigo-800' : 'bg-amber-100 text-amber-800') : 'bg-neutral-200 text-neutral-600'}">
-                    ${ocupado ? (m.ativo ? 'Ativo' : 'Oculto') : 'Vago'}
-                  </span>
-                </div>
-                <p class="text-[11px] text-neutral-600 mt-0.5">
-                  ${ocupado ? `<strong>Titular:</strong> ${m.nome}` : '<em class="text-neutral-400">Cargo não preenchido</em>'}
-                </p>
-              </div>
-              <div class="flex items-center gap-2 self-end sm:self-center">
-                ${ocupado ? `
-                  <button onclick="alternarAtivoEquipeIep('${cargo}')" class="px-2 py-1 rounded font-bold text-[10px] ${m.ativo ? 'bg-indigo-100 text-indigo-800' : 'bg-neutral-200 text-neutral-600'}">
-                    ${m.ativo ? 'Exibindo' : 'Oculto'}
-                  </button>
-                ` : ''}
-                <button onclick="editarEquipeIep('${cargo}')" class="text-indigo-700 font-bold hover:underline">
-                  ${ocupado ? 'Editar' : 'Nomear'}
-                </button>
-                ${ocupado ? `
-                  <button onclick="desocuparCargoIep('${cargo}')" class="text-red-600 font-bold hover:underline">Desocupar</button>
-                ` : ''}
-              </div>
-            </div>
-          `;
-        }).join("");
-      }
-
-      // Equipe SES no Admin
-      const divE = document.getElementById("listaAdminEquipe");
-      divE.innerHTML = CARGOS_OFICIAIS_SES.map(cargo => {
-        const m = app.equipe.find(x => x.cargo === cargo) || { cargo, nome: "", ativo: false };
-        const ocupado = m.nome && m.nome.trim() !== "";
-        return `
-          <div class="p-3.5 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2.5 hover:bg-neutral-50">
-            <div>
-              <div class="flex items-center gap-2">
-                <span class="font-bold text-neutral-900">${cargo}</span>
-                <span class="text-[9px] font-bold px-1.5 py-0.5 rounded uppercase ${ocupado ? (m.ativo ? 'bg-emerald-100 text-emerald-800' : 'bg-amber-100 text-amber-800') : 'bg-neutral-200 text-neutral-600'}">
-                  ${ocupado ? (m.ativo ? 'Ocupado & Ativo' : 'Ocupado (Oculto)') : 'Vago / Sem Titular'}
-                </span>
-              </div>
-              <p class="text-[11px] text-neutral-600 mt-0.5">
-                ${ocupado ? `<strong>Titular:</strong> ${m.nome}` : '<em class="text-neutral-400">Cargo não preenchido</em>'}
-              </p>
-            </div>
-            <div class="flex items-center gap-2 self-end sm:self-center">
-              ${ocupado ? `
-                <button onclick="alternarAtivoEquipe('${cargo}')" class="px-2 py-1 rounded font-bold text-[10px] ${m.ativo ? 'bg-emerald-100 text-emerald-800' : 'bg-neutral-200 text-neutral-600'}">
-                  ${m.ativo ? 'Exibindo' : 'Oculto'}
-                </button>
-              ` : ''}
-              <button onclick="editarEquipe('${cargo}')" class="text-sp-blue font-bold hover:underline">
-                ${ocupado ? 'Editar' : 'Nomear'}
-              </button>
-              ${ocupado ? `
-                <button onclick="desocuparCargo('${cargo}')" class="text-red-600 font-bold hover:underline">Desocupar</button>
-              ` : ''}
-            </div>
-          </div>
-        `;
-      }).join("");
-
-      // Programas
-      const divP = document.getElementById("listaAdminProgramas");
-      divP.innerHTML = app.programas.map(p => `
-        <div class="p-3 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2">
-          <div>
-            <div class="flex items-center gap-2">
-              <span class="font-bold text-neutral-900">${p.nome}</span>
-              <span class="text-[10px] bg-neutral-100 text-neutral-600 px-1.5 py-0.5 rounded font-semibold uppercase">${p.categoria}</span>
-            </div>
-            <p class="text-[11px] text-neutral-500 mt-0.5">${p.descricao}</p>
-          </div>
-          <div class="flex items-center gap-2 self-end sm:self-center">
-            <button onclick="alternarAtivoPrograma('${p.id}')" class="px-2 py-1 rounded font-bold text-[10px] ${p.ativo ? 'bg-emerald-100 text-emerald-800' : 'bg-neutral-200 text-neutral-600'}">
-              ${p.ativo ? 'Ativo na Capa' : 'Oculto'}
-            </button>
-            <button onclick="editarPrograma('${p.id}')" class="text-sp-blue font-bold hover:underline">Editar</button>
-            <button onclick="excluirPrograma('${p.id}')" class="text-red-600 font-bold hover:underline">Excluir</button>
-          </div>
-        </div>
-      `).join("");
-
-      // Hospitais
-      const tabH = document.getElementById("tabelaAdminHospitais");
-      tabH.innerHTML = app.hospitais.map(h => `
-        <tr class="hover:bg-neutral-50">
-          <td class="p-3 font-bold text-neutral-900">${h.nome}</td>
-          <td class="p-3 font-semibold">${h.status}</td>
-          <td class="p-3 uppercase text-[10px]">${h.regiao}</td>
-          <td class="p-3 text-right space-x-2">
-            <button onclick="editarHospital('${h.id}')" class="text-sp-blue font-bold">Editar</button>
-            <button onclick="excluirHospital('${h.id}')" class="text-red-600 font-bold">Excluir</button>
-          </td>
-        </tr>
-      `).join("");
-
-      // Notícias
-      const divN = document.getElementById("listaAdminNoticias");
-      divN.innerHTML = app.noticias.map(n => `
-        <div class="bg-white p-3 rounded border flex justify-between items-center text-xs">
-          <div>
-            <span class="font-semibold text-neutral-800">${n.titulo}</span>
-          </div>
-          <button onclick="app.noticias = app.noticias.filter(x => x.id !== '${n.id}'); atualizarTudo(true);" class="text-red-600 font-bold ml-2 hover:underline">Excluir</button>
-        </div>
-      `).join("");
     }
 
     function alternarContraste() {
@@ -3096,34 +3015,6 @@
     function ajustarFonte(delta) {
       nivelFonte = delta === 0 ? 0 : Math.max(-2, Math.min(3, nivelFonte + delta));
       document.documentElement.style.fontSize = (100 + (nivelFonte * 10)) + "%";
-    }
-
-    function restaurarPadroesProtegido() {
-      if (confirm("ATENÇÃO: Deseja redefinir todo o portal para as informações padrão de São Paulo? Todas as alterações serão perdidas.")) {
-        if (confirm("Confirmação final: Tem absoluta certeza?")) {
-          localStorage.clear();
-          app.user = DADOS_INICIAIS.user;
-          app.pass = DADOS_INICIAIS.pass;
-          app.ouvidoria = DADOS_INICIAIS.ouvidoria;
-          app.webhookIep = DADOS_INICIAIS.webhookIep;
-          app.webhookMedicamentos = DADOS_INICIAIS.webhookMedicamentos;
-          app.iepConfig = DADOS_INICIAIS.iepConfig;
-          app.iepEquipe = DADOS_INICIAIS.iepEquipe;
-          app.alerta = DADOS_INICIAIS.alerta;
-          app.orcamento = {
-            total: DADOS_INICIAIS.orcamento.total,
-            destinacoes: [...DADOS_INICIAIS.orcamento.destinacoes]
-          };
-          app.medicamentos = DADOS_INICIAIS.medicamentos;
-          app.equipe = DADOS_INICIAIS.equipe;
-          app.hospitais = DADOS_INICIAIS.hospitais;
-          app.programas = DADOS_INICIAIS.programas;
-          app.noticias = DADOS_INICIAIS.noticias;
-          atualizarTudo(true);
-          mostrarToast("Banco de dados redefinido!");
-          irParaPagina('inicio');
-        }
-      }
     }
   </script>
 </body>
