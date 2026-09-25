@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Portal Oficial da Secretaria de Estado da Saúde de São Paulo — transparência orçamentária, IEP-SP, hospitais, medicamentos e programas do SUS Paulista." />
+  <meta name="description" content="Portal Oficial da Secretaria de Estado da Saúde de São Paulo — transparência orçamentária, programas oficiais, hospitais e notícias do SUS Paulista." />
   <title>Secretaria de Estado da Saúde | Governo do Estado de São Paulo</title>
 
   <!-- Tailwind CSS & Lucide Icons -->
@@ -48,7 +48,7 @@
       background-size: cover;
       background-position: center;
     }
-    #menuMobile.open { max-height: 560px; }
+    #menuMobile.open { max-height: 500px; }
     #menuMobile { max-height: 0; overflow: hidden; transition: max-height .3s ease; }
     .pulse-dot { animation: pulse 2s infinite; }
     @keyframes pulse { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: .4; transform: scale(1.2); } }
@@ -56,14 +56,14 @@
 </head>
 <body class="bg-sp-gray text-neutral-800 min-h-screen flex flex-col antialiased font-sans">
 
-  <!-- LOADER SUAVE DE TRANSIÇÃO -->
+  <!-- LOADER SUAVE COM DESTRAVADOR AUTOMÁTICO -->
   <div id="loadingOverlay" class="fixed inset-0 bg-white z-[100] flex flex-col items-center justify-center transition-opacity duration-300">
     <div class="bg-sp-blue text-white rounded-xl w-16 h-16 flex items-center justify-center font-black text-2xl shadow-lg mb-4 animate-pulse">
       SUS
     </div>
     <p class="text-xs font-black uppercase tracking-wider text-sp-darkBlue">Secretaria de Estado da Saúde</p>
     <p class="text-[11px] text-neutral-400 mt-1 flex items-center gap-1.5">
-      <span class="w-2 h-2 rounded-full bg-sp-blue pulse-dot"></span> Sincronizando dados em tempo real...
+      <span class="w-2 h-2 rounded-full bg-sp-blue pulse-dot"></span> Carregando portal institucional...
     </p>
   </div>
 
@@ -111,14 +111,12 @@
         </div>
       </a>
 
-      <!-- Menu Computador -->
-      <nav class="hidden lg:flex items-center gap-3.5 xl:gap-5 text-xs font-bold text-neutral-700 uppercase">
+      <!-- Menu Principal -->
+      <nav class="hidden lg:flex items-center gap-4 xl:gap-6 text-xs font-bold text-neutral-700 uppercase">
         <button onclick="irParaPagina('inicio')" class="nav-item hover:text-sp-blue transition" data-page="inicio">Início</button>
         <button onclick="irParaPagina('programas')" class="nav-item hover:text-sp-blue transition" data-page="programas">Programas Oficiais</button>
-        <button onclick="irParaPagina('iep')" class="nav-item hover:text-indigo-600 transition text-indigo-700 font-extrabold" data-page="iep">Psicologia (IEP-SP)</button>
-        <button onclick="irParaPagina('medicamentos')" class="nav-item hover:text-emerald-600 transition text-emerald-700 font-extrabold" data-page="medicamentos">Remédios</button>
-        <button onclick="irParaPagina('transparencia')" class="nav-item hover:text-sp-blue transition" data-page="transparencia">Transparência</button>
-        <button onclick="irParaPagina('hospitais')" class="nav-item hover:text-sp-blue transition" data-page="hospitais">Hospitais</button>
+        <button onclick="irParaPagina('transparencia')" class="nav-item hover:text-sp-blue transition" data-page="transparencia">Transparência & Gastos</button>
+        <button onclick="irParaPagina('hospitais')" class="nav-item hover:text-sp-blue transition" data-page="hospitais">Rede Hospitalar</button>
         <button onclick="irParaPagina('equipe')" class="nav-item hover:text-sp-blue transition" data-page="equipe">Corpo Diretivo</button>
         <button onclick="irParaPagina('noticias')" class="nav-item hover:text-sp-blue transition" data-page="noticias">Notícias</button>
       </nav>
@@ -131,12 +129,10 @@
 
     <!-- Menu Mobile Dropdown -->
     <div id="menuMobile" class="lg:hidden border-t border-neutral-200 bg-white">
-      <div class="flex flex-col px-4 py-3 text-xs font-bold text-neutral-700 uppercase space-y-2">
+      <div class="flex flex-col px-4 py-3 text-xs font-bold text-neutral-700 uppercase space-y-2.5">
         <button onclick="irParaPagina('inicio'); fecharMenuMobile()" class="text-left py-1">Início</button>
         <button onclick="irParaPagina('programas'); fecharMenuMobile()" class="text-left py-1 text-sp-blue font-black">Programas Oficiais</button>
-        <button onclick="irParaPagina('iep'); fecharMenuMobile()" class="text-left py-1 text-indigo-700 font-black">Instituto de Psicologia (IEP-SP)</button>
-        <button onclick="irParaPagina('medicamentos'); fecharMenuMobile()" class="text-left py-1 text-emerald-700 font-black">Farmácia & Pedido de Remédios</button>
-        <button onclick="irParaPagina('transparencia'); fecharMenuMobile()" class="text-left py-1">Transparência & Repasses</button>
+        <button onclick="irParaPagina('transparencia'); fecharMenuMobile()" class="text-left py-1">Transparência & Gastos</button>
         <button onclick="irParaPagina('hospitais'); fecharMenuMobile()" class="text-left py-1">Rede Hospitalar</button>
         <button onclick="irParaPagina('equipe'); fecharMenuMobile()" class="text-left py-1">Corpo Diretivo da Secretaria</button>
         <button onclick="irParaPagina('noticias'); fecharMenuMobile()" class="text-left py-1">Notícias Oficiais</button>
@@ -181,12 +177,12 @@
             Saúde pública de qualidade com transparência e responsabilidade.
           </h2>
           <p class="text-blue-100 text-xs sm:text-sm mb-6 max-w-xl leading-relaxed">
-            Consulte a aplicação dos recursos públicos estaduais, acompanhe programas de saúde, acolhimento especializado e a rede hospitalar de São Paulo.
+            Consulte a aplicação dos recursos públicos estaduais, acompanhe os programas oficiais de saúde e localize hospitais em tempo real.
           </p>
           
           <div class="flex flex-wrap gap-3">
             <button onclick="irParaPagina('programas')" class="bg-white text-sp-blue font-black px-5 py-3 rounded-lg text-xs uppercase shadow hover:bg-neutral-100 transition flex items-center gap-2">
-              <i data-lucide="heart-handshake" class="w-4 h-4 text-sp-blue"></i> Acessar Programas
+              <i data-lucide="heart-handshake" class="w-4 h-4 text-sp-blue"></i> Ver Programas Oficiais
             </button>
             <button onclick="irParaPagina('transparencia')" class="bg-sp-yellow text-sp-darkBlue font-black px-5 py-3 rounded-lg text-xs uppercase shadow hover:bg-amber-400 transition flex items-center gap-2">
               <i data-lucide="pie-chart" class="w-4 h-4 text-sp-darkBlue"></i> Transparência & Gastos
@@ -229,8 +225,8 @@
           <p class="text-[10px] uppercase font-bold text-neutral-500 mt-0.5">Leitos / Vagas Livres</p>
         </div>
         <div>
-          <p id="kpiMedicamentos" class="text-xl sm:text-2xl font-black text-indigo-700">0</p>
-          <p class="text-[10px] uppercase font-bold text-neutral-500 mt-0.5">Remédios em Estoque</p>
+          <p id="kpiProgramas" class="text-xl sm:text-2xl font-black text-indigo-700">0</p>
+          <p class="text-[10px] uppercase font-bold text-neutral-500 mt-0.5">Programas Oficiais</p>
         </div>
         <div>
           <p id="kpiExecucao" class="text-xl sm:text-2xl font-black text-amber-600">0%</p>
@@ -239,56 +235,20 @@
       </div>
     </section>
 
-    <!-- SERVIÇOS & PROGRAMAS PRINCIPAIS NA PÁGINA INICIAL -->
+    <!-- AÇÕES GOVERNAMENTAIS — PROGRAMAS OFICIAIS DE SAÚDE (TODOS IGUAIS) -->
     <section class="max-w-7xl mx-auto px-4 py-10">
-      <div class="border-b-2 border-sp-blue pb-2 mb-6">
-        <span class="text-xs font-bold text-sp-blue uppercase tracking-wider">Acesso Direto ao Cidadão</span>
-        <h3 class="text-lg sm:text-xl font-black text-sp-darkBlue uppercase">Serviços e Institutos de Saúde</h3>
-      </div>
-      
-      <!-- CARDS DE ACESSO AO IEP, REMÉDIOS E TRANSPARÊNCIA -->
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
-        
-        <div onclick="irParaPagina('iep')" class="bg-white p-5 rounded-xl border border-indigo-200 shadow-sm hover:shadow-md hover:border-indigo-600 cursor-pointer transition flex flex-col justify-between group border-t-4 border-t-indigo-700">
-          <div>
-            <span class="text-[9px] font-black uppercase text-indigo-700 bg-indigo-50 px-2 py-0.5 rounded">Hospital Jefferson</span>
-            <h4 class="font-black text-neutral-900 text-sm uppercase mt-2">Instituto de Psicologia (IEP-SP)</h4>
-            <p class="text-neutral-500 text-xs mt-1 leading-relaxed">Acolhimento comunitário, perícias funcionais de segurança e suporte com SAMU 192.</p>
-          </div>
-          <span class="text-xs font-bold text-indigo-700 mt-4 group-hover:underline flex items-center gap-1">Acessar Instituto IEP →</span>
+      <div class="flex justify-between items-center mb-6 border-b-2 border-sp-blue pb-2">
+        <div>
+          <span class="text-xs font-bold text-sp-blue uppercase tracking-wider">Ações Governamentais</span>
+          <h3 class="text-lg sm:text-xl font-black text-sp-darkBlue uppercase">Programas Oficiais de Saúde</h3>
         </div>
-
-        <div onclick="irParaPagina('medicamentos')" class="bg-white p-5 rounded-xl border border-emerald-200 shadow-sm hover:shadow-md hover:border-emerald-600 cursor-pointer transition flex flex-col justify-between group border-t-4 border-t-emerald-600">
-          <div>
-            <span class="text-[9px] font-black uppercase text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded">Dose Certa SP</span>
-            <h4 class="font-black text-neutral-900 text-sm uppercase mt-2">Farmácia & Medicamentos</h4>
-            <p class="text-neutral-500 text-xs mt-1 leading-relaxed">Consulte o catálogo gratuito e envie sua solicitação eletrônica de remédios.</p>
-          </div>
-          <span class="text-xs font-bold text-emerald-700 mt-4 group-hover:underline flex items-center gap-1">Fazer Pedido de Remédio →</span>
-        </div>
-
-        <div onclick="irParaPagina('transparencia')" class="bg-white p-5 rounded-xl border border-neutral-200 shadow-sm hover:shadow-md hover:border-sp-blue cursor-pointer transition flex flex-col justify-between group border-t-4 border-t-sp-blue">
-          <div>
-            <span class="text-[9px] font-black uppercase text-sp-blue bg-blue-50 px-2 py-0.5 rounded">Prestação de Contas</span>
-            <h4 class="font-black text-neutral-900 text-sm uppercase mt-2">Transparência & Gastos</h4>
-            <p class="text-neutral-500 text-xs mt-1 leading-relaxed">Repasses orçamentários por entidade, hospitais, IEP-SP e saldo estadual.</p>
-          </div>
-          <span class="text-xs font-bold text-sp-blue mt-4 group-hover:underline flex items-center gap-1">Ver Orçamento Completo →</span>
-        </div>
-
-        <div onclick="irParaPagina('hospitais')" class="bg-white p-5 rounded-xl border border-neutral-200 shadow-sm hover:shadow-md hover:border-sp-yellow cursor-pointer transition flex flex-col justify-between group border-t-4 border-t-sp-yellow">
-          <div>
-            <span class="text-[9px] font-black uppercase text-amber-800 bg-amber-50 px-2 py-0.5 rounded">Rede Estadual</span>
-            <h4 class="font-black text-neutral-900 text-sm uppercase mt-2">Hospitais & AMEs 24h</h4>
-            <p class="text-neutral-500 text-xs mt-1 leading-relaxed">Monitoramento de leitos e status operacional em todas as regiões de SP.</p>
-          </div>
-          <span class="text-xs font-bold text-amber-800 mt-4 group-hover:underline flex items-center gap-1">Consultar Unidades →</span>
-        </div>
-
+        <button onclick="irParaPagina('programas')" class="text-xs font-bold text-sp-blue hover:underline">
+          Acessar Todos os Programas →
+        </button>
       </div>
 
-      <!-- DEMAIS PROGRAMAS QUE VOCÊ ATIVA NO ADMIN -->
-      <div id="homeGridProgramas" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4"></div>
+      <!-- GRADE ONDE TODOS OS PROGRAMAS APARECEM EXATAMENTE IGUAIS -->
+      <div id="homeGridProgramas" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5"></div>
     </section>
 
     <!-- RESUMO DA TRANSPARÊNCIA ORÇAMENTÁRIA -->
@@ -323,62 +283,12 @@
   <!-- ==================== 2. PÁGINA: PROGRAMAS OFICIAIS ==================== -->
   <main id="viewProgramas" class="view-section hidden flex-grow max-w-7xl mx-auto px-4 py-8 w-full">
     <div class="border-l-4 border-sp-blue pl-3 mb-6">
-      <span class="text-xs font-bold text-sp-blue uppercase tracking-wider">Ações e Atendimento</span>
-      <h2 class="text-xl sm:text-3xl font-black text-sp-darkBlue uppercase">Programas e Institutos Oficiais de Saúde</h2>
-      <p class="text-xs text-neutral-500 mt-1">Consulte os programas vigentes, solicite medicamentos e acesse os serviços do IEP-SP.</p>
+      <span class="text-xs font-bold text-sp-blue uppercase tracking-wider">Ações Governamentais</span>
+      <h2 class="text-xl sm:text-3xl font-black text-sp-darkBlue uppercase">Programas Oficiais de Saúde</h2>
+      <p class="text-xs text-neutral-500 mt-1">Catálogo de benefícios, acolhimento e assistência prestada à população de São Paulo.</p>
     </div>
 
-    <!-- 2 DESTAQUES PRINCIPAIS: IEP-SP E DOSE CERTA -->
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-      
-      <!-- Card IEP-SP -->
-      <div class="bg-white rounded-2xl border border-indigo-200 p-6 shadow-sm border-t-8 border-indigo-700 flex flex-col justify-between hover:shadow-md transition">
-        <div>
-          <div class="flex items-center justify-between mb-3">
-            <span class="text-[9px] font-black uppercase tracking-wider bg-indigo-50 text-indigo-700 px-2 py-0.5 rounded">Unidade Vinculada</span>
-            <span class="text-[10px] text-neutral-500 font-bold">Hospital Jefferson</span>
-          </div>
-          <h3 class="text-lg font-black text-sp-darkBlue uppercase flex items-center gap-2">
-            <i data-lucide="brain" class="w-5 h-5 text-indigo-700"></i> Instituto de Psicologia (IEP-SP)
-          </h3>
-          <p class="text-xs text-neutral-600 mt-2 leading-relaxed">
-            Atendimento psicológico comunitário, suporte a servidores, laudos de aptidão funcional, homologação de porte de arma de fogo e urgências psiquiátricas integradas ao SAMU 192.
-          </p>
-        </div>
-        <div class="mt-6">
-          <button onclick="irParaPagina('iep')" class="w-full bg-indigo-700 hover:bg-indigo-800 text-white font-black py-2.5 rounded-lg text-xs uppercase shadow transition">
-            Acessar Instituto IEP-SP & Serviços →
-          </button>
-        </div>
-      </div>
-
-      <!-- Card Dose Certa (Medicamentos) -->
-      <div class="bg-white rounded-2xl border border-emerald-200 p-6 shadow-sm border-t-8 border-emerald-600 flex flex-col justify-between hover:shadow-md transition">
-        <div>
-          <div class="flex items-center justify-between mb-3">
-            <span class="text-[9px] font-black uppercase tracking-wider bg-emerald-50 text-emerald-700 px-2 py-0.5 rounded">Farmácia Estadual</span>
-            <span class="text-[10px] text-neutral-500 font-bold">Distribuição Gratuita</span>
-          </div>
-          <h3 class="text-lg font-black text-sp-darkBlue uppercase flex items-center gap-2">
-            <i data-lucide="pill" class="w-5 h-5 text-emerald-600"></i> Programa Dose Certa — Medicamentos
-          </h3>
-          <p class="text-xs text-neutral-600 mt-2 leading-relaxed">
-            Distribuição de remédios essenciais, de uso contínuo e alto custo nas farmácias do Estado. Faça sua solicitação eletrônica direta no formulário.
-          </p>
-        </div>
-        <div class="mt-6">
-          <button onclick="irParaPagina('medicamentos')" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-black py-2.5 rounded-lg text-xs uppercase shadow transition">
-            Solicitar Medicamentos Online →
-          </button>
-        </div>
-      </div>
-
-    </div>
-
-    <!-- DEMAIS PROGRAMAS CADASTRADOS -->
-    <div class="border-b border-neutral-200 pb-2 mb-4">
-      <h3 class="font-black text-sm uppercase text-neutral-800">Demais Programas Cadastrados</h3>
-    </div>
+    <!-- GRADE UNIFORME DE PROGRAMAS (INCLUINDO IEP-SP E DOSE CERTA) -->
     <div id="gridProgramas" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5"></div>
   </main>
 
@@ -473,7 +383,7 @@
 
     </div>
 
-    <!-- CORPO DIRETIVO E CARGOS INTERNOS DO IEP-SP -->
+    <!-- CORPO DIRETIVO E CARGOS INTERNOS DO IEP-SP (SEM BUG DE FOTO ESTICADA) -->
     <div id="secaoEquipeIep" class="mb-10">
       <div class="border-l-4 border-indigo-700 pl-3 mb-6">
         <span class="text-xs font-bold text-indigo-700 uppercase tracking-wider">Estrutura Interna</span>
@@ -792,7 +702,7 @@
       </div>
     </section>
 
-    <!-- ABA 3: FARMÁCIA & MEDICAMENTOS (COM BOTÃO ADICIONAR) -->
+    <!-- ABA 3: FARMÁCIA & MEDICAMENTOS -->
     <section id="secRemedios" class="space-y-6 hidden">
       <div class="bg-white rounded-lg border border-neutral-300 shadow-sm overflow-hidden">
         <div class="p-4 bg-neutral-100 border-b border-neutral-200 flex justify-between items-center">
@@ -808,7 +718,7 @@
       </div>
     </section>
 
-    <!-- ABA 4: UNIDADES DE SAÚDE & HOSPITAIS (COM BOTÃO ADICIONAR) -->
+    <!-- ABA 4: UNIDADES DE SAÚDE & HOSPITAIS -->
     <section id="secHospitais" class="space-y-6 hidden">
       <div class="bg-white rounded-lg border border-neutral-300 shadow-sm overflow-hidden">
         <div class="p-4 bg-neutral-100 border-b border-neutral-200 flex justify-between items-center">
@@ -845,13 +755,13 @@
       </div>
     </section>
 
-    <!-- ABA 6: PROGRAMAS OFICIAIS (COM BOTÃO ADICIONAR) -->
+    <!-- ABA 6: PROGRAMAS OFICIAIS -->
     <section id="secProgramas" class="space-y-6 hidden">
       <div class="bg-white rounded-lg border border-neutral-300 shadow-sm overflow-hidden">
         <div class="p-4 bg-neutral-100 border-b border-neutral-200 flex justify-between items-center">
           <div>
             <h3 class="font-black text-xs uppercase text-neutral-800">Catálogo de Programas Estaduais</h3>
-            <p class="text-[11px] text-neutral-500">Iniciativas ativas que aparecem para o cidadão no portal.</p>
+            <p class="text-[11px] text-neutral-500">Iniciativas que você escolhe para exibir na página inicial e no catálogo.</p>
           </div>
           <button onclick="abrirModalFormPrograma()" class="bg-emerald-600 hover:bg-emerald-700 text-white font-black text-xs px-3 py-2 rounded-lg flex items-center gap-1.5 uppercase shadow">
             <i data-lucide="plus-circle" class="w-4 h-4"></i> Novo Programa
@@ -922,7 +832,7 @@
             <label class="font-bold text-neutral-700">URL / Link da Ouvidoria</label>
             <input type="url" id="adminInputOuvidoria" required placeholder="https://fala.sp.gov.br" class="w-full text-xs p-2.5 border rounded mt-1 font-semibold focus:border-sp-blue outline-none">
           </div>
-          <button type="submit" class="bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold px-4 py-2 rounded uppercase shadow">
+          <button type="submit" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-4 py-2 rounded uppercase shadow">
             Salvar Link
           </button>
         </form>
@@ -972,7 +882,7 @@
 
   </main>
 
-  <!-- ==================== MODAIS DE CADASTRO LIMPOS (ABREM AO CLICAR NO BOTÃO) ==================== -->
+  <!-- ==================== MODAIS DE CADASTRO LIMPOS ==================== -->
 
   <!-- MODAL: REPASSE ORÇAMENTÁRIO -->
   <div id="modalFormDestinacao" style="display: none;" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 items-center justify-center p-4">
@@ -1084,7 +994,7 @@
           <input type="text" id="hEndereco" required class="w-full p-2 border rounded mt-1">
         </div>
         <div class="sm:col-span-2 bg-neutral-50 p-2 rounded border">
-          <label class="font-bold text-neutral-700 block text-[11px]">Foto da Unidade (Opcional - Galeria do Celular)</label>
+          <label class="font-bold text-neutral-700 block text-[11px]">Foto da Unidade (Opcional - Galeria)</label>
           <div class="flex items-center gap-2 mt-1">
             <input type="file" accept="image/*" id="inHospArquivo" onchange="processarArquivoImagem(event, 'hFotoBase64', 'prevHospFoto')" class="text-[11px] file:mr-2 file:py-1 file:px-2 file:rounded file:border-0 file:text-[10px] file:font-bold file:bg-sp-blue file:text-white cursor-pointer">
             <img id="prevHospFoto" src="" class="hidden w-10 h-8 rounded object-cover border">
@@ -1203,8 +1113,8 @@
           <textarea id="pDescricao" rows="2" required class="w-full p-2 border rounded mt-1"></textarea>
         </div>
         <div>
-          <label class="font-bold text-neutral-700">Link Opcional (Se houver portal externo)</label>
-          <input type="url" id="pLink" placeholder="https://exemplo.sp.gov.br (Opcional)" class="w-full p-2 border rounded mt-1">
+          <label class="font-bold text-neutral-700">Link Opcional (Se houver portal externo ou subpágina)</label>
+          <input type="text" id="pLink" placeholder="Ex: #/iep ou #/medicamentos ou https://..." class="w-full p-2 border rounded mt-1">
         </div>
         <button type="submit" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold p-2.5 rounded uppercase shadow mt-2">Salvar Programa</button>
       </form>
@@ -1394,7 +1304,7 @@
     </div>
   </footer>
 
-  <!-- ==================== JAVASCRIPT ==================== -->
+  <!-- ==================== JAVASCRIPT SEGURO E RÁPIDO ==================== -->
   <script>
     const FIREBASE_CONFIG = {
       databaseURL: "https://saude-sp-195c3-default-rtdb.firebaseio.com" 
@@ -1404,7 +1314,7 @@
 
     function gerarEmblemaPadraoHtml(corBorda = 'border-sp-blue', corFundo = 'bg-sp-darkBlue') {
       return `
-        <div style="width: 64px; height: 64px; min-width: 64px; min-height: 64px;" class="w-16 h-16 rounded-full ${corFundo} text-sp-yellow flex items-center justify-center border-2 ${corBorda} flex-shrink-0 shadow-sm">
+        <div style="width: 64px; height: 64px; min-width: 64px; min-height: 64px; max-width: 64px; max-height: 64px;" class="w-16 h-16 rounded-full ${corFundo} text-sp-yellow flex items-center justify-center border-2 ${corBorda} flex-shrink-0 shadow-sm">
           <i data-lucide="user" class="w-7 h-7 text-white/90"></i>
         </div>
       `;
@@ -1484,11 +1394,12 @@
         { id: "3", nome: "Hospital de Clínicas da UNICAMP", tipo: "Hospital Geral", regiao: "campinas", status: "Operando Normalmente", leitos: 25, endereco: "Rua Vital Brasil, 251 - Barão Geraldo, Campinas - SP", telefone: "(19) 3521-2121", foto: "https://images.unsplash.com/photo-1587351021355-a479a299d2f9?w=800&auto=format&fit=crop&q=80" },
         { id: "4", nome: "Hospital Estadual de Ribeirão Preto", tipo: "Hospital Geral", regiao: "ribeirao", status: "Em Obras / Parcial", leitos: 10, endereco: "Av. Independência, 4600 - Ribeirão Preto - SP", telefone: "(16) 3602-8000", foto: "https://images.unsplash.com/photo-1551076805-e1869033e561?w=800&auto=format&fit=crop&q=80" }
       ],
+      // PROGRAMAS OFICIAIS (INCLUINDO IEP-SP E DOSE CERTA DE FORMA UNIFORME)
       programas: [
-        { id: "1", nome: "Instituto de Psicologia (IEP-SP)", categoria: "Saúde Mental & Perícia", descricao: "Acolhimento comunitário e perícias operacionais sediado no Hospital Jefferson.", link: "#/iep", ativo: true },
-        { id: "2", nome: "Dose Certa SP", categoria: "Medicamentos", descricao: "Distribuição gratuita de remédios essenciais e de alto custo nas farmácias do Estado.", link: "#/medicamentos", ativo: true },
-        { id: "3", nome: "Mulher de Peito", categoria: "Prevenção", descricao: "Mamografia gratuita sem necessidade de pedido médico nas carretas itinerantes e hospitais.", link: "https://www.saude.sp.gov.br", ativo: true },
-        { id: "4", nome: "Fundação Pró-Sangue", categoria: "Doação", descricao: "Rede integrada de captação e abastecimento de sangue para mais de 100 hospitais públicos.", link: "https://prosangue.sp.gov.br", ativo: true }
+        { id: "p_iep", nome: "Instituto Estadual de Psicologia (IEP-SP)", categoria: "Saúde Mental & Perícia", descricao: "Acolhimento comunitário, perícias funcionais e regulação de urgências psiquiátricas no Hospital Jefferson.", link: "#/iep", ativo: true },
+        { id: "p_dosecerta", nome: "Programa Dose Certa (Medicamentos)", categoria: "Assistência Farmacêutica", descricao: "Distribuição gratuita de medicamentos essenciais e de alto custo nas farmácias do Estado.", link: "#/medicamentos", ativo: true },
+        { id: "1", nome: "Programa Mulher de Peito", categoria: "Prevenção", descricao: "Mamografia gratuita sem necessidade de pedido médico nas carretas itinerantes e hospitais estaduais.", link: "https://www.saude.sp.gov.br", ativo: true },
+        { id: "2", nome: "Fundação Pró-Sangue", categoria: "Doação", descricao: "Rede integrada de captação e abastecimento contínuo de sangue para mais de 100 hospitais públicos.", link: "https://prosangue.sp.gov.br", ativo: true }
       ],
       noticias: [
         { id: "1", titulo: "Instituto de Psicologia (IEP-SP) expande suporte a policiais e acolhimento comunitário", categoria: "Gestão", resumo: "Com sede no Hospital Jefferson, órgão fortalece atuação articulada com o SAMU em saúde mental.", imagem: "https://images.unsplash.com/photo-1579684385127-1ef15d508118?w=800&auto=format&fit=crop&q=80", data: "24/09/2026", link: "#/iep" },
@@ -1544,7 +1455,7 @@
             prev.src = base64Otimizado;
             prev.classList.remove('hidden');
           }
-          mostrarToast("Foto carregada!");
+          mostrarToast("Foto carregada com sucesso!");
         };
         img.src = e.target.result;
       };
@@ -1648,23 +1559,21 @@
       }
     });
 
-    let firebaseDB = null;
-
+    // CONTROLE SEGURO DO LOADER (NUNCA FICA TRAVADO)
     function ocultarLoader() {
       const loader = document.getElementById("loadingOverlay");
-      if (loader && loader.style.display !== "none") {
+      if (loader) {
         loader.style.opacity = "0";
-        setTimeout(() => {
-          loader.style.display = "none";
-        }, 300);
+        loader.style.pointerEvents = "none";
+        setTimeout(() => { loader.style.display = "none"; }, 300);
       }
     }
+
+    let firebaseDB = null;
 
     function inicializarNuvem() {
       const urlBanco = FIREBASE_CONFIG.databaseURL;
       const tagNuvem = document.getElementById("cloudStatus");
-
-      setTimeout(ocultarLoader, 2000);
 
       if (urlBanco && urlBanco.startsWith("http")) {
         try {
@@ -1756,12 +1665,22 @@
       }
     }
 
+    // INICIALIZAÇÃO BLINDADA
     window.addEventListener("DOMContentLoaded", () => {
-      atualizarTudo(false);
-      inicializarNuvem();
+      try {
+        atualizarTudo(false);
+        inicializarNuvem();
+        const hashAtual = window.location.hash.replace("#/", "").trim();
+        irParaPagina(hashAtual || "inicio", false);
+      } catch (err) {
+        console.error("Erro na inicialização:", err);
+      } finally {
+        setTimeout(ocultarLoader, 600);
+      }
+    });
 
-      const hashAtual = window.location.hash.replace("#/", "").trim();
-      irParaPagina(hashAtual || "inicio", false);
+    window.addEventListener("load", () => {
+      setTimeout(ocultarLoader, 800);
     });
 
     function formatarMoeda(val) {
@@ -1780,109 +1699,113 @@
     }
 
     function atualizarTudo(persistir = true) {
-      // 0. Links Ouvidoria & 2 Webhooks
-      const linkOuv = app.ouvidoria || "https://fala.sp.gov.br";
-      const elTopo = document.getElementById("pubOuvidoriaTopo");
-      const elHero = document.getElementById("pubOuvidoriaHero");
-      const elRodape = document.getElementById("pubOuvidoriaRodape");
-      const inOuv = document.getElementById("adminInputOuvidoria");
-      const inWbIep = document.getElementById("adminWebhookIep");
-      const inWbMed = document.getElementById("adminWebhookMed");
+      try {
+        // Links Ouvidoria & 2 Webhooks
+        const linkOuv = app.ouvidoria || "https://fala.sp.gov.br";
+        const elTopo = document.getElementById("pubOuvidoriaTopo");
+        const elHero = document.getElementById("pubOuvidoriaHero");
+        const elRodape = document.getElementById("pubOuvidoriaRodape");
+        const inOuv = document.getElementById("adminInputOuvidoria");
+        const inWbIep = document.getElementById("adminWebhookIep");
+        const inWbMed = document.getElementById("adminWebhookMed");
 
-      if (elTopo) elTopo.href = linkOuv;
-      if (elHero) elHero.href = linkOuv;
-      if (elRodape) elRodape.href = linkOuv;
-      if (inOuv) inOuv.value = linkOuv;
-      if (inWbIep) inWbIep.value = app.webhookIep || "";
-      if (inWbMed) inWbMed.value = app.webhookMedicamentos || "";
+        if (elTopo) elTopo.href = linkOuv;
+        if (elHero) elHero.href = linkOuv;
+        if (elRodape) elRodape.href = linkOuv;
+        if (inOuv) inOuv.value = linkOuv;
+        if (inWbIep) inWbIep.value = app.webhookIep || "";
+        if (inWbMed) inWbMed.value = app.webhookMedicamentos || "";
 
-      // Dados IEP-SP
-      const cfg = app.iepConfig || DADOS_INICIAIS.iepConfig;
-      const elIepSede = document.getElementById("iepPubSede");
-      const elIepGestor = document.getElementById("iepPubGestor");
-      const elIepDir = document.getElementById("iepPubDiretorSamu");
+        // Dados IEP-SP
+        const cfg = app.iepConfig || DADOS_INICIAIS.iepConfig;
+        const elIepSede = document.getElementById("iepPubSede");
+        const elIepGestor = document.getElementById("iepPubGestor");
+        const elIepDir = document.getElementById("iepPubDiretorSamu");
 
-      if (elIepSede) elIepSede.innerText = cfg.sede;
-      if (elIepGestor) elIepGestor.innerText = cfg.gestor;
-      if (elIepDir) elIepDir.innerText = cfg.diretorSamu;
+        if (elIepSede) elIepSede.innerText = cfg.sede;
+        if (elIepGestor) elIepGestor.innerText = cfg.gestor;
+        if (elIepDir) elIepDir.innerText = cfg.diretorSamu;
 
-      const inCfgSede = document.getElementById("iepCfgSede");
-      const inCfgDir = document.getElementById("iepCfgDiretorSamu");
-      const inCfgGestor = document.getElementById("iepCfgGestor");
-      const inCfgDesc = document.getElementById("iepCfgDescricao");
-      if (inCfgSede) inCfgSede.value = cfg.sede;
-      if (inCfgDir) inCfgDir.value = cfg.diretorSamu;
-      if (inCfgGestor) inCfgGestor.value = cfg.gestor;
-      if (inCfgDesc) inCfgDesc.value = cfg.descricao;
+        const inCfgSede = document.getElementById("iepCfgSede");
+        const inCfgDir = document.getElementById("iepCfgDiretorSamu");
+        const inCfgGestor = document.getElementById("iepCfgGestor");
+        const inCfgDesc = document.getElementById("iepCfgDescricao");
+        if (inCfgSede) inCfgSede.value = cfg.sede;
+        if (inCfgDir) inCfgDir.value = cfg.diretorSamu;
+        if (inCfgGestor) inCfgGestor.value = cfg.gestor;
+        if (inCfgDesc) inCfgDesc.value = cfg.descricao;
 
-      // 1. Alerta
-      const banner = document.getElementById("bannerAlerta");
-      const iconeAlerta = document.getElementById("iconeAlerta");
-      if (app.alerta && app.alerta.ativo) {
-        banner.style.display = "block";
-        document.getElementById("textoAlerta").innerText = app.alerta.mensagem;
+        // Alerta
+        const banner = document.getElementById("bannerAlerta");
+        const iconeAlerta = document.getElementById("iconeAlerta");
+        if (app.alerta && app.alerta.ativo) {
+          banner.style.display = "block";
+          document.getElementById("textoAlerta").innerText = app.alerta.mensagem;
 
-        banner.className = "text-neutral-950 px-4 py-2.5 text-xs sm:text-sm font-semibold border-b shadow-inner ";
-        if (app.alerta.nivel === "urgente") {
-          banner.classList.add("bg-red-500", "text-white", "border-red-600");
-          iconeAlerta.setAttribute("data-lucide", "alert-octagon");
-        } else if (app.alerta.nivel === "informativo") {
-          banner.classList.add("bg-sky-500", "text-white", "border-sky-600");
-          iconeAlerta.setAttribute("data-lucide", "info");
+          banner.className = "text-neutral-950 px-4 py-2.5 text-xs sm:text-sm font-semibold border-b shadow-inner ";
+          if (app.alerta.nivel === "urgente") {
+            banner.classList.add("bg-red-500", "text-white", "border-red-600");
+            iconeAlerta.setAttribute("data-lucide", "alert-octagon");
+          } else if (app.alerta.nivel === "informativo") {
+            banner.classList.add("bg-sky-500", "text-white", "border-sky-600");
+            iconeAlerta.setAttribute("data-lucide", "info");
+          } else {
+            banner.classList.add("bg-sp-yellow", "text-neutral-950", "border-amber-500");
+            iconeAlerta.setAttribute("data-lucide", "alert-triangle");
+          }
         } else {
-          banner.classList.add("bg-sp-yellow", "text-neutral-950", "border-amber-500");
-          iconeAlerta.setAttribute("data-lucide", "alert-triangle");
+          banner.style.display = "none";
         }
-      } else {
-        banner.style.display = "none";
-      }
 
-      document.getElementById("chkAlertaAtivo").checked = app.alerta.ativo;
-      document.getElementById("selAlertaNivel").value = app.alerta.nivel || "atencao";
-      document.getElementById("adminInputAlerta").value = app.alerta.mensagem;
-      document.getElementById("contadorAlerta").innerText = app.alerta.mensagem.length;
+        document.getElementById("chkAlertaAtivo").checked = app.alerta.ativo;
+        document.getElementById("selAlertaNivel").value = app.alerta.nivel || "atencao";
+        document.getElementById("adminInputAlerta").value = app.alerta.mensagem;
+        document.getElementById("contadorAlerta").innerText = app.alerta.mensagem.length;
 
-      // 2. Orçamento & Repasses
-      const o = app.orcamento;
-      const totalOrc = Number(o.total) || 0;
-      const executado = o.destinacoes.reduce((soma, d) => soma + Number(d.valor || 0), 0);
-      const saldo = Math.max(0, totalOrc - executado);
-      const perc = totalOrc > 0 ? Math.min(100, Math.round((executado / totalOrc) * 100)) : 0;
+        // Orçamento & Repasses
+        const o = app.orcamento;
+        const totalOrc = Number(o.total) || 0;
+        const executado = o.destinacoes.reduce((soma, d) => soma + Number(d.valor || 0), 0);
+        const saldo = Math.max(0, totalOrc - executado);
+        const perc = totalOrc > 0 ? Math.min(100, Math.round((executado / totalOrc) * 100)) : 0;
 
-      document.getElementById("pubOrcTotal").innerText = formatarMoeda(totalOrc);
-      document.getElementById("homeOrcTotal").innerText = formatarMoeda(totalOrc);
-      document.getElementById("pubOrcExecutado").innerText = formatarMoeda(executado);
-      document.getElementById("pubOrcSaldo").innerText = formatarMoeda(saldo);
-      document.getElementById("pubOrcPercent").innerText = `${perc}% do orçamento estadual destinado`;
-      document.getElementById("labelBarraProgresso").innerText = `${perc}% Destinado`;
-      document.getElementById("barraProgresso").style.width = `${perc}%`;
-      document.getElementById("contagemDestinacoes").innerText = `${o.destinacoes.length} Repasses`;
+        document.getElementById("pubOrcTotal").innerText = formatarMoeda(totalOrc);
+        document.getElementById("homeOrcTotal").innerText = formatarMoeda(totalOrc);
+        document.getElementById("pubOrcExecutado").innerText = formatarMoeda(executado);
+        document.getElementById("pubOrcSaldo").innerText = formatarMoeda(saldo);
+        document.getElementById("pubOrcPercent").innerText = `${perc}% do orçamento estadual destinado`;
+        document.getElementById("labelBarraProgresso").innerText = `${perc}% Destinado`;
+        document.getElementById("barraProgresso").style.width = `${perc}%`;
+        document.getElementById("contagemDestinacoes").innerText = `${o.destinacoes.length} Repasses`;
 
-      document.getElementById("inOrcTotal").value = totalOrc;
+        document.getElementById("inOrcTotal").value = totalOrc;
 
-      atualizarSelectEntidadesDinamico();
-      popularSelectMedicamentosFormulario();
+        atualizarSelectEntidadesDinamico();
+        popularSelectMedicamentosFormulario();
 
-      renderizarDestinacoesPublicas(totalOrc);
-      renderizarEquipe();
-      renderizarEquipeIep();
-      renderizarProgramas();
-      renderizarHomeProgramas();
-      renderizarHospitais();
-      renderizarNoticias();
-      renderizarHomeNoticias();
-      renderizarListaRemediosPublica();
-      renderizarAdminListas();
+        renderizarDestinacoesPublicas(totalOrc);
+        renderizarEquipe();
+        renderizarEquipeIep();
+        renderizarProgramas();
+        renderizarHomeProgramas();
+        renderizarHospitais();
+        renderizarNoticias();
+        renderizarHomeNoticias();
+        renderizarListaRemediosPublica();
+        renderizarAdminListas();
 
-      document.getElementById("kpiHospitais").innerText = app.hospitais.length;
-      document.getElementById("kpiLeitos").innerText = app.hospitais.reduce((s, h) => s + Number(h.leitos || 0), 0);
-      document.getElementById("kpiMedicamentos").innerText = app.medicamentos ? app.medicamentos.length : 0;
-      document.getElementById("kpiExecucao").innerText = `${perc}%`;
+        document.getElementById("kpiHospitais").innerText = app.hospitais.length;
+        document.getElementById("kpiLeitos").innerText = app.hospitais.reduce((s, h) => s + Number(h.leitos || 0), 0);
+        document.getElementById("kpiMedicamentos").innerText = app.medicamentos ? app.medicamentos.length : 0;
+        document.getElementById("kpiExecucao").innerText = `${perc}%`;
 
-      lucide.createIcons();
+        lucide.createIcons();
 
-      if (persistir) {
-        salvarEstadoGlobal();
+        if (persistir) {
+          salvarEstadoGlobal();
+        }
+      } catch (err) {
+        console.error("Erro ao atualizar tudo:", err);
       }
     }
 
@@ -2154,7 +2077,7 @@
       atualizarTudo(true);
     }
 
-    // --- FUNÇÕES DE CONTROLE DE MODAIS DO ADMIN (ABREM AO CLICAR NO BOTÃO) ---
+    // --- FUNÇÕES DE CONTROLE DE MODAIS DO ADMIN ---
     function abrirModalFormDestinacao(id = null) {
       document.getElementById("destId").value = "";
       document.getElementById("destNome").value = "";
@@ -2592,308 +2515,32 @@
       mostrarToast("Notícia publicada com sucesso!");
     }
 
-    // --- ALERTA DA CAPA ---
-    function salvarAlerta() {
-      const ativo = document.getElementById("chkAlertaAtivo").checked;
-      const nivel = document.getElementById("selAlertaNivel").value;
-      const msg = document.getElementById("adminInputAlerta").value.trim();
-      app.alerta = { ativo, nivel, mensagem: msg };
-      atualizarTudo(true);
-    }
+    // --- CARGOS INTERNOS DO IEP-SP (64x64px RÍGIDO - SEM DEFORMAÇÃO) ---
+    function renderizarEquipeIep() {
+      const secao = document.getElementById("secaoEquipeIep");
+      const container = document.getElementById("gridEquipeIep");
+      const lista = (app.iepEquipe || []).filter(m => m.ativo && m.nome && m.nome.trim() !== "");
 
-    function removerAlerta() {
-      app.alerta.ativo = false;
-      atualizarTudo(true);
-    }
-
-    function salvarOuvidoria(e) {
-      e.preventDefault();
-      const link = document.getElementById("adminInputOuvidoria").value.trim();
-      if (!link) {
-        alert("Por favor, digite o link da ouvidoria.");
+      if (lista.length === 0) {
+        secao.classList.add("hidden");
         return;
       }
-      app.ouvidoria = link;
-      atualizarTudo(true);
-      mostrarToast("Link da Ouvidoria salvo!");
-    }
 
-    // --- RENDERIZAÇÃO DE LISTAS NO ADMIN ---
-    function renderizarAdminListas() {
-      // Repasses no Admin
-      const divD = document.getElementById("listaAdminDestinacoes");
-      divD.innerHTML = app.orcamento.destinacoes.map(d => `
-        <div class="p-3.5 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 hover:bg-neutral-50">
-          <div>
-            <div class="flex items-center gap-2">
-              <span class="text-[9px] font-black uppercase text-sp-blue bg-blue-50 px-2 py-0.5 rounded">${d.entidade || 'Geral'}</span>
-              <span class="font-bold text-neutral-900">${d.nome}</span>
-              <span class="text-[11px] font-black text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded">${formatarMoeda(d.valor)}</span>
-            </div>
-            <p class="text-[11px] text-neutral-500 mt-0.5">${d.descricao}</p>
-          </div>
-          <div class="flex items-center gap-2 self-end sm:self-center">
-            <button onclick="abrirModalFormDestinacao('${d.id}')" class="text-sp-blue font-bold hover:underline">Editar</button>
-            <button onclick="excluirDestinacao('${d.id}')" class="text-red-600 font-bold hover:underline">Excluir</button>
-          </div>
-        </div>
-      `).join("");
-
-      // Remédios no Admin
-      const divR = document.getElementById("listaAdminRemedios");
-      divR.innerHTML = (app.medicamentos || []).map(m => `
-        <div class="p-3.5 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 hover:bg-neutral-50">
-          <div>
-            <div class="flex items-center gap-2">
-              <span class="font-bold text-neutral-900">${m.nome}</span>
-              <span class="text-[9px] font-bold text-emerald-800 bg-emerald-50 px-1.5 py-0.5 rounded uppercase">${m.categoria}</span>
-            </div>
-            <p class="text-[11px] text-neutral-500 mt-0.5">${m.descricao}</p>
-          </div>
-          <div class="flex items-center gap-2 self-end sm:self-center">
-            <button onclick="abrirModalFormMedicamento('${m.id}')" class="text-sp-blue font-bold hover:underline">Editar</button>
-            <button onclick="excluirMedicamentoAdmin('${m.id}')" class="text-red-600 font-bold hover:underline">Excluir</button>
-          </div>
-        </div>
-      `).join("");
-
-      // Equipe IEP-SP no Admin
-      const divEIep = document.getElementById("listaAdminEquipeIep");
-      if (divEIep) {
-        divEIep.innerHTML = CARGOS_OFICIAIS_IEP.map(cargo => {
-          const m = (app.iepEquipe || []).find(x => x.cargo === cargo) || { cargo, nome: "", ativo: false };
-          const ocupado = m.nome && m.nome.trim() !== "";
-          return `
-            <div class="p-3 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 hover:bg-neutral-50">
-              <div>
-                <div class="flex items-center gap-2">
-                  <span class="font-bold text-neutral-900">${cargo}</span>
-                  <span class="text-[9px] font-bold px-1.5 py-0.5 rounded uppercase ${ocupado ? (m.ativo ? 'bg-indigo-100 text-indigo-800' : 'bg-amber-100 text-amber-800') : 'bg-neutral-200 text-neutral-600'}">
-                    ${ocupado ? (m.ativo ? 'Ativo' : 'Oculto') : 'Vago'}
-                  </span>
-                </div>
-                <p class="text-[11px] text-neutral-600 mt-0.5">
-                  ${ocupado ? `<strong>Titular:</strong> ${m.nome}` : '<em class="text-neutral-400">Cargo não preenchido</em>'}
-                </p>
-              </div>
-              <div class="flex items-center gap-2 self-end sm:self-center">
-                ${ocupado ? `
-                  <button onclick="alternarAtivoEquipeIep('${cargo}')" class="px-2 py-1 rounded font-bold text-[10px] ${m.ativo ? 'bg-indigo-100 text-indigo-800' : 'bg-neutral-200 text-neutral-600'}">
-                    ${m.ativo ? 'Exibindo' : 'Oculto'}
-                  </button>
-                ` : ''}
-                <button onclick="abrirModalFormEquipeIep('${cargo}')" class="text-indigo-700 font-bold hover:underline">
-                  ${ocupado ? 'Editar' : 'Nomear'}
-                </button>
-                ${ocupado ? `
-                  <button onclick="desocuparCargoIep('${cargo}')" class="text-red-600 font-bold hover:underline">Desocupar</button>
-                ` : ''}
-              </div>
-            </div>
-          `;
-        }).join("");
-      }
-
-      // Equipe SES no Admin
-      const divE = document.getElementById("listaAdminEquipe");
-      divE.innerHTML = CARGOS_OFICIAIS_SES.map(cargo => {
-        const m = app.equipe.find(x => x.cargo === cargo) || { cargo, nome: "", ativo: false };
-        const ocupado = m.nome && m.nome.trim() !== "";
-        return `
-          <div class="p-3.5 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2.5 hover:bg-neutral-50">
-            <div>
-              <div class="flex items-center gap-2">
-                <span class="font-bold text-neutral-900">${cargo}</span>
-                <span class="text-[9px] font-bold px-1.5 py-0.5 rounded uppercase ${ocupado ? (m.ativo ? 'bg-emerald-100 text-emerald-800' : 'bg-amber-100 text-amber-800') : 'bg-neutral-200 text-neutral-600'}">
-                  ${ocupado ? (m.ativo ? 'Ocupado & Ativo' : 'Ocupado (Oculto)') : 'Vago / Sem Titular'}
-                </span>
-              </div>
-              <p class="text-[11px] text-neutral-600 mt-0.5">
-                ${ocupado ? `<strong>Titular:</strong> ${m.nome}` : '<em class="text-neutral-400">Cargo não preenchido</em>'}
-              </p>
-            </div>
-            <div class="flex items-center gap-2 self-end sm:self-center">
-              ${ocupado ? `
-                <button onclick="alternarAtivoEquipe('${cargo}')" class="px-2 py-1 rounded font-bold text-[10px] ${m.ativo ? 'bg-emerald-100 text-emerald-800' : 'bg-neutral-200 text-neutral-600'}">
-                  ${m.ativo ? 'Exibindo' : 'Oculto'}
-                </button>
-              ` : ''}
-              <button onclick="abrirModalFormEquipeSES('${cargo}')" class="text-sp-blue font-bold hover:underline">
-                ${ocupado ? 'Editar' : 'Nomear'}
-              </button>
-              ${ocupado ? `
-                <button onclick="desocuparCargo('${cargo}')" class="text-red-600 font-bold hover:underline">Desocupar</button>
-              ` : ''}
-            </div>
-          </div>
-        `;
-      }).join("");
-
-      // Programas no Admin
-      const divP = document.getElementById("listaAdminProgramas");
-      divP.innerHTML = app.programas.map(p => `
-        <div class="p-3 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2">
-          <div>
-            <div class="flex items-center gap-2">
-              <span class="font-bold text-neutral-900">${p.nome}</span>
-              <span class="text-[10px] bg-neutral-100 text-neutral-600 px-1.5 py-0.5 rounded font-semibold uppercase">${p.categoria}</span>
-            </div>
-            <p class="text-[11px] text-neutral-500 mt-0.5">${p.descricao}</p>
-          </div>
-          <div class="flex items-center gap-2 self-end sm:self-center">
-            <button onclick="alternarAtivoPrograma('${p.id}')" class="px-2 py-1 rounded font-bold text-[10px] ${p.ativo ? 'bg-emerald-100 text-emerald-800' : 'bg-neutral-200 text-neutral-600'}">
-              ${p.ativo ? 'Ativo na Capa' : 'Oculto'}
-            </button>
-            <button onclick="abrirModalFormPrograma('${p.id}')" class="text-sp-blue font-bold hover:underline">Editar</button>
-            <button onclick="excluirPrograma('${p.id}')" class="text-red-600 font-bold hover:underline">Excluir</button>
-          </div>
-        </div>
-      `).join("");
-
-      // Hospitais no Admin
-      const tabH = document.getElementById("tabelaAdminHospitais");
-      tabH.innerHTML = app.hospitais.map(h => `
-        <tr class="hover:bg-neutral-50">
-          <td class="p-3 font-bold text-neutral-900">${h.nome}</td>
-          <td class="p-3 font-semibold">${h.status}</td>
-          <td class="p-3 uppercase text-[10px]">${h.regiao}</td>
-          <td class="p-3 text-right space-x-2">
-            <button onclick="abrirModalFormHospital('${h.id}')" class="text-sp-blue font-bold hover:underline">Editar</button>
-            <button onclick="excluirHospital('${h.id}')" class="text-red-600 font-bold hover:underline">Excluir</button>
-          </td>
-        </tr>
-      `).join("");
-
-      // Notícias no Admin
-      const divN = document.getElementById("listaAdminNoticias");
-      divN.innerHTML = app.noticias.map(n => `
-        <div class="p-3 rounded border flex justify-between items-center text-xs">
-          <div>
-            <span class="font-semibold text-neutral-800">${n.titulo}</span>
-          </div>
-          <button onclick="app.noticias = app.noticias.filter(x => x.id !== '${n.id}'); atualizarTudo(true);" class="text-red-600 font-bold ml-2 hover:underline">Excluir</button>
-        </div>
-      `).join("");
-    }
-
-    // --- NOTÍCIAS HOME & PÚBLICO ---
-    function renderizarHomeNoticias() {
-      const container = document.getElementById("homeGridNoticias");
-      const ultimas = app.noticias.slice(0, 2);
-      container.innerHTML = ultimas.map(n => `
-        <article class="bg-white rounded-xl border border-neutral-200 shadow-sm overflow-hidden flex flex-col sm:flex-row hover:border-sp-blue cursor-pointer transition" onclick="abrirNoticiaModal('${n.id}')">
-          <img src="${n.imagem}" alt="${n.titulo}" onerror="this.onerror=null;this.src='${IMG_FALLBACK}'" class="w-full sm:w-44 h-36 object-cover flex-shrink-0">
-          <div class="p-4 flex flex-col justify-between flex-grow">
-            <div>
-              <span class="text-[9px] font-bold text-sp-blue uppercase bg-blue-50 px-2 py-0.5 rounded">${n.categoria}</span>
-              <h4 class="font-bold text-neutral-900 text-sm mt-1.5 leading-snug">${n.titulo}</h4>
-              <p class="text-neutral-500 text-xs mt-1 line-clamp-2">${n.resumo}</p>
-            </div>
-            <span class="text-xs font-bold text-sp-blue mt-3">Ler comunicado completo →</span>
-          </div>
-        </article>
-      `).join("");
-    }
-
-    function renderizarNoticias() {
-      const container = document.getElementById("gridNoticias");
-      container.innerHTML = app.noticias.map(n => `
-        <article class="flex flex-col sm:flex-row gap-4 p-4 hover:bg-neutral-50 transition cursor-pointer" onclick="abrirNoticiaModal('${n.id}')">
-          <img src="${n.imagem}" alt="${n.titulo}" onerror="this.onerror=null;this.src='${IMG_FALLBACK}'" class="w-full sm:w-44 h-28 object-cover rounded-lg flex-shrink-0">
-          <div class="flex flex-col justify-between flex-grow">
-            <div>
-              <div class="flex items-center gap-2 mb-1">
-                <span class="text-[10px] font-bold text-sp-blue uppercase bg-blue-50 px-2 py-0.5 rounded">${n.categoria}</span>
-                <span class="text-[10px] text-neutral-400">${n.data || ''}</span>
-              </div>
-              <h4 class="font-bold text-neutral-900 text-sm mb-1 leading-snug">${n.titulo}</h4>
-              <p class="text-neutral-500 text-xs line-clamp-2">${n.resumo}</p>
-            </div>
-            <div class="flex items-center justify-between mt-2 pt-2 border-t border-neutral-100">
-              <span class="text-xs font-bold text-sp-blue">Ler comunicado →</span>
-              ${n.link ? `
-                <a href="${n.link}" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation()" class="text-xs font-bold text-sp-lightBlue hover:underline inline-flex items-center gap-1">
-                  Link Oficial <i data-lucide="external-link" class="w-3 h-3"></i>
-                </a>
-              ` : ''}
-            </div>
-          </div>
-        </article>
-      `).join("");
-    }
-
-    function abrirNoticiaModal(id) {
-      const n = app.noticias.find(x => x.id === id);
-      if (!n) return;
-      document.getElementById("mNoticiaImg").src = n.imagem || IMG_FALLBACK;
-      document.getElementById("mNoticiaCat").innerText = n.categoria;
-      document.getElementById("mNoticiaTitulo").innerText = n.titulo;
-      document.getElementById("mNoticiaData").innerText = "Publicado em: " + (n.data || "2026");
-      document.getElementById("mNoticiaTexto").innerText = n.resumo;
-      
-      const linkBox = document.getElementById("mNoticiaLinkBox");
-      const linkBtn = document.getElementById("mNoticiaLink");
-      if (n.link && n.link.trim() !== "") {
-        linkBtn.href = n.link;
-        linkBox.classList.remove("hidden");
-      } else {
-        linkBox.classList.add("hidden");
-      }
-
-      document.getElementById("modalNoticia").style.display = "flex";
-      lucide.createIcons();
-    }
-
-    // --- REDE HOSPITALAR PÚBLICA ---
-    function renderizarHospitais() {
-      const filtro = document.getElementById("filtroRegiao").value;
-      const busca = (document.getElementById("buscaHospital").value || "").toLowerCase().trim();
-      const container = document.getElementById("gridHospitais");
-      const semResultado = document.getElementById("semResultadoHospital");
-
-      const lista = app.hospitais.filter(h =>
-        (filtro === "todas" || h.regiao === filtro) &&
-        (busca === "" || h.nome.toLowerCase().includes(busca))
-      );
-
-      semResultado.classList.toggle("hidden", lista.length > 0);
-
-      container.innerHTML = lista.map(h => {
-        let badgeColor = "bg-emerald-100 text-emerald-800";
-        let dotColor = "bg-emerald-500";
-        if (h.status === "Alta Demanda") { badgeColor = "bg-amber-100 text-amber-800"; dotColor = "bg-amber-500"; }
-        if (h.status === "Em Obras / Parcial") { badgeColor = "bg-blue-100 text-blue-800"; dotColor = "bg-blue-500"; }
-        if (h.status === "Pronto-Socorro Restrito") { badgeColor = "bg-red-100 text-red-800"; dotColor = "bg-red-500"; }
-
-        const foto = h.foto || IMG_FALLBACK;
+      secao.classList.remove("hidden");
+      container.innerHTML = lista.map(m => {
+        const fotoHtml = (m.foto && m.foto.trim() !== "")
+          ? `<img src="${m.foto}" alt="${m.nome}" style="width: 64px; height: 64px; min-width: 64px; min-height: 64px; max-width: 64px; max-height: 64px;" class="w-16 h-16 rounded-full object-cover border-2 border-indigo-700 flex-shrink-0 bg-neutral-100 shadow-sm">`
+          : gerarEmblemaPadraoHtml('border-indigo-700', 'bg-indigo-950');
 
         return `
-          <div class="bg-white rounded-xl border border-neutral-200 shadow-sm flex flex-col justify-between overflow-hidden hover:shadow-md transition">
-            <div class="relative h-40 bg-neutral-100 overflow-hidden">
-              <img src="${foto}" alt="${h.nome}" onerror="this.onerror=null;this.src='${IMG_FALLBACK}'" class="w-full h-full object-cover">
-              <span class="absolute top-2.5 right-2.5 inline-flex items-center gap-1.5 text-[10px] font-bold px-2 py-0.5 rounded shadow-sm ${badgeColor}">
-                <span class="w-2 h-2 rounded-full ${dotColor} pulse-dot"></span> ${h.status}
+          <div class="bg-white rounded-xl border border-neutral-200 shadow-sm p-4 flex items-center gap-3.5 hover:shadow-md transition">
+            ${fotoHtml}
+            <div class="min-w-0 flex-1">
+              <span class="text-[9px] font-black uppercase text-indigo-700 bg-indigo-50 px-2 py-0.5 rounded tracking-wider block mb-1 truncate">
+                ${m.cargo}
               </span>
-            </div>
-            <div class="p-4 flex flex-col justify-between flex-grow">
-              <div>
-                <span class="text-[9px] font-extrabold uppercase bg-neutral-100 text-neutral-600 px-2 py-0.5 rounded">${h.tipo}</span>
-                <h4 class="font-bold text-neutral-900 text-sm mt-1.5 leading-snug">${h.nome}</h4>
-                <p class="text-xs text-neutral-500 mt-1 flex items-start gap-1">
-                  <i data-lucide="map-pin" class="w-3.5 h-3.5 text-sp-red flex-shrink-0 mt-0.5"></i>
-                  <span>${h.endereco}</span>
-                </p>
-              </div>
-              <div class="mt-4 pt-3 border-t border-neutral-100 flex justify-between items-center text-xs">
-                <a href="tel:${h.telefone.replace(/\D/g, '')}" class="text-neutral-600 hover:text-sp-blue font-semibold flex items-center gap-1">
-                  <i data-lucide="phone" class="w-3 h-3 text-sp-blue"></i> ${h.telefone}
-                </a>
-                ${h.leitos > 0 ? `
-                  <span class="text-emerald-700 font-bold bg-emerald-50 px-2 py-0.5 rounded text-[11px]">
-                    ${h.leitos} vagas disponíveis
-                  </span>
-                ` : ''}
-              </div>
+              <h4 class="font-bold text-neutral-900 text-sm leading-snug truncate">${m.nome}</h4>
+              <p class="text-[11px] text-neutral-500 mt-0.5 line-clamp-2 leading-relaxed">${m.descricao || 'Corpo clínico e pericial do IEP-SP.'}</p>
             </div>
           </div>
         `;
@@ -2901,120 +2548,95 @@
       lucide.createIcons();
     }
 
-    // --- SEGURANÇA E LOGIN ---
-    function abrirModalLogin() {
-      if (app.logado) {
-        irParaPagina('admin');
+    // --- CORPO DIRETIVO GERAL SES (64x64px RÍGIDO) ---
+    function renderizarEquipe() {
+      const container = document.getElementById("gridEquipe");
+      const nomeados = app.equipe.filter(m => m.ativo && m.nome && m.nome.trim() !== "");
+
+      if (nomeados.length === 0) {
+        container.innerHTML = `<p class="col-span-4 p-8 text-center text-neutral-400 text-xs">Nenhum titular nomeado no momento.</p>`;
         return;
       }
-      document.getElementById("modalLogin").style.display = "flex";
-      document.getElementById("loginErro").classList.add("hidden");
-      document.getElementById("loginUser").value = "";
-      document.getElementById("loginPass").value = "";
+
+      container.innerHTML = nomeados.map(m => {
+        const fotoHtml = (m.foto && m.foto.trim() !== "")
+          ? `<img src="${m.foto}" alt="${m.nome}" style="width: 64px; height: 64px; min-width: 64px; min-height: 64px; max-width: 64px; max-height: 64px;" class="w-16 h-16 rounded-full object-cover border-2 border-sp-blue flex-shrink-0 bg-neutral-100 shadow-sm">`
+          : gerarEmblemaPadraoHtml('border-sp-blue', 'bg-sp-darkBlue');
+
+        return `
+          <div class="bg-white rounded-xl border border-neutral-200 shadow-sm p-4 flex items-center gap-3.5 hover:shadow-md transition">
+            ${fotoHtml}
+            <div class="min-w-0 flex-1">
+              <span class="text-[9px] font-black uppercase text-sp-blue bg-blue-50 px-2 py-0.5 rounded tracking-wider block mb-1 truncate">
+                ${m.cargo}
+              </span>
+              <h4 class="font-bold text-neutral-900 text-sm leading-snug truncate">${m.nome}</h4>
+              <p class="text-[11px] text-neutral-500 mt-0.5 line-clamp-2 leading-relaxed">${m.descricao || 'Nomeação Oficial pelo Diário do Estado.'}</p>
+            </div>
+          </div>
+        `;
+      }).join("");
       lucide.createIcons();
     }
 
-    function fecharModalLogin() {
-      document.getElementById("modalLogin").style.display = "none";
-    }
+    // --- PROGRAMAS NA CAPA (GRADE UNIFORME - IEP, DOSE CERTA E OUTROS) ---
+    function renderizarHomeProgramas() {
+      const container = document.getElementById("homeGridProgramas");
+      const ativos = app.programas.filter(p => p.ativo);
 
-    function alternarVerSenha() {
-      const input = document.getElementById("loginPass");
-      const icone = document.getElementById("iconeOlho");
-      if (input.type === "password") {
-        input.type = "text";
-        icone.setAttribute("data-lucide", "eye-off");
-      } else {
-        input.type = "password";
-        icone.setAttribute("data-lucide", "eye");
+      if (ativos.length === 0) {
+        container.innerHTML = `<p class="col-span-3 text-neutral-400 text-xs py-4">Nenhum programa oficial ativo no momento.</p>`;
+        return;
       }
+
+      container.innerHTML = ativos.map(p => `
+        <div class="bg-white p-5 rounded-xl border border-neutral-200 shadow-sm flex flex-col justify-between hover:shadow-md hover:border-sp-blue transition">
+          <div>
+            <span class="text-[9px] font-black uppercase text-sp-blue bg-blue-50 px-2 py-0.5 rounded">${p.categoria}</span>
+            <h4 class="font-bold text-neutral-900 text-sm mt-2 mb-1 leading-snug">${p.nome}</h4>
+            <p class="text-neutral-500 text-xs line-clamp-3 leading-relaxed">${p.descricao}</p>
+          </div>
+          ${p.link ? `
+            <a href="${p.link}" class="text-xs font-bold text-sp-blue hover:underline flex items-center gap-1 mt-4">
+              Acessar Programa <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
+            </a>
+          ` : `
+            <span class="text-[11px] font-semibold text-neutral-400 mt-4">Atendimento na Rede SUS</span>
+          `}
+        </div>
+      `).join("");
       lucide.createIcons();
     }
 
-    function realizarLogin(e) {
-      e.preventDefault();
-      const u = document.getElementById("loginUser").value.trim();
-      const p = document.getElementById("loginPass").value.trim();
+    // --- PROGRAMAS NA PÁGINA DEDICADA ---
+    function renderizarProgramas() {
+      const container = document.getElementById("gridProgramas");
+      const ativos = app.programas.filter(p => p.ativo);
 
-      if (u === app.user && p === app.pass) {
-        app.logado = true;
-        fecharModalLogin();
-        document.getElementById("labelAcesso").innerText = "Painel Conectado";
-        mostrarToast("Login realizado com sucesso!");
-        irParaPagina('admin');
-      } else {
-        document.getElementById("loginErro").classList.remove("hidden");
-      }
-    }
-
-    function redefinirSenhaPadrao() {
-      if (confirm("Deseja redefinir o acesso para o padrão (admin / saude@sp2026)?")) {
-        app.user = "admin";
-        app.pass = "saude@sp2026";
-        localStorage.setItem("ses_user", "admin");
-        localStorage.setItem("ses_pass", "saude@sp2026");
-        document.getElementById("loginUser").value = "admin";
-        document.getElementById("loginPass").value = "saude@sp2026";
-        alert("Acesso redefinido com sucesso:\nUsuário: admin\nSenha: saude@sp2026");
-      }
-    }
-
-    function alterarCredenciais(e) {
-      e.preventDefault();
-      const novoU = document.getElementById("novoUsuario").value.trim();
-      const novaP = document.getElementById("novaSenha").value.trim();
-      const confP = document.getElementById("confirmaSenha").value.trim();
-
-      if (novaP.length < 5) {
-        alert("A senha precisa ter pelo menos 5 caracteres!");
-        return;
-      }
-      if (novaP !== confP) {
-        alert("As senhas não coincidem!");
+      if (ativos.length === 0) {
+        container.innerHTML = `<p class="col-span-3 text-neutral-400 text-xs py-4">Nenhum programa oficial ativo no momento.</p>`;
         return;
       }
 
-      app.user = novoU;
-      app.pass = novaP;
-      localStorage.setItem("ses_user", novoU);
-      localStorage.setItem("ses_pass", novaP);
-
-      document.getElementById("novoUsuario").value = "";
-      document.getElementById("novaSenha").value = "";
-      document.getElementById("confirmaSenha").value = "";
-      mostrarToast("Novas credenciais salvas com sucesso!");
-    }
-
-    function deslogar() {
-      app.logado = false;
-      document.getElementById("labelAcesso").innerText = "Área do Servidor";
-      irParaPagina('inicio');
-      mostrarToast("Sessão finalizada!");
-    }
-
-    function mudarAba(aba) {
-      const abas = ["transparencia", "iep", "remedios", "hospitais", "equipe", "programas", "alerta", "noticias"];
-      abas.forEach(a => {
-        const sec = document.getElementById("sec" + a.charAt(0).toUpperCase() + a.slice(1));
-        const tab = document.getElementById("tab" + a.charAt(0).toUpperCase() + a.slice(1));
-        if (a === aba) {
-          if (sec) sec.classList.remove("hidden");
-          if (tab) tab.className = "px-3 py-2 rounded text-xs font-bold uppercase bg-sp-blue text-white shadow-sm flex-shrink-0";
-        } else {
-          if (sec) sec.classList.add("hidden");
-          if (tab) tab.className = "px-3 py-2 rounded text-xs font-bold uppercase bg-white text-neutral-700 hover:bg-neutral-100 flex-shrink-0";
-        }
-      });
-    }
-
-    function alternarContraste() {
-      document.body.classList.toggle("alto-contraste");
-    }
-
-    let nivelFonte = 0;
-    function ajustarFonte(delta) {
-      nivelFonte = delta === 0 ? 0 : Math.max(-2, Math.min(3, nivelFonte + delta));
-      document.documentElement.style.fontSize = (100 + (nivelFonte * 10)) + "%";
+      container.innerHTML = ativos.map(p => `
+        <div class="bg-white p-5 rounded-xl border border-neutral-200 shadow-sm flex flex-col justify-between hover:shadow-md hover:border-sp-blue transition">
+          <div>
+            <span class="text-[10px] font-black uppercase text-sp-blue bg-blue-50 px-2 py-0.5 rounded">${p.categoria}</span>
+            <h4 class="font-bold text-neutral-800 text-sm mt-2 mb-1 uppercase">${p.nome}</h4>
+            <p class="text-neutral-500 text-xs mb-3 leading-relaxed">${p.descricao}</p>
+          </div>
+          ${p.link ? `
+            <a href="${p.link}" class="text-xs font-bold text-sp-blue hover:underline flex items-center gap-1 mt-2">
+              Acessar Programa <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
+            </a>
+          ` : `
+            <span class="text-xs font-semibold text-neutral-400 mt-2 flex items-center gap-1">
+              Atendimento na Rede SUS
+            </span>
+          `}
+        </div>
+      `).join("");
+      lucide.createIcons();
     }
   </script>
 </body>
