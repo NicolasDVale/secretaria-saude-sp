@@ -46,7 +46,7 @@
       background-size: cover;
       background-position: center;
     }
-    #menuMobile.open { max-height: 520px; }
+    #menuMobile.open { max-height: 560px; }
     #menuMobile { max-height: 0; overflow: hidden; transition: max-height .3s ease; }
     .pulse-dot { animation: pulse 2s infinite; }
     @keyframes pulse { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: .4; transform: scale(1.2); } }
@@ -54,7 +54,7 @@
 </head>
 <body class="bg-sp-gray text-neutral-800 min-h-screen flex flex-col antialiased font-sans">
 
-  <!-- TELA DE TRANSIÇÃO / LOADER -->
+  <!-- LOADER SUAVE DE SINCRONIZAÇÃO -->
   <div id="loadingOverlay" class="fixed inset-0 bg-white z-[100] flex flex-col items-center justify-center transition-opacity duration-300">
     <div class="bg-sp-blue text-white rounded-xl w-16 h-16 flex items-center justify-center font-black text-2xl shadow-lg mb-4 animate-pulse">
       SUS
@@ -109,12 +109,12 @@
         </div>
       </a>
 
-      <!-- Menu Principal -->
-      <nav class="hidden lg:flex items-center gap-3 xl:gap-4 text-xs font-bold text-neutral-700 uppercase">
+      <!-- Menu Computador -->
+      <nav class="hidden lg:flex items-center gap-3.5 xl:gap-4 text-xs font-bold text-neutral-700 uppercase">
         <button onclick="irParaPagina('inicio')" class="nav-item hover:text-sp-blue transition" data-page="inicio">Início</button>
         <button onclick="irParaPagina('transparencia')" class="nav-item hover:text-sp-blue transition" data-page="transparencia">Transparência</button>
-        <button onclick="irParaPagina('iep')" class="nav-item hover:text-indigo-600 transition text-indigo-700" data-page="iep">Psicologia (IEP-SP)</button>
-        <button onclick="irParaPagina('medicamentos')" class="nav-item hover:text-emerald-600 transition text-emerald-700" data-page="medicamentos">Remédios</button>
+        <button onclick="irParaPagina('iep')" class="nav-item hover:text-indigo-600 transition text-indigo-700 font-extrabold" data-page="iep">Psicologia (IEP-SP)</button>
+        <button onclick="irParaPagina('medicamentos')" class="nav-item hover:text-emerald-600 transition text-emerald-700 font-extrabold" data-page="medicamentos">Remédios</button>
         <button onclick="irParaPagina('hospitais')" class="nav-item hover:text-sp-blue transition" data-page="hospitais">Hospitais</button>
         <button onclick="irParaPagina('equipe')" class="nav-item hover:text-sp-blue transition" data-page="equipe">Corpo Diretivo</button>
         <button onclick="irParaPagina('programas')" class="nav-item hover:text-sp-blue transition" data-page="programas">Programas</button>
@@ -133,9 +133,9 @@
         <button onclick="irParaPagina('inicio'); fecharMenuMobile()" class="text-left py-1">Início</button>
         <button onclick="irParaPagina('transparencia'); fecharMenuMobile()" class="text-left py-1">Transparência & Repasses</button>
         <button onclick="irParaPagina('iep'); fecharMenuMobile()" class="text-left py-1 text-indigo-700 font-black">Instituto de Psicologia (IEP-SP)</button>
-        <button onclick="irParaPagina('medicamentos'); fecharMenuMobile()" class="text-left py-1 text-emerald-700 font-black">Farmácia & Pedidos de Remédios</button>
+        <button onclick="irParaPagina('medicamentos'); fecharMenuMobile()" class="text-left py-1 text-emerald-700 font-black">Farmácia & Pedido de Remédios</button>
         <button onclick="irParaPagina('hospitais'); fecharMenuMobile()" class="text-left py-1">Rede Hospitalar</button>
-        <button onclick="irParaPagina('equipe'); fecharMenuMobile()" class="text-left py-1">Corpo Diretivo & Cargos</button>
+        <button onclick="irParaPagina('equipe'); fecharMenuMobile()" class="text-left py-1">Corpo Diretivo da Secretaria</button>
         <button onclick="irParaPagina('programas'); fecharMenuMobile()" class="text-left py-1">Programas Oficiais</button>
         <button onclick="irParaPagina('noticias'); fecharMenuMobile()" class="text-left py-1">Notícias Oficiais</button>
       </div>
@@ -165,7 +165,7 @@
     </div>
   </div>
 
-  <!-- ==================== 1. PÁGINA INICIAL ==================== -->
+  <!-- ==================== 1. PÁGINA INICIAL (MODERNA & COMPLETA) ==================== -->
   <main id="viewInicio" class="view-section flex-grow">
     
     <!-- HERO SECTION -->
@@ -179,7 +179,7 @@
             Saúde pública de qualidade, transparência e acolhimento em todo o Estado.
           </h2>
           <p class="text-blue-100 text-xs sm:text-sm mb-6 max-w-xl leading-relaxed">
-            Consulte a aplicação orçamentária do Estado, acesse os serviços do <strong>Instituto Estadual de Psicologia (IEP-SP)</strong>, solicite medicamentos e acompanhe a rede hospitalar.
+            Consulte a aplicação orçamentária do Estado, acesse os serviços especializados do <strong>Instituto Estadual de Psicologia (IEP-SP)</strong>, solicite medicamentos e acompanhe a rede hospitalar.
           </p>
           <div class="flex flex-wrap gap-2.5">
             <button onclick="irParaPagina('iep')" class="bg-white text-indigo-950 font-black px-4 py-2.5 rounded text-xs uppercase shadow hover:bg-neutral-100 transition flex items-center gap-1.5">
@@ -230,7 +230,7 @@
         </div>
         <div>
           <p id="kpiMedicamentos" class="text-xl sm:text-2xl font-black text-indigo-700">0</p>
-          <p class="text-[10px] uppercase font-bold text-neutral-500 mt-0.5">Remédios Cadastrados</p>
+          <p class="text-[10px] uppercase font-bold text-neutral-500 mt-0.5">Remédios em Estoque</p>
         </div>
         <div>
           <p id="kpiExecucao" class="text-xl sm:text-2xl font-black text-amber-600">0%</p>
@@ -239,27 +239,60 @@
       </div>
     </section>
 
-    <!-- DESTAQUE DO IEP-SP NA HOME (DINÂMICO) -->
-    <section class="max-w-7xl mx-auto px-4 py-8">
-      <div class="bg-gradient-to-r from-indigo-900 to-sp-darkBlue text-white p-6 sm:p-8 rounded-2xl shadow-lg border border-indigo-500/30 flex flex-col md:flex-row items-center justify-between gap-6">
-        <div class="max-w-2xl">
-          <span class="bg-indigo-500/30 border border-indigo-400 text-indigo-200 text-[10px] font-black uppercase px-2.5 py-1 rounded-full mb-3 inline-block">
-            Unidade Especializada SES-SP &bull; Sede: <span id="homeIepSedeDestaque">Hospital Jefferson</span>
+    <!-- DESTAQUES NOBRES: IEP-SP & REMÉDIOS -->
+    <section class="max-w-7xl mx-auto px-4 py-8 grid grid-cols-1 md:grid-cols-2 gap-6">
+      
+      <!-- Card Destaque IEP -->
+      <div class="bg-gradient-to-br from-indigo-950 via-indigo-900 to-sp-darkBlue text-white p-6 sm:p-7 rounded-2xl shadow-md border border-indigo-400/30 flex flex-col justify-between">
+        <div>
+          <span class="bg-indigo-500/30 border border-indigo-400/50 text-indigo-200 text-[10px] font-black uppercase px-2.5 py-0.5 rounded-full inline-block mb-3">
+            Sede: <span id="homeIepSedeDestaque">Hospital Jefferson</span>
           </span>
-          <h3 class="text-xl sm:text-2xl font-black uppercase tracking-tight">Instituto Estadual de Psicologia (IEP-SP)</h3>
-          <p id="homeIepDescricao" class="text-indigo-100 text-xs sm:text-sm mt-2 leading-relaxed">
-            Atendimento psicológico comunitário, perícias e laudos de aptidão funcional para forças de segurança, homologação de porte de arma e regulação de urgências psiquiátricas integradas ao SAMU 192.
+          <h3 class="text-xl font-black uppercase tracking-tight flex items-center gap-2">
+            <i data-lucide="brain" class="w-5 h-5 text-indigo-300"></i> Instituto de Psicologia (IEP-SP)
+          </h3>
+          <p id="homeIepDescricao" class="text-indigo-100 text-xs mt-2 leading-relaxed">
+            Atendimento psicológico comunitário, suporte a servidores, laudos de aptidão funcional e homologação de porte de arma de fogo.
           </p>
         </div>
-        <button onclick="irParaPagina('iep')" class="bg-white text-indigo-950 font-black text-xs uppercase px-6 py-3 rounded-lg shadow-md hover:bg-neutral-100 transition whitespace-nowrap">
-          Acessar Serviços do IEP-SP →
-        </button>
+        <div class="mt-6 flex flex-wrap gap-2">
+          <button onclick="irParaPagina('iep')" class="bg-white text-indigo-950 font-black text-xs uppercase px-4 py-2 rounded-lg shadow hover:bg-neutral-100 transition">
+            Conhecer o IEP-SP →
+          </button>
+          <button onclick="irParaPagina('iep'); setTimeout(() => abrirModalChamadoIEP('Atendimento Assistencial (População / Servidores)'), 100)" class="bg-indigo-700 hover:bg-indigo-600 text-white font-bold text-xs uppercase px-4 py-2 rounded-lg transition">
+            Solicitar Acolhimento
+          </button>
+        </div>
       </div>
+
+      <!-- Card Destaque Farmácia -->
+      <div class="bg-gradient-to-br from-emerald-950 via-emerald-900 to-teal-950 text-white p-6 sm:p-7 rounded-2xl shadow-md border border-emerald-400/30 flex flex-col justify-between">
+        <div>
+          <span class="bg-emerald-500/30 border border-emerald-400/50 text-emerald-200 text-[10px] font-black uppercase px-2.5 py-0.5 rounded-full inline-block mb-3">
+            Programa Dose Certa SP
+          </span>
+          <h3 class="text-xl font-black uppercase tracking-tight flex items-center gap-2">
+            <i data-lucide="pill" class="w-5 h-5 text-emerald-300"></i> Farmácia & Medicamentos Gratuitos
+          </h3>
+          <p class="text-emerald-100 text-xs mt-2 leading-relaxed">
+            Acesso simplificado a remédios de uso contínuo, saúde mental e alto custo. Faça o pedido direto no formulário com protocolo eletrônico.
+          </p>
+        </div>
+        <div class="mt-6 flex flex-wrap gap-2">
+          <button onclick="irParaPagina('medicamentos')" class="bg-white text-emerald-950 font-black text-xs uppercase px-4 py-2 rounded-lg shadow hover:bg-neutral-100 transition">
+            Fazer Pedido de Remédio →
+          </button>
+          <button onclick="irParaPagina('medicamentos')" class="bg-emerald-700 hover:bg-emerald-600 text-white font-bold text-xs uppercase px-4 py-2 rounded-lg transition">
+            Ver Estoque Disponível
+          </button>
+        </div>
+      </div>
+
     </section>
 
     <!-- PORTAIS TEMÁTICOS (ACESSO RÁPIDO) -->
     <section class="max-w-7xl mx-auto px-4 py-4">
-      <h3 class="text-xs font-black text-sp-blue uppercase tracking-wider mb-4">Serviços e Transparência</h3>
+      <h3 class="text-xs font-black text-sp-blue uppercase tracking-wider mb-4">Portais Temáticos do Estado</h3>
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         
         <div onclick="irParaPagina('transparencia')" class="bg-white p-5 rounded-xl border border-neutral-200 shadow-sm hover:shadow-md hover:border-sp-blue cursor-pointer transition flex flex-col justify-between group">
@@ -268,20 +301,9 @@
               <i data-lucide="pie-chart" class="w-5 h-5"></i>
             </div>
             <h4 class="font-black text-neutral-900 text-sm uppercase">Transparência & Repasses</h4>
-            <p class="text-neutral-500 text-xs mt-1 leading-relaxed">Consulte o orçamento total e os repasses diretos a hospitais e programas.</p>
+            <p class="text-neutral-500 text-xs mt-1 leading-relaxed">Consulte o orçamento total e os repasses diretos aos hospitais e institutos.</p>
           </div>
           <span class="text-xs font-bold text-sp-blue mt-4 group-hover:underline flex items-center gap-1">Acessar Detalhamento →</span>
-        </div>
-
-        <div onclick="irParaPagina('medicamentos')" class="bg-white p-5 rounded-xl border border-neutral-200 shadow-sm hover:shadow-md hover:border-emerald-600 cursor-pointer transition flex flex-col justify-between group">
-          <div>
-            <div class="w-10 h-10 rounded-lg bg-emerald-50 text-emerald-600 flex items-center justify-center mb-3 group-hover:scale-110 transition">
-              <i data-lucide="pill" class="w-5 h-5"></i>
-            </div>
-            <h4 class="font-black text-neutral-900 text-sm uppercase">Remédios (Dose Certa)</h4>
-            <p class="text-neutral-500 text-xs mt-1 leading-relaxed">Consulte os medicamentos disponíveis e solicite sua retirada.</p>
-          </div>
-          <span class="text-xs font-bold text-emerald-600 mt-4 group-hover:underline flex items-center gap-1">Fazer Pedido →</span>
         </div>
 
         <div onclick="irParaPagina('hospitais')" class="bg-white p-5 rounded-xl border border-neutral-200 shadow-sm hover:shadow-md hover:border-sp-blue cursor-pointer transition flex flex-col justify-between group">
@@ -290,7 +312,7 @@
               <i data-lucide="building-2" class="w-5 h-5"></i>
             </div>
             <h4 class="font-black text-neutral-900 text-sm uppercase">Rede Hospitalar 24h</h4>
-            <p class="text-neutral-500 text-xs mt-1 leading-relaxed">Monitoramento dos hospitais gerais e institutos especializados do Estado.</p>
+            <p class="text-neutral-500 text-xs mt-1 leading-relaxed">Monitoramento de leitos, AMEs e hospitais estaduais de referência.</p>
           </div>
           <span class="text-xs font-bold text-sky-600 mt-4 group-hover:underline flex items-center gap-1">Ver Unidades →</span>
         </div>
@@ -301,9 +323,20 @@
               <i data-lucide="users" class="w-5 h-5"></i>
             </div>
             <h4 class="font-black text-neutral-900 text-sm uppercase">Corpo Diretivo SES</h4>
-            <p class="text-neutral-500 text-xs mt-1 leading-relaxed">Conheça os titulares nomeados nos 7 cargos oficiais de gestão da Saúde.</p>
+            <p class="text-neutral-500 text-xs mt-1 leading-relaxed">Secretário da Saúde e equipe de gestão dos 7 cargos de liderança pública.</p>
           </div>
           <span class="text-xs font-bold text-amber-600 mt-4 group-hover:underline flex items-center gap-1">Ver Gestão →</span>
+        </div>
+
+        <div onclick="irParaPagina('programas')" class="bg-white p-5 rounded-xl border border-neutral-200 shadow-sm hover:shadow-md hover:border-purple-600 cursor-pointer transition flex flex-col justify-between group">
+          <div>
+            <div class="w-10 h-10 rounded-lg bg-purple-50 text-purple-600 flex items-center justify-center mb-3 group-hover:scale-110 transition">
+              <i data-lucide="heart-handshake" class="w-5 h-5"></i>
+            </div>
+            <h4 class="font-black text-neutral-900 text-sm uppercase">Programas e Campanhas</h4>
+            <p class="text-neutral-500 text-xs mt-1 leading-relaxed">Carretas de mamografia, Central CROSS e Fundação Pró-Sangue.</p>
+          </div>
+          <span class="text-xs font-bold text-purple-600 mt-4 group-hover:underline flex items-center gap-1">Ver Programas →</span>
         </div>
 
       </div>
@@ -413,64 +446,106 @@
 
     </div>
 
+    <!-- CORPO DIRETIVO E CARGOS INTERNOS DO IEP-SP -->
+    <div id="secaoEquipeIep" class="mb-10">
+      <div class="border-l-4 border-indigo-700 pl-3 mb-6">
+        <span class="text-xs font-bold text-indigo-700 uppercase tracking-wider">Estrutura Interna</span>
+        <h3 class="text-xl font-black text-sp-darkBlue uppercase">Corpo Diretivo & Lideranças do IEP-SP</h3>
+      </div>
+      <div id="gridEquipeIep" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4"></div>
+    </div>
+
     <!-- Banner Informativo -->
     <div class="bg-neutral-100 rounded-xl p-5 border border-neutral-300 text-xs text-neutral-600 flex items-center gap-3">
       <i data-lucide="info" class="w-6 h-6 text-indigo-700 flex-shrink-0"></i>
-      <p>Todas as solicitações de atendimento e perícias enviadas através deste portal oficial são despachadas imediatamente para a central de triagem da diretoria correspondente.</p>
+      <p>Todas as solicitações de atendimento e perícias são transmitidas em tempo real para o canal de triagem da diretoria correspondente.</p>
     </div>
   </main>
 
-  <!-- ==================== 3. PÁGINA: MEDICAMENTOS (DOSE CERTA) ==================== -->
+  <!-- ==================== 3. PÁGINA: MEDICAMENTOS (FORMULÁRIO INTEGRADO) ==================== -->
   <main id="viewMedicamentos" class="view-section hidden flex-grow max-w-7xl mx-auto px-4 py-8 w-full">
     <div class="border-l-4 border-emerald-600 pl-3 mb-6">
       <span class="text-xs font-bold text-emerald-700 uppercase tracking-wider">Assistência Farmacêutica Estadual</span>
       <h2 class="text-xl sm:text-3xl font-black text-sp-darkBlue uppercase">
         Programa Dose Certa — Solicitação de Medicamentos
       </h2>
-      <p class="text-xs text-neutral-500 mt-1">Consulte os remédios fornecidos gratuitamente e solicite sua retirada.</p>
+      <p class="text-xs text-neutral-500 mt-1">Consulte os remédios fornecidos gratuitamente e solicite sua retirada diretamente abaixo.</p>
     </div>
 
-    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-      <!-- Lista de Remédios -->
-      <div class="lg:col-span-2 bg-white rounded-xl border border-neutral-200 shadow-sm p-5">
-        <h3 class="font-bold text-sm text-neutral-900 uppercase mb-3 flex items-center justify-between">
-          <span>Catálogo de Medicamentos Disponíveis</span>
-          <span id="contagemRemedios" class="text-xs font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded">0 itens</span>
-        </h3>
-        <input type="text" id="buscaRemedio" oninput="renderizarListaRemediosPublica()" placeholder="Filtrar por nome do remédio ou indicação..." class="w-full text-xs p-2.5 border rounded-lg mb-4 outline-none focus:border-emerald-600">
-        <div id="gridRemediosPublica" class="divide-y divide-neutral-100 text-xs max-h-[500px] overflow-y-auto"></div>
-      </div>
+    <!-- FORMULÁRIO DE PEDIDO COM SELETOR INTEGRADO (SEM ROLAR A TELA) -->
+    <div id="boxPedidoMedicamento" class="bg-white rounded-2xl border border-neutral-200 shadow-md p-6 sm:p-8 mb-10 border-t-8 border-emerald-600">
+      <div class="max-w-3xl mx-auto">
+        <div class="text-center mb-6">
+          <span class="text-[10px] font-black uppercase tracking-wider bg-emerald-100 text-emerald-800 px-2.5 py-1 rounded">Protocolo Eletrônico</span>
+          <h3 class="text-lg sm:text-xl font-black text-neutral-900 uppercase mt-1.5">Preenchimento de Pedido Dose Certa</h3>
+          <p class="text-xs text-neutral-500">Selecione o medicamento desejado e insira seus dados para despacho imediato.</p>
+        </div>
 
-      <!-- Formulário Direto de Pedido -->
-      <div class="bg-white rounded-xl border border-neutral-200 shadow-sm p-6 border-t-4 border-emerald-600 h-fit">
-        <h3 class="font-black text-sm uppercase text-neutral-900 mb-1">Solicitar Medicamento</h3>
-        <p class="text-xs text-neutral-500 mb-4">O pedido será despachado para a triagem farmacêutica estadual.</p>
-        <form onsubmit="enviarPedidoMedicamentoDiscord(event)" class="space-y-3 text-xs">
-          <div>
-            <label class="font-bold text-neutral-700">Nome do Paciente</label>
-            <input type="text" id="medPedNome" required placeholder="Nome Completo" class="w-full p-2 border rounded mt-1 outline-none focus:border-emerald-600">
+        <form onsubmit="enviarPedidoMedicamentoDiscord(event)" class="space-y-4 text-xs">
+          
+          <!-- SELETOR DINÂMICO DE REMÉDIO -->
+          <div class="bg-emerald-50/70 p-4 rounded-xl border border-emerald-200">
+            <label class="font-black text-emerald-900 block mb-1 text-xs uppercase">
+              1. Selecione o Medicamento Disponível
+            </label>
+            <select id="medSelectField" onchange="aoMudarSelectMedicamento()" class="w-full p-2.5 bg-white border border-emerald-300 rounded-lg font-bold text-xs outline-none focus:ring-2 focus:ring-emerald-500">
+              <!-- Populado via JS com os remédios cadastrados -->
+            </select>
+
+            <!-- Card com detalhes do remédio escolhido -->
+            <div id="medDetalhesPreview" class="mt-2.5 p-2.5 bg-white rounded-lg border border-emerald-200 text-[11px] text-neutral-600">
+              <span id="medPrevCategoria" class="font-extrabold text-emerald-800 uppercase text-[9px] block"></span>
+              <p id="medPrevDescricao" class="mt-0.5"></p>
+            </div>
+
+            <!-- Campo caso escolha "Outro" -->
+            <div id="boxMedOutro" class="mt-3 hidden">
+              <label class="font-bold text-neutral-700 block mb-1">Especifique o Medicamento Desejado:</label>
+              <input type="text" id="medOutroNome" placeholder="Digite o nome completo e dosagem do remédio" class="w-full p-2 bg-white border border-neutral-300 rounded-lg outline-none">
+            </div>
           </div>
-          <div>
-            <label class="font-bold text-neutral-700">Número do Cartão SUS</label>
-            <input type="text" id="medPedSus" required placeholder="898 0000 0000 0000" class="w-full p-2 border rounded mt-1 outline-none focus:border-emerald-600">
+
+          <!-- DADOS DO PACIENTE -->
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+            <div class="sm:col-span-2">
+              <label class="font-bold text-neutral-700 block mb-1">Nome Completo do Paciente</label>
+              <input type="text" id="medPedNome" required placeholder="Nome Completo" class="w-full p-2.5 border rounded-lg outline-none focus:border-emerald-600">
+            </div>
+            <div>
+              <label class="font-bold text-neutral-700 block mb-1">Número do Cartão SUS</label>
+              <input type="text" id="medPedSus" required placeholder="898 0000 0000 0000" class="w-full p-2.5 border rounded-lg outline-none focus:border-emerald-600">
+            </div>
           </div>
-          <div>
-            <label class="font-bold text-neutral-700">WhatsApp / Telefone</label>
-            <input type="text" id="medPedTel" required placeholder="(11) 90000-0000" class="w-full p-2 border rounded mt-1 outline-none focus:border-emerald-600">
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <div>
+              <label class="font-bold text-neutral-700 block mb-1">WhatsApp / Telefone para Contato</label>
+              <input type="text" id="medPedTel" required placeholder="(11) 90000-0000" class="w-full p-2.5 border rounded-lg outline-none focus:border-emerald-600">
+            </div>
+            <div>
+              <label class="font-bold text-neutral-700 block mb-1">Farmácia / Cidade de Retirada Preferencial</label>
+              <input type="text" id="medPedLocal" required placeholder="Ex: Farmácia Dose Certa - Centro, SP" class="w-full p-2.5 border rounded-lg outline-none focus:border-emerald-600">
+            </div>
           </div>
-          <div>
-            <label class="font-bold text-neutral-700">Medicamento Desejado</label>
-            <input type="text" id="medPedRemedio" required placeholder="Nome do remédio e dosagem" class="w-full p-2 border rounded mt-1 outline-none focus:border-emerald-600">
-          </div>
-          <div>
-            <label class="font-bold text-neutral-700">Cidade / Farmácia de Retirada Preferencial</label>
-            <input type="text" id="medPedLocal" required placeholder="Ex: Farmácia Dose Certa - Centro, SP" class="w-full p-2 border rounded mt-1 outline-none focus:border-emerald-600">
-          </div>
-          <button type="submit" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold p-2.5 rounded-lg uppercase tracking-wide transition shadow mt-2">
-            Confirmar e Enviar Pedido
+
+          <button type="submit" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-black p-3 rounded-xl uppercase tracking-wide transition shadow-md text-xs mt-2">
+            Confirmar e Transmitir Solicitação para Farmácia
           </button>
         </form>
       </div>
+    </div>
+
+    <!-- CATÁLOGO COMPLETO PARA CONSULTA -->
+    <div class="bg-white rounded-xl border border-neutral-200 shadow-sm p-6">
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4">
+        <div>
+          <h3 class="font-black text-sm uppercase text-neutral-900">Catálogo Geral de Remédios Disponíveis</h3>
+          <p class="text-xs text-neutral-500">Toque em "Selecionar este" para preencher diretamente no formulário acima.</p>
+        </div>
+        <span id="contagemRemedios" class="text-xs font-bold text-emerald-800 bg-emerald-50 px-2.5 py-1 rounded w-fit">0 itens</span>
+      </div>
+      <input type="text" id="buscaRemedio" oninput="renderizarListaRemediosPublica()" placeholder="Buscar remédio por nome ou indicação..." class="w-full text-xs p-2.5 border rounded-lg mb-4 outline-none focus:border-emerald-600">
+      <div id="gridRemediosPublica" class="divide-y divide-neutral-100 text-xs"></div>
     </div>
   </main>
 
@@ -481,7 +556,7 @@
       <h2 class="text-xl sm:text-3xl font-black text-sp-darkBlue uppercase">
         Transparência Orçamentária e Repasses da Saúde
       </h2>
-      <p class="text-xs text-neutral-500 mt-1">Acompanhamento contínuo da aplicação e envio de verbas a hospitais, institutos e programas cadastrados.</p>
+      <p class="text-xs text-neutral-500 mt-1">Acompanhamento contínuo da aplicação e envio de verbas aos hospitais e institutos cadastrados.</p>
     </div>
 
     <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
@@ -513,7 +588,7 @@
       </div>
     </div>
 
-    <!-- Lista de Destinações e Repasses -->
+    <!-- Lista de Repasses -->
     <div class="bg-white rounded-lg border border-neutral-200 shadow-sm overflow-hidden mb-6">
       <div class="p-3.5 bg-neutral-100 font-bold text-xs uppercase text-neutral-700 border-b border-neutral-200 flex justify-between items-center">
         <span>Destinações e Repasses por Entidade / Programa</span>
@@ -523,12 +598,12 @@
     </div>
   </main>
 
-  <!-- ==================== 5. PÁGINA: CORPO DIRETIVO ==================== -->
+  <!-- ==================== 5. PÁGINA: CORPO DIRETIVO DA SECRETARIA ==================== -->
   <main id="viewEquipe" class="view-section hidden flex-grow max-w-7xl mx-auto px-4 py-8 w-full">
     <div class="border-l-4 border-sp-blue pl-3 mb-6">
       <span class="text-xs font-bold text-sp-blue uppercase tracking-wider">Estrutura Organizacional</span>
-      <h2 class="text-xl sm:text-3xl font-black text-sp-darkBlue uppercase">Corpo Diretivo e Gestão SES-SP</h2>
-      <p class="text-xs text-neutral-500 mt-1">Titulares oficiais nomeados no Diário do Estado para os 7 cargos de liderança.</p>
+      <h2 class="text-xl sm:text-3xl font-black text-sp-darkBlue uppercase">Corpo Diretivo da Secretaria da Saúde</h2>
+      <p class="text-xs text-neutral-500 mt-1">Titulares oficiais nomeados para os 7 cargos de liderança do Estado.</p>
     </div>
     <div id="gridEquipe" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4"></div>
   </main>
@@ -615,7 +690,7 @@
         🏥 Hospitais
       </button>
       <button onclick="mudarAba('equipe')" id="tabEquipe" class="px-3 py-2 rounded text-xs font-bold uppercase bg-white text-neutral-700 hover:bg-neutral-100">
-        👥 Equipe & Cargos
+        👥 Equipe & Cargos SES
       </button>
       <button onclick="mudarAba('programas')" id="tabProgramas" class="px-3 py-2 rounded text-xs font-bold uppercase bg-white text-neutral-700 hover:bg-neutral-100">
         💉 Programas
@@ -648,15 +723,14 @@
 
       <div class="bg-white p-5 rounded-lg border border-neutral-300 shadow-sm">
         <h3 id="formDestTitle" class="text-xs font-black uppercase text-sp-blue mb-1">2. Escolher Repasse / Destinação de Verba</h3>
-        <p class="text-xs text-neutral-500 mb-4">Selecione para qual hospital, instituto ou programa cadastrado a verba será enviada (sem entidades extras fantasma).</p>
+        <p class="text-xs text-neutral-500 mb-4">Selecione para qual hospital, instituto ou programa cadastrado a verba será enviada.</p>
 
         <form onsubmit="salvarDestinacao(event)" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 text-xs">
           <input type="hidden" id="destId">
           <div>
             <label class="font-bold text-neutral-700">Entidade / Programa Beneficiado</label>
-            <!-- DROPDOWN 100% DINÂMICO -->
             <select id="destEntidade" onchange="atualizarNomeDestinacaoAuto()" class="w-full p-2 border rounded mt-1 font-bold">
-              <!-- Gerado via JS com base em hospitais e programas cadastrados -->
+              <!-- Gerado via JS -->
             </select>
           </div>
           <div>
@@ -684,11 +758,12 @@
       </div>
     </section>
 
-    <!-- ABA 2: GESTÃO DO IEP-SP (ALTERAR SEDE, DIRETOR SAMU, ETC) -->
+    <!-- ABA 2: GESTÃO DO IEP-SP (CONFIGURAÇÕES GERAIS E QUADRO INTERNO) -->
     <section id="secIep" class="hidden space-y-6">
+      <!-- Configurações Gerais -->
       <div class="bg-white p-5 rounded-lg border border-neutral-300 shadow-sm border-l-4 border-indigo-700">
-        <h3 class="text-xs font-black uppercase text-indigo-700 mb-1">Configuração Institucional do IEP-SP</h3>
-        <p class="text-xs text-neutral-500 mb-4">Altere as informações oficiais do Instituto (Sede, Diretor do SAMU, Gestão Administrativa, etc.).</p>
+        <h3 class="text-xs font-black uppercase text-indigo-700 mb-1">1. Informações Institucionais do IEP-SP</h3>
+        <p class="text-xs text-neutral-500 mb-4">Altere a sede, a coordenação operacional do SAMU e o texto oficial do Instituto.</p>
         
         <form onsubmit="salvarConfiguracaoIep(event)" class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
           <div>
@@ -709,14 +784,66 @@
           </div>
           <div class="sm:col-span-2 pt-2">
             <button type="submit" class="bg-indigo-700 hover:bg-indigo-800 text-white font-bold px-5 py-2.5 rounded uppercase text-xs shadow">
-              Salvar Dados Oficiais do IEP-SP
+              Salvar Dados Institucionais
             </button>
           </div>
         </form>
       </div>
+
+      <!-- Cargos Internos do IEP-SP -->
+      <div class="bg-white p-5 rounded-lg border border-neutral-300 shadow-sm border-l-4 border-indigo-600">
+        <h3 id="formEquipeIepTitle" class="text-xs font-black uppercase text-indigo-700 mb-1">2. Nomear / Editar Cargos Internos do IEP-SP</h3>
+        <p class="text-xs text-neutral-500 mb-4">Cargos vazios ou desativados não aparecem para o público.</p>
+
+        <form onsubmit="salvarMembroEquipeIep(event)" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 text-xs">
+          <input type="hidden" id="eqIepId">
+          <input type="hidden" id="eqIepFotoBase64">
+          <div class="sm:col-span-2">
+            <label class="font-bold text-neutral-700">Cargo Interno do IEP-SP</label>
+            <select id="eqIepCargo" required class="w-full p-2 border rounded mt-1 font-bold">
+              <option value="Diretor-Geral do IEP-SP">1. Diretor-Geral do IEP-SP</option>
+              <option value="Diretor Clínico / Psiquiatria de Referência">2. Diretor Clínico / Psiquiatria de Referência</option>
+              <option value="Coordenador de Perícias e Laudos Funcionais">3. Coordenador de Perícias e Laudos Funcionais</option>
+              <option value="Coordenador de Urgências Psiquiátricas / SAMU">4. Coordenador de Urgências Psiquiátricas / SAMU</option>
+              <option value="Supervisor de Atendimento Comunitário">5. Supervisor de Atendimento Comunitário</option>
+            </select>
+          </div>
+          <div>
+            <label class="font-bold text-neutral-700">Nome do Titular</label>
+            <input type="text" id="eqIepNome" placeholder="Ex: Dr. Nome Completo" required class="w-full p-2 border rounded mt-1">
+          </div>
+          <div class="sm:col-span-2">
+            <label class="font-bold text-neutral-700">Atribuições / Resumo Curricular</label>
+            <input type="text" id="eqIepDescricao" placeholder="Ex: Especialista em Perícias Psicológicas Operacionais." class="w-full p-2 border rounded mt-1">
+          </div>
+          <div>
+            <label class="font-bold text-neutral-700 flex items-center justify-between">
+              <span>Foto do Titular</span>
+              <span class="text-[10px] text-indigo-700 font-semibold">Galeria do Celular</span>
+            </label>
+            <div class="flex items-center gap-2 mt-1">
+              <input type="file" accept="image/*" id="inEqIepArquivo" onchange="processarArquivoImagem(event, 'eqIepFotoBase64', 'prevEqIepFoto')" class="text-[11px] file:mr-2 file:py-1.5 file:px-2.5 file:rounded file:border-0 file:text-[10px] file:font-bold file:bg-indigo-700 file:text-white cursor-pointer">
+              <img id="prevEqIepFoto" src="" class="hidden w-8 h-8 rounded-full object-cover border border-neutral-300">
+            </div>
+          </div>
+          <div class="sm:col-span-3 flex items-center gap-2 pt-1">
+            <input type="checkbox" id="eqIepAtivo" checked class="w-4 h-4 text-indigo-700 cursor-pointer">
+            <label for="eqIepAtivo" class="text-xs font-bold text-neutral-800 cursor-pointer">Exibir este cargo no portal do IEP-SP</label>
+          </div>
+          <div class="sm:col-span-3 flex gap-2 pt-2">
+            <button type="submit" class="bg-indigo-700 hover:bg-indigo-800 text-white font-bold px-4 py-2 rounded uppercase shadow">Salvar Titular IEP</button>
+            <button type="button" onclick="limparFormEquipeIep()" class="bg-neutral-200 px-4 py-2 rounded font-bold">Cancelar</button>
+          </div>
+        </form>
+
+        <div class="mt-6 border-t pt-4">
+          <h4 class="font-bold text-xs uppercase text-neutral-700 mb-2">Cargos Internos Cadastrados</h4>
+          <div id="listaAdminEquipeIep" class="divide-y divide-neutral-200 text-xs"></div>
+        </div>
+      </div>
     </section>
 
-    <!-- ABA 3: GERENCIAR REMÉDIOS (DOSE CERTA) -->
+    <!-- ABA 3: GERENCIAR REMÉDIOS -->
     <section id="secRemedios" class="hidden space-y-6">
       <div class="bg-white p-5 rounded-lg border border-neutral-300 shadow-sm">
         <h3 id="formRemedioTitle" class="text-xs font-black uppercase text-sp-blue mb-1">Adicionar Medicamento ao Estoque</h3>
@@ -831,10 +958,10 @@
       </div>
     </section>
 
-    <!-- ABA 5: EQUIPE & CARGOS -->
+    <!-- ABA 5: EQUIPE & CARGOS SES -->
     <section id="secEquipe" class="hidden space-y-6">
       <div class="bg-white p-5 rounded-lg border border-neutral-300 shadow-sm">
-        <h3 id="formEquipeTitle" class="text-xs font-black uppercase text-sp-blue mb-1">Nomear / Editar Cargo</h3>
+        <h3 id="formEquipeTitle" class="text-xs font-black uppercase text-sp-blue mb-1">Nomear / Editar Cargo Geral SES</h3>
         <p class="text-xs text-neutral-500 mb-4">Cargos vazios ou desativados não aparecem para o público.</p>
         <form onsubmit="salvarMembroEquipe(event)" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 text-xs">
           <input type="hidden" id="eqId">
@@ -881,7 +1008,7 @@
       </div>
 
       <div class="bg-white rounded-lg border border-neutral-300 shadow-sm overflow-hidden">
-        <div class="p-3 bg-neutral-100 font-bold text-xs uppercase text-neutral-700">Status dos 7 Cargos Oficiais</div>
+        <div class="p-3 bg-neutral-100 font-bold text-xs uppercase text-neutral-700">Status dos 7 Cargos Gerais</div>
         <div id="listaAdminEquipe" class="divide-y divide-neutral-200 text-xs"></div>
       </div>
     </section>
@@ -920,7 +1047,7 @@
       </div>
     </section>
 
-    <!-- ABA 7: ALERTAS, WEBHOOKS & OUVIDORIA (2 WEBHOOKS SEPARADOS) -->
+    <!-- ABA 7: ALERTAS, WEBHOOKS & OUVIDORIA -->
     <section id="secAlerta" class="hidden space-y-6">
       
       <!-- 2 WEBHOOKS DISCORD -->
@@ -929,7 +1056,7 @@
           <i data-lucide="bell" class="w-4 h-4"></i> Webhooks do Discord (2 Canais Separados)
         </h3>
         <p class="text-xs text-neutral-500 mb-4">
-          Configure dois canais diferentes: um para chamados do <strong>IEP-SP</strong> e outro para a <strong>Farmácia de Medicamentos</strong>.
+          Configure canais separados: um para receber chamados do <strong>IEP-SP</strong> e outro para os pedidos da <strong>Farmácia de Medicamentos</strong>.
         </p>
 
         <form onsubmit="salvarDiscordWebhooks(event)" class="space-y-4 text-xs">
@@ -1217,7 +1344,7 @@
         <h4 class="font-bold uppercase tracking-wider mb-3 text-neutral-200">Portais Temáticos</h4>
         <ul class="space-y-1.5 text-neutral-300 text-[11px]">
           <li><button onclick="irParaPagina('iep')" class="hover:underline text-left text-indigo-300 font-bold">Instituto de Psicologia (IEP-SP)</button></li>
-          <li><button onclick="irParaPagina('medicamentos')" class="hover:underline text-left">Farmácia Dose Certa</button></li>
+          <li><button onclick="irParaPagina('medicamentos')" class="hover:underline text-left text-emerald-300 font-bold">Farmácia Dose Certa</button></li>
           <li><button onclick="irParaPagina('transparencia')" class="hover:underline text-left">Transparência & Repasses</button></li>
           <li><button onclick="irParaPagina('hospitais')" class="hover:underline text-left">Rede Hospitalar em SP</button></li>
           <li><button onclick="irParaPagina('equipe')" class="hover:underline text-left">Corpo Diretivo & Cargos</button></li>
@@ -1250,7 +1377,7 @@
     const IMG_FALLBACK = "data:image/svg+xml;charset=UTF-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22600%22%20height%3D%22400%22%20viewBox%3D%220%200%20600%20400%22%3E%3Crect%20fill%3D%22%23071D41%22%20width%3D%22600%22%20height%3D%22400%22%2F%3E%3Ctext%20fill%3D%22%23FFCD07%22%20font-family%3D%22sans-serif%22%20font-size%3D%2220%22%20font-weight%3D%22bold%22%20x%3D%2250%25%22%20y%3D%2248%25%22%20text-anchor%3D%22middle%22%3EGOVERNO%20DO%20ESTADO%20DE%20S%C3%83O%20PAULO%3C%2Ftext%3E%3Ctext%20fill%3D%22%23ffffff%22%20font-family%3D%22sans-serif%22%20font-size%3D%2214%22%20x%3D%2250%25%22%20y%3D%2256%25%22%20text-anchor%3D%22middle%22%3ESecretaria%20de%20Estado%20da%20Sa%C3%BAde%3C%2Ftext%3E%3C%2Fsvg%3E";
     const AVATAR_FALLBACK = "data:image/svg+xml;charset=UTF-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22200%22%20height%3D%22200%22%20viewBox%3D%220%200%20200%20200%22%3E%3Crect%20fill%3D%22%23E2E8F0%22%20width%3D%22200%22%20height%3D%22200%22%2F%3E%3Ccircle%20cx%3D%22100%22%20cy%3D%2275%22%20r%3D%2240%22%20fill%3D%22%2394A3B8%22%2F%3E%3Cpath%20d%3D%22M30%20180%20c0%20-40%2035%20-60%2070%20-60%20s70%2020%2070%2060%20z%22%20fill%3D%22%2394A3B8%22%2F%3E%3C%2Fsvg%3E";
 
-    const CARGOS_OFICIAIS = [
+    const CARGOS_OFICIAIS_SES = [
       "Secretário de Estado da Saúde",
       "Secretário-Adjunto da Saúde",
       "Chefe de Gabinete da SES",
@@ -1258,6 +1385,14 @@
       "Diretor de Vigilância Sanitária",
       "Auditor / Inspetor de Saúde Pública",
       "Analista Técnico / Assistente Administrativo"
+    ];
+
+    const CARGOS_OFICIAIS_IEP = [
+      "Diretor-Geral do IEP-SP",
+      "Diretor Clínico / Psiquiatria de Referência",
+      "Coordenador de Perícias e Laudos Funcionais",
+      "Coordenador de Urgências Psiquiátricas / SAMU",
+      "Supervisor de Atendimento Comunitário"
     ];
 
     const CORES_DESTINACOES = ["bg-sp-blue", "bg-emerald-600", "bg-indigo-600", "bg-sp-yellow", "bg-sp-red", "bg-purple-600", "bg-sky-600", "bg-amber-600"];
@@ -1272,8 +1407,15 @@
         sede: "Hospital Jefferson",
         diretorSamu: "Diego Toretto",
         gestor: "Gabinete do Secretário de Estado da Saúde",
-        descricao: "Atendimento psicológico comunitário, perícias e laudos de aptidão funcional para forças de segurança, homologação de porte de arma e regulação de urgências psiquiátricas integradas ao SAMU 192."
+        descricao: "Atendimento psicológico comunitário, suporte contínuo a servidores, laudos de aptidão funcional para forças de segurança, homologação de porte de arma e regulação de urgências psiquiátricas integradas ao SAMU 192."
       },
+      iepEquipe: [
+        { id: "1", cargo: "Diretor-Geral do IEP-SP", nome: "Dr. Marcelo Fagundes", descricao: "Médico Psiquiatra e Especialista em Gestão de Unidades de Saúde Mental.", foto: "https://images.unsplash.com/photo-1537368910025-700350fe46c7?w=500&auto=format&fit=crop&q=80", ativo: true },
+        { id: "2", cargo: "Diretor Clínico / Psiquiatria de Referência", nome: "", descricao: "", foto: "", ativo: false },
+        { id: "3", cargo: "Coordenador de Perícias e Laudos Funcionais", nome: "", descricao: "", foto: "", ativo: false },
+        { id: "4", cargo: "Coordenador de Urgências Psiquiátricas / SAMU", nome: "", descricao: "", foto: "", ativo: false },
+        { id: "5", cargo: "Supervisor de Atendimento Comunitário", nome: "", descricao: "", foto: "", ativo: false }
+      ],
       alerta: {
         ativo: true,
         nivel: "atencao",
@@ -1395,6 +1537,7 @@
       webhookIep: localStorage.getItem("ses_webhook_iep") || DADOS_INICIAIS.webhookIep,
       webhookMedicamentos: localStorage.getItem("ses_webhook_med") || DADOS_INICIAIS.webhookMedicamentos,
       iepConfig: safeStorageGet("ses_iep_cfg", DADOS_INICIAIS.iepConfig),
+      iepEquipe: safeStorageGet("ses_iep_equipe", DADOS_INICIAIS.iepEquipe),
       alerta: safeStorageGet("ses_alerta", DADOS_INICIAIS.alerta),
       orcamento: safeStorageGet("ses_orcamento", DADOS_INICIAIS.orcamento),
       medicamentos: safeStorageGet("ses_medicamentos", DADOS_INICIAIS.medicamentos),
@@ -1505,6 +1648,7 @@
               if (dadosNuvem.webhookIep) app.webhookIep = dadosNuvem.webhookIep;
               if (dadosNuvem.webhookMedicamentos) app.webhookMedicamentos = dadosNuvem.webhookMedicamentos;
               if (dadosNuvem.iepConfig) app.iepConfig = dadosNuvem.iepConfig;
+              if (dadosNuvem.iepEquipe) app.iepEquipe = dadosNuvem.iepEquipe;
               if (dadosNuvem.alerta) app.alerta = dadosNuvem.alerta;
               if (dadosNuvem.orcamento) app.orcamento = dadosNuvem.orcamento;
               if (dadosNuvem.medicamentos) app.medicamentos = dadosNuvem.medicamentos;
@@ -1517,6 +1661,7 @@
               localStorage.setItem("ses_webhook_iep", app.webhookIep);
               localStorage.setItem("ses_webhook_med", app.webhookMedicamentos);
               localStorage.setItem("ses_iep_cfg", JSON.stringify(app.iepConfig));
+              localStorage.setItem("ses_iep_equipe", JSON.stringify(app.iepEquipe));
               localStorage.setItem("ses_alerta", JSON.stringify(app.alerta));
               localStorage.setItem("ses_orcamento", JSON.stringify(app.orcamento));
               localStorage.setItem("ses_medicamentos", JSON.stringify(app.medicamentos));
@@ -1546,6 +1691,7 @@
       localStorage.setItem("ses_webhook_iep", app.webhookIep);
       localStorage.setItem("ses_webhook_med", app.webhookMedicamentos);
       localStorage.setItem("ses_iep_cfg", JSON.stringify(app.iepConfig));
+      localStorage.setItem("ses_iep_equipe", JSON.stringify(app.iepEquipe));
       localStorage.setItem("ses_alerta", JSON.stringify(app.alerta));
       localStorage.setItem("ses_orcamento", JSON.stringify(app.orcamento));
       localStorage.setItem("ses_medicamentos", JSON.stringify(app.medicamentos));
@@ -1560,6 +1706,7 @@
           webhookIep: app.webhookIep,
           webhookMedicamentos: app.webhookMedicamentos,
           iepConfig: app.iepConfig,
+          iepEquipe: app.iepEquipe,
           alerta: app.alerta,
           orcamento: app.orcamento,
           medicamentos: app.medicamentos,
@@ -1630,7 +1777,6 @@
       if (elHomeIepSede) elHomeIepSede.innerText = cfg.sede;
       if (elHomeIepDesc) elHomeIepDesc.innerText = cfg.descricao;
 
-      // Inputs de Gestão IEP-SP no Admin
       const inCfgSede = document.getElementById("iepCfgSede");
       const inCfgDir = document.getElementById("iepCfgDiretorSamu");
       const inCfgGestor = document.getElementById("iepCfgGestor");
@@ -1684,11 +1830,12 @@
 
       document.getElementById("inOrcTotal").value = totalOrc;
 
-      // Atualiza Select de entidades SEM ENTIDADES FANTASMA
       atualizarSelectEntidadesDinamico();
+      popularSelectMedicamentosFormulario();
 
       renderizarDestinacoesPublicas(totalOrc);
       renderizarEquipe();
+      renderizarEquipeIep();
       renderizarProgramas();
       renderizarHospitais();
       renderizarNoticias();
@@ -1730,7 +1877,7 @@
       mostrarToast("Dados institucionais do IEP-SP atualizados!");
     }
 
-    // ENVIO DISCORD GENÉRICO COM ROTEAMENTO DE WEBHOOK
+    // ENVIO DISCORD GENÉRICO
     async function dispararWebhookDiscord(urlWebhook, embed, tipoServico) {
       if (!urlWebhook || !urlWebhook.startsWith("http")) {
         alert(`Atenção: O Webhook para ${tipoServico} não foi configurado no Painel do Gestor.\n\nSua solicitação foi registrada no sistema.`);
@@ -1779,7 +1926,7 @@
       const embed = {
         title: "🧠 IEP-SP | Novo Chamado Oficial de Saúde Mental & Perícia",
         description: `**Unidade Sede:** ${cfg.sede}\n**Coordenação Operacional SAMU:** ${cfg.diretorSamu}\n**Gestão:** ${cfg.gestor}`,
-        color: 0x4338CA, // Indigo
+        color: 0x4338CA,
         fields: [
           { name: "📋 Serviço Solicitado", value: servico, inline: false },
           { name: "👤 Solicitante", value: nome, inline: true },
@@ -1804,20 +1951,23 @@
       alert("Solicitação transmitida com sucesso para a central de triagem do IEP-SP!");
     }
 
-    // DISPARO 2: PEDIDO DE MEDICAMENTO
+    // DISPARO 2: PEDIDO DE MEDICAMENTO (DIRETO DO FORMULÁRIO INTELIGENTE)
     async function enviarPedidoMedicamentoDiscord(e) {
       e.preventDefault();
+      const selMed = document.getElementById("medSelectField").value;
+      const outroMed = document.getElementById("medOutroNome").value.trim();
+      const remedioFinal = selMed === "OUTRO" ? (outroMed || "Medicamento Especializado") : selMed;
+
       const nome = document.getElementById("medPedNome").value.trim();
       const sus = document.getElementById("medPedSus").value.trim();
       const tel = document.getElementById("medPedTel").value.trim();
-      const remedio = document.getElementById("medPedRemedio").value.trim();
       const local = document.getElementById("medPedLocal").value.trim();
 
       const embed = {
-        title: "💊 Dose Certa SP | Solicitação de Medicamento",
-        color: 0x059669, // Emerald
+        title: "💊 Dose Certa SP | Solicitação Eletrônica de Medicamento",
+        color: 0x059669,
         fields: [
-          { name: "💊 Medicamento Solicitado", value: remedio, inline: false },
+          { name: "💊 Medicamento Solicitado", value: remedioFinal, inline: false },
           { name: "👤 Paciente", value: nome, inline: true },
           { name: "💳 Cartão SUS", value: sus, inline: true },
           { name: "📞 Telefone/WhatsApp", value: tel, inline: true },
@@ -1833,10 +1983,59 @@
       document.getElementById("medPedNome").value = "";
       document.getElementById("medPedSus").value = "";
       document.getElementById("medPedTel").value = "";
-      document.getElementById("medPedRemedio").value = "";
       document.getElementById("medPedLocal").value = "";
+      document.getElementById("medOutroNome").value = "";
 
-      alert("Pedido protocolado com sucesso! A receita será conferida pela farmácia.");
+      alert(`Pedido de "${remedioFinal}" protocolado com sucesso! A receita será conferida pela farmácia.`);
+    }
+
+    // --- FORMULÁRIO DE REMÉDIO INTELIGENTE ---
+    function popularSelectMedicamentosFormulario() {
+      const sel = document.getElementById("medSelectField");
+      if (!sel) return;
+      const valorAtual = sel.value;
+
+      let html = "";
+      if (app.medicamentos && app.medicamentos.length > 0) {
+        html += app.medicamentos.map(m => `<option value="${m.nome}">${m.nome} — (${m.categoria})</option>`).join("");
+      }
+      html += `<option value="OUTRO">+ Outro / Medicamento não listado no catálogo</option>`;
+
+      sel.innerHTML = html;
+      if (valorAtual) sel.value = valorAtual;
+      aoMudarSelectMedicamento();
+    }
+
+    function aoMudarSelectMedicamento() {
+      const sel = document.getElementById("medSelectField");
+      const boxOutro = document.getElementById("boxMedOutro");
+      const prevBox = document.getElementById("medDetalhesPreview");
+      const prevCat = document.getElementById("medPrevCategoria");
+      const prevDesc = document.getElementById("medPrevDescricao");
+
+      if (sel.value === "OUTRO") {
+        boxOutro.classList.remove("hidden");
+        prevBox.classList.add("hidden");
+      } else {
+        boxOutro.classList.add("hidden");
+        const medObj = app.medicamentos.find(m => m.nome === sel.value);
+        if (medObj) {
+          prevBox.classList.remove("hidden");
+          prevCat.innerText = medObj.categoria;
+          prevDesc.innerText = medObj.descricao;
+        } else {
+          prevBox.classList.add("hidden");
+        }
+      }
+    }
+
+    function selecionarRemedioDiretoNoForm(nome) {
+      const sel = document.getElementById("medSelectField");
+      sel.value = nome;
+      aoMudarSelectMedicamento();
+      document.getElementById("boxPedidoMedicamento").scrollIntoView({ behavior: "smooth" });
+      document.getElementById("medPedNome").focus();
+      mostrarToast(`Medicamento "${nome}" selecionado no formulário!`);
     }
 
     // --- DROPDOWN DINÂMICO DE ENTIDADES (SEM ENTIDADES FANTASMA) ---
@@ -1849,7 +2048,6 @@
         <optgroup label="Hospitais e Institutos Cadastrados">
       `;
 
-      // Puxa exatamente os hospitais que você cadastrou
       app.hospitais.forEach(h => {
         opcoesHtml += `<option value="${h.nome}">${h.nome}</option>`;
       });
@@ -1859,7 +2057,6 @@
         <optgroup label="Programas Estaduais Cadastrados">
       `;
 
-      // Puxa os programas que você cadastrou
       app.programas.forEach(p => {
         opcoesHtml += `<option value="${p.nome}">${p.nome}</option>`;
       });
@@ -1987,7 +2184,7 @@
       document.getElementById("formDestTitle").innerText = "2. Escolher Repasse / Destinação de Verba";
     }
 
-    // --- REMÉDIOS ---
+    // --- REMÉDIOS: CATÁLOGO PÚBLICO & ADMIN ---
     function renderizarListaRemediosPublica() {
       const container = document.getElementById("gridRemediosPublica");
       const filtro = (document.getElementById("buscaRemedio")?.value || "").toLowerCase().trim();
@@ -1996,7 +2193,7 @@
       );
 
       const contagem = document.getElementById("contagemRemedios");
-      if (contagem) contagem.innerText = `${lista.length} disponíveis`;
+      if (contagem) contagem.innerText = `${lista.length} medicamentos`;
 
       if (lista.length === 0) {
         container.innerHTML = `<p class="p-4 text-center text-neutral-400">Nenhum medicamento encontrado para esta busca.</p>`;
@@ -2004,23 +2201,17 @@
       }
 
       container.innerHTML = lista.map(m => `
-        <div class="py-3 flex justify-between items-start gap-3">
+        <div class="py-3.5 flex justify-between items-start gap-3 hover:bg-neutral-50 p-2 rounded-lg transition">
           <div>
             <span class="text-[9px] font-black uppercase text-emerald-800 bg-emerald-50 px-2 py-0.5 rounded">${m.categoria}</span>
             <h4 class="font-bold text-neutral-900 text-sm mt-1">${m.nome}</h4>
             <p class="text-[11px] text-neutral-500 mt-0.5">${m.descricao}</p>
           </div>
-          <button onclick="preencherPedidoMedicamento('${m.nome}')" class="text-xs font-bold text-emerald-600 hover:underline flex-shrink-0">
-            Selecionar →
+          <button onclick="selecionarRemedioDiretoNoForm('${m.nome}')" class="text-xs font-bold text-emerald-700 bg-emerald-50 hover:bg-emerald-100 px-3 py-1.5 rounded-lg flex-shrink-0 transition">
+            Pedir Este →
           </button>
         </div>
       `).join("");
-    }
-
-    function preencherPedidoMedicamento(nome) {
-      document.getElementById("medPedRemedio").value = nome;
-      document.getElementById("medPedNome").focus();
-      mostrarToast(`Medicamento "${nome}" selecionado!`);
     }
 
     function salvarMedicamentoAdmin(e) {
@@ -2070,7 +2261,123 @@
       document.getElementById("formRemedioTitle").innerText = "Adicionar Medicamento ao Estoque";
     }
 
-    // --- CORPO DIRETIVO ---
+    // --- CARGOS INTERNOS DO IEP-SP ---
+    function renderizarEquipeIep() {
+      const secao = document.getElementById("secaoEquipeIep");
+      const container = document.getElementById("gridEquipeIep");
+      const lista = (app.iepEquipe || []).filter(m => m.ativo && m.nome && m.nome.trim() !== "");
+
+      if (lista.length === 0) {
+        secao.classList.add("hidden");
+        return;
+      }
+
+      secao.classList.remove("hidden");
+      container.innerHTML = lista.map(m => `
+        <div class="bg-white rounded-xl border border-neutral-200 shadow-sm p-4 flex flex-col justify-between hover:shadow-md transition">
+          <div class="flex items-start gap-3.5">
+            <img src="${m.foto || AVATAR_FALLBACK}" alt="${m.nome}" onerror="this.onerror=null;this.src='${AVATAR_FALLBACK}'" class="w-13 h-13 rounded-full object-cover border-2 border-indigo-700 flex-shrink-0 bg-neutral-100 shadow-sm">
+            <div>
+              <span class="text-[9px] font-black uppercase text-indigo-700 bg-indigo-50 px-2 py-0.5 rounded tracking-wider block mb-1">
+                ${m.cargo}
+              </span>
+              <h4 class="font-bold text-neutral-900 text-sm leading-snug">${m.nome}</h4>
+              <p class="text-[11px] text-neutral-500 mt-1 leading-relaxed">${m.descricao || 'Corpo clínico e pericial do IEP-SP.'}</p>
+            </div>
+          </div>
+          <div class="mt-3 pt-2.5 border-t border-neutral-100 flex items-center justify-between text-[10px] text-neutral-400 font-semibold">
+            <span>Sede Hospital Jefferson</span>
+            <span class="text-indigo-800 bg-indigo-50 px-1.5 py-0.5 rounded">Titular IEP</span>
+          </div>
+        </div>
+      `).join("");
+      lucide.createIcons();
+    }
+
+    function salvarMembroEquipeIep(e) {
+      e.preventDefault();
+      const id = document.getElementById("eqIepId").value;
+      const cargo = document.getElementById("eqIepCargo").value;
+      const nome = document.getElementById("eqIepNome").value.trim();
+      const descricao = document.getElementById("eqIepDescricao").value.trim();
+      const foto = document.getElementById("eqIepFotoBase64").value;
+      const ativo = document.getElementById("eqIepAtivo").checked;
+
+      if (!app.iepEquipe) app.iepEquipe = [];
+
+      const idx = app.iepEquipe.findIndex(m => m.cargo === cargo || (id && m.id === id));
+      if (idx !== -1) {
+        app.iepEquipe[idx] = { ...app.iepEquipe[idx], cargo, nome, descricao, foto: foto || app.iepEquipe[idx].foto, ativo };
+      } else {
+        app.iepEquipe.push({ id: Date.now().toString(), cargo, nome, descricao, foto, ativo });
+      }
+
+      limparFormEquipeIep();
+      atualizarTudo(true);
+      mostrarToast("Titular do IEP-SP salvo!");
+    }
+
+    function editarEquipeIep(cargo) {
+      if (!app.iepEquipe) app.iepEquipe = [];
+      const m = app.iepEquipe.find(x => x.cargo === cargo);
+      document.getElementById("eqIepCargo").value = cargo;
+      if (m) {
+        document.getElementById("eqIepId").value = m.id || "";
+        document.getElementById("eqIepNome").value = m.nome || "";
+        document.getElementById("eqIepDescricao").value = m.descricao || "";
+        document.getElementById("eqIepFotoBase64").value = m.foto || "";
+        document.getElementById("eqIepAtivo").checked = m.ativo;
+        const prev = document.getElementById("prevEqIepFoto");
+        if (m.foto) {
+          prev.src = m.foto;
+          prev.classList.remove("hidden");
+        } else {
+          prev.classList.add("hidden");
+        }
+        document.getElementById("formEquipeIepTitle").innerText = "Editar Titular: " + cargo;
+      } else {
+        limparFormEquipeIep();
+        document.getElementById("eqIepCargo").value = cargo;
+        document.getElementById("formEquipeIepTitle").innerText = "Nomear Cargo: " + cargo;
+      }
+      mudarAba('iep');
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    function desocuparCargoIep(cargo) {
+      if (confirm(`Deseja declarar o cargo de "${cargo}" como VAGO no IEP-SP?`)) {
+        const idx = app.iepEquipe.findIndex(x => x.cargo === cargo);
+        if (idx !== -1) {
+          app.iepEquipe[idx].nome = "";
+          app.iepEquipe[idx].descricao = "";
+          app.iepEquipe[idx].foto = "";
+          app.iepEquipe[idx].ativo = false;
+          atualizarTudo(true);
+          mostrarToast("Cargo do IEP declarado como vago!");
+        }
+      }
+    }
+
+    function alternarAtivoEquipeIep(cargo) {
+      const idx = app.iepEquipe.findIndex(x => x.cargo === cargo);
+      if (idx !== -1) {
+        app.iepEquipe[idx].ativo = !app.iepEquipe[idx].ativo;
+        atualizarTudo(true);
+      }
+    }
+
+    function limparFormEquipeIep() {
+      document.getElementById("eqIepId").value = "";
+      document.getElementById("eqIepNome").value = "";
+      document.getElementById("eqIepDescricao").value = "";
+      document.getElementById("eqIepFotoBase64").value = "";
+      document.getElementById("inEqIepArquivo").value = "";
+      document.getElementById("prevEqIepFoto").classList.add("hidden");
+      document.getElementById("eqIepAtivo").checked = true;
+      document.getElementById("formEquipeIepTitle").innerText = "2. Nomear / Editar Cargos Internos do IEP-SP";
+    }
+
+    // --- CORPO DIRETIVO GERAL SES ---
     function renderizarEquipe() {
       const container = document.getElementById("gridEquipe");
       const nomeados = app.equipe.filter(m => m.ativo && m.nome && m.nome.trim() !== "");
@@ -2148,7 +2455,7 @@
     }
 
     function desocuparCargo(cargo) {
-      if (confirm(`Deseja declarar o cargo de "${cargo}" como VAGO? Ele deixará de aparecer no site público imediatamente.`)) {
+      if (confirm(`Deseja declarar o cargo de "${cargo}" como VAGO?`)) {
         const idx = app.equipe.findIndex(x => x.cargo === cargo);
         if (idx !== -1) {
           app.equipe[idx].nome = "";
@@ -2156,6 +2463,7 @@
           app.equipe[idx].foto = "";
           app.equipe[idx].ativo = false;
           atualizarTudo(true);
+          mostrarToast("Cargo declarado como vago!");
         }
       }
     }
@@ -2176,7 +2484,7 @@
       document.getElementById("inEqArquivo").value = "";
       document.getElementById("prevEqFoto").classList.add("hidden");
       document.getElementById("eqAtivo").checked = true;
-      document.getElementById("formEquipeTitle").innerText = "Nomear / Editar Cargo";
+      document.getElementById("formEquipeTitle").innerText = "Nomear / Editar Cargo Geral SES";
     }
 
     // --- PROGRAMAS ---
@@ -2652,9 +2960,46 @@
         </div>
       `).join("");
 
-      // Equipe
+      // Equipe IEP-SP no Admin
+      const divEIep = document.getElementById("listaAdminEquipeIep");
+      if (divEIep) {
+        divEIep.innerHTML = CARGOS_OFICIAIS_IEP.map(cargo => {
+          const m = (app.iepEquipe || []).find(x => x.cargo === cargo) || { cargo, nome: "", ativo: false };
+          const ocupado = m.nome && m.nome.trim() !== "";
+          return `
+            <div class="p-3 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 hover:bg-neutral-50">
+              <div>
+                <div class="flex items-center gap-2">
+                  <span class="font-bold text-neutral-900">${cargo}</span>
+                  <span class="text-[9px] font-bold px-1.5 py-0.5 rounded uppercase ${ocupado ? (m.ativo ? 'bg-indigo-100 text-indigo-800' : 'bg-amber-100 text-amber-800') : 'bg-neutral-200 text-neutral-600'}">
+                    ${ocupado ? (m.ativo ? 'Ativo' : 'Oculto') : 'Vago'}
+                  </span>
+                </div>
+                <p class="text-[11px] text-neutral-600 mt-0.5">
+                  ${ocupado ? `<strong>Titular:</strong> ${m.nome}` : '<em class="text-neutral-400">Cargo não preenchido</em>'}
+                </p>
+              </div>
+              <div class="flex items-center gap-2 self-end sm:self-center">
+                ${ocupado ? `
+                  <button onclick="alternarAtivoEquipeIep('${cargo}')" class="px-2 py-1 rounded font-bold text-[10px] ${m.ativo ? 'bg-indigo-100 text-indigo-800' : 'bg-neutral-200 text-neutral-600'}">
+                    ${m.ativo ? 'Exibindo' : 'Oculto'}
+                  </button>
+                ` : ''}
+                <button onclick="editarEquipeIep('${cargo}')" class="text-indigo-700 font-bold hover:underline">
+                  ${ocupado ? 'Editar' : 'Nomear'}
+                </button>
+                ${ocupado ? `
+                  <button onclick="desocuparCargoIep('${cargo}')" class="text-red-600 font-bold hover:underline">Desocupar</button>
+                ` : ''}
+              </div>
+            </div>
+          `;
+        }).join("");
+      }
+
+      // Equipe SES no Admin
       const divE = document.getElementById("listaAdminEquipe");
-      divE.innerHTML = CARGOS_OFICIAIS.map(cargo => {
+      divE.innerHTML = CARGOS_OFICIAIS_SES.map(cargo => {
         const m = app.equipe.find(x => x.cargo === cargo) || { cargo, nome: "", ativo: false };
         const ocupado = m.nome && m.nome.trim() !== "";
         return `
@@ -2667,7 +3012,7 @@
                 </span>
               </div>
               <p class="text-[11px] text-neutral-600 mt-0.5">
-                ${ocupado ? `<strong>Titular:</strong> ${m.nome}` : '<em class="text-neutral-400">Cargo não preenchido (não é exibido no portal público)</em>'}
+                ${ocupado ? `<strong>Titular:</strong> ${m.nome}` : '<em class="text-neutral-400">Cargo não preenchido</em>'}
               </p>
             </div>
             <div class="flex items-center gap-2 self-end sm:self-center">
@@ -2754,6 +3099,7 @@
           app.webhookIep = DADOS_INICIAIS.webhookIep;
           app.webhookMedicamentos = DADOS_INICIAIS.webhookMedicamentos;
           app.iepConfig = DADOS_INICIAIS.iepConfig;
+          app.iepEquipe = DADOS_INICIAIS.iepEquipe;
           app.alerta = DADOS_INICIAIS.alerta;
           app.orcamento = {
             total: DADOS_INICIAIS.orcamento.total,
