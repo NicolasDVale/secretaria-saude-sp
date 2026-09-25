@@ -861,7 +861,7 @@
             <label class="font-bold text-neutral-700">Confirmar Nova Senha</label>
             <input type="password" id="confirmaSenha" required class="w-full p-2 border rounded mt-1">
           </div>
-          <button type="submit" class="bg-sp-blue hover:bg-sp-darkBlue text-white font-bold px-4 py-2 rounded uppercase shadow">
+          <button type="submit" class="w-full bg-sp-blue hover:bg-sp-darkBlue text-white font-bold p-2.5 rounded uppercase shadow">
             Salvar Novas Credenciais
           </button>
         </form>
@@ -1420,6 +1420,25 @@
       return fallback;
     }
 
+    // GARANTE QUE OS PROGRAMAS FIXOS (IEP-SP E DOSE CERTA) SEMPRE EXISTAM NA LISTA,
+    // MESMO QUE O ESTADO SALVO (LOCALSTORAGE/NUVEM) SEJA ANTIGO E NÃO OS TENHA.
+    function garantirProgramasFixos(listaProgramas) {
+      const lista = garantirArray(listaProgramas, []);
+      const fixos = [
+        { id: "p_iep", nome: "Instituto Estadual de Psicologia (IEP-SP)", categoria: "Saúde Mental & Perícia", descricao: "Acolhimento comunitário, perícias funcionais e regulação de urgências psiquiátricas no Hospital Jefferson.", link: "#/iep", ativo: true },
+        { id: "p_dosecerta", nome: "Programa Dose Certa (Medicamentos)", categoria: "Assistência Farmacêutica", descricao: "Distribuição gratuita de medicamentos essenciais e de alto custo nas farmácias do Estado.", link: "#/medicamentos", ativo: true }
+      ];
+      let alterou = false;
+      fixos.forEach(fixo => {
+        const existente = lista.find(p => p.id === fixo.id);
+        if (!existente) {
+          lista.unshift(fixo);
+          alterou = true;
+        }
+      });
+      return { lista, alterou };
+    }
+
     function limparEConverterValor(val) {
       if (val === null || val === undefined || val === '') return 0;
       if (typeof val === 'number') return isNaN(val) ? 0 : val;
@@ -1503,6 +1522,16 @@
       programas: garantirArray(safeStorageGet("ses_programas", DADOS_INICIAIS.programas), DADOS_INICIAIS.programas),
       noticias: garantirArray(safeStorageGet("ses_noticias", DADOS_INICIAIS.noticias), DADOS_INICIAIS.noticias)
     };
+
+    // Migração de segurança: caso o navegador já tivesse uma lista de programas
+    // salva sem o IEP-SP e o Dose Certa, eles são inseridos agora.
+    (function migrarProgramasFixos() {
+      const resultado = garantirProgramasFixos(app.programas);
+      app.programas = resultado.lista;
+      if (resultado.alterou) {
+        localStorage.setItem("ses_programas", JSON.stringify(app.programas));
+      }
+    })();
 
     if (!app.orcamento || !app.orcamento.destinacoes) {
       app.orcamento = {
@@ -1612,6 +1641,11 @@
               if (dadosNuvem.programas) app.programas = garantirArray(dadosNuvem.programas, DADOS_INICIAIS.programas);
               if (dadosNuvem.noticias) app.noticias = garantirArray(dadosNuvem.noticias, DADOS_INICIAIS.noticias);
 
+              // Reaplica a garantia dos programas fixos também após sincronizar com a nuvem,
+              // caso o banco remoto ainda esteja com uma lista antiga.
+              const resSync = garantirProgramasFixos(app.programas);
+              app.programas = resSync.lista;
+
               localStorage.setItem("ses_ouvidoria", app.ouvidoria);
               localStorage.setItem("ses_webhook_iep", app.webhookIep);
               localStorage.setItem("ses_webhook_med", app.webhookMedicamentos);
@@ -1625,7 +1659,7 @@
               localStorage.setItem("ses_programas", JSON.stringify(app.programas));
               localStorage.setItem("ses_noticias", JSON.stringify(app.noticias));
 
-              atualizarTudo(false);
+              atualizarTudo(resSync.alterou);
               ocultarSplash(); // dados oficiais carregados: libera o portal
             } else {
               salvarEstadoGlobal();
