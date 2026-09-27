@@ -6,9 +6,10 @@
   <meta name="description" content="Portal Oficial da Secretaria de Estado da Saúde de São Paulo — transparência orçamentária, programas oficiais, hospitais e notícias do SUS Paulista." />
   <title>Secretaria de Estado da Saúde | Governo do Estado de São Paulo</title>
 
-  <!-- Tailwind CSS & Lucide Icons -->
+  <!-- Tailwind CSS & Lucide Icons & Chart.js -->
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://unpkg.com/lucide@latest"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 
@@ -54,6 +55,14 @@
     @keyframes pulse { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: .4; transform: scale(1.2); } }
     @keyframes splash-pulso { 0%, 100% { transform: scale(1); opacity: 1; } 50% { transform: scale(1.07); opacity: .85; } }
     .splash-logo { animation: splash-pulso 1.6s ease-in-out infinite; }
+    .fade-in { animation: fadeIn .4s ease both; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+    #btnTopo { transition: opacity .3s ease, transform .3s ease; }
+    #btnTopo.oculto { opacity: 0; pointer-events: none; transform: translateY(10px); }
+    @media print {
+      header, footer, #btnTopo, .no-print { display: none !important; }
+      body { background: #fff !important; }
+    }
   </style>
 <base target="_blank">
 </head>
@@ -63,13 +72,12 @@
   <div id="splashScreen" class="fixed inset-0 z-[100] bg-sp-darkBlue flex flex-col items-center justify-center px-6 transition-opacity duration-700">
     <div class="splash-logo bg-sp-blue text-white rounded-2xl w-16 h-16 flex items-center justify-center font-black text-2xl shadow-2xl mb-4">SUS</div>
     <p class="text-white font-black uppercase tracking-widest text-sm text-center">Secretaria de Estado da Saúde</p>
-    <p class="text-blue-200 text-[10px] uppercase tracking-wider mt-1 text-center">Governo do Estado de São Paulo</p>
+    <p class="text-blue-200 text-[10px] uppercase tracking-wider mt-1 text-center">Governo do Estado de São Paulo - Nacional Player Action Roleplay</p>
     <div class="mt-7 w-52 h-1.5 bg-white/10 rounded-full overflow-hidden">
       <div id="splashBarra" class="h-full bg-sp-yellow rounded-full transition-all duration-500" style="width: 10%"></div>
     </div>
     <p id="splashTexto" class="text-blue-200/70 text-[10px] mt-3 uppercase tracking-wider">Iniciando portal oficial...</p>
   </div>
-
 
   <!-- BARRA DE ACESSIBILIDADE GOVERNO DE SP -->
   <div class="bg-sp-darkBlue text-white text-[11px] border-b border-white/10">
@@ -135,7 +143,7 @@
     <div id="menuMobile" class="lg:hidden border-t border-neutral-200 bg-white">
       <div class="flex flex-col px-4 py-3 text-xs font-bold text-neutral-700 uppercase space-y-2.5">
         <button onclick="irParaPagina('inicio'); fecharMenuMobile()" class="text-left py-1">Início</button>
-        <button onclick="irParaPagina('programas'); fecharMenuMobile()" class="text-left py-1 text-sp-blue font-black">Programas Oficiais</button>
+        <button onclick="irParaPagina('programas'); fecharMenuMobile()" class="text-left py-1">Programas Oficiais</button>
         <button onclick="irParaPagina('transparencia'); fecharMenuMobile()" class="text-left py-1">Transparência & Gastos</button>
         <button onclick="irParaPagina('hospitais'); fecharMenuMobile()" class="text-left py-1">Rede Hospitalar</button>
         <button onclick="irParaPagina('equipe'); fecharMenuMobile()" class="text-left py-1">Corpo Diretivo da Secretaria</button>
@@ -146,11 +154,12 @@
 
   <!-- BREADCRUMB -->
   <div class="bg-neutral-100 border-b border-neutral-200 text-[11px] text-neutral-500 px-4 py-1.5">
-    <div class="max-w-7xl mx-auto flex items-center gap-1.5">
+    <div class="max-w-7xl mx-auto flex items-center gap-1.5 flex-wrap">
       <span>Você está em:</span>
       <button onclick="irParaPagina('inicio')" class="hover:underline text-sp-blue font-semibold">Início</button>
       <span id="breadcrumbSeparator" class="hidden">/</span>
       <span id="breadcrumbCurrent" class="font-bold text-neutral-700 hidden"></span>
+      <span class="ml-auto text-neutral-400 hidden sm:inline" id="breadcrumbData"></span>
     </div>
   </div>
 
@@ -169,7 +178,7 @@
 
   <!-- ==================== 1. PÁGINA INICIAL ==================== -->
   <main id="viewInicio" class="view-section flex-grow">
-    
+
     <!-- HERO SECTION -->
     <section class="hero-bg text-white py-14 sm:py-16 px-4">
       <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8 items-center">
@@ -183,7 +192,7 @@
           <p class="text-blue-100 text-xs sm:text-sm mb-6 max-w-xl leading-relaxed">
             Consulte a aplicação dos recursos públicos estaduais, acompanhe os programas oficiais de saúde e localize hospitais em tempo real.
           </p>
-          
+
           <div class="flex flex-wrap gap-3">
             <button onclick="irParaPagina('programas')" class="bg-white text-sp-blue font-black px-5 py-3 rounded-lg text-xs uppercase shadow hover:bg-neutral-100 transition flex items-center gap-2">
               <i data-lucide="heart-handshake" class="w-4 h-4 text-sp-blue"></i> Ver Programas Oficiais
@@ -234,12 +243,12 @@
         </div>
         <div>
           <p id="kpiExecucao" class="text-xl sm:text-2xl font-black text-amber-600">0%</p>
-          <p class="text-[10px] uppercase font-bold text-neutral-500 mt-0.5">Orçamento Destinado</p>
+          <p class="text-[10px] uppercase font-bold text-neutral-500 mt-0.5">Orçamento Executado</p>
         </div>
       </div>
     </section>
 
-    <!-- AÇÕES GOVERNAMENTAIS — PROGRAMAS OFICIAIS DE SAÚDE (IEP, DOSE CERTA E OUTROS) -->
+    <!-- AÇÕES GOVERNAMENTAIS -->
     <section class="max-w-7xl mx-auto px-4 py-10">
       <div class="flex justify-between items-center mb-6 border-b-2 border-sp-blue pb-2">
         <div>
@@ -250,8 +259,6 @@
           Acessar Todos os Programas →
         </button>
       </div>
-
-      <!-- GRADE UNIFORME DE PROGRAMAS NA HOME -->
       <div id="homeGridProgramas" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5"></div>
     </section>
 
@@ -263,6 +270,10 @@
           <h3 class="text-xl sm:text-2xl font-black text-sp-darkBlue uppercase mt-1">Orçamento Estadual da Saúde</h3>
           <p class="text-neutral-500 text-xs sm:text-sm mt-2 leading-relaxed">
             Mais de <strong id="homeOrcTotal" class="text-neutral-900 font-black">R$ 0,00</strong> aprovados para manutenção de unidades, medicamentos e assistência a todos os paulistas.
+          </p>
+          <p class="text-neutral-500 text-xs sm:text-sm mt-1 leading-relaxed">
+            <strong id="homeOrcExec" class="text-emerald-700 font-black">R$ 0,00</strong> já executados
+            (<span id="homeOrcPerc" class="font-bold text-sp-blue">0%</span>) — acompanhe destinações, gráficos e projeções.
           </p>
         </div>
         <button onclick="irParaPagina('transparencia')" class="bg-sp-blue hover:bg-sp-darkBlue text-white text-xs font-bold px-6 py-3 rounded-lg uppercase shadow transition whitespace-nowrap">
@@ -291,15 +302,11 @@
       <h2 class="text-xl sm:text-3xl font-black text-sp-darkBlue uppercase">Programas Oficiais de Saúde</h2>
       <p class="text-xs text-neutral-500 mt-1">Catálogo completo de benefícios, acolhimento especializado e assistência à população de São Paulo.</p>
     </div>
-
-    <!-- GRADE UNIFORME DE PROGRAMAS (TODOS OS CARDS IDÊNTICOS) -->
     <div id="gridProgramas" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5"></div>
   </main>
 
-  <!-- ==================== 3. PÁGINA: INSTITUTO DE PSICOLOGIA (IEP-SP) ==================== -->
+  <!-- ==================== 3. PÁGINA: IEP-SP ==================== -->
   <main id="viewIep" class="view-section hidden flex-grow max-w-7xl mx-auto px-4 py-8 w-full">
-    
-    <!-- Cabeçalho Dinâmico IEP-SP -->
     <div class="bg-white rounded-2xl border border-neutral-200 p-6 sm:p-8 shadow-sm mb-8 border-l-8 border-indigo-700">
       <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
@@ -319,10 +326,7 @@
       </div>
     </div>
 
-    <!-- 3 Frentes de Atuação -->
     <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
-      
-      <!-- Frente 1 -->
       <div class="bg-white rounded-xl border border-neutral-200 shadow-sm p-6 flex flex-col justify-between border-t-4 border-indigo-600 hover:shadow-md transition">
         <div>
           <div class="w-10 h-10 rounded-lg bg-indigo-50 text-indigo-700 flex items-center justify-center mb-3">
@@ -343,7 +347,6 @@
         </button>
       </div>
 
-      <!-- Frente 2 -->
       <div class="bg-white rounded-xl border border-neutral-200 shadow-sm p-6 flex flex-col justify-between border-t-4 border-sp-blue hover:shadow-md transition">
         <div>
           <div class="w-10 h-10 rounded-lg bg-blue-50 text-sp-blue flex items-center justify-center mb-3">
@@ -364,7 +367,6 @@
         </button>
       </div>
 
-      <!-- Frente 3 -->
       <div class="bg-white rounded-xl border border-neutral-200 shadow-sm p-6 flex flex-col justify-between border-t-4 border-red-600 hover:shadow-md transition">
         <div>
           <div class="w-10 h-10 rounded-lg bg-red-50 text-red-600 flex items-center justify-center mb-3">
@@ -384,10 +386,8 @@
           Acionar Suporte IEP / SAMU →
         </button>
       </div>
-
     </div>
 
-    <!-- CORPO DIRETIVO E CARGOS INTERNOS DO IEP-SP (SEM BUG DE FOTO ESTICADA) -->
     <div id="secaoEquipeIep" class="mb-10">
       <div class="border-l-4 border-indigo-700 pl-3 mb-6">
         <span class="text-xs font-bold text-indigo-700 uppercase tracking-wider">Estrutura Interna</span>
@@ -396,14 +396,13 @@
       <div id="gridEquipeIep" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4"></div>
     </div>
 
-    <!-- Banner Informativo -->
     <div class="bg-neutral-100 rounded-xl p-5 border border-neutral-300 text-xs text-neutral-600 flex items-center gap-3">
       <i data-lucide="info" class="w-6 h-6 text-indigo-700 flex-shrink-0"></i>
       <p>Todas as solicitações de atendimento e perícias são transmitidas em tempo real para o canal de triagem da diretoria correspondente.</p>
     </div>
   </main>
 
-  <!-- ==================== 4. PÁGINA: MEDICAMENTOS (FORMULÁRIO INTEGRADO) ==================== -->
+  <!-- ==================== 4. PÁGINA: MEDICAMENTOS ==================== -->
   <main id="viewMedicamentos" class="view-section hidden flex-grow max-w-7xl mx-auto px-4 py-8 w-full">
     <div class="border-l-4 border-emerald-600 pl-3 mb-6">
       <span class="text-xs font-bold text-emerald-700 uppercase tracking-wider">Assistência Farmacêutica Estadual</span>
@@ -413,7 +412,6 @@
       <p class="text-xs text-neutral-500 mt-1">Consulte os remédios fornecidos gratuitamente e solicite sua retirada diretamente abaixo.</p>
     </div>
 
-    <!-- FORMULÁRIO DE PEDIDO COM SELETOR INTEGRADO -->
     <div id="boxPedidoMedicamento" class="bg-white rounded-2xl border border-neutral-200 shadow-md p-6 sm:p-8 mb-10 border-t-8 border-emerald-600">
       <div class="max-w-3xl mx-auto">
         <div class="text-center mb-6">
@@ -423,30 +421,22 @@
         </div>
 
         <form onsubmit="enviarPedidoMedicamentoDiscord(event)" class="space-y-4 text-xs">
-          
-          <!-- SELETOR DINÂMICO DE REMÉDIO -->
           <div class="bg-emerald-50/70 p-4 rounded-xl border border-emerald-200">
             <label class="font-black text-emerald-900 block mb-1 text-xs uppercase">
               1. Selecione o Medicamento Disponível
             </label>
             <select id="medSelectField" onchange="aoMudarSelectMedicamento()" class="w-full p-2.5 bg-white border border-emerald-300 rounded-lg font-bold text-xs outline-none focus:ring-2 focus:ring-emerald-500">
-              <!-- Populado via JS -->
             </select>
-
-            <!-- Card com detalhes do remédio escolhido -->
             <div id="medDetalhesPreview" class="mt-2.5 p-2.5 bg-white rounded-lg border border-emerald-200 text-[11px] text-neutral-600">
               <span id="medPrevCategoria" class="font-extrabold text-emerald-800 uppercase text-[9px] block"></span>
               <p id="medPrevDescricao" class="mt-0.5"></p>
             </div>
-
-            <!-- Campo caso escolha "Outro" -->
             <div id="boxMedOutro" class="mt-3 hidden">
               <label class="font-bold text-neutral-700 block mb-1">Especifique o Medicamento Desejado:</label>
               <input type="text" id="medOutroNome" placeholder="Digite o nome completo e dosagem do remédio" class="w-full p-2 bg-white border border-neutral-300 rounded-lg outline-none">
             </div>
           </div>
 
-          <!-- DADOS DO PACIENTE -->
           <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
             <div class="sm:col-span-2">
               <label class="font-bold text-neutral-700 block mb-1">Nome Completo do Paciente</label>
@@ -476,7 +466,6 @@
       </div>
     </div>
 
-    <!-- CATÁLOGO COMPLETO PARA CONSULTA -->
     <div class="bg-white rounded-xl border border-neutral-200 shadow-sm p-6">
       <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4">
         <div>
@@ -490,43 +479,127 @@
     </div>
   </main>
 
-  <!-- ==================== 5. PÁGINA: TRANSPARÊNCIA & REPASSES ==================== -->
+  <!-- ==================== 5. PÁGINA: TRANSPARÊNCIA & REPASSES (v2) ==================== -->
   <main id="viewTransparencia" class="view-section hidden flex-grow max-w-7xl mx-auto px-4 py-8 w-full">
-    <div class="border-l-4 border-sp-blue pl-3 mb-6">
-      <span class="text-xs font-bold text-sp-blue uppercase tracking-wider">Prestação de Contas Pública</span>
-      <h2 class="text-xl sm:text-3xl font-black text-sp-darkBlue uppercase">
-        Transparência Orçamentária e Repasses da Saúde
-      </h2>
-      <p class="text-xs text-neutral-500 mt-1">Acompanhamento contínuo da aplicação e envio de verbas aos hospitais e institutos cadastrados.</p>
+    <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-3 mb-6">
+      <div class="border-l-4 border-sp-blue pl-3">
+        <span class="text-xs font-bold text-sp-blue uppercase tracking-wider">Prestação de Contas Pública</span>
+        <h2 class="text-xl sm:text-3xl font-black text-sp-darkBlue uppercase">
+          Transparência Orçamentária e Repasses da Saúde
+        </h2>
+        <p class="text-xs text-neutral-500 mt-1">Acompanhamento contínuo de orçamento, verbas adicionais, execução mensal e projeções.</p>
+      </div>
+      <div class="flex gap-2 no-print">
+        <button onclick="window.print()" class="bg-white border border-neutral-300 hover:bg-neutral-50 text-neutral-700 text-xs font-bold px-3 py-2 rounded-lg uppercase shadow-sm flex items-center gap-1.5 transition">
+          <i data-lucide="printer" class="w-3.5 h-3.5"></i> Imprimir
+        </button>
+        <button onclick="exportarDestinacoesCSV()" class="bg-white border border-neutral-300 hover:bg-neutral-50 text-neutral-700 text-xs font-bold px-3 py-2 rounded-lg uppercase shadow-sm flex items-center gap-1.5 transition">
+          <i data-lucide="download" class="w-3.5 h-3.5"></i> Exportar CSV
+        </button>
+      </div>
     </div>
 
-    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
-      <div class="bg-white p-5 rounded-lg border border-neutral-200 shadow-sm border-l-4 border-sp-blue">
-        <span class="text-xs font-bold text-neutral-500 uppercase">Orçamento Total Aprovado</span>
-        <h4 id="pubOrcTotal" class="text-2xl font-black text-neutral-900 mt-1">R$ 0,00</h4>
-        <p class="text-[11px] text-neutral-400 mt-1">Recursos estaduais e repasses federais</p>
+    <!-- CARDS FINANCEIROS -->
+    <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 mb-6">
+      <div class="bg-white p-4 rounded-lg border border-neutral-200 shadow-sm border-l-4 border-sp-blue">
+        <span class="text-[10px] font-bold text-neutral-500 uppercase block">LOA Aprovada</span>
+        <h4 id="pubOrcLOA" class="text-base sm:text-lg font-black text-neutral-900 mt-1">R$ 0,00</h4>
+        <p class="text-[10px] text-neutral-400 mt-0.5">Lei Orçamentária Anual</p>
       </div>
-      <div class="bg-white p-5 rounded-lg border border-neutral-200 shadow-sm border-l-4 border-emerald-600">
-        <span class="text-xs font-bold text-neutral-500 uppercase">Total Destinado / Executado</span>
-        <h4 id="pubOrcExecutado" class="text-2xl font-black text-emerald-700 mt-1">R$ 0,00</h4>
-        <p id="pubOrcPercent" class="text-[11px] text-emerald-600 font-bold mt-1">0% do orçamento estadual empenhado</p>
+      <div class="bg-white p-4 rounded-lg border border-neutral-200 shadow-sm border-l-4 border-sp-yellow">
+        <span class="text-[10px] font-bold text-neutral-500 uppercase block">Verbas Adicionais</span>
+        <h4 id="pubOrcAdic" class="text-base sm:text-lg font-black text-amber-600 mt-1">R$ 0,00</h4>
+        <p class="text-[10px] text-neutral-400 mt-0.5" id="pubOrcAdicQtd">0 créditos extras</p>
       </div>
-      <div class="bg-white p-5 rounded-lg border border-neutral-200 shadow-sm border-l-4 border-sp-yellow">
-        <span class="text-xs font-bold text-neutral-500 uppercase">Saldo em Caixa / Disponível</span>
-        <h4 id="pubOrcSaldo" class="text-2xl font-black text-neutral-900 mt-1">R$ 0,00</h4>
-        <p class="text-[11px] text-neutral-400 mt-1">Reserva para empenho em 2026</p>
+      <div class="bg-white p-4 rounded-lg border border-neutral-200 shadow-sm border-l-4 border-sp-darkBlue">
+        <span class="text-[10px] font-bold text-neutral-500 uppercase block">Orçamento Efetivo</span>
+        <h4 id="pubOrcEfetivo" class="text-base sm:text-lg font-black text-sp-darkBlue mt-1">R$ 0,00</h4>
+        <p class="text-[10px] text-neutral-400 mt-0.5">LOA + verbas adicionais</p>
+      </div>
+      <div class="bg-white p-4 rounded-lg border border-neutral-200 shadow-sm border-l-4 border-emerald-600">
+        <span class="text-[10px] font-bold text-neutral-500 uppercase block">Total Executado</span>
+        <h4 id="pubOrcExecutado" class="text-base sm:text-lg font-black text-emerald-700 mt-1">R$ 0,00</h4>
+        <p class="text-[10px] text-neutral-400 mt-0.5">Repasses empenhados</p>
+      </div>
+      <div class="bg-white p-4 rounded-lg border border-neutral-200 shadow-sm border-l-4 border-sky-600">
+        <span class="text-[10px] font-bold text-neutral-500 uppercase block">Saldo Disponível</span>
+        <h4 id="pubOrcSaldo" class="text-base sm:text-lg font-black text-sky-700 mt-1">R$ 0,00</h4>
+        <p class="text-[10px] text-neutral-400 mt-0.5">Disponível para empenho</p>
+      </div>
+      <div class="bg-white p-4 rounded-lg border border-neutral-200 shadow-sm border-l-4 border-indigo-600">
+        <span class="text-[10px] font-bold text-neutral-500 uppercase block">% Executado</span>
+        <h4 id="pubOrcPercent" class="text-base sm:text-lg font-black text-indigo-700 mt-1">0%</h4>
+        <p class="text-[10px] text-neutral-400 mt-0.5">do orçamento efetivo</p>
       </div>
     </div>
 
     <!-- Barra de Progresso -->
     <div class="bg-white p-4 rounded-lg border border-neutral-200 shadow-sm mb-6">
       <div class="flex justify-between text-xs font-bold mb-2 text-neutral-700">
-        <span>Progresso da Execução Financeira de SP</span>
+        <span class="flex items-center gap-1.5"><i data-lucide="trending-up" class="w-4 h-4 text-emerald-600"></i> Execução Financeira sobre o Orçamento Efetivo</span>
         <span id="labelBarraProgresso" class="text-sp-blue font-black">0%</span>
       </div>
       <div class="w-full bg-neutral-200 rounded-full h-3.5 overflow-hidden">
         <div id="barraProgresso" class="bg-emerald-600 h-3.5 rounded-full transition-all duration-700" style="width: 0%"></div>
       </div>
+      <p class="text-[10px] text-neutral-400 mt-1.5">Atualizado em tempo real a cada repasse ou verba adicional registrada no Painel do Gestor.</p>
+    </div>
+
+    <!-- ESTIMATIVAS -->
+    <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 mb-6">
+      <div class="bg-sp-darkBlue text-white p-4 rounded-lg shadow-sm">
+        <div class="flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-wider text-blue-200">
+          <i data-lucide="gauge" class="w-3.5 h-3.5"></i> Ritmo Médio Mensal
+        </div>
+        <h4 id="estRitmo" class="text-lg font-black text-sp-yellow mt-1">—</h4>
+        <p class="text-[10px] text-blue-200/70 mt-0.5">execução média por mês</p>
+      </div>
+      <div class="bg-white p-4 rounded-lg border border-neutral-200 shadow-sm">
+        <div class="flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-wider text-neutral-500">
+          <i data-lucide="trending-up" class="w-3.5 h-3.5 text-emerald-600"></i> Projeção p/ Fim do Ano
+        </div>
+        <h4 id="estProjecao" class="text-lg font-black text-emerald-700 mt-1">—</h4>
+        <p class="text-[10px] text-neutral-400 mt-0.5" id="estProjecaoPerc">se mantido o ritmo atual</p>
+      </div>
+      <div class="bg-white p-4 rounded-lg border border-neutral-200 shadow-sm">
+        <div class="flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-wider text-neutral-500">
+          <i data-lucide="calendar-clock" class="w-3.5 h-3.5 text-indigo-600"></i> Previsão de Conclusão
+        </div>
+        <h4 id="estConclusao" class="text-lg font-black text-indigo-700 mt-1">—</h4>
+        <p class="text-[10px] text-neutral-400 mt-0.5">saldo total executado em</p>
+      </div>
+      <div class="bg-white p-4 rounded-lg border border-neutral-200 shadow-sm">
+        <div class="flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-wider text-neutral-500">
+          <i data-lucide="wallet" class="w-3.5 h-3.5 text-sp-blue"></i> Média por Destinação
+        </div>
+        <h4 id="estMediaDest" class="text-lg font-black text-sp-blue mt-1">—</h4>
+        <p class="text-[10px] text-neutral-400 mt-0.5" id="estQtdDest">0 destinações ativas</p>
+      </div>
+    </div>
+
+    <!-- GRÁFICOS -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-5 mb-6">
+      <div class="bg-white rounded-lg border border-neutral-200 shadow-sm p-4">
+        <h3 class="font-black text-xs uppercase text-neutral-800 flex items-center gap-1.5 mb-3">
+          <i data-lucide="pie-chart" class="w-4 h-4 text-sp-blue"></i> Distribuição do Executado por Área
+        </h3>
+        <div class="h-72 relative"><canvas id="graficoPizza"></canvas></div>
+      </div>
+      <div class="bg-white rounded-lg border border-neutral-200 shadow-sm p-4">
+        <h3 class="font-black text-xs uppercase text-neutral-800 flex items-center gap-1.5 mb-3">
+          <i data-lucide="chart-line" class="w-4 h-4 text-emerald-600"></i> Execução Mensal x Orçamento Efetivo
+        </h3>
+        <div class="h-72 relative"><canvas id="graficoMensal"></canvas></div>
+      </div>
+    </div>
+
+    <!-- VERBAS ADICIONAIS (público) -->
+    <div id="boxPublicoAdicionais" class="hidden bg-white rounded-lg border border-neutral-200 shadow-sm overflow-hidden mb-6">
+      <div class="p-3.5 bg-amber-50 font-bold text-xs uppercase text-amber-900 border-b border-amber-200 flex justify-between items-center">
+        <span class="flex items-center gap-1.5"><i data-lucide="banknote" class="w-4 h-4"></i> Verbas Adicionais Recebidas (Créditos Suplementares)</span>
+        <span id="pubTotalAdicionais" class="text-[10px] bg-amber-200 text-amber-900 px-2 py-0.5 rounded font-black">R$ 0,00</span>
+      </div>
+      <div id="listaPublicaAdicionais" class="divide-y divide-neutral-200 text-xs"></div>
     </div>
 
     <!-- Lista de Repasses -->
@@ -539,7 +612,7 @@
     </div>
   </main>
 
-  <!-- ==================== 6. PÁGINA: CORPO DIRETIVO DA SECRETARIA ==================== -->
+  <!-- ==================== 6. PÁGINA: CORPO DIRETIVO ==================== -->
   <main id="viewEquipe" class="view-section hidden flex-grow max-w-7xl mx-auto px-4 py-8 w-full">
     <div class="border-l-4 border-sp-blue pl-3 mb-6">
       <span class="text-xs font-bold text-sp-blue uppercase tracking-wider">Estrutura Organizacional</span>
@@ -584,7 +657,7 @@
     <div id="gridNoticias" class="divide-y divide-neutral-200 bg-white rounded-lg border border-neutral-200 shadow-sm overflow-hidden"></div>
   </main>
 
-  <!-- ==================== 9. PAINEL DO GESTOR / ADMIN CATEGORIZADO ==================== -->
+  <!-- ==================== 9. PAINEL DO GESTOR ==================== -->
   <main id="viewAdmin" class="view-section hidden flex-grow max-w-7xl mx-auto px-4 py-6 w-full">
 
     <div class="bg-white p-4 rounded-lg border border-neutral-300 shadow-sm flex flex-wrap justify-between items-center gap-3 mb-6">
@@ -606,45 +679,64 @@
       </div>
     </div>
 
-    <!-- Abas com Rolagem Suave no Mobile -->
     <div class="flex gap-2 mb-6 border-b border-neutral-300 pb-3 overflow-x-auto whitespace-nowrap">
-      <button onclick="mudarAba('transparencia')" id="tabTransparencia" class="px-3 py-2 rounded text-xs font-bold uppercase bg-sp-blue text-white shadow-sm flex-shrink-0">
-        💰 Finanças & Repasses
-      </button>
-      <button onclick="mudarAba('iep')" id="tabIep" class="px-3 py-2 rounded text-xs font-bold uppercase bg-white text-neutral-700 hover:bg-neutral-100 flex-shrink-0">
-        🧠 Gestão IEP-SP
-      </button>
-      <button onclick="mudarAba('remedios')" id="tabRemedios" class="px-3 py-2 rounded text-xs font-bold uppercase bg-white text-neutral-700 hover:bg-neutral-100 flex-shrink-0">
-        💊 Farmácia & Dose Certa
-      </button>
-      <button onclick="mudarAba('hospitais')" id="tabHospitais" class="px-3 py-2 rounded text-xs font-bold uppercase bg-white text-neutral-700 hover:bg-neutral-100 flex-shrink-0">
-        🏥 Unidades de Saúde
-      </button>
-      <button onclick="mudarAba('equipe')" id="tabEquipe" class="px-3 py-2 rounded text-xs font-bold uppercase bg-white text-neutral-700 hover:bg-neutral-100 flex-shrink-0">
-        👥 Liderança SES
-      </button>
-      <button onclick="mudarAba('programas')" id="tabProgramas" class="px-3 py-2 rounded text-xs font-bold uppercase bg-white text-neutral-700 hover:bg-neutral-100 flex-shrink-0">
-        💉 Programas Oficiais
-      </button>
-      <button onclick="mudarAba('alerta')" id="tabAlerta" class="px-3 py-2 rounded text-xs font-bold uppercase bg-white text-neutral-700 hover:bg-neutral-100 flex-shrink-0">
-        ⚙️ Alertas, Discord & Senha
-      </button>
-      <button onclick="mudarAba('noticias')" id="tabNoticias" class="px-3 py-2 rounded text-xs font-bold uppercase bg-white text-neutral-700 hover:bg-neutral-100 flex-shrink-0">
-        📰 Notícias
-      </button>
+      <button onclick="mudarAba('transparencia')" id="tabTransparencia" class="px-3 py-2 rounded text-xs font-bold uppercase bg-sp-blue text-white shadow-sm flex-shrink-0">💰 Finanças & Repasses</button>
+      <button onclick="mudarAba('iep')" id="tabIep" class="px-3 py-2 rounded text-xs font-bold uppercase bg-white text-neutral-700 hover:bg-neutral-100 flex-shrink-0">🧠 Gestão IEP-SP</button>
+      <button onclick="mudarAba('remedios')" id="tabRemedios" class="px-3 py-2 rounded text-xs font-bold uppercase bg-white text-neutral-700 hover:bg-neutral-100 flex-shrink-0">💊 Farmácia & Dose Certa</button>
+      <button onclick="mudarAba('hospitais')" id="tabHospitais" class="px-3 py-2 rounded text-xs font-bold uppercase bg-white text-neutral-700 hover:bg-neutral-100 flex-shrink-0">🏥 Unidades de Saúde</button>
+      <button onclick="mudarAba('equipe')" id="tabEquipe" class="px-3 py-2 rounded text-xs font-bold uppercase bg-white text-neutral-700 hover:bg-neutral-100 flex-shrink-0">👥 Liderança SES</button>
+      <button onclick="mudarAba('programas')" id="tabProgramas" class="px-3 py-2 rounded text-xs font-bold uppercase bg-white text-neutral-700 hover:bg-neutral-100 flex-shrink-0">💉 Programas Oficiais</button>
+      <button onclick="mudarAba('alerta')" id="tabAlerta" class="px-3 py-2 rounded text-xs font-bold uppercase bg-white text-neutral-700 hover:bg-neutral-100 flex-shrink-0">⚙️ Alertas, Discord & Senha</button>
+      <button onclick="mudarAba('noticias')" id="tabNoticias" class="px-3 py-2 rounded text-xs font-bold uppercase bg-white text-neutral-700 hover:bg-neutral-100 flex-shrink-0">📰 Notícias</button>
     </div>
 
-    <!-- ABA 1: FINANÇAS & REPASSES (COM BOTÃO ADICIONAR) -->
+    <!-- ABA 1: FINANÇAS & REPASSES v2 -->
     <section id="secTransparencia" class="space-y-6">
       <div class="bg-white p-5 rounded-lg border border-neutral-300 shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h3 class="text-xs font-black uppercase text-sp-blue">Orçamento Anual Geral do Estado</h3>
-          <p class="text-xs text-neutral-500 mt-0.5">Montante total aprovado na Lei Orçamentária Anual (LOA).</p>
+          <h3 class="text-xs font-black uppercase text-sp-blue">Orçamento Anual Geral do Estado (LOA)</h3>
+          <p class="text-xs text-neutral-500 mt-0.5">Montante total aprovado na Lei Orçamentária Anual.</p>
         </div>
         <form onsubmit="salvarOrcamentoTotal(event)" class="flex gap-2">
           <input type="text" inputmode="decimal" id="inOrcTotal" required class="p-2 border rounded font-black text-sm text-neutral-800 outline-none w-48 focus:border-sp-blue">
           <button type="submit" class="bg-sp-blue hover:bg-sp-darkBlue text-white font-bold px-4 py-2 rounded uppercase text-xs shadow">Salvar</button>
         </form>
+      </div>
+
+      <!-- VERBAS ADICIONAIS -->
+      <div class="bg-white rounded-lg border border-neutral-300 shadow-sm overflow-hidden border-l-4 border-amber-500">
+        <div class="p-4 bg-amber-50 border-b border-amber-200 flex flex-wrap justify-between items-center gap-3">
+          <div>
+            <h3 class="font-black text-xs uppercase text-amber-900">Verbas Adicionais Recebidas</h3>
+            <p class="text-[11px] text-amber-700">Recebeu mais verba? Registre aqui — o orçamento efetivo, o saldo e os gráficos são recalculados na hora.</p>
+          </div>
+          <div class="flex items-center gap-2">
+            <span id="adminTotalAdicionais" class="text-xs font-black text-amber-800 bg-amber-200/70 px-2.5 py-1 rounded">R$ 0,00</span>
+            <button onclick="abrirModalFormAdicional()" class="bg-amber-500 hover:bg-amber-600 text-white font-black text-xs px-3 py-2 rounded-lg flex items-center gap-1.5 uppercase shadow">
+              <i data-lucide="banknote" class="w-4 h-4"></i> Registrar Verba
+            </button>
+          </div>
+        </div>
+        <div id="listaAdminAdicionais" class="divide-y divide-neutral-200 text-xs"></div>
+      </div>
+
+      <!-- EXECUÇÃO MENSAL -->
+      <div class="bg-white rounded-lg border border-neutral-300 shadow-sm overflow-hidden border-l-4 border-indigo-600">
+        <div class="p-4 bg-indigo-50 border-b border-indigo-200 flex flex-wrap justify-between items-center gap-3">
+          <div>
+            <h3 class="font-black text-xs uppercase text-indigo-900">Execução Financeira Mensal</h3>
+            <p class="text-[11px] text-indigo-700">Lance o valor executado por mês — alimenta o gráfico de evolução e as projeções do portal.</p>
+          </div>
+          <div class="flex gap-2">
+            <button onclick="distribuirExecucaoMensal()" class="bg-white border border-indigo-300 hover:bg-indigo-100 text-indigo-800 font-bold text-[11px] px-3 py-2 rounded-lg uppercase shadow-sm transition">
+              Distribuir Executado
+            </button>
+            <button onclick="salvarExecucaoMensal()" class="bg-indigo-700 hover:bg-indigo-800 text-white font-black text-xs px-3 py-2 rounded-lg uppercase shadow">
+              Salvar Mensal
+            </button>
+          </div>
+        </div>
+        <div class="p-4 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 text-xs" id="gridMeses"></div>
       </div>
 
       <div class="bg-white rounded-lg border border-neutral-300 shadow-sm overflow-hidden">
@@ -666,7 +758,6 @@
       <div class="bg-white p-5 rounded-lg border border-neutral-300 shadow-sm border-l-4 border-indigo-700">
         <h3 class="text-xs font-black uppercase text-indigo-700 mb-1">Informações Institucionais do IEP-SP</h3>
         <p class="text-xs text-neutral-500 mb-4">Altere a sede, a coordenação operacional do SAMU e o texto oficial do Instituto.</p>
-        
         <form onsubmit="salvarConfiguracaoIep(event)" class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
           <div>
             <label class="font-bold text-neutral-700">Sede Operacional do Instituto</label>
@@ -706,7 +797,7 @@
       </div>
     </section>
 
-    <!-- ABA 3: FARMÁCIA & MEDICAMENTOS -->
+    <!-- ABA 3: FARMÁCIA -->
     <section id="secRemedios" class="space-y-6 hidden">
       <div class="bg-white rounded-lg border border-neutral-300 shadow-sm overflow-hidden">
         <div class="p-4 bg-neutral-100 border-b border-neutral-200 flex justify-between items-center">
@@ -722,7 +813,7 @@
       </div>
     </section>
 
-    <!-- ABA 4: UNIDADES DE SAÚDE & HOSPITAIS -->
+    <!-- ABA 4: HOSPITAIS -->
     <section id="secHospitais" class="space-y-6 hidden">
       <div class="bg-white rounded-lg border border-neutral-300 shadow-sm overflow-hidden">
         <div class="p-4 bg-neutral-100 border-b border-neutral-200 flex justify-between items-center">
@@ -734,12 +825,14 @@
             <i data-lucide="plus-circle" class="w-4 h-4"></i> Adicionar Unidade
           </button>
         </div>
-        <table class="w-full text-left text-xs">
-          <thead class="bg-neutral-50 uppercase text-[10px] text-neutral-600 border-b">
-            <tr><th class="p-3">Unidade</th><th class="p-3">Status</th><th class="p-3">Região</th><th class="p-3 text-right">Ação</th></tr>
-          </thead>
-          <tbody id="tabelaAdminHospitais" class="divide-y divide-neutral-200"></tbody>
-        </table>
+        <div class="overflow-x-auto">
+          <table class="w-full text-left text-xs min-w-[560px]">
+            <thead class="bg-neutral-50 uppercase text-[10px] text-neutral-600 border-b">
+              <tr><th class="p-3">Unidade</th><th class="p-3">Status</th><th class="p-3">Região</th><th class="p-3 text-right">Ação</th></tr>
+            </thead>
+            <tbody id="tabelaAdminHospitais" class="divide-y divide-neutral-200"></tbody>
+          </table>
+        </div>
       </div>
     </section>
 
@@ -759,13 +852,13 @@
       </div>
     </section>
 
-    <!-- ABA 6: PROGRAMAS OFICIAIS -->
+    <!-- ABA 6: PROGRAMAS -->
     <section id="secProgramas" class="space-y-6 hidden">
       <div class="bg-white rounded-lg border border-neutral-300 shadow-sm overflow-hidden">
         <div class="p-4 bg-neutral-100 border-b border-neutral-200 flex justify-between items-center">
           <div>
             <h3 class="font-black text-xs uppercase text-neutral-800">Catálogo de Programas Estaduais</h3>
-            <p class="text-[11px] text-neutral-500">Iniciativas que você escolhe para exibir na página inicial e no catálogo.</p>
+            <p class="text-[11px] text-neutral-500">Iniciativas exibidas na página inicial e no catálogo.</p>
           </div>
           <button onclick="abrirModalFormPrograma()" class="bg-emerald-600 hover:bg-emerald-700 text-white font-black text-xs px-3 py-2 rounded-lg flex items-center gap-1.5 uppercase shadow">
             <i data-lucide="plus-circle" class="w-4 h-4"></i> Novo Programa
@@ -775,10 +868,8 @@
       </div>
     </section>
 
-    <!-- ABA 7: SISTEMA, ALERTAS & DISCORD WEBHOOKS -->
+    <!-- ABA 7: ALERTAS & DISCORD -->
     <section id="secAlerta" class="space-y-6 hidden">
-      
-      <!-- 2 WEBHOOKS DISCORD -->
       <div class="bg-white p-5 rounded-lg border border-neutral-300 shadow-sm max-w-xl border-l-4 border-indigo-700">
         <h3 class="text-xs font-black uppercase text-indigo-700 mb-1 flex items-center gap-1.5">
           <i data-lucide="bell" class="w-4 h-4"></i> Notificações no Discord (2 Webhooks Separados)
@@ -786,25 +877,21 @@
         <p class="text-xs text-neutral-500 mb-4">
           Defina canais separados para receber chamados do <strong>IEP-SP</strong> e pedidos de <strong>Medicamentos</strong>.
         </p>
-
         <form onsubmit="salvarDiscordWebhooks(event)" class="space-y-4 text-xs">
           <div class="bg-indigo-50/70 p-3 rounded-lg border border-indigo-200">
             <label class="font-bold text-indigo-900 block mb-1">🧠 Webhook 1: IEP-SP (Saúde Mental & Perícias)</label>
             <input type="url" id="adminWebhookIep" placeholder="https://discord.com/api/webhooks/..." class="w-full text-xs p-2 border rounded font-semibold focus:border-indigo-600 outline-none">
           </div>
-
           <div class="bg-emerald-50/70 p-3 rounded-lg border border-emerald-200">
             <label class="font-bold text-emerald-900 block mb-1">💊 Webhook 2: Farmácia Dose Certa (Medicamentos)</label>
             <input type="url" id="adminWebhookMed" placeholder="https://discord.com/api/webhooks/..." class="w-full text-xs p-2 border rounded font-semibold focus:border-emerald-600 outline-none">
           </div>
-
           <button type="submit" class="bg-indigo-700 hover:bg-indigo-800 text-white text-xs font-bold px-4 py-2 rounded uppercase shadow">
             Salvar Ambos os Webhooks
           </button>
         </form>
       </div>
 
-      <!-- Alerta da Capa -->
       <div class="bg-white p-5 rounded-lg border border-neutral-300 shadow-sm max-w-xl">
         <h3 class="text-xs font-black uppercase text-sp-blue mb-3">Banner de Alerta Epidemiológico</h3>
         <div class="flex items-center gap-2 mb-4 bg-amber-50 p-3 rounded border border-amber-200">
@@ -828,7 +915,6 @@
         </div>
       </div>
 
-      <!-- Ouvidoria Link -->
       <div class="bg-white p-5 rounded-lg border border-neutral-300 shadow-sm max-w-xl">
         <h3 class="text-xs font-black uppercase text-sp-blue mb-1">Link da Ouvidoria Geral</h3>
         <form onsubmit="salvarOuvidoria(event)" class="space-y-3 text-xs mt-2">
@@ -842,7 +928,6 @@
         </form>
       </div>
 
-      <!-- Nuvem Firebase & Senha -->
       <div class="bg-white p-5 rounded-lg border border-neutral-300 shadow-sm max-w-xl">
         <h3 class="text-xs font-black uppercase text-sp-blue mb-1">Sincronização & Segurança</h3>
         <div id="boxStatusNuvem" class="p-3 rounded-lg text-xs font-semibold bg-emerald-50 text-emerald-800 my-3 border border-emerald-200">
@@ -886,7 +971,32 @@
 
   </main>
 
-  <!-- ==================== MODAIS DE CADASTRO LIMPOS ==================== -->
+  <!-- ==================== MODAIS ==================== -->
+
+  <!-- MODAL: VERBA ADICIONAL -->
+  <div id="modalFormAdicional" style="display: none;" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 items-center justify-center p-4">
+    <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl relative border-t-8 border-amber-500">
+      <button onclick="fecharModalFormAdicional()" class="absolute top-4 right-4 text-neutral-400 hover:text-neutral-700"><i data-lucide="x" class="w-5 h-5"></i></button>
+      <h3 id="formAdicTitle" class="text-sm font-black uppercase text-amber-600 mb-1">Registrar Verba Adicional</h3>
+      <p class="text-[11px] text-neutral-500 mb-4">Créditos extras, suplementações ou transferências especiais recebidas.</p>
+      <form onsubmit="salvarAdicional(event)" class="space-y-3 text-xs">
+        <input type="hidden" id="adicId">
+        <div>
+          <label class="font-bold text-neutral-700">Título da Verba</label>
+          <input type="text" id="adicTitulo" required placeholder="Ex: Suplementação DECRETO 62.000/2026" class="w-full p-2 border rounded mt-1 font-bold">
+        </div>
+        <div>
+          <label class="font-bold text-neutral-700">Valor Recebido (R$)</label>
+          <input type="text" inputmode="decimal" id="adicValor" required placeholder="Ex: 2500000000" class="w-full p-2 border rounded mt-1 font-bold">
+        </div>
+        <div>
+          <label class="font-bold text-neutral-700">Origem / Descrição</label>
+          <input type="text" id="adicDescricao" required placeholder="Ex: Transferência do Governo Federal para redução de filas" class="w-full p-2 border rounded mt-1">
+        </div>
+        <button type="submit" class="w-full bg-amber-500 hover:bg-amber-600 text-white font-bold p-2.5 rounded uppercase shadow mt-2">Salvar Verba Adicional</button>
+      </form>
+    </div>
+  </div>
 
   <!-- MODAL: REPASSE ORÇAMENTÁRIO -->
   <div id="modalFormDestinacao" style="display: none;" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 items-center justify-center p-4">
@@ -949,7 +1059,7 @@
 
   <!-- MODAL: HOSPITAL -->
   <div id="modalFormHospital" style="display: none;" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 items-center justify-center p-4">
-    <div class="bg-white rounded-2xl max-w-lg w-full p-6 shadow-2xl relative">
+    <div class="bg-white rounded-2xl max-w-lg w-full p-6 shadow-2xl relative max-h-[90vh] overflow-y-auto">
       <button onclick="fecharModalFormHospital()" class="absolute top-4 right-4 text-neutral-400 hover:text-neutral-700"><i data-lucide="x" class="w-5 h-5"></i></button>
       <h3 id="formHospTitle" class="text-sm font-black uppercase text-sp-blue mb-3">Cadastrar Unidade Hospitalar</h3>
       <form onsubmit="salvarHospital(event)" class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
@@ -1013,7 +1123,7 @@
 
   <!-- MODAL: TITULAR IEP-SP -->
   <div id="modalFormEquipeIep" style="display: none;" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 items-center justify-center p-4">
-    <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl relative">
+    <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl relative max-h-[90vh] overflow-y-auto">
       <button onclick="fecharModalFormEquipeIep()" class="absolute top-4 right-4 text-neutral-400 hover:text-neutral-700"><i data-lucide="x" class="w-5 h-5"></i></button>
       <h3 id="formEquipeIepTitle" class="text-sm font-black uppercase text-indigo-700 mb-3">Nomear Cargo do IEP-SP</h3>
       <form onsubmit="salvarMembroEquipeIep(event)" class="space-y-3 text-xs">
@@ -1055,7 +1165,7 @@
 
   <!-- MODAL: TITULAR SES GERAL -->
   <div id="modalFormEquipeSES" style="display: none;" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 items-center justify-center p-4">
-    <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl relative">
+    <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl relative max-h-[90vh] overflow-y-auto">
       <button onclick="fecharModalFormEquipeSES()" class="absolute top-4 right-4 text-neutral-400 hover:text-neutral-700"><i data-lucide="x" class="w-5 h-5"></i></button>
       <h3 id="formEquipeTitle" class="text-sm font-black uppercase text-sp-blue mb-3">Nomear Cargo Geral SES</h3>
       <form onsubmit="salvarMembroEquipe(event)" class="space-y-3 text-xs">
@@ -1117,7 +1227,7 @@
           <textarea id="pDescricao" rows="2" required class="w-full p-2 border rounded mt-1"></textarea>
         </div>
         <div>
-          <label class="font-bold text-neutral-700">Link Opcional (Se houver portal externo ou subpágina)</label>
+          <label class="font-bold text-neutral-700">Link Opcional (portal externo ou subpágina)</label>
           <input type="text" id="pLink" placeholder="Ex: #/iep ou #/medicamentos ou https://..." class="w-full p-2 border rounded mt-1">
         </div>
         <button type="submit" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold p-2.5 rounded uppercase shadow mt-2">Salvar Programa</button>
@@ -1125,9 +1235,9 @@
     </div>
   </div>
 
-  <!-- MODAL: NOTÍCIA -->
+  <!-- MODAL: NOTÍCIA (ADMIN) -->
   <div id="modalFormNoticia" style="display: none;" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 items-center justify-center p-4">
-    <div class="bg-white rounded-2xl max-w-lg w-full p-6 shadow-2xl relative">
+    <div class="bg-white rounded-2xl max-w-lg w-full p-6 shadow-2xl relative max-h-[90vh] overflow-y-auto">
       <button onclick="fecharModalFormNoticia()" class="absolute top-4 right-4 text-neutral-400 hover:text-neutral-700"><i data-lucide="x" class="w-5 h-5"></i></button>
       <h3 class="text-sm font-black uppercase text-sp-blue mb-3">Publicar Notícia Oficial</h3>
       <form onsubmit="salvarNoticia(event)" class="space-y-3 text-xs">
@@ -1160,9 +1270,9 @@
     </div>
   </div>
 
-  <!-- MODAL: CHAMADO IEP-SP (DISCORD) -->
+  <!-- MODAL: CHAMADO IEP-SP -->
   <div id="modalChamadoIEP" style="display: none;" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 items-center justify-center p-4">
-    <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl relative border-t-4 border-indigo-700">
+    <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl relative border-t-4 border-indigo-700 max-h-[90vh] overflow-y-auto">
       <button onclick="fecharModalChamadoIEP()" class="absolute top-3.5 right-3.5 text-neutral-400 hover:text-neutral-700"><i data-lucide="x" class="w-5 h-5"></i></button>
       <div class="text-center mb-4">
         <span class="text-[9px] bg-indigo-100 text-indigo-800 font-extrabold px-2 py-0.5 rounded uppercase">Instituto Estadual de Psicologia</span>
@@ -1243,11 +1353,11 @@
     </div>
   </div>
 
-  <!-- MODAL DE NOTÍCIA -->
+  <!-- MODAL DE LEITURA DE NOTÍCIA -->
   <div id="modalNoticia" style="display: none;" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 items-center justify-center p-4">
     <div class="bg-white rounded-xl max-w-xl w-full p-6 shadow-2xl relative max-h-[90vh] overflow-y-auto">
       <button onclick="document.getElementById('modalNoticia').style.display='none'" class="absolute top-3.5 right-3.5 text-neutral-400 hover:text-neutral-700"><i data-lucide="x" class="w-5 h-5"></i></button>
-      <img id="mNoticiaImg" src="" class="w-full h-48 object-cover rounded-lg mb-4">
+      <img id="mNoticiaImg" src="" class="w-full h-48 object-cover rounded-lg mb-4 bg-sp-darkBlue">
       <span id="mNoticiaCat" class="text-[10px] font-bold text-sp-blue uppercase bg-blue-50 px-2 py-0.5 rounded"></span>
       <h3 id="mNoticiaTitulo" class="text-lg font-black text-neutral-900 mt-2 mb-2 leading-snug"></h3>
       <p id="mNoticiaData" class="text-xs text-neutral-400 mb-4"></p>
@@ -1260,61 +1370,123 @@
     </div>
   </div>
 
-  <!-- TOAST DE NOTIFICAÇÃO -->
-  <div id="toast" class="fixed bottom-5 left-1/2 -translate-x-1/2 bg-neutral-900 text-white text-xs px-4 py-2.5 rounded-full shadow-2xl opacity-0 pointer-events-none transition-all duration-300 z-50 flex items-center gap-2">
+  <!-- TOAST -->
+  <div id="toast" class="fixed bottom-5 left-1/2 -translate-x-1/2 bg-neutral-900 text-white text-xs px-4 py-2.5 rounded-full shadow-2xl opacity-0 pointer-events-none transition-all duration-300 z-[60] flex items-center gap-2">
     <i data-lucide="check-circle" class="w-4 h-4 text-emerald-400"></i>
     <span id="toastMsg">Alterações salvas!</span>
   </div>
 
-  <!-- RODAPÉ INSTITUCIONAL -->
+  <!-- BOTÃO VOLTAR AO TOPO -->
+  <button id="btnTopo" onclick="window.scrollTo({top:0,behavior:'smooth'})" class="oculto fixed bottom-5 right-5 z-40 bg-sp-blue hover:bg-sp-darkBlue text-white w-11 h-11 rounded-full shadow-2xl flex items-center justify-center border-2 border-white/30" title="Voltar ao topo">
+    <i data-lucide="arrow-up" class="w-5 h-5"></i>
+  </button>
+
+  <!-- ==================== RODAPÉ INSTITUCIONAL (REFEITO) ==================== -->
   <footer class="bg-sp-darkBlue text-white text-xs mt-12 border-t-4 border-sp-red">
-    <div class="max-w-7xl mx-auto px-4 py-10 grid grid-cols-1 md:grid-cols-4 gap-8">
+    <div class="max-w-7xl mx-auto px-4 pt-12 pb-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10">
+
+      <!-- Coluna 1: Identidade -->
       <div>
-        <div class="flex items-center gap-2 mb-3">
+        <div class="flex items-center gap-2 mb-4">
           <span class="font-extrabold tracking-widest bg-sp-red px-1.5 py-0.5 rounded text-white text-[9px]">SP</span>
           <span class="font-black uppercase text-sm">Secretaria da Saúde</span>
         </div>
-        <p class="text-neutral-300 text-[11px] leading-relaxed">
-          Av. Doutor Enéas Carvalho de Aguiar, 188 - Cerqueira César<br>
-          São Paulo - SP, CEP 05403-000<br>
-          PABX: (11) 3066-8000
+        <p class="text-neutral-300 text-[11px] leading-relaxed mb-4">
+          Portal oficial de transparência, programas estaduais e monitoramento da rede hospitalar do SUS Paulista.
         </p>
+        <div class="flex items-center gap-2 mb-4">
+          <a href="https://www.saopaulo.sp.gov.br" target="_blank" rel="noopener noreferrer" title="Portal do Governo" class="w-8 h-8 rounded-lg bg-white/10 hover:bg-white/20 flex items-center justify-center transition">
+            <i data-lucide="landmark" class="w-4 h-4"></i>
+          </a>
+          <a href="https://www.saude.sp.gov.br" target="_blank" rel="noopener noreferrer" title="Saúde SP" class="w-8 h-8 rounded-lg bg-white/10 hover:bg-white/20 flex items-center justify-center transition">
+            <i data-lucide="globe" class="w-4 h-4"></i>
+          </a>
+          <a id="pubOuvidoriaSocial" href="https://fala.sp.gov.br" target="_blank" rel="noopener noreferrer" title="Ouvidoria" class="w-8 h-8 rounded-lg bg-white/10 hover:bg-white/20 flex items-center justify-center transition">
+            <i data-lucide="message-square" class="w-4 h-4"></i>
+          </a>
+        </div>
+        <span class="inline-flex items-center gap-1.5 text-[10px] text-emerald-400 font-semibold">
+          <span class="w-2 h-2 rounded-full bg-emerald-400 pulse-dot"></span> Sistema operacional
+        </span>
       </div>
+
+      <!-- Coluna 2: Navegação -->
       <div>
-        <h4 class="font-bold uppercase tracking-wider mb-3 text-neutral-200">Portais Temáticos</h4>
-        <ul class="space-y-1.5 text-neutral-300 text-[11px]">
-          <li><button onclick="irParaPagina('programas')" class="hover:underline text-left text-sp-yellow font-bold">Programas Oficiais de Saúde</button></li>
-          <li><button onclick="irParaPagina('transparencia')" class="hover:underline text-left">Transparência & Gastos</button></li>
-          <li><button onclick="irParaPagina('hospitais')" class="hover:underline text-left">Rede Hospitalar em SP</button></li>
-          <li><button onclick="irParaPagina('equipe')" class="hover:underline text-left">Corpo Diretivo da Secretaria</button></li>
-          <li><button onclick="irParaPagina('noticias')" class="hover:underline text-left">Comunicados Oficiais</button></li>
+        <h4 class="font-bold uppercase tracking-wider mb-4 text-neutral-200 flex items-center gap-1.5">
+          <i data-lucide="compass" class="w-3.5 h-3.5 text-sp-yellow"></i> Navegação
+        </h4>
+        <ul class="space-y-2 text-neutral-300 text-[11px]">
+          <li><button onclick="irParaPagina('inicio')" class="hover:text-sp-yellow hover:underline text-left transition inline-flex items-center gap-1.5"><i data-lucide="chevron-right" class="w-3 h-3 text-sp-yellow/60"></i> Página Inicial</button></li>
+          <li><button onclick="irParaPagina('programas')" class="hover:text-sp-yellow hover:underline text-left transition inline-flex items-center gap-1.5"><i data-lucide="chevron-right" class="w-3 h-3 text-sp-yellow/60"></i> Programas Oficiais</button></li>
+          <li><button onclick="irParaPagina('transparencia')" class="hover:text-sp-yellow hover:underline text-left transition inline-flex items-center gap-1.5"><i data-lucide="chevron-right" class="w-3 h-3 text-sp-yellow/60"></i> Transparência & Gastos</button></li>
+          <li><button onclick="irParaPagina('hospitais')" class="hover:text-sp-yellow hover:underline text-left transition inline-flex items-center gap-1.5"><i data-lucide="chevron-right" class="w-3 h-3 text-sp-yellow/60"></i> Rede Hospitalar</button></li>
+          <li><button onclick="irParaPagina('equipe')" class="hover:text-sp-yellow hover:underline text-left transition inline-flex items-center gap-1.5"><i data-lucide="chevron-right" class="w-3 h-3 text-sp-yellow/60"></i> Corpo Diretivo</button></li>
+          <li><button onclick="irParaPagina('noticias')" class="hover:text-sp-yellow hover:underline text-left transition inline-flex items-center gap-1.5"><i data-lucide="chevron-right" class="w-3 h-3 text-sp-yellow/60"></i> Notícias Oficiais</button></li>
         </ul>
       </div>
+
+      <!-- Coluna 3: Programas & Serviços -->
       <div>
-        <h4 class="font-bold uppercase tracking-wider mb-3 text-neutral-200">Canais de Apoio</h4>
-        <p class="text-neutral-300 text-[11px] leading-relaxed">
-          SAMU Emergência: <strong>192</strong><br>
-          Disque Saúde SUS: <strong>136</strong><br>
-          Ouvidoria Geral: <a id="pubOuvidoriaRodape" href="https://fala.sp.gov.br" target="_blank" rel="noopener noreferrer" class="text-sp-yellow hover:underline font-bold inline-flex items-center gap-1">Acessar Canal de Ouvidoria <i data-lucide="external-link" class="w-3 h-3"></i></a>
-        </p>
+        <h4 class="font-bold uppercase tracking-wider mb-4 text-neutral-200 flex items-center gap-1.5">
+          <i data-lucide="heart-pulse" class="w-3.5 h-3.5 text-sp-yellow"></i> Programas & Serviços
+        </h4>
+        <ul class="space-y-2 text-neutral-300 text-[11px]">
+          <li><button onclick="irParaPagina('iep')" class="hover:text-sp-yellow hover:underline text-left transition inline-flex items-center gap-1.5"><i data-lucide="brain" class="w-3 h-3 text-indigo-300"></i> Instituto de Psicologia (IEP-SP)</button></li>
+          <li><button onclick="irParaPagina('medicamentos')" class="hover:text-sp-yellow hover:underline text-left transition inline-flex items-center gap-1.5"><i data-lucide="pill" class="w-3 h-3 text-emerald-300"></i> Programa Dose Certa</button></li>
+          <li><a id="pubOuvidoriaRodape" href="https://fala.sp.gov.br" target="_blank" rel="noopener noreferrer" class="hover:text-sp-yellow hover:underline transition inline-flex items-center gap-1.5"><i data-lucide="message-square" class="w-3 h-3 text-sp-yellow/60"></i> Ouvidoria Geral do Estado</a></li>
+          <li><a href="https://prosangue.sp.gov.br" target="_blank" rel="noopener noreferrer" class="hover:text-sp-yellow hover:underline transition inline-flex items-center gap-1.5"><i data-lucide="droplets" class="w-3 h-3 text-red-300"></i> Fundação Pró-Sangue</a></li>
+          <li><button onclick="abrirModalAvisoRP()" class="hover:text-sp-yellow hover:underline text-left transition inline-flex items-center gap-1.5"><i data-lucide="drama" class="w-3 h-3 text-amber-300"></i> Aviso de Roleplay</button></li>
+        </ul>
       </div>
-      <div class="flex flex-col justify-between">
-        <p class="text-neutral-400 text-[10px]">Portal em conformidade com o Modelo de Acessibilidade em Governo Eletrônico (e-MAG) e LGPD.</p>
-        <span class="text-neutral-500 text-[10px] mt-4 block">Portal Oficial do Estado de São Paulo</span>
+
+      <!-- Coluna 4: Contato -->
+      <div>
+        <h4 class="font-bold uppercase tracking-wider mb-4 text-neutral-200 flex items-center gap-1.5">
+          <i data-lucide="map-pin" class="w-3.5 h-3.5 text-sp-yellow"></i> Contato Oficial
+        </h4>
+        <ul class="space-y-3 text-neutral-300 text-[11px]">
+          <li class="flex items-start gap-2">
+            <i data-lucide="building-2" class="w-4 h-4 text-sp-yellow flex-shrink-0 mt-0.5"></i>
+            <span>Av. Doutor Enéas Carvalho de Aguiar, 188<br>Cerqueira César, São Paulo - SP<br>CEP 05403-000</span>
+          </li>
+          <li class="flex items-center gap-2">
+            <i data-lucide="siren" class="w-4 h-4 text-red-400 flex-shrink-0"></i>
+            <span>SAMU: <strong class="text-white">192</strong> &bull; Disque Saúde: <strong class="text-white">136</strong></span>
+          </li>
+          <li class="flex items-center gap-2">
+            <i data-lucide="phone" class="w-4 h-4 text-sp-yellow flex-shrink-0"></i>
+            <span>PABX: (11) 3066-8000</span>
+          </li>
+          <li class="flex items-center gap-2">
+            <i data-lucide="clock" class="w-4 h-4 text-sp-yellow flex-shrink-0"></i>
+            <span>Atendimento administrativo: seg. a sex., 9h às 18h</span>
+          </li>
+        </ul>
       </div>
     </div>
-    <div class="border-t border-white/10 py-3 text-center text-neutral-400 text-[10px] flex flex-col sm:flex-row items-center justify-center gap-1.5 sm:gap-3 px-3">
-      <span>© 2026 Governo do Estado de São Paulo. Todos os direitos reservados.</span>
-      <span class="hidden sm:inline text-neutral-600">•</span>
-      <button onclick="abrirModalAvisoRP()" class="inline-flex items-center gap-1 text-amber-400 hover:text-amber-300 font-bold uppercase tracking-wide underline underline-offset-2">
-        <i data-lucide="drama" class="w-3 h-3"></i> Site Fictício de Roleplay
-      </button>
+
+    <!-- Barra inferior -->
+    <div class="border-t border-white/10">
+      <div class="max-w-7xl mx-auto px-4 py-4 flex flex-col sm:flex-row items-center justify-between gap-3 text-[10px] text-neutral-400">
+        <span class="text-center sm:text-left">© 2026 Governo do Estado de São Paulo — Secretaria de Estado da Saúde. Todos os direitos reservados.</span>
+        <div class="flex items-center gap-3 flex-wrap justify-center">
+          <span class="hidden md:inline">Conforme e-MAG e LGPD</span>
+          <span class="hidden md:inline text-neutral-600">•</span>
+          <button onclick="alternarContraste()" class="hover:text-sp-yellow transition inline-flex items-center gap-1">
+            <i data-lucide="contrast" class="w-3 h-3"></i> Alto Contraste
+          </button>
+          <span class="hidden md:inline text-neutral-600">•</span>
+          <button onclick="abrirModalAvisoRP()" class="inline-flex items-center gap-1 text-amber-400 hover:text-amber-300 font-bold uppercase tracking-wide underline underline-offset-2">
+            <i data-lucide="drama" class="w-3 h-3"></i> Site Fictício de Roleplay
+          </button>
+        </div>
+      </div>
     </div>
   </footer>
 
   <!-- MODAL: AVISO DE SITE FICTÍCIO (ROLEPLAY) -->
   <div id="modalAvisoRP" style="display: none;" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 items-center justify-center p-4">
-    <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl relative border-t-8 border-amber-500">
+    <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl relative border-t-8 border-amber-500 max-h-[90vh] overflow-y-auto">
       <button onclick="fecharModalAvisoRP()" class="absolute top-4 right-4 text-neutral-400 hover:text-neutral-700"><i data-lucide="x" class="w-5 h-5"></i></button>
       <div class="text-center mb-4">
         <div class="w-12 h-12 bg-amber-50 text-amber-600 rounded-full flex items-center justify-center mx-auto mb-3">
@@ -1337,18 +1509,27 @@
   <!-- ==================== JAVASCRIPT ==================== -->
   <script>
     const FIREBASE_CONFIG = {
-      databaseURL: "https://saude-sp-195c3-default-rtdb.firebaseio.com" 
+      databaseURL: "https://saude-sp-195c3-default-rtdb.firebaseio.com"
     };
 
     const IMG_FALLBACK = "data:image/svg+xml;charset=UTF-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22600%22%20height%3D%22400%22%20viewBox%3D%220%200%20600%20400%22%3E%3Crect%20fill%3D%22%23071D41%22%20width%3D%22600%22%20height%3D%22400%22%2F%3E%3Ctext%20fill%3D%22%23FFCD07%22%20font-family%3D%22sans-serif%22%20font-size%3D%2220%22%20font-weight%3D%22bold%22%20x%3D%2250%25%22%20y%3D%2248%25%22%20text-anchor%3D%22middle%22%3EGOVERNO%20DO%20ESTADO%20DE%20S%C3%83O%20PAULO%3C%2Ftext%3E%3Ctext%20fill%3D%22%23ffffff%22%20font-family%3D%22sans-serif%22%20font-size%3D%2214%22%20x%3D%2250%25%22%20y%3D%2256%25%22%20text-anchor%3D%22middle%22%3ESecretaria%20de%20Estado%20da%20Sa%C3%BAde%3C%2Ftext%3E%3C%2Fsvg%3E";
 
-    // GERADOR DE EMBLEMA INSTITUCIONAL NEUTRO (SEM FOTOS FAKES)
+    const MESES = ['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez'];
+    const MESES_NOME = ['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'];
+    const CORES_GRAFICO = ['#1451B4','#059669','#4338CA','#FFCD07','#CC0000','#9333EA','#0284C7','#D97706','#0D9488','#BE185D'];
+    const CORES_DESTINACOES = ["bg-sp-blue", "bg-emerald-600", "bg-indigo-600", "bg-sp-yellow", "bg-sp-red", "bg-purple-600", "bg-sky-600", "bg-amber-600"];
+
+    // ESCAPE: evita que textos com aspas/quebras quebrem o HTML e os ícones
+    function esc(s) {
+      return String(s ?? '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');
+    }
+
+    function refreshIcons() {
+      try { if (window.lucide) lucide.createIcons(); } catch (e) { console.warn('icons', e); }
+    }
+
     function gerarEmblemaPadraoHtml(corBorda = 'border-sp-blue', corFundo = 'bg-sp-darkBlue') {
-      return `
-        <div style="width: 64px; height: 64px; min-width: 64px; min-height: 64px; max-width: 64px; max-height: 64px;" class="w-16 h-16 rounded-full ${corFundo} text-sp-yellow flex items-center justify-center border-2 ${corBorda} flex-shrink-0 shadow-sm">
-          <i data-lucide="user" class="w-7 h-7 text-white/90"></i>
-        </div>
-      `;
+      return `<div style="width:64px;height:64px;min-width:64px;min-height:64px;max-width:64px;max-height:64px;" class="rounded-full ${corFundo} text-sp-yellow flex items-center justify-center border-2 ${corBorda} flex-shrink-0 shadow-sm"><i data-lucide="user" class="w-7 h-7 text-white/90"></i></div>`;
     }
 
     const CARGOS_OFICIAIS_SES = [
@@ -1368,8 +1549,6 @@
       "Coordenador de Urgências Psiquiátricas / SAMU",
       "Supervisor de Atendimento Comunitário"
     ];
-
-    const CORES_DESTINACOES = ["bg-sp-blue", "bg-emerald-600", "bg-indigo-600", "bg-sp-yellow", "bg-sp-red", "bg-purple-600", "bg-sky-600", "bg-amber-600"];
 
     const DADOS_INICIAIS = {
       user: "admin",
@@ -1397,6 +1576,8 @@
       },
       orcamento: {
         total: 38500000000,
+        adicionais: [],
+        mensal: {},
         destinacoes: [
           { id: "1", nome: "Custeio Operacional IEP-SP", entidade: "Hospital Jefferson — Sede IEP-SP", descricao: "Repasse para atendimento assistencial comunitário, acolhimento de servidores e perícias operacionais.", valor: 850000000 },
           { id: "2", nome: "Manutenção de Leitos de Alta Complexidade", entidade: "Hospital das Clínicas da FMUSP (HC)", descricao: "Manutenção de leitos de alta complexidade, cirurgias e custeio do complexo hospitalar.", valor: 13500000000 },
@@ -1425,7 +1606,6 @@
         { id: "3", nome: "Hospital de Clínicas da UNICAMP", tipo: "Hospital Geral", regiao: "campinas", status: "Operando Normalmente", leitos: 25, endereco: "Rua Vital Brasil, 251 - Barão Geraldo, Campinas - SP", telefone: "(19) 3521-2121", foto: "https://images.unsplash.com/photo-1587351021355-a479a299d2f9?w=800&auto=format&fit=crop&q=80" },
         { id: "4", nome: "Hospital Estadual de Ribeirão Preto", tipo: "Hospital Geral", regiao: "ribeirao", status: "Em Obras / Parcial", leitos: 10, endereco: "Av. Independência, 4600 - Ribeirão Preto - SP", telefone: "(16) 3602-8000", foto: "https://images.unsplash.com/photo-1551076805-e1869033e561?w=800&auto=format&fit=crop&q=80" }
       ],
-      // PROGRAMAS OFICIAIS: IEP-SP E DOSE CERTA NA MESMA GRADE PADRÃO
       programas: [
         { id: "p_iep", nome: "Instituto Estadual de Psicologia (IEP-SP)", categoria: "Saúde Mental & Perícia", descricao: "Acolhimento comunitário, perícias funcionais e regulação de urgências psiquiátricas no Hospital Jefferson.", link: "#/iep", ativo: true },
         { id: "p_dosecerta", nome: "Programa Dose Certa (Medicamentos)", categoria: "Assistência Farmacêutica", descricao: "Distribuição gratuita de medicamentos essenciais e de alto custo nas farmácias do Estado.", link: "#/medicamentos", ativo: true },
@@ -1438,7 +1618,6 @@
       ]
     };
 
-    // CONVERSOR DE ARRAY BLINDADO (EVITA CRASH CASO O FIREBASE RETORNE OBJETO)
     function garantirArray(val, fallback = []) {
       if (!val) return fallback;
       if (Array.isArray(val)) return val;
@@ -1446,8 +1625,6 @@
       return fallback;
     }
 
-    // GARANTE QUE OS PROGRAMAS FIXOS (IEP-SP E DOSE CERTA) SEMPRE EXISTAM NA LISTA,
-    // MESMO QUE O ESTADO SALVO (LOCALSTORAGE/NUVEM) SEJA ANTIGO E NÃO OS TENHA.
     function garantirProgramasFixos(listaProgramas) {
       const lista = garantirArray(listaProgramas, []);
       const fixos = [
@@ -1456,13 +1633,20 @@
       ];
       let alterou = false;
       fixos.forEach(fixo => {
-        const existente = lista.find(p => p.id === fixo.id);
-        if (!existente) {
-          lista.unshift(fixo);
-          alterou = true;
-        }
+        if (!lista.find(p => p.id === fixo.id)) { lista.unshift(fixo); alterou = true; }
       });
       return { lista, alterou };
+    }
+
+    // Garante estrutura nova do orçamento (adicionais + mensal) em dados antigos
+    function garantirOrcamento(o) {
+      const base = o && typeof o === 'object' ? o : {};
+      return {
+        total: Number(base.total) || 0,
+        adicionais: garantirArray(base.adicionais, []),
+        mensal: (base.mensal && typeof base.mensal === 'object') ? base.mensal : {},
+        destinacoes: garantirArray(base.destinacoes, DADOS_INICIAIS.orcamento.destinacoes)
+      };
     }
 
     function limparEConverterValor(val) {
@@ -1479,40 +1663,37 @@
       return isNaN(num) ? 0 : Math.max(0, num);
     }
 
+    function calcularFinancas() {
+      const o = garantirOrcamento(app.orcamento);
+      const loa = Number(o.total) || 0;
+      const adicionais = garantirArray(o.adicionais, []);
+      const totalAdic = adicionais.reduce((s, a) => s + Number(a.valor || 0), 0);
+      const efetivo = loa + totalAdic;
+      const dest = garantirArray(o.destinacoes, []);
+      const executado = dest.reduce((s, d) => s + Number(d.valor || 0), 0);
+      const saldo = Math.max(0, efetivo - executado);
+      const perc = efetivo > 0 ? Math.min(100, (executado / efetivo) * 100) : 0;
+      return { loa, adicionais, totalAdic, efetivo, dest, executado, saldo, perc, mensal: o.mensal || {} };
+    }
+
     function processarArquivoImagem(event, hiddenInputId, previewImgId) {
       const file = event.target.files[0];
       if (!file) return;
-
       const reader = new FileReader();
       reader.onload = function(e) {
         const img = new Image();
         img.onload = function() {
           const canvas = document.createElement('canvas');
-          let width = img.width;
-          let height = img.height;
-
+          let width = img.width, height = img.height;
           const MAX_SIZE = 800;
-          if (width > height && width > MAX_SIZE) {
-            height = Math.round((height * MAX_SIZE) / width);
-            width = MAX_SIZE;
-          } else if (height > MAX_SIZE) {
-            width = Math.round((width * MAX_SIZE) / height);
-            height = MAX_SIZE;
-          }
-
-          canvas.width = width;
-          canvas.height = height;
-          const ctx = canvas.getContext('2d');
-          ctx.drawImage(img, 0, 0, width, height);
-
+          if (width > height && width > MAX_SIZE) { height = Math.round((height * MAX_SIZE) / width); width = MAX_SIZE; }
+          else if (height > MAX_SIZE) { width = Math.round((width * MAX_SIZE) / height); height = MAX_SIZE; }
+          canvas.width = width; canvas.height = height;
+          canvas.getContext('2d').drawImage(img, 0, 0, width, height);
           const base64Otimizado = canvas.toDataURL('image/jpeg', 0.75);
-
           document.getElementById(hiddenInputId).value = base64Otimizado;
           const prev = document.getElementById(previewImgId);
-          if (prev) {
-            prev.src = base64Otimizado;
-            prev.classList.remove('hidden');
-          }
+          if (prev) { prev.src = base64Otimizado; prev.classList.remove('hidden'); }
           mostrarToast("Foto carregada com sucesso!");
         };
         img.src = e.target.result;
@@ -1526,9 +1707,7 @@
         if (!item) return fallback;
         const parsed = JSON.parse(item);
         return (typeof parsed === 'object' && parsed !== null) ? parsed : fallback;
-      } catch (e) {
-        return fallback;
-      }
+      } catch (e) { return fallback; }
     }
 
     let app = {
@@ -1549,24 +1728,16 @@
       noticias: garantirArray(safeStorageGet("ses_noticias", DADOS_INICIAIS.noticias), DADOS_INICIAIS.noticias)
     };
 
-    // Migração de segurança: caso o navegador já tivesse uma lista de programas
-    // salva sem o IEP-SP e o Dose Certa, eles são inseridos agora.
-    (function migrarProgramasFixos() {
-      const resultado = garantirProgramasFixos(app.programas);
-      app.programas = resultado.lista;
-      if (resultado.alterou) {
-        localStorage.setItem("ses_programas", JSON.stringify(app.programas));
-      }
+    // Migrações de segurança
+    (function migrar() {
+      const r1 = garantirProgramasFixos(app.programas);
+      app.programas = r1.lista;
+      if (r1.alterou) localStorage.setItem("ses_programas", JSON.stringify(app.programas));
+      const antes = JSON.stringify(app.orcamento);
+      app.orcamento = garantirOrcamento(app.orcamento);
+      if (!app.orcamento.total) app.orcamento.total = DADOS_INICIAIS.orcamento.total;
+      if (JSON.stringify(app.orcamento) !== antes) localStorage.setItem("ses_orcamento", JSON.stringify(app.orcamento));
     })();
-
-    if (!app.orcamento || !app.orcamento.destinacoes) {
-      app.orcamento = {
-        total: app.orcamento && app.orcamento.total ? limparEConverterValor(app.orcamento.total) : DADOS_INICIAIS.orcamento.total,
-        destinacoes: [...DADOS_INICIAIS.orcamento.destinacoes]
-      };
-    } else {
-      app.orcamento.destinacoes = garantirArray(app.orcamento.destinacoes, DADOS_INICIAIS.orcamento.destinacoes);
-    }
 
     // NAVEGAÇÃO SPA
     const TITULOS_PAGINAS = {
@@ -1583,16 +1754,11 @@
 
     function irParaPagina(pagina, atualizarHash = true) {
       if (!TITULOS_PAGINAS[pagina]) pagina = "inicio";
-
       document.querySelectorAll(".view-section").forEach(sec => sec.classList.add("hidden"));
-
       const viewId = pagina === "admin" ? "viewAdmin" : "view" + pagina.charAt(0).toUpperCase() + pagina.slice(1);
       const targetSec = document.getElementById(viewId);
       if (targetSec) targetSec.classList.remove("hidden");
-
-      if (atualizarHash) {
-        window.location.hash = "#/" + pagina;
-      }
+      if (atualizarHash) window.location.hash = "#/" + pagina;
 
       const sep = document.getElementById("breadcrumbSeparator");
       const cur = document.getElementById("breadcrumbCurrent");
@@ -1601,49 +1767,41 @@
         if (cur) cur.classList.add("hidden");
       } else {
         if (sep) sep.classList.remove("hidden");
-        if (cur) {
-          cur.classList.remove("hidden");
-          cur.innerText = TITULOS_PAGINAS[pagina];
-        }
+        if (cur) { cur.classList.remove("hidden"); cur.innerText = TITULOS_PAGINAS[pagina]; }
       }
 
       document.querySelectorAll(".nav-item").forEach(item => {
-        if (item.getAttribute("data-page") === pagina) {
-          item.classList.add("text-sp-blue", "border-b-2", "border-sp-blue");
-        } else {
-          item.classList.remove("text-sp-blue", "border-b-2", "border-sp-blue");
-        }
+        if (item.getAttribute("data-page") === pagina) item.classList.add("text-sp-blue", "border-b-2", "border-sp-blue");
+        else item.classList.remove("text-sp-blue", "border-b-2", "border-sp-blue");
       });
+
+      // Recria gráficos quando a transparência é exibida (resize correto)
+      if (pagina === "transparencia") renderizarTransparenciaPublica();
 
       window.scrollTo({ top: 0, behavior: "smooth" });
     }
 
-    function fecharMenuMobile() {
-      document.getElementById('menuMobile').classList.remove('open');
-    }
+    function fecharMenuMobile() { document.getElementById('menuMobile').classList.remove('open'); }
 
     window.addEventListener("hashchange", () => {
       const rota = window.location.hash.replace("#/", "").trim();
-      if (rota === "admin" && !app.logado) {
-        abrirModalLogin();
-      } else {
-        irParaPagina(rota || "inicio", false);
-      }
+      if (rota === "admin" && !app.logado) abrirModalLogin();
+      else irParaPagina(rota || "inicio", false);
+    });
+
+    window.addEventListener("scroll", () => {
+      const b = document.getElementById("btnTopo");
+      if (b) b.classList.toggle("oculto", window.scrollY < 400);
     });
 
     let firebaseDB = null;
 
     function inicializarNuvem() {
       const urlBanco = FIREBASE_CONFIG.databaseURL;
-      const tagNuvem = document.getElementById("cloudStatus");
-
       if (urlBanco && urlBanco.startsWith("http")) {
         try {
-          if (!firebase.apps.length) {
-            firebase.initializeApp({ databaseURL: urlBanco });
-          }
+          if (!firebase.apps.length) firebase.initializeApp({ databaseURL: urlBanco });
           firebaseDB = firebase.database();
-          if (tagNuvem) tagNuvem.classList.remove("hidden");
 
           firebaseDB.ref("dados_saude_sp").on("value", (snapshot) => {
             const dadosNuvem = snapshot.val();
@@ -1653,13 +1811,7 @@
               if (dadosNuvem.webhookMedicamentos) app.webhookMedicamentos = dadosNuvem.webhookMedicamentos;
               if (dadosNuvem.iepConfig) app.iepConfig = dadosNuvem.iepConfig;
               if (dadosNuvem.alerta) app.alerta = dadosNuvem.alerta;
-              if (dadosNuvem.orcamento) {
-                app.orcamento = {
-                  total: dadosNuvem.orcamento.total || DADOS_INICIAIS.orcamento.total,
-                  destinacoes: garantirArray(dadosNuvem.orcamento.destinacoes, DADOS_INICIAIS.orcamento.destinacoes)
-                };
-              }
-
+              if (dadosNuvem.orcamento) app.orcamento = garantirOrcamento(dadosNuvem.orcamento);
               if (dadosNuvem.iepEquipe) app.iepEquipe = garantirArray(dadosNuvem.iepEquipe, DADOS_INICIAIS.iepEquipe);
               if (dadosNuvem.medicamentos) app.medicamentos = garantirArray(dadosNuvem.medicamentos, DADOS_INICIAIS.medicamentos);
               if (dadosNuvem.equipe) app.equipe = garantirArray(dadosNuvem.equipe, DADOS_INICIAIS.equipe);
@@ -1667,10 +1819,9 @@
               if (dadosNuvem.programas) app.programas = garantirArray(dadosNuvem.programas, DADOS_INICIAIS.programas);
               if (dadosNuvem.noticias) app.noticias = garantirArray(dadosNuvem.noticias, DADOS_INICIAIS.noticias);
 
-              // Reaplica a garantia dos programas fixos também após sincronizar com a nuvem,
-              // caso o banco remoto ainda esteja com uma lista antiga.
               const resSync = garantirProgramasFixos(app.programas);
               app.programas = resSync.lista;
+              app.orcamento = garantirOrcamento(app.orcamento);
 
               localStorage.setItem("ses_ouvidoria", app.ouvidoria);
               localStorage.setItem("ses_webhook_iep", app.webhookIep);
@@ -1686,15 +1837,13 @@
               localStorage.setItem("ses_noticias", JSON.stringify(app.noticias));
 
               atualizarTudo(resSync.alterou);
-              ocultarSplash(); // dados oficiais carregados: libera o portal
+              ocultarSplash();
             } else {
               salvarEstadoGlobal();
               ocultarSplash();
             }
           });
-        } catch (e) {
-          console.error("Erro no Firebase:", e);
-        }
+        } catch (e) { console.error("Erro no Firebase:", e); }
       }
     }
 
@@ -1726,12 +1875,8 @@
           hospitais: app.hospitais,
           programas: app.programas,
           noticias: app.noticias
-        }).then(() => {
-          mostrarToast("Salvo na Nuvem para todos!");
-        }).catch(err => {
-          console.error("Erro ao salvar:", err);
-          mostrarToast("Salvo localmente!");
-        });
+        }).then(() => mostrarToast("Salvo na Nuvem para todos!"))
+          .catch(err => { console.error("Erro ao salvar:", err); mostrarToast("Salvo localmente!"); });
       }
     }
 
@@ -1744,10 +1889,12 @@
         const hashAtual = window.location.hash.replace("#/", "").trim();
         irParaPagina(hashAtual || "inicio", false);
         definirSplashProgresso(85, "Preparando o portal...");
+        const agora = new Date();
+        const dataEl = document.getElementById("breadcrumbData");
+        if (dataEl) dataEl.innerText = agora.getDate() + " de " + MESES_NOME[agora.getMonth()] + " de " + agora.getFullYear();
       } catch (err) {
         console.error("Erro na inicialização:", err);
       } finally {
-        // Só some de vez se a nuvem responder OU após 2s (fallback local)
         setTimeout(() => { definirSplashProgresso(100, "Pronto!"); ocultarSplash(); }, 2000);
       }
     });
@@ -1756,54 +1903,41 @@
       return Number(val || 0).toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
     }
 
+    function formatarCompacto(v) {
+      v = Number(v) || 0;
+      const abs = Math.abs(v);
+      if (abs >= 1e9) return "R$ " + (v / 1e9).toLocaleString("pt-BR", { maximumFractionDigits: 2 }) + " bi";
+      if (abs >= 1e6) return "R$ " + (v / 1e6).toLocaleString("pt-BR", { maximumFractionDigits: 1 }) + " mi";
+      return formatarMoeda(v);
+    }
+
     function mostrarToast(msg) {
       const t = document.getElementById("toast");
       if (!t) return;
       document.getElementById("toastMsg").innerText = msg;
       t.style.opacity = "1";
       t.style.pointerEvents = "auto";
-      setTimeout(() => {
-        t.style.opacity = "0";
-        t.style.pointerEvents = "none";
-      }, 2500);
+      setTimeout(() => { t.style.opacity = "0"; t.style.pointerEvents = "none"; }, 2500);
     }
 
     function atualizarTudo(persistir = true) {
       try {
-        // Links Ouvidoria & Webhooks
         const linkOuv = app.ouvidoria || "https://fala.sp.gov.br";
-        const elTopo = document.getElementById("pubOuvidoriaTopo");
-        const elHero = document.getElementById("pubOuvidoriaHero");
-        const elRodape = document.getElementById("pubOuvidoriaRodape");
+        ["pubOuvidoriaTopo", "pubOuvidoriaHero", "pubOuvidoriaRodape", "pubOuvidoriaSocial"].forEach(id => {
+          const el = document.getElementById(id);
+          if (el) el.href = linkOuv;
+        });
         const inOuv = document.getElementById("adminInputOuvidoria");
         const inWbIep = document.getElementById("adminWebhookIep");
         const inWbMed = document.getElementById("adminWebhookMed");
-
-        if (elTopo) elTopo.href = linkOuv;
-        if (elHero) elHero.href = linkOuv;
-        if (elRodape) elRodape.href = linkOuv;
         if (inOuv) inOuv.value = linkOuv;
         if (inWbIep) inWbIep.value = app.webhookIep || "";
         if (inWbMed) inWbMed.value = app.webhookMedicamentos || "";
 
-        // Dados IEP-SP
         const cfg = app.iepConfig || DADOS_INICIAIS.iepConfig;
-        const elIepSede = document.getElementById("iepPubSede");
-        const elIepGestor = document.getElementById("iepPubGestor");
-        const elIepDir = document.getElementById("iepPubDiretorSamu");
-
-        if (elIepSede) elIepSede.innerText = cfg.sede;
-        if (elIepGestor) elIepGestor.innerText = cfg.gestor;
-        if (elIepDir) elIepDir.innerText = cfg.diretorSamu;
-
-        const inCfgSede = document.getElementById("iepCfgSede");
-        const inCfgDir = document.getElementById("iepCfgDiretorSamu");
-        const inCfgGestor = document.getElementById("iepCfgGestor");
-        const inCfgDesc = document.getElementById("iepCfgDescricao");
-        if (inCfgSede) inCfgSede.value = cfg.sede;
-        if (inCfgDir) inCfgDir.value = cfg.diretorSamu;
-        if (inCfgGestor) inCfgGestor.value = cfg.gestor;
-        if (inCfgDesc) inCfgDesc.value = cfg.descricao;
+        const mapaIep = { iepPubSede: cfg.sede, iepPubGestor: cfg.gestor, iepPubDiretorSamu: cfg.diretorSamu,
+                          iepCfgSede: cfg.sede, iepCfgDiretorSamu: cfg.diretorSamu, iepCfgGestor: cfg.gestor, iepCfgDescricao: cfg.descricao };
+        Object.entries(mapaIep).forEach(([id, v]) => { const el = document.getElementById(id); if (el) el.innerText !== undefined ? (el.tagName === 'TEXTAREA' || el.tagName === 'INPUT' ? el.value = v : el.innerText = v) : null; });
 
         // Alerta
         const banner = document.getElementById("bannerAlerta");
@@ -1824,9 +1958,7 @@
               if (iconeAlerta) iconeAlerta.setAttribute("data-lucide", "alert-triangle");
             }
           }
-        } else {
-          if (banner) banner.style.display = "none";
-        }
+        } else if (banner) banner.style.display = "none";
 
         const chkAl = document.getElementById("chkAlertaAtivo");
         const selAl = document.getElementById("selAlertaNivel");
@@ -1837,53 +1969,60 @@
         if (inAl) inAl.value = app.alerta ? app.alerta.mensagem || "" : "";
         if (contAl && inAl) contAl.innerText = inAl.value.length;
 
-        // Orçamento & Repasses
-        const o = app.orcamento || DADOS_INICIAIS.orcamento;
-        const totalOrc = Number(o.total) || 0;
-        const destinacoesList = garantirArray(o.destinacoes, []);
-        const executado = destinacoesList.reduce((soma, d) => soma + Number(d.valor || 0), 0);
-        const saldo = Math.max(0, totalOrc - executado);
-        const perc = totalOrc > 0 ? Math.min(100, Math.round((executado / totalOrc) * 100)) : 0;
+        // FINANÇAS
+        const f = calcularFinancas();
+        app.orcamento = garantirOrcamento(app.orcamento);
 
-        const elTot = document.getElementById("pubOrcTotal");
-        const elHomeTot = document.getElementById("homeOrcTotal");
-        const elExec = document.getElementById("pubOrcExecutado");
-        const elSal = document.getElementById("pubOrcSaldo");
-        const elPerc = document.getElementById("pubOrcPercent");
-        const elBarraLbl = document.getElementById("labelBarraProgresso");
-        const elBarra = document.getElementById("barraProgresso");
-        const elContDest = document.getElementById("contagemDestinacoes");
+        const setText = (id, v) => { const el = document.getElementById(id); if (el) el.innerText = v; };
+        setText("pubOrcLOA", formatarMoeda(f.loa));
+        setText("pubOrcAdic", formatarMoeda(f.totalAdic));
+        setText("pubOrcAdicQtd", f.adicionais.length + " crédito(s) extra(s)");
+        setText("pubOrcEfetivo", formatarMoeda(f.efetivo));
+        setText("pubOrcExecutado", formatarMoeda(f.executado));
+        setText("pubOrcSaldo", formatarMoeda(f.saldo));
+        setText("pubOrcPercent", f.perc.toFixed(1).replace(".", ",") + "%");
+        setText("labelBarraProgresso", f.perc.toFixed(1).replace(".", ",") + "% Executado");
+        setText("contagemDestinacoes", f.dest.length + " Repasses");
+        setText("homeOrcTotal", formatarMoeda(f.efetivo));
+        setText("homeOrcExec", formatarMoeda(f.executado));
+        setText("homeOrcPerc", f.perc.toFixed(1).replace(".", ",") + "%");
+        setText("adminTotalAdicionais", formatarMoeda(f.totalAdic));
+        const barra = document.getElementById("barraProgresso");
+        if (barra) barra.style.width = f.perc + "%";
         const inTot = document.getElementById("inOrcTotal");
+        if (inTot) inTot.value = f.loa;
 
-        if (elTot) elTot.innerText = formatarMoeda(totalOrc);
-        if (elHomeTot) elHomeTot.innerText = formatarMoeda(totalOrc);
-        if (elExec) elExec.innerText = formatarMoeda(executado);
-        if (elSal) elSal.innerText = formatarMoeda(saldo);
-        if (elPerc) elPerc.innerText = `${perc}% do orçamento estadual destinado`;
-        if (elBarraLbl) elBarraLbl.innerText = `${perc}% Destinado`;
-        if (elBarra) elBarra.style.width = `${perc}%`;
-        if (elContDest) elContDest.innerText = `${destinacoesList.length} Repasses`;
-        if (inTot) inTot.value = totalOrc;
+        // Estimativas
+        const MES_ATUAL = new Date().getMonth() + 1;
+        const ANO_ATUAL = new Date().getFullYear();
+        const ritmo = MES_ATUAL > 0 ? f.executado / MES_ATUAL : 0;
+        const projecao = f.executado + ritmo * (12 - MES_ATUAL);
+        const percProj = f.efetivo > 0 ? Math.min(999, (projecao / f.efetivo) * 100) : 0;
+        setText("estRitmo", formatarCompacto(ritmo));
+        setText("estProjecao", formatarCompacto(projecao));
+        setText("estProjecaoPerc", "≈ " + percProj.toFixed(1).replace(".", ",") + "% do orçamento efetivo em dez/" + ANO_ATUAL);
+        let conclusao = "—";
+        if (f.saldo <= 0 && f.efetivo > 0) conclusao = "Saldo esgotado";
+        else if (ritmo > 0 && f.saldo > 0) {
+          const d = new Date(ANO_ATUAL, (MES_ATUAL - 1) + Math.ceil(f.saldo / ritmo), 1);
+          conclusao = MESES_NOME[d.getMonth()].slice(0, 3) + "/" + d.getFullYear();
+        } else if (f.saldo > 0) conclusao = "Sem ritmo";
+        setText("estConclusao", conclusao);
+        setText("estMediaDest", f.dest.length ? formatarCompacto(f.executado / f.dest.length) : "—");
+        setText("estQtdDest", f.dest.length + " destinações ativas");
 
-        // Atualização dos 4 KPIs Principais
-        const kpiHosp = document.getElementById("kpiHospitais");
-        const kpiLt = document.getElementById("kpiLeitos");
-        const kpiProg = document.getElementById("kpiProgramas");
-        const kpiEx = document.getElementById("kpiExecucao");
-
+        // KPIs
         const listaHosp = garantirArray(app.hospitais, []);
         const listaProg = garantirArray(app.programas, []);
-
-        if (kpiHosp) kpiHosp.innerText = listaHosp.length;
-        if (kpiLt) kpiLt.innerText = listaHosp.reduce((s, h) => s + Number(h.leitos || 0), 0);
-        if (kpiProg) kpiProg.innerText = listaProg.filter(p => p.ativo).length;
-        if (kpiEx) kpiEx.innerText = `${perc}%`;
+        setText("kpiHospitais", listaHosp.length);
+        setText("kpiLeitos", listaHosp.reduce((s, h) => s + Number(h.leitos || 0), 0));
+        setText("kpiProgramas", listaProg.filter(p => p.ativo).length);
+        setText("kpiExecucao", f.perc.toFixed(0) + "%");
 
         // Renderizações
         atualizarSelectEntidadesDinamico();
         popularSelectMedicamentosFormulario();
-
-        renderizarDestinacoesPublicas(totalOrc);
+        renderizarTransparenciaPublica();
         renderizarEquipe();
         renderizarEquipeIep();
         renderizarProgramas();
@@ -1894,17 +2033,309 @@
         renderizarListaRemediosPublica();
         renderizarAdminListas();
 
-        lucide.createIcons();
+        refreshIcons();
 
-        if (persistir) {
-          salvarEstadoGlobal();
-        }
+        if (persistir) salvarEstadoGlobal();
       } catch (err) {
         console.error("Erro ao atualizar tudo:", err);
       }
     }
 
-    // --- SALVAR OS 2 WEBHOOKS DISCORD ---
+    // ==================== TRANSPARÊNCIA PÚBLICA (gráficos + listas) ====================
+    let graficoPizza = null, graficoMensal = null;
+
+    function renderizarTransparenciaPublica() {
+      const f = calcularFinancas();
+      try {
+        // Lista de destinações
+        const div = document.getElementById("listaPublicaDestinacoes");
+        if (div) {
+          if (f.dest.length === 0) {
+            div.innerHTML = '<p class="p-6 text-center text-neutral-400 font-semibold">Nenhum repasse cadastrado até o momento.</p>';
+          } else {
+            div.innerHTML = f.dest.map((d, i) => {
+              const perc = f.efetivo > 0 ? Math.min(100, (Number(d.valor || 0) / f.efetivo) * 100) : 0;
+              const cor = CORES_DESTINACOES[i % CORES_DESTINACOES.length];
+              return `
+                <div class="p-4 hover:bg-neutral-50 transition">
+                  <div class="flex flex-wrap justify-between items-center gap-2 mb-1.5">
+                    <div class="flex items-center gap-2 min-w-0">
+                      <span class="w-2.5 h-2.5 rounded-full ${cor} flex-shrink-0"></span>
+                      <strong class="text-neutral-900 truncate">${esc(d.nome)}</strong>
+                      <span class="text-[9px] font-black text-neutral-500 bg-neutral-100 px-1.5 py-0.5 rounded">${perc.toFixed(2).replace(".", ",")}% do efetivo</span>
+                    </div>
+                    <span class="font-black text-emerald-700">${formatarMoeda(d.valor)}</span>
+                  </div>
+                  <p class="text-[11px] text-neutral-500 mb-2 pl-5">${esc(d.entidade ? d.entidade + ' — ' : '')}${esc(d.descricao || '')}</p>
+                  <div class="w-full bg-neutral-200 rounded-full h-2 overflow-hidden">
+                    <div class="${cor} h-2 rounded-full transition-all duration-700" style="width:${perc}%"></div>
+                  </div>
+                </div>`;
+            }).join("");
+          }
+        }
+
+        // Verbas adicionais públicas
+        const boxAd = document.getElementById("boxPublicoAdicionais");
+        const listaAd = document.getElementById("listaPublicaAdicionais");
+        if (boxAd && listaAd) {
+          if (f.adicionais.length === 0) boxAd.classList.add("hidden");
+          else {
+            boxAd.classList.remove("hidden");
+            setText2("pubTotalAdicionais", formatarMoeda(f.totalAdic));
+            listaAd.innerHTML = f.adicionais.map(a => `
+              <div class="p-3.5 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 hover:bg-amber-50/40">
+                <div>
+                  <div class="flex items-center gap-2 flex-wrap">
+                    <span class="font-bold text-neutral-900">${esc(a.titulo)}</span>
+                    <span class="text-[9px] font-bold text-amber-800 bg-amber-100 px-1.5 py-0.5 rounded uppercase">${esc(a.data || '')}</span>
+                  </div>
+                  <p class="text-[11px] text-neutral-500 mt-0.5">${esc(a.descricao || '')}</p>
+                </div>
+                <span class="font-black text-amber-700 sm:text-right">+ ${formatarMoeda(a.valor)}</span>
+              </div>`).join("");
+          }
+        }
+
+        renderizarGraficos(f);
+      } catch (e) { console.error("transparencia", e); }
+    }
+
+    function setText2(id, v) { const el = document.getElementById(id); if (el) el.innerText = v; }
+
+    function renderizarGraficos(f) {
+      if (!window.Chart) return;
+      try {
+        Chart.defaults.font.family = "Inter, sans-serif";
+
+        // Doughnut
+        const ctx1 = document.getElementById('graficoPizza');
+        if (ctx1) {
+          const ordenada = [...f.dest].sort((a, b) => Number(b.valor || 0) - Number(a.valor || 0));
+          const top = ordenada.slice(0, 6);
+          const outros = ordenada.slice(6).reduce((s, d) => s + Number(d.valor || 0), 0);
+          const labels = top.map(d => d.nome);
+          const valores = top.map(d => Number(d.valor || 0));
+          if (outros > 0) { labels.push('Outras destinações'); valores.push(outros); }
+          if (graficoPizza) graficoPizza.destroy();
+          graficoPizza = new Chart(ctx1, {
+            type: 'doughnut',
+            data: { labels, datasets: [{ data: valores, backgroundColor: CORES_GRAFICO, borderWidth: 2, borderColor: '#fff', hoverOffset: 8 }] },
+            options: {
+              maintainAspectRatio: false, cutout: '60%',
+              plugins: {
+                legend: { position: 'right', labels: { boxWidth: 12, padding: 10, font: { size: 10 } } },
+                tooltip: { callbacks: { label: (c) => ' ' + formatarMoeda(c.parsed) + ' (' + (f.executado > 0 ? (c.parsed / f.executado * 100).toFixed(1) : 0) + '%)' } }
+              }
+            }
+          });
+        }
+
+        // Mensal
+        const ctx2 = document.getElementById('graficoMensal');
+        if (ctx2) {
+          const vals = MESES.map((_, i) => Number(f.mensal[i + 1] || 0));
+          const acum = []; let s = 0;
+          vals.forEach(v => { s += v; acum.push(s); });
+          if (graficoMensal) graficoMensal.destroy();
+          graficoMensal = new Chart(ctx2, {
+            data: {
+              labels: MESES,
+              datasets: [
+                { type: 'bar', label: 'Execução do mês', data: vals, backgroundColor: 'rgba(20,81,180,.85)', borderRadius: 4, order: 3 },
+                { type: 'line', label: 'Acumulado', data: acum, borderColor: '#059669', backgroundColor: '#059669', tension: .35, pointRadius: 3, borderWidth: 2, order: 2 },
+                { type: 'line', label: 'Orçamento efetivo', data: MESES.map(() => f.efetivo), borderColor: '#D97706', borderDash: [7, 5], pointRadius: 0, borderWidth: 2, order: 1 }
+              ]
+            },
+            options: {
+              maintainAspectRatio: false,
+              plugins: { legend: { labels: { boxWidth: 12, font: { size: 10 } } }, tooltip: { callbacks: { label: (c) => ' ' + c.dataset.label + ': ' + formatarCompacto(c.parsed.y) } } },
+              scales: {
+                y: { ticks: { callback: v => formatarCompacto(v), font: { size: 9 } }, grid: { color: 'rgba(0,0,0,.05)' } },
+                x: { ticks: { font: { size: 9 } }, grid: { display: false } }
+              }
+            }
+          });
+        }
+      } catch (e) { console.error("graficos", e); }
+    }
+
+    function exportarDestinacoesCSV() {
+      const f = calcularFinancas();
+      const q = (s) => '"' + String(s ?? '').replace(/"/g, '""') + '"';
+      let csv = 'Entidade;Titulo;Descricao;Valor (R$)\n';
+      f.dest.forEach(d => { csv += [q(d.entidade), q(d.nome), q(d.descricao), Number(d.valor || 0).toFixed(2)].join(';') + '\n'; });
+      csv += [q('ORÇAMENTO LOA'), '', '', f.loa.toFixed(2)].join(';') + '\n';
+      f.adicionais.forEach(a => { csv += [q('VERBA ADICIONAL: ' + a.titulo), q(a.descricao), '', Number(a.valor || 0).toFixed(2)].join(';') + '\n'; });
+      csv += [q('ORÇAMENTO EFETIVO'), '', '', f.efetivo.toFixed(2)].join(';') + '\n';
+      csv += [q('TOTAL EXECUTADO'), '', '', f.executado.toFixed(2)].join(';') + '\n';
+      csv += [q('SALDO DISPONÍVEL'), '', '', f.saldo.toFixed(2)].join(';') + '\n';
+      const blob = new Blob(['\ufeff' + csv], { type: 'text/csv;charset=utf-8;' });
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = 'transparencia-saude-sp.csv';
+      document.body.appendChild(a); a.click(); a.remove();
+      mostrarToast("Planilha CSV exportada!");
+    }
+
+    // ==================== VERBAS ADICIONAIS (ADMIN) ====================
+    function abrirModalFormAdicional(id = null) {
+      document.getElementById("adicId").value = "";
+      document.getElementById("adicTitulo").value = "";
+      document.getElementById("adicValor").value = "";
+      document.getElementById("adicDescricao").value = "";
+      document.getElementById("formAdicTitle").innerText = "Registrar Verba Adicional";
+      if (id) {
+        const a = garantirArray(app.orcamento.adicionais, []).find(x => String(x.id) === String(id));
+        if (a) {
+          document.getElementById("adicId").value = a.id;
+          document.getElementById("adicTitulo").value = a.titulo || "";
+          document.getElementById("adicValor").value = a.valor || "";
+          document.getElementById("adicDescricao").value = a.descricao || "";
+          document.getElementById("formAdicTitle").innerText = "Editar Verba: " + a.titulo;
+        }
+      }
+      document.getElementById("modalFormAdicional").style.display = "flex";
+      refreshIcons();
+    }
+    function fecharModalFormAdicional() { document.getElementById("modalFormAdicional").style.display = "none"; }
+
+    function salvarAdicional(e) {
+      e.preventDefault();
+      app.orcamento = garantirOrcamento(app.orcamento);
+      const id = document.getElementById("adicId").value;
+      const titulo = document.getElementById("adicTitulo").value.trim();
+      const valor = limparEConverterValor(document.getElementById("adicValor").value);
+      const descricao = document.getElementById("adicDescricao").value.trim();
+      const dataHoje = new Date().toLocaleDateString("pt-BR");
+      if (valor <= 0) { alert("Digite um valor válido para a verba."); return; }
+      if (id) {
+        const idx = app.orcamento.adicionais.findIndex(x => String(x.id) === String(id));
+        if (idx !== -1) app.orcamento.adicionais[idx] = { ...app.orcamento.adicionais[idx], titulo, valor, descricao };
+      } else {
+        app.orcamento.adicionais.push({ id: Date.now().toString(), titulo, valor, descricao, data: dataHoje });
+      }
+      fecharModalFormAdicional();
+      atualizarTudo(true);
+      mostrarToast("Verba adicional registrada!");
+    }
+
+    function excluirAdicional(id) {
+      if (confirm("Remover esta verba adicional?")) {
+        app.orcamento = garantirOrcamento(app.orcamento);
+        app.orcamento.adicionais = app.orcamento.adicionais.filter(x => String(x.id) !== String(id));
+        atualizarTudo(true);
+      }
+    }
+
+    // ==================== EXECUÇÃO MENSAL (ADMIN) ====================
+    function salvarExecucaoMensal() {
+      app.orcamento = garantirOrcamento(app.orcamento);
+      const novo = {};
+      for (let i = 1; i <= 12; i++) {
+        const el = document.getElementById("mesN" + i);
+        novo[i] = el ? limparEConverterValor(el.value) : 0;
+      }
+      app.orcamento.mensal = novo;
+      atualizarTudo(true);
+      mostrarToast("Execução mensal salva!");
+    }
+
+    function distribuirExecucaoMensal() {
+      const f = calcularFinancas();
+      if (f.executado <= 0) { alert("Nenhum valor executado para distribuir."); return; }
+      if (!confirm("Distribuir o total executado (" + formatarMoeda(f.executado) + ") uniformemente entre os 12 meses?")) return;
+      app.orcamento = garantirOrcamento(app.orcamento);
+      const porMes = Math.round(f.executado / 12);
+      const novo = {};
+      for (let i = 1; i <= 12; i++) novo[i] = porMes;
+      app.orcamento.mensal = novo;
+      atualizarTudo(true);
+      mostrarToast("Valores distribuídos nos 12 meses!");
+    }
+
+    // ==================== ORÇAMENTO & DESTINAÇÕES ====================
+    function salvarOrcamentoTotal(e) {
+      e.preventDefault();
+      const valorFinal = limparEConverterValor(document.getElementById("inOrcTotal").value);
+      if (valorFinal <= 0) { alert("Digite um valor válido maior que zero."); return; }
+      app.orcamento = garantirOrcamento(app.orcamento);
+      app.orcamento.total = valorFinal;
+      atualizarTudo(true);
+      mostrarToast("Orçamento LOA salvo!");
+    }
+
+    function abrirModalFormDestinacao(id = null) {
+      document.getElementById("destId").value = "";
+      document.getElementById("destNome").value = "";
+      document.getElementById("destValor").value = "";
+      document.getElementById("destDescricao").value = "";
+      document.getElementById("formDestTitle").innerText = "Lançar Repasse Orçamentário";
+      if (id) {
+        app.orcamento = garantirOrcamento(app.orcamento);
+        const d = app.orcamento.destinacoes.find(x => String(x.id) === String(id));
+        if (d) {
+          document.getElementById("destId").value = d.id;
+          document.getElementById("destEntidade").value = d.entidade || "Outro (Personalizado)";
+          document.getElementById("destNome").value = d.nome;
+          document.getElementById("destValor").value = d.valor;
+          document.getElementById("destDescricao").value = d.descricao || "";
+          document.getElementById("formDestTitle").innerText = "Editar Repasse: " + d.nome;
+        }
+      }
+      document.getElementById("modalFormDestinacao").style.display = "flex";
+      refreshIcons();
+    }
+    function fecharModalFormDestinacao() { document.getElementById("modalFormDestinacao").style.display = "none"; }
+
+    function salvarDestinacao(e) {
+      e.preventDefault();
+      app.orcamento = garantirOrcamento(app.orcamento);
+      const id = document.getElementById("destId").value;
+      const entidade = document.getElementById("destEntidade").value;
+      const nome = document.getElementById("destNome").value.trim();
+      const valor = limparEConverterValor(document.getElementById("destValor").value);
+      const descricao = document.getElementById("destDescricao").value.trim();
+      if (valor <= 0) { alert("Digite um valor válido para o repasse."); return; }
+      if (id) {
+        const idx = app.orcamento.destinacoes.findIndex(d => String(d.id) === String(id));
+        if (idx !== -1) app.orcamento.destinacoes[idx] = { id, entidade, nome, valor, descricao };
+      } else {
+        app.orcamento.destinacoes.push({ id: Date.now().toString(), entidade, nome, valor, descricao });
+      }
+      fecharModalFormDestinacao();
+      atualizarTudo(true);
+      mostrarToast("Repasse salvo com sucesso!");
+    }
+
+    function excluirDestinacao(id) {
+      if (confirm("Remover este repasse orçamentário?")) {
+        app.orcamento = garantirOrcamento(app.orcamento);
+        app.orcamento.destinacoes = app.orcamento.destinacoes.filter(x => String(x.id) !== String(id));
+        atualizarTudo(true);
+      }
+    }
+
+    function atualizarSelectEntidadesDinamico() {
+      const sel = document.getElementById("destEntidade");
+      if (!sel) return;
+      const valorAtual = sel.value;
+      let opcoesHtml = `<optgroup label="Hospitais e Institutos Cadastrados">`;
+      garantirArray(app.hospitais, []).forEach(h => { opcoesHtml += `<option value="${esc(h.nome)}">${esc(h.nome)}</option>`; });
+      opcoesHtml += `</optgroup><optgroup label="Programas Estaduais Cadastrados">`;
+      garantirArray(app.programas, []).forEach(p => { opcoesHtml += `<option value="${esc(p.nome)}">${esc(p.nome)}</option>`; });
+      opcoesHtml += `</optgroup><optgroup label="Outro"><option value="Outro (Personalizado)">Outra Área / Categoria Livre</option></optgroup>`;
+      sel.innerHTML = opcoesHtml;
+      if (valorAtual) sel.value = valorAtual;
+    }
+
+    function atualizarNomeDestinacaoAuto() {
+      const sel = document.getElementById("destEntidade");
+      const inNome = document.getElementById("destNome");
+      if (sel && inNome && sel.value !== "Outro (Personalizado)") inNome.value = "Repasse Orçamentário: " + sel.value;
+    }
+
+    // ==================== WEBHOOKS & CONFIG ====================
     function salvarDiscordWebhooks(e) {
       e.preventDefault();
       app.webhookIep = document.getElementById("adminWebhookIep").value.trim();
@@ -1913,7 +2344,6 @@
       mostrarToast("Ambos os Webhooks foram salvos!");
     }
 
-    // --- SALVAR CONFIGURAÇÕES DO IEP-SP ---
     function salvarConfiguracaoIep(e) {
       e.preventDefault();
       app.iepConfig = {
@@ -1926,131 +2356,90 @@
       mostrarToast("Dados do IEP-SP atualizados!");
     }
 
-    // ENVIO DISCORD
     async function dispararWebhookDiscord(urlWebhook, embed, tipoServico) {
       if (!urlWebhook || !urlWebhook.startsWith("http")) {
-        alert(`Atenção: O Webhook para ${tipoServico} não foi configurado no Painel do Gestor.\n\nSua solicitação foi registrada no sistema.`);
+        alert("Atenção: O Webhook para " + tipoServico + " não foi configurado no Painel do Gestor.\n\nSua solicitação foi registrada no sistema.");
         return false;
       }
-
       try {
         const resp = await fetch(urlWebhook, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
-            username: `Central SES-SP | ${tipoServico}`,
+            username: "Central SES-SP | " + tipoServico,
             avatar_url: "https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/Bandeira_do_estado_de_S%C3%A3o_Paulo.svg/300px-Bandeira_do_estado_de_S%C3%A3o_Paulo.svg.png",
             embeds: [embed]
           })
         });
         return resp.ok;
-      } catch (err) {
-        console.error("Falha ao enviar webhook:", err);
-        return false;
-      }
+      } catch (err) { console.error("Falha ao enviar webhook:", err); return false; }
     }
 
-    // CHAMADO IEP-SP
     function abrirModalChamadoIEP(servico) {
       document.getElementById("iepModalServico").innerText = servico;
       document.getElementById("iepFormServico").value = servico;
       document.getElementById("modalChamadoIEP").style.display = "flex";
-      lucide.createIcons();
+      refreshIcons();
     }
-
-    function fecharModalChamadoIEP() {
-      document.getElementById("modalChamadoIEP").style.display = "none";
-    }
+    function fecharModalChamadoIEP() { document.getElementById("modalChamadoIEP").style.display = "none"; }
 
     async function enviarChamadoIEPDiscord(e) {
       e.preventDefault();
       const cfg = app.iepConfig || DADOS_INICIAIS.iepConfig;
-      const servico = document.getElementById("iepFormServico").value;
-      const nome = document.getElementById("iepNome").value.trim();
-      const doc = document.getElementById("iepDocumento").value.trim();
-      const tel = document.getElementById("iepContato").value.trim();
-      const perfil = document.getElementById("iepPerfil").value;
-      const relato = document.getElementById("iepRelato").value.trim();
-
       const embed = {
         title: "🧠 IEP-SP | Novo Chamado Oficial de Saúde Mental & Perícia",
-        description: `**Unidade Sede:** ${cfg.sede}\n**Coordenação Operacional SAMU:** ${cfg.diretorSamu}\n**Gestão:** ${cfg.gestor}`,
+        description: "**Unidade Sede:** " + cfg.sede + "\n**Coordenação Operacional SAMU:** " + cfg.diretorSamu + "\n**Gestão:** " + cfg.gestor,
         color: 0x4338CA,
         fields: [
-          { name: "📋 Serviço Solicitado", value: servico, inline: false },
-          { name: "👤 Solicitante", value: nome, inline: true },
-          { name: "🪪 Cartão SUS / Matrícula", value: doc, inline: true },
-          { name: "📞 Contato", value: tel, inline: true },
-          { name: "🎖️ Perfil", value: perfil, inline: true },
-          { name: "📝 Relato da Necessidade", value: relato || "Sem observações adicionais.", inline: false }
+          { name: "📋 Serviço Solicitado", value: document.getElementById("iepFormServico").value, inline: false },
+          { name: "👤 Solicitante", value: document.getElementById("iepNome").value.trim(), inline: true },
+          { name: "🪪 Cartão SUS / Matrícula", value: document.getElementById("iepDocumento").value.trim(), inline: true },
+          { name: "📞 Contato", value: document.getElementById("iepContato").value.trim(), inline: true },
+          { name: "🎖️ Perfil", value: document.getElementById("iepPerfil").value, inline: true },
+          { name: "📝 Relato da Necessidade", value: document.getElementById("iepRelato").value.trim() || "Sem observações.", inline: false }
         ],
         footer: { text: "Secretaria de Estado da Saúde de SP • Triagem Operacional IEP" },
         timestamp: new Date().toISOString()
       };
-
       mostrarToast("Despachando chamado para o Webhook do IEP...");
       await dispararWebhookDiscord(app.webhookIep, embed, "IEP-SP");
       fecharModalChamadoIEP();
-
-      document.getElementById("iepNome").value = "";
-      document.getElementById("iepDocumento").value = "";
-      document.getElementById("iepContato").value = "";
-      document.getElementById("iepRelato").value = "";
-
+      ["iepNome", "iepDocumento", "iepContato", "iepRelato"].forEach(id => { const el = document.getElementById(id); if (el) el.value = ""; });
       alert("Solicitação transmitida com sucesso para a central do IEP-SP!");
     }
 
-    // PEDIDO DE MEDICAMENTO
     async function enviarPedidoMedicamentoDiscord(e) {
       e.preventDefault();
       const selMed = document.getElementById("medSelectField").value;
       const outroMed = document.getElementById("medOutroNome").value.trim();
       const remedioFinal = selMed === "OUTRO" ? (outroMed || "Medicamento Especializado") : selMed;
-
-      const nome = document.getElementById("medPedNome").value.trim();
-      const sus = document.getElementById("medPedSus").value.trim();
-      const tel = document.getElementById("medPedTel").value.trim();
-      const local = document.getElementById("medPedLocal").value.trim();
-
       const embed = {
         title: "💊 Dose Certa SP | Solicitação Eletrônica de Medicamento",
         color: 0x059669,
         fields: [
           { name: "💊 Medicamento Solicitado", value: remedioFinal, inline: false },
-          { name: "👤 Paciente", value: nome, inline: true },
-          { name: "💳 Cartão SUS", value: sus, inline: true },
-          { name: "📞 Telefone/WhatsApp", value: tel, inline: true },
-          { name: "📍 Farmácia / Local de Retirada", value: local, inline: false }
+          { name: "👤 Paciente", value: document.getElementById("medPedNome").value.trim(), inline: true },
+          { name: "💳 Cartão SUS", value: document.getElementById("medPedSus").value.trim(), inline: true },
+          { name: "📞 Telefone/WhatsApp", value: document.getElementById("medPedTel").value.trim(), inline: true },
+          { name: "📍 Farmácia / Local de Retirada", value: document.getElementById("medPedLocal").value.trim(), inline: false }
         ],
         footer: { text: "Assistência Farmacêutica Estadual • SES-SP" },
         timestamp: new Date().toISOString()
       };
-
       mostrarToast("Despachando pedido de medicamento...");
       await dispararWebhookDiscord(app.webhookMedicamentos, embed, "Farmácia Dose Certa");
-
-      document.getElementById("medPedNome").value = "";
-      document.getElementById("medPedSus").value = "";
-      document.getElementById("medPedTel").value = "";
-      document.getElementById("medPedLocal").value = "";
-      document.getElementById("medOutroNome").value = "";
-
-      alert(`Pedido de "${remedioFinal}" protocolado com sucesso!`);
+      ["medPedNome", "medPedSus", "medPedTel", "medPedLocal", "medOutroNome"].forEach(id => { const el = document.getElementById(id); if (el) el.value = ""; });
+      alert("Pedido de \"" + remedioFinal + "\" protocolado com sucesso!");
     }
 
-    // --- FORMULÁRIO DE REMÉDIO INTELIGENTE ---
+    // ==================== FORM REMÉDIO ====================
     function popularSelectMedicamentosFormulario() {
       const sel = document.getElementById("medSelectField");
       if (!sel) return;
       const valorAtual = sel.value;
-
       const lista = garantirArray(app.medicamentos, []);
-      let html = "";
-      if (lista.length > 0) {
-        html += lista.map(m => `<option value="${m.nome}">${m.nome} — (${m.categoria})</option>`).join("");
-      }
+      let html = lista.map(m => `<option value="${esc(m.nome)}">${esc(m.nome)} — (${esc(m.categoria)})</option>`).join("");
       html += `<option value="OUTRO">+ Outro / Medicamento não listado no catálogo</option>`;
-
       sel.innerHTML = html;
       if (valorAtual) sel.value = valorAtual;
       aoMudarSelectMedicamento();
@@ -2063,157 +2452,50 @@
       const prevCat = document.getElementById("medPrevCategoria");
       const prevDesc = document.getElementById("medPrevDescricao");
       if (!sel) return;
-
       if (sel.value === "OUTRO") {
         if (boxOutro) boxOutro.classList.remove("hidden");
         if (prevBox) prevBox.classList.add("hidden");
       } else {
         if (boxOutro) boxOutro.classList.add("hidden");
-        const lista = garantirArray(app.medicamentos, []);
-        const medObj = lista.find(m => m.nome === sel.value);
+        const medObj = garantirArray(app.medicamentos, []).find(m => m.nome === sel.value);
         if (medObj) {
           if (prevBox) prevBox.classList.remove("hidden");
-          if (prevCat) prevCat.innerText = medObj.categoria;
-          if (prevDesc) prevDesc.innerText = medObj.descricao;
-        } else {
-          if (prevBox) prevBox.classList.add("hidden");
-        }
+          if (prevCat) prevCat.innerText = medObj.categoria || '';
+          if (prevDesc) prevDesc.innerText = medObj.descricao || '';
+        } else if (prevBox) prevBox.classList.add("hidden");
       }
     }
 
-    function selecionarRemedioDiretoNoForm(nome) {
+    function selecionarRemedioDiretoNoForm(id) {
+      const m = garantirArray(app.medicamentos, []).find(x => String(x.id) === String(id));
+      if (!m) return;
       const sel = document.getElementById("medSelectField");
-      if (!sel) return;
-      sel.value = nome;
-      aoMudarSelectMedicamento();
+      if (sel) { sel.value = m.nome; aoMudarSelectMedicamento(); }
       const box = document.getElementById("boxPedidoMedicamento");
       if (box) box.scrollIntoView({ behavior: "smooth" });
       const inNome = document.getElementById("medPedNome");
       if (inNome) inNome.focus();
-      mostrarToast(`Medicamento "${nome}" selecionado!`);
+      mostrarToast("Medicamento \"" + m.nome + "\" selecionado!");
     }
 
-    // --- DROPDOWN DINÂMICO DE ENTIDADES ---
-    function atualizarSelectEntidadesDinamico() {
-      const sel = document.getElementById("destEntidade");
-      if (!sel) return;
-      const valorAtual = sel.value;
-
-      let opcoesHtml = `<optgroup label="Hospitais e Institutos Cadastrados">`;
-      garantirArray(app.hospitais, []).forEach(h => {
-        opcoesHtml += `<option value="${h.nome}">${h.nome}</option>`;
-      });
-
-      opcoesHtml += `</optgroup><optgroup label="Programas Estaduais Cadastrados">`;
-      garantirArray(app.programas, []).forEach(p => {
-        opcoesHtml += `<option value="${p.nome}">${p.nome}</option>`;
-      });
-
-      opcoesHtml += `</optgroup><optgroup label="Outro"><option value="Outro (Personalizado)">Outra Área / Categoria Livre</option></optgroup>`;
-
-      sel.innerHTML = opcoesHtml;
-      if (valorAtual) sel.value = valorAtual;
-    }
-
-    function atualizarNomeDestinacaoAuto() {
-      const sel = document.getElementById("destEntidade");
-      const inNome = document.getElementById("destNome");
-      if (sel && inNome && sel.value !== "Outro (Personalizado)") {
-        inNome.value = "Repasse Orçamentário: " + sel.value;
-      }
-    }
-
-    // --- MODAIS DO ADMIN (ABREM AO CLICAR NO BOTÃO) ---
-    function abrirModalFormDestinacao(id = null) {
-      document.getElementById("destId").value = "";
-      document.getElementById("destNome").value = "";
-      document.getElementById("destValor").value = "";
-      document.getElementById("destDescricao").value = "";
-      document.getElementById("formDestTitle").innerText = "Lançar Repasse Orçamentário";
-
-      if (id) {
-        const d = garantirArray(app.orcamento.destinacoes, []).find(x => x.id === id);
-        if (d) {
-          document.getElementById("destId").value = d.id;
-          document.getElementById("destEntidade").value = d.entidade || "Outro (Personalizado)";
-          document.getElementById("destNome").value = d.nome;
-          document.getElementById("destValor").value = d.valor;
-          document.getElementById("destDescricao").value = d.descricao;
-          document.getElementById("formDestTitle").innerText = "Editar Repasse: " + d.nome;
-        }
-      }
-      document.getElementById("modalFormDestinacao").style.display = "flex";
-      lucide.createIcons();
-    }
-    function fecharModalFormDestinacao() { document.getElementById("modalFormDestinacao").style.display = "none"; }
-
-    function salvarDestinacao(e) {
-      e.preventDefault();
-      const id = document.getElementById("destId").value;
-      const entidade = document.getElementById("destEntidade").value;
-      const nome = document.getElementById("destNome").value.trim();
-      const rawValor = document.getElementById("destValor").value;
-      const descricao = document.getElementById("destDescricao").value.trim();
-      const valor = limparEConverterValor(rawValor);
-
-      if (valor <= 0) {
-        alert("Digite um valor válido para o repasse.");
-        return;
-      }
-
-      if (!app.orcamento.destinacoes) app.orcamento.destinacoes = [];
-
-      if (id) {
-        const idx = app.orcamento.destinacoes.findIndex(d => d.id === id);
-        if (idx !== -1) app.orcamento.destinacoes[idx] = { id, entidade, nome, valor, descricao };
-      } else {
-        app.orcamento.destinacoes.push({ id: Date.now().toString(), entidade, nome, valor, descricao });
-      }
-
-      fecharModalFormDestinacao();
-      atualizarTudo(true);
-      mostrarToast("Repasse salvo com sucesso!");
-    }
-
-    function excluirDestinacao(id) {
-      if (confirm("Remover este repasse orçamentário?")) {
-        app.orcamento.destinacoes = garantirArray(app.orcamento.destinacoes, []).filter(x => x.id !== id);
-        atualizarTudo(true);
-      }
-    }
-
-    function salvarOrcamentoTotal(e) {
-      e.preventDefault();
-      const rawValor = document.getElementById("inOrcTotal").value;
-      const valorFinal = limparEConverterValor(rawValor);
-      if (valorFinal <= 0) {
-        alert("Digite um valor válido maior que zero.");
-        return;
-      }
-      app.orcamento.total = valorFinal;
-      atualizarTudo(true);
-      mostrarToast("Orçamento Total salvo!");
-    }
-
-    // MODAL MEDICAMENTOS
+    // ==================== MEDICAMENTOS (ADMIN) ====================
     function abrirModalFormMedicamento(id = null) {
       document.getElementById("medId").value = "";
       document.getElementById("medNome").value = "";
       document.getElementById("medDescricao").value = "";
       document.getElementById("formRemedioTitle").innerText = "Adicionar Medicamento";
-
       if (id) {
-        const m = garantirArray(app.medicamentos, []).find(x => x.id === id);
+        const m = garantirArray(app.medicamentos, []).find(x => String(x.id) === String(id));
         if (m) {
           document.getElementById("medId").value = m.id;
           document.getElementById("medNome").value = m.nome;
           document.getElementById("medCategoria").value = m.categoria;
-          document.getElementById("medDescricao").value = m.descricao;
+          document.getElementById("medDescricao").value = m.descricao || "";
           document.getElementById("formRemedioTitle").innerText = "Editar Medicamento: " + m.nome;
         }
       }
       document.getElementById("modalFormMedicamento").style.display = "flex";
-      lucide.createIcons();
+      refreshIcons();
     }
     function fecharModalFormMedicamento() { document.getElementById("modalFormMedicamento").style.display = "none"; }
 
@@ -2223,16 +2505,13 @@
       const nome = document.getElementById("medNome").value.trim();
       const categoria = document.getElementById("medCategoria").value;
       const descricao = document.getElementById("medDescricao").value.trim();
-
       if (!app.medicamentos) app.medicamentos = [];
-
       if (id) {
-        const idx = app.medicamentos.findIndex(m => m.id === id);
+        const idx = app.medicamentos.findIndex(m => String(m.id) === String(id));
         if (idx !== -1) app.medicamentos[idx] = { id, nome, categoria, descricao };
       } else {
         app.medicamentos.push({ id: Date.now().toString(), nome, categoria, descricao });
       }
-
       fecharModalFormMedicamento();
       atualizarTudo(true);
       mostrarToast("Medicamento salvo com sucesso!");
@@ -2240,12 +2519,12 @@
 
     function excluirMedicamentoAdmin(id) {
       if (confirm("Remover este medicamento do catálogo?")) {
-        app.medicamentos = garantirArray(app.medicamentos, []).filter(x => x.id !== id);
+        app.medicamentos = garantirArray(app.medicamentos, []).filter(x => String(x.id) !== String(id));
         atualizarTudo(true);
       }
     }
 
-    // MODAL HOSPITAIS
+    // ==================== HOSPITAIS (ADMIN) ====================
     function abrirModalFormHospital(id = null) {
       document.getElementById("hId").value = "";
       document.getElementById("hNome").value = "";
@@ -2255,9 +2534,8 @@
       document.getElementById("inHospArquivo").value = "";
       document.getElementById("prevHospFoto").classList.add("hidden");
       document.getElementById("formHospTitle").innerText = "Cadastrar Unidade Hospitalar";
-
       if (id) {
-        const h = garantirArray(app.hospitais, []).find(x => x.id === id);
+        const h = garantirArray(app.hospitais, []).find(x => String(x.id) === String(id));
         if (h) {
           document.getElementById("hId").value = h.id;
           document.getElementById("hNome").value = h.nome;
@@ -2265,19 +2543,16 @@
           document.getElementById("hRegiao").value = h.regiao;
           document.getElementById("hTipo").value = h.tipo;
           document.getElementById("hLeitos").value = h.leitos;
-          document.getElementById("hTelefone").value = h.telefone;
-          document.getElementById("hEndereco").value = h.endereco;
-          document.getElementById("hFotoBase64").value = h.foto || "";
+          document.getElementById("hTelefone").value = h.telefone || "";
+          document.getElementById("hEndereco").value = h.endereco || "";
+          document.getElementById("hFotoBase64").value = (h.foto && h.foto.startsWith("data:")) ? h.foto : "";
           const prev = document.getElementById("prevHospFoto");
-          if (h.foto && h.foto.startsWith("data:")) {
-            prev.src = h.foto;
-            prev.classList.remove("hidden");
-          }
+          if (h.foto && h.foto.startsWith("data:")) { prev.src = h.foto; prev.classList.remove("hidden"); }
           document.getElementById("formHospTitle").innerText = "Editar Unidade: " + h.nome;
         }
       }
       document.getElementById("modalFormHospital").style.display = "flex";
-      lucide.createIcons();
+      refreshIcons();
     }
     function fecharModalFormHospital() { document.getElementById("modalFormHospital").style.display = "none"; }
 
@@ -2290,25 +2565,19 @@
         nome: document.getElementById("hNome").value.trim(),
         status: document.getElementById("hStatus").value,
         regiao: document.getElementById("hRegiao").value,
-        tipo: document.getElementById("hTipo").value.trim(),
+        tipo: document.getElementById("hTipo").value,
         leitos: Number(document.getElementById("hLeitos").value),
         telefone: document.getElementById("hTelefone").value.trim(),
         endereco: document.getElementById("hEndereco").value.trim(),
         foto: foto || IMG_FALLBACK
       };
-
       if (!app.hospitais) app.hospitais = [];
-
       if (id) {
-        const idx = app.hospitais.findIndex(h => h.id === id);
-        if (idx !== -1) {
-          hData.foto = foto || app.hospitais[idx].foto;
-          app.hospitais[idx] = hData;
-        }
+        const idx = app.hospitais.findIndex(h => String(h.id) === String(id));
+        if (idx !== -1) { hData.foto = foto || app.hospitais[idx].foto; app.hospitais[idx] = hData; }
       } else {
         app.hospitais.unshift(hData);
       }
-
       fecharModalFormHospital();
       atualizarTudo(true);
       mostrarToast("Unidade hospitalar salva com sucesso!");
@@ -2316,12 +2585,12 @@
 
     function excluirHospital(id) {
       if (confirm("Remover esta unidade da rede?")) {
-        app.hospitais = garantirArray(app.hospitais, []).filter(x => x.id !== id);
+        app.hospitais = garantirArray(app.hospitais, []).filter(x => String(x.id) !== String(id));
         atualizarTudo(true);
       }
     }
 
-    // MODAL EQUIPE IEP-SP
+    // ==================== EQUIPES (ADMIN) ====================
     function abrirModalFormEquipeIep(cargo = null) {
       document.getElementById("eqIepId").value = "";
       document.getElementById("eqIepNome").value = "";
@@ -2331,7 +2600,6 @@
       document.getElementById("prevEqIepFoto").classList.add("hidden");
       document.getElementById("eqIepAtivo").checked = true;
       document.getElementById("formEquipeIepTitle").innerText = "Nomear Cargo do IEP-SP";
-
       if (cargo) {
         document.getElementById("eqIepCargo").value = cargo;
         const m = garantirArray(app.iepEquipe, []).find(x => x.cargo === cargo);
@@ -2339,18 +2607,15 @@
           document.getElementById("eqIepId").value = m.id || "";
           document.getElementById("eqIepNome").value = m.nome || "";
           document.getElementById("eqIepDescricao").value = m.descricao || "";
-          document.getElementById("eqIepFotoBase64").value = m.foto || "";
-          document.getElementById("eqIepAtivo").checked = m.ativo;
+          document.getElementById("eqIepFotoBase64").value = (m.foto && m.foto.startsWith("data:")) ? m.foto : "";
+          document.getElementById("eqIepAtivo").checked = !!m.ativo;
           const prev = document.getElementById("prevEqIepFoto");
-          if (m.foto && m.foto.startsWith("data:")) {
-            prev.src = m.foto;
-            prev.classList.remove("hidden");
-          }
+          if (m.foto && m.foto.startsWith("data:")) { prev.src = m.foto; prev.classList.remove("hidden"); }
           document.getElementById("formEquipeIepTitle").innerText = "Editar Titular: " + cargo;
         }
       }
       document.getElementById("modalFormEquipeIep").style.display = "flex";
-      lucide.createIcons();
+      refreshIcons();
     }
     function fecharModalFormEquipeIep() { document.getElementById("modalFormEquipeIep").style.display = "none"; }
 
@@ -2362,29 +2627,20 @@
       const descricao = document.getElementById("eqIepDescricao").value.trim();
       const foto = document.getElementById("eqIepFotoBase64").value;
       const ativo = document.getElementById("eqIepAtivo").checked;
-
       if (!app.iepEquipe) app.iepEquipe = [];
-
-      const idx = app.iepEquipe.findIndex(m => m.cargo === cargo || (id && m.id === id));
-      if (idx !== -1) {
-        app.iepEquipe[idx] = { ...app.iepEquipe[idx], cargo, nome, descricao, foto: foto || app.iepEquipe[idx].foto, ativo };
-      } else {
-        app.iepEquipe.push({ id: Date.now().toString(), cargo, nome, descricao, foto, ativo });
-      }
-
+      const idx = app.iepEquipe.findIndex(m => m.cargo === cargo || (id && String(m.id) === String(id)));
+      if (idx !== -1) app.iepEquipe[idx] = { ...app.iepEquipe[idx], cargo, nome, descricao, foto: foto || app.iepEquipe[idx].foto, ativo };
+      else app.iepEquipe.push({ id: Date.now().toString(), cargo, nome, descricao, foto, ativo });
       fecharModalFormEquipeIep();
       atualizarTudo(true);
       mostrarToast("Titular do IEP-SP salvo!");
     }
 
     function desocuparCargoIep(cargo) {
-      if (confirm(`Deseja declarar o cargo de "${cargo}" como VAGO no IEP-SP?`)) {
+      if (confirm("Deseja declarar o cargo de \"" + cargo + "\" como VAGO no IEP-SP?")) {
         const idx = garantirArray(app.iepEquipe, []).findIndex(x => x.cargo === cargo);
         if (idx !== -1) {
-          app.iepEquipe[idx].nome = "";
-          app.iepEquipe[idx].descricao = "";
-          app.iepEquipe[idx].foto = "";
-          app.iepEquipe[idx].ativo = false;
+          app.iepEquipe[idx].nome = ""; app.iepEquipe[idx].descricao = ""; app.iepEquipe[idx].foto = ""; app.iepEquipe[idx].ativo = false;
           atualizarTudo(true);
           mostrarToast("Cargo do IEP declarado como vago!");
         }
@@ -2393,13 +2649,9 @@
 
     function alternarAtivoEquipeIep(cargo) {
       const idx = garantirArray(app.iepEquipe, []).findIndex(x => x.cargo === cargo);
-      if (idx !== -1) {
-        app.iepEquipe[idx].ativo = !app.iepEquipe[idx].ativo;
-        atualizarTudo(true);
-      }
+      if (idx !== -1) { app.iepEquipe[idx].ativo = !app.iepEquipe[idx].ativo; atualizarTudo(true); }
     }
 
-    // MODAL EQUIPE SES GERAL
     function abrirModalFormEquipeSES(cargo = null) {
       document.getElementById("eqId").value = "";
       document.getElementById("eqNome").value = "";
@@ -2409,7 +2661,6 @@
       document.getElementById("prevEqFoto").classList.add("hidden");
       document.getElementById("eqAtivo").checked = true;
       document.getElementById("formEquipeTitle").innerText = "Nomear Cargo Geral SES";
-
       if (cargo) {
         document.getElementById("eqCargo").value = cargo;
         const m = garantirArray(app.equipe, []).find(x => x.cargo === cargo);
@@ -2417,18 +2668,15 @@
           document.getElementById("eqId").value = m.id || "";
           document.getElementById("eqNome").value = m.nome || "";
           document.getElementById("eqDescricao").value = m.descricao || "";
-          document.getElementById("eqFotoBase64").value = m.foto || "";
-          document.getElementById("eqAtivo").checked = m.ativo;
+          document.getElementById("eqFotoBase64").value = (m.foto && m.foto.startsWith("data:")) ? m.foto : "";
+          document.getElementById("eqAtivo").checked = !!m.ativo;
           const prev = document.getElementById("prevEqFoto");
-          if (m.foto && m.foto.startsWith("data:")) {
-            prev.src = m.foto;
-            prev.classList.remove("hidden");
-          }
+          if (m.foto && m.foto.startsWith("data:")) { prev.src = m.foto; prev.classList.remove("hidden"); }
           document.getElementById("formEquipeTitle").innerText = "Editar Titular: " + cargo;
         }
       }
       document.getElementById("modalFormEquipeSES").style.display = "flex";
-      lucide.createIcons();
+      refreshIcons();
     }
     function fecharModalFormEquipeSES() { document.getElementById("modalFormEquipeSES").style.display = "none"; }
 
@@ -2440,29 +2688,20 @@
       const descricao = document.getElementById("eqDescricao").value.trim();
       const foto = document.getElementById("eqFotoBase64").value;
       const ativo = document.getElementById("eqAtivo").checked;
-
       if (!app.equipe) app.equipe = [];
-
-      const idx = app.equipe.findIndex(m => m.cargo === cargo || (id && m.id === id));
-      if (idx !== -1) {
-        app.equipe[idx] = { ...app.equipe[idx], cargo, nome, descricao, foto: foto || app.equipe[idx].foto, ativo };
-      } else {
-        app.equipe.push({ id: Date.now().toString(), cargo, nome, descricao, foto, ativo });
-      }
-
+      const idx = app.equipe.findIndex(m => m.cargo === cargo || (id && String(m.id) === String(id)));
+      if (idx !== -1) app.equipe[idx] = { ...app.equipe[idx], cargo, nome, descricao, foto: foto || app.equipe[idx].foto, ativo };
+      else app.equipe.push({ id: Date.now().toString(), cargo, nome, descricao, foto, ativo });
       fecharModalFormEquipeSES();
       atualizarTudo(true);
       mostrarToast("Titular da SES salvo!");
     }
 
     function desocuparCargo(cargo) {
-      if (confirm(`Deseja declarar o cargo de "${cargo}" como VAGO?`)) {
+      if (confirm("Deseja declarar o cargo de \"" + cargo + "\" como VAGO?")) {
         const idx = garantirArray(app.equipe, []).findIndex(x => x.cargo === cargo);
         if (idx !== -1) {
-          app.equipe[idx].nome = "";
-          app.equipe[idx].descricao = "";
-          app.equipe[idx].foto = "";
-          app.equipe[idx].ativo = false;
+          app.equipe[idx].nome = ""; app.equipe[idx].descricao = ""; app.equipe[idx].foto = ""; app.equipe[idx].ativo = false;
           atualizarTudo(true);
           mostrarToast("Cargo declarado como vago!");
         }
@@ -2471,13 +2710,10 @@
 
     function alternarAtivoEquipe(cargo) {
       const idx = garantirArray(app.equipe, []).findIndex(x => x.cargo === cargo);
-      if (idx !== -1) {
-        app.equipe[idx].ativo = !app.equipe[idx].ativo;
-        atualizarTudo(true);
-      }
+      if (idx !== -1) { app.equipe[idx].ativo = !app.equipe[idx].ativo; atualizarTudo(true); }
     }
 
-    // MODAL PROGRAMA
+    // ==================== PROGRAMAS (ADMIN) ====================
     function abrirModalFormPrograma(id = null) {
       document.getElementById("pId").value = "";
       document.getElementById("pNome").value = "";
@@ -2485,9 +2721,8 @@
       document.getElementById("pDescricao").value = "";
       document.getElementById("pLink").value = "";
       document.getElementById("formProgTitle").innerText = "Cadastrar Programa Oficial";
-
       if (id) {
-        const p = garantirArray(app.programas, []).find(x => x.id === id);
+        const p = garantirArray(app.programas, []).find(x => String(x.id) === String(id));
         if (p) {
           document.getElementById("pId").value = p.id;
           document.getElementById("pNome").value = p.nome;
@@ -2498,7 +2733,7 @@
         }
       }
       document.getElementById("modalFormPrograma").style.display = "flex";
-      lucide.createIcons();
+      refreshIcons();
     }
     function fecharModalFormPrograma() { document.getElementById("modalFormPrograma").style.display = "none"; }
 
@@ -2509,66 +2744,53 @@
       const categoria = document.getElementById("pCategoria").value.trim();
       const descricao = document.getElementById("pDescricao").value.trim();
       const link = document.getElementById("pLink").value.trim();
-
       if (!app.programas) app.programas = [];
-
       if (id) {
-        const idx = app.programas.findIndex(p => p.id === id);
-        if (idx !== -1) {
-          app.programas[idx] = { ...app.programas[idx], nome, categoria, descricao, link };
-        }
+        const idx = app.programas.findIndex(p => String(p.id) === String(id));
+        if (idx !== -1) app.programas[idx] = { ...app.programas[idx], nome, categoria, descricao, link };
       } else {
         app.programas.unshift({ id: Date.now().toString(), nome, categoria, descricao, link, ativo: true });
       }
-
       fecharModalFormPrograma();
       atualizarTudo(true);
       mostrarToast("Programa salvo!");
     }
 
     function alternarAtivoPrograma(id) {
-      const p = garantirArray(app.programas, []).find(x => x.id === id);
-      if (p) {
-        p.ativo = !p.ativo;
-        atualizarTudo(true);
-      }
+      const p = garantirArray(app.programas, []).find(x => String(x.id) === String(id));
+      if (p) { p.ativo = !p.ativo; atualizarTudo(true); }
     }
 
     function excluirPrograma(id) {
       if (confirm("Deseja realmente remover este programa?")) {
-        app.programas = garantirArray(app.programas, []).filter(x => x.id !== id);
+        app.programas = garantirArray(app.programas, []).filter(x => String(x.id) !== String(id));
         atualizarTudo(true);
       }
     }
 
-    // MODAL NOTÍCIA
+    // ==================== NOTÍCIAS (ADMIN) ====================
     function abrirModalFormNoticia() {
-      document.getElementById("nTitulo").value = "";
-      document.getElementById("nResumo").value = "";
-      document.getElementById("nLink").value = "";
+      ["nTitulo", "nResumo", "nLink"].forEach(id => { const el = document.getElementById(id); if (el) el.value = ""; });
       document.getElementById("nFotoBase64").value = "";
       document.getElementById("inNoticiaArquivo").value = "";
       document.getElementById("prevNoticiaFoto").classList.add("hidden");
       document.getElementById("modalFormNoticia").style.display = "flex";
-      lucide.createIcons();
+      refreshIcons();
     }
     function fecharModalFormNoticia() { document.getElementById("modalFormNoticia").style.display = "none"; }
 
     function salvarNoticia(e) {
       e.preventDefault();
-      const hoje = new Date().toLocaleDateString("pt-BR");
       const foto = document.getElementById("nFotoBase64").value;
-      const link = document.getElementById("nLink").value.trim();
       const nData = {
         id: Date.now().toString(),
         titulo: document.getElementById("nTitulo").value.trim(),
         categoria: document.getElementById("nCategoria").value.trim(),
         imagem: foto || IMG_FALLBACK,
         resumo: document.getElementById("nResumo").value.trim(),
-        link: link || "",
-        data: hoje
+        link: document.getElementById("nLink").value.trim(),
+        data: new Date().toLocaleDateString("pt-BR")
       };
-
       if (!app.noticias) app.noticias = [];
       app.noticias.unshift(nData);
       fecharModalFormNoticia();
@@ -2576,50 +2798,92 @@
       mostrarToast("Notícia publicada com sucesso!");
     }
 
-    // --- RENDERIZAÇÃO DE LISTAS NO ADMIN ---
+    function excluirNoticia(id) {
+      if (confirm("Remover esta notícia?")) {
+        app.noticias = garantirArray(app.noticias, []).filter(x => String(x.id) !== String(id));
+        atualizarTudo(true);
+      }
+    }
+
+    // ==================== RENDER ADMIN ====================
     function renderizarAdminListas() {
-      // Repasses
-      const divD = document.getElementById("listaAdminDestinacoes");
-      if (divD) {
-        divD.innerHTML = garantirArray(app.orcamento.destinacoes, []).map(d => `
-          <div class="p-3.5 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 hover:bg-neutral-50">
-            <div>
-              <div class="flex items-center gap-2">
-                <span class="text-[9px] font-black uppercase text-sp-blue bg-blue-50 px-2 py-0.5 rounded">${d.entidade || 'Geral'}</span>
-                <span class="font-bold text-neutral-900">${d.nome}</span>
-                <span class="text-[11px] font-black text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded">${formatarMoeda(d.valor)}</span>
+      const f = calcularFinancas();
+
+      const divAd = document.getElementById("listaAdminAdicionais");
+      if (divAd) {
+        divAd.innerHTML = f.adicionais.length === 0
+          ? '<p class="p-4 text-center text-neutral-400 font-semibold">Nenhuma verba adicional registrada. Se receber mais verba, clique em "Registrar Verba".</p>'
+          : f.adicionais.map(a => `
+            <div class="p-3.5 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 hover:bg-amber-50/40">
+              <div>
+                <div class="flex items-center gap-2 flex-wrap">
+                  <span class="text-[9px] font-black uppercase text-amber-800 bg-amber-100 px-2 py-0.5 rounded">${esc(a.data || '')}</span>
+                  <span class="font-bold text-neutral-900">${esc(a.titulo)}</span>
+                  <span class="text-[11px] font-black text-amber-700 bg-amber-50 px-2 py-0.5 rounded">+ ${formatarMoeda(a.valor)}</span>
+                </div>
+                <p class="text-[11px] text-neutral-500 mt-0.5">${esc(a.descricao || '')}</p>
               </div>
-              <p class="text-[11px] text-neutral-500 mt-0.5">${d.descricao}</p>
-            </div>
-            <div class="flex items-center gap-2 self-end sm:self-center">
-              <button onclick="abrirModalFormDestinacao('${d.id}')" class="text-sp-blue font-bold hover:underline">Editar</button>
-              <button onclick="excluirDestinacao('${d.id}')" class="text-red-600 font-bold hover:underline">Excluir</button>
-            </div>
-          </div>
-        `).join("");
+              <div class="flex items-center gap-2 self-end sm:self-center">
+                <button onclick="abrirModalFormAdicional('${a.id}')" class="text-amber-700 font-bold hover:underline">Editar</button>
+                <button onclick="excluirAdicional('${a.id}')" class="text-red-600 font-bold hover:underline">Excluir</button>
+              </div>
+            </div>`).join("");
       }
 
-      // Remédios
+      const gridMeses = document.getElementById("gridMeses");
+      if (gridMeses) {
+        const MES_ATUAL = new Date().getMonth() + 1;
+        gridMeses.innerHTML = MESES.map((m, i) => {
+          const n = i + 1;
+          const destaque = n === MES_ATUAL ? 'border-indigo-500 bg-indigo-50/60' : 'border-neutral-300';
+          const badge = n === MES_ATUAL ? '<span class="absolute -top-2 right-1 text-[8px] font-black bg-indigo-700 text-white px-1.5 py-0.5 rounded uppercase">Atual</span>' : '';
+          return `<div class="relative">
+            ${badge}
+            <label class="font-bold text-neutral-600 block mb-0.5">${m}</label>
+            <input type="text" inputmode="decimal" id="mesN${n}" value="${Number(f.mensal[n] || 0)}" class="w-full p-2 border ${destaque} rounded font-bold outline-none focus:border-indigo-600">
+          </div>`;
+        }).join("");
+      }
+
+      const divD = document.getElementById("listaAdminDestinacoes");
+      if (divD) {
+        divD.innerHTML = f.dest.length === 0
+          ? '<p class="p-4 text-center text-neutral-400 font-semibold">Nenhum repasse cadastrado.</p>'
+          : f.dest.map(d => `
+            <div class="p-3.5 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 hover:bg-neutral-50">
+              <div>
+                <div class="flex items-center gap-2 flex-wrap">
+                  <span class="text-[9px] font-black uppercase text-sp-blue bg-blue-50 px-2 py-0.5 rounded">${esc(d.entidade || 'Geral')}</span>
+                  <span class="font-bold text-neutral-900">${esc(d.nome)}</span>
+                  <span class="text-[11px] font-black text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded">${formatarMoeda(d.valor)}</span>
+                </div>
+                <p class="text-[11px] text-neutral-500 mt-0.5">${esc(d.descricao || '')}</p>
+              </div>
+              <div class="flex items-center gap-2 self-end sm:self-center">
+                <button onclick="abrirModalFormDestinacao('${d.id}')" class="text-sp-blue font-bold hover:underline">Editar</button>
+                <button onclick="excluirDestinacao('${d.id}')" class="text-red-600 font-bold hover:underline">Excluir</button>
+              </div>
+            </div>`).join("");
+      }
+
       const divR = document.getElementById("listaAdminRemedios");
       if (divR) {
         divR.innerHTML = garantirArray(app.medicamentos, []).map(m => `
           <div class="p-3.5 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 hover:bg-neutral-50">
             <div>
               <div class="flex items-center gap-2">
-                <span class="font-bold text-neutral-900">${m.nome}</span>
-                <span class="text-[9px] font-bold text-emerald-800 bg-emerald-50 px-1.5 py-0.5 rounded uppercase">${m.categoria}</span>
+                <span class="font-bold text-neutral-900">${esc(m.nome)}</span>
+                <span class="text-[9px] font-bold text-emerald-800 bg-emerald-50 px-1.5 py-0.5 rounded uppercase">${esc(m.categoria)}</span>
               </div>
-              <p class="text-[11px] text-neutral-500 mt-0.5">${m.descricao}</p>
+              <p class="text-[11px] text-neutral-500 mt-0.5">${esc(m.descricao || '')}</p>
             </div>
             <div class="flex items-center gap-2 self-end sm:self-center">
               <button onclick="abrirModalFormMedicamento('${m.id}')" class="text-sp-blue font-bold hover:underline">Editar</button>
               <button onclick="excluirMedicamentoAdmin('${m.id}')" class="text-red-600 font-bold hover:underline">Excluir</button>
             </div>
-          </div>
-        `).join("");
+          </div>`).join("");
       }
 
-      // Equipe IEP-SP
       const divEIep = document.getElementById("listaAdminEquipeIep");
       if (divEIep) {
         divEIep.innerHTML = CARGOS_OFICIAIS_IEP.map(cargo => {
@@ -2629,34 +2893,22 @@
             <div class="p-3 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 hover:bg-neutral-50">
               <div>
                 <div class="flex items-center gap-2">
-                  <span class="font-bold text-neutral-900">${cargo}</span>
+                  <span class="font-bold text-neutral-900">${esc(cargo)}</span>
                   <span class="text-[9px] font-bold px-1.5 py-0.5 rounded uppercase ${ocupado ? (m.ativo ? 'bg-indigo-100 text-indigo-800' : 'bg-amber-100 text-amber-800') : 'bg-neutral-200 text-neutral-600'}">
                     ${ocupado ? (m.ativo ? 'Ativo' : 'Oculto') : 'Vago'}
                   </span>
                 </div>
-                <p class="text-[11px] text-neutral-600 mt-0.5">
-                  ${ocupado ? `<strong>Titular:</strong> ${m.nome}` : '<em class="text-neutral-400">Cargo não preenchido</em>'}
-                </p>
+                <p class="text-[11px] text-neutral-600 mt-0.5">${ocupado ? '<strong>Titular:</strong> ' + esc(m.nome) : '<em class="text-neutral-400">Cargo não preenchido</em>'}</p>
               </div>
               <div class="flex items-center gap-2 self-end sm:self-center">
-                ${ocupado ? `
-                  <button onclick="alternarAtivoEquipeIep('${cargo}')" class="px-2 py-1 rounded font-bold text-[10px] ${m.ativo ? 'bg-indigo-100 text-indigo-800' : 'bg-neutral-200 text-neutral-600'}">
-                    ${m.ativo ? 'Exibindo' : 'Oculto'}
-                  </button>
-                ` : ''}
-                <button onclick="abrirModalFormEquipeIep('${cargo}')" class="text-indigo-700 font-bold hover:underline">
-                  ${ocupado ? 'Editar' : 'Nomear'}
-                </button>
-                ${ocupado ? `
-                  <button onclick="desocuparCargoIep('${cargo}')" class="text-red-600 font-bold hover:underline">Desocupar</button>
-                ` : ''}
+                ${ocupado ? `<button onclick="alternarAtivoEquipeIep('${esc(cargo)}')" class="px-2 py-1 rounded font-bold text-[10px] ${m.ativo ? 'bg-indigo-100 text-indigo-800' : 'bg-neutral-200 text-neutral-600'}">${m.ativo ? 'Exibindo' : 'Oculto'}</button>` : ''}
+                <button onclick="abrirModalFormEquipeIep('${esc(cargo)}')" class="text-indigo-700 font-bold hover:underline">${ocupado ? 'Editar' : 'Nomear'}</button>
+                ${ocupado ? `<button onclick="desocuparCargoIep('${esc(cargo)}')" class="text-red-600 font-bold hover:underline">Desocupar</button>` : ''}
               </div>
-            </div>
-          `;
+            </div>`;
         }).join("");
       }
 
-      // Equipe SES
       const divE = document.getElementById("listaAdminEquipe");
       if (divE) {
         divE.innerHTML = CARGOS_OFICIAIS_SES.map(cargo => {
@@ -2666,171 +2918,92 @@
             <div class="p-3.5 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2.5 hover:bg-neutral-50">
               <div>
                 <div class="flex items-center gap-2">
-                  <span class="font-bold text-neutral-900">${cargo}</span>
+                  <span class="font-bold text-neutral-900">${esc(cargo)}</span>
                   <span class="text-[9px] font-bold px-1.5 py-0.5 rounded uppercase ${ocupado ? (m.ativo ? 'bg-emerald-100 text-emerald-800' : 'bg-amber-100 text-amber-800') : 'bg-neutral-200 text-neutral-600'}">
                     ${ocupado ? (m.ativo ? 'Ocupado & Ativo' : 'Ocupado (Oculto)') : 'Vago'}
                   </span>
                 </div>
-                <p class="text-[11px] text-neutral-600 mt-0.5">
-                  ${ocupado ? `<strong>Titular:</strong> ${m.nome}` : '<em class="text-neutral-400">Cargo não preenchido</em>'}
-                </p>
+                <p class="text-[11px] text-neutral-600 mt-0.5">${ocupado ? '<strong>Titular:</strong> ' + esc(m.nome) : '<em class="text-neutral-400">Cargo não preenchido</em>'}</p>
               </div>
               <div class="flex items-center gap-2 self-end sm:self-center">
-                ${ocupado ? `
-                  <button onclick="alternarAtivoEquipe('${cargo}')" class="px-2 py-1 rounded font-bold text-[10px] ${m.ativo ? 'bg-emerald-100 text-emerald-800' : 'bg-neutral-200 text-neutral-600'}">
-                    ${m.ativo ? 'Exibindo' : 'Oculto'}
-                  </button>
-                ` : ''}
-                <button onclick="abrirModalFormEquipeSES('${cargo}')" class="text-sp-blue font-bold hover:underline">
-                  ${ocupado ? 'Editar' : 'Nomear'}
-                </button>
-                ${ocupado ? `
-                  <button onclick="desocuparCargo('${cargo}')" class="text-red-600 font-bold hover:underline">Desocupar</button>
-                ` : ''}
+                ${ocupado ? `<button onclick="alternarAtivoEquipe('${esc(cargo)}')" class="px-2 py-1 rounded font-bold text-[10px] ${m.ativo ? 'bg-emerald-100 text-emerald-800' : 'bg-neutral-200 text-neutral-600'}">${m.ativo ? 'Exibindo' : 'Oculto'}</button>` : ''}
+                <button onclick="abrirModalFormEquipeSES('${esc(cargo)}')" class="text-sp-blue font-bold hover:underline">${ocupado ? 'Editar' : 'Nomear'}</button>
+                ${ocupado ? `<button onclick="desocuparCargo('${esc(cargo)}')" class="text-red-600 font-bold hover:underline">Desocupar</button>` : ''}
               </div>
-            </div>
-          `;
+            </div>`;
         }).join("");
       }
 
-      // Programas
       const divP = document.getElementById("listaAdminProgramas");
       if (divP) {
         divP.innerHTML = garantirArray(app.programas, []).map(p => `
           <div class="p-3 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2">
             <div>
-              <div class="flex items-center gap-2">
-                <span class="font-bold text-neutral-900">${p.nome}</span>
-                <span class="text-[10px] bg-neutral-100 text-neutral-600 px-1.5 py-0.5 rounded font-semibold uppercase">${p.categoria}</span>
+              <div class="flex items-center gap-2 flex-wrap">
+                <span class="font-bold text-neutral-900">${esc(p.nome)}</span>
+                <span class="text-[10px] bg-neutral-100 text-neutral-600 px-1.5 py-0.5 rounded font-semibold uppercase">${esc(p.categoria)}</span>
               </div>
-              <p class="text-[11px] text-neutral-500 mt-0.5">${p.descricao}</p>
+              <p class="text-[11px] text-neutral-500 mt-0.5">${esc(p.descricao || '')}</p>
             </div>
             <div class="flex items-center gap-2 self-end sm:self-center">
-              <button onclick="alternarAtivoPrograma('${p.id}')" class="px-2 py-1 rounded font-bold text-[10px] ${p.ativo ? 'bg-emerald-100 text-emerald-800' : 'bg-neutral-200 text-neutral-600'}">
-                ${p.ativo ? 'Ativo na Capa' : 'Oculto'}
-              </button>
+              <button onclick="alternarAtivoPrograma('${p.id}')" class="px-2 py-1 rounded font-bold text-[10px] ${p.ativo ? 'bg-emerald-100 text-emerald-800' : 'bg-neutral-200 text-neutral-600'}">${p.ativo ? 'Ativo na Capa' : 'Oculto'}</button>
               <button onclick="abrirModalFormPrograma('${p.id}')" class="text-sp-blue font-bold hover:underline">Editar</button>
               <button onclick="excluirPrograma('${p.id}')" class="text-red-600 font-bold hover:underline">Excluir</button>
             </div>
-          </div>
-        `).join("");
+          </div>`).join("");
       }
 
-      // Hospitais
       const tabH = document.getElementById("tabelaAdminHospitais");
       if (tabH) {
         tabH.innerHTML = garantirArray(app.hospitais, []).map(h => `
           <tr class="hover:bg-neutral-50">
-            <td class="p-3 font-bold text-neutral-900">${h.nome}</td>
-            <td class="p-3 font-semibold">${h.status}</td>
-            <td class="p-3 uppercase text-[10px]">${h.regiao}</td>
+            <td class="p-3 font-bold text-neutral-900">${esc(h.nome)}</td>
+            <td class="p-3 font-semibold">${esc(h.status)}</td>
+            <td class="p-3 uppercase text-[10px]">${esc(h.regiao)}</td>
             <td class="p-3 text-right space-x-2">
               <button onclick="abrirModalFormHospital('${h.id}')" class="text-sp-blue font-bold hover:underline">Editar</button>
               <button onclick="excluirHospital('${h.id}')" class="text-red-600 font-bold hover:underline">Excluir</button>
             </td>
-          </tr>
-        `).join("");
+          </tr>`).join("");
       }
 
-      // Notícias
       const divN = document.getElementById("listaAdminNoticias");
       if (divN) {
         divN.innerHTML = garantirArray(app.noticias, []).map(n => `
-          <div class="p-3 rounded border flex justify-between items-center text-xs">
-            <div><span class="font-semibold text-neutral-800">${n.titulo}</span></div>
-            <button onclick="app.noticias = app.noticias.filter(x => x.id !== '${n.id}'); atualizarTudo(true);" class="text-red-600 font-bold ml-2 hover:underline">Excluir</button>
-          </div>
-        `).join("");
+          <div class="p-3 rounded border flex justify-between items-center text-xs gap-2">
+            <div class="min-w-0"><span class="font-semibold text-neutral-800 break-words">${esc(n.titulo)}</span></div>
+            <button onclick="excluirNoticia('${n.id}')" class="text-red-600 font-bold ml-2 hover:underline flex-shrink-0">Excluir</button>
+          </div>`).join("");
       }
     }
 
-    // ==================== TELA DE CARREGAMENTO (SPLASH) ====================
-    let splashResolvido = false;
-
-    function definirSplashProgresso(pct, msg) {
-      const barra = document.getElementById("splashBarra");
-      const texto = document.getElementById("splashTexto");
-      if (barra) barra.style.width = pct + "%";
-      if (texto && msg) texto.innerText = msg;
-    }
-
-    function ocultarSplash() {
-      if (splashResolvido) return;
-      splashResolvido = true;
-      const s = document.getElementById("splashScreen");
-      if (!s) return;
-      definirSplashProgresso(100, "Pronto!");
-      s.classList.add("opacity-0");
-      setTimeout(() => { s.style.display = "none"; }, 700);
-    }
-
-    // ==================== RENDERIZAÇÕES PÚBLICAS (RESTAURADAS) ====================
-
-    // --- DESTINAÇÕES / REPASSES (PÁGINA TRANSPARÊNCIA) ---
-    function renderizarDestinacoesPublicas(totalOrc) {
-      const div = document.getElementById("listaPublicaDestinacoes");
-      if (!div) return;
-      const lista = garantirArray(app.orcamento.destinacoes, []);
-      if (lista.length === 0) {
-        div.innerHTML = '<p class="p-6 text-center text-neutral-400 font-semibold">Nenhum repasse cadastrado até o momento.</p>';
-        return;
-      }
-      div.innerHTML = lista.map((d, i) => {
-        const perc = totalOrc > 0 ? Math.min(100, (Number(d.valor || 0) / totalOrc) * 100) : 0;
-        const cor = CORES_DESTINACOES[i % CORES_DESTINACOES.length];
-        return `
-          <div class="p-4 hover:bg-neutral-50 transition">
-            <div class="flex flex-wrap justify-between items-center gap-2 mb-1.5">
-              <div class="flex items-center gap-2 min-w-0">
-                <span class="w-2.5 h-2.5 rounded-full ${cor} flex-shrink-0"></span>
-                <strong class="text-neutral-900 truncate">${d.nome}</strong>
-              </div>
-              <span class="font-black text-emerald-700">${formatarMoeda(d.valor)}</span>
-            </div>
-            <p class="text-[11px] text-neutral-500 mb-2 pl-5">${d.entidade ? d.entidade + ' — ' : ''}${d.descricao || ''}</p>
-            <div class="w-full bg-neutral-200 rounded-full h-2 overflow-hidden">
-              <div class="${cor} h-2 rounded-full transition-all duration-700" style="width:${perc}%"></div>
-            </div>
-          </div>`;
-      }).join("");
-    }
-
-    // --- PROGRAMAS (CARD PADRÃO UNIFORME) ---
+    // ==================== RENDER PÚBLICO ====================
     function iconeProgramaHtml(p) {
       const cat = ((p.categoria || '') + ' ' + (p.nome || '')).toLowerCase();
       let icone = 'heart-handshake';
       let corIcone = 'text-sp-blue bg-blue-50';
-      if (cat.includes('psicolog') || cat.includes('mental') || cat.includes('pericia')) {
-        icone = 'brain'; corIcone = 'text-indigo-700 bg-indigo-50';
-      } else if (cat.includes('medicamento') || cat.includes('farmac')) {
-        icone = 'pill'; corIcone = 'text-emerald-700 bg-emerald-50';
-      } else if (cat.includes('sangue') || cat.includes('doa')) {
-        icone = 'droplets'; corIcone = 'text-red-600 bg-red-50';
-      } else if (cat.includes('preven') || cat.includes('vacin') || cat.includes('mulher')) {
-        icone = 'ribbon'; corIcone = 'text-pink-600 bg-pink-50';
-      }
+      if (cat.includes('psicolog') || cat.includes('mental') || cat.includes('pericia')) { icone = 'brain'; corIcone = 'text-indigo-700 bg-indigo-50'; }
+      else if (cat.includes('medicamento') || cat.includes('farmac')) { icone = 'pill'; corIcone = 'text-emerald-700 bg-emerald-50'; }
+      else if (cat.includes('sangue') || cat.includes('doa')) { icone = 'droplets'; corIcone = 'text-red-600 bg-red-50'; }
+      else if (cat.includes('preven') || cat.includes('vacin') || cat.includes('mulher')) { icone = 'ribbon'; corIcone = 'text-pink-600 bg-pink-50'; }
       return `<div class="w-11 h-11 rounded-xl ${corIcone} flex items-center justify-center mb-3"><i data-lucide="${icone}" class="w-5 h-5"></i></div>`;
     }
 
     function botaoProgramaHtml(p) {
       const link = (p.link || '').trim();
       const classe = "mt-5 w-full bg-sp-blue hover:bg-sp-darkBlue text-white font-black py-2.5 rounded-lg text-xs uppercase tracking-wide transition shadow";
-      if (link.startsWith('#/')) {
-        return `<button onclick="irParaPagina('${link.replace('#/', '')}')" class="${classe}">Acessar Programa →</button>`;
-      }
-      if (link.startsWith('http')) {
-        return `<button onclick="window.open('${link}','_blank','noopener')" class="${classe}">Acessar Programa →</button>`;
-      }
+      if (link.startsWith('#/')) return `<button onclick="irParaPagina('${link.replace('#/', '')}')" class="${classe}">Acessar Programa →</button>`;
+      if (link.startsWith('http')) return `<button onclick="window.open('${esc(link)}','_blank','noopener')" class="${classe}">Acessar Programa →</button>`;
       return `<div class="mt-5 w-full bg-neutral-100 text-neutral-400 font-black py-2.5 rounded-lg text-xs uppercase tracking-wide text-center">Em Breve</div>`;
     }
 
     function cardProgramaHtml(p) {
       return `
-        <div class="bg-white rounded-xl border border-neutral-200 border-t-4 border-sp-blue shadow-sm p-6 flex flex-col hover:shadow-md transition">
+        <div class="bg-white rounded-xl border border-neutral-200 border-t-4 border-sp-blue shadow-sm p-6 flex flex-col hover:shadow-md transition fade-in">
           ${iconeProgramaHtml(p)}
-          <span class="text-[9px] font-black uppercase tracking-wider text-sp-blue">${p.categoria || 'Programa'}</span>
-          <h4 class="font-black text-neutral-900 text-sm uppercase mt-1 leading-tight">${p.nome}</h4>
-          <p class="text-[11px] text-neutral-500 mt-2 leading-relaxed flex-grow">${p.descricao || ''}</p>
+          <span class="text-[9px] font-black uppercase tracking-wider text-sp-blue">${esc(p.categoria || 'Programa')}</span>
+          <h4 class="font-black text-neutral-900 text-sm uppercase mt-1 leading-tight">${esc(p.nome)}</h4>
+          <p class="text-[11px] text-neutral-500 mt-2 leading-relaxed flex-grow">${esc(p.descricao || '')}</p>
           ${botaoProgramaHtml(p)}
         </div>`;
     }
@@ -2839,25 +3012,20 @@
       const grid = document.getElementById("gridProgramas");
       if (!grid) return;
       const lista = garantirArray(app.programas, []).filter(p => p.ativo !== false);
-      if (lista.length === 0) {
-        grid.innerHTML = '<p class="col-span-full text-center text-neutral-400 text-xs font-semibold py-10">Nenhum programa oficial cadastrado.</p>';
-        return;
-      }
-      grid.innerHTML = lista.map(p => cardProgramaHtml(p)).join("");
+      grid.innerHTML = lista.length === 0
+        ? '<p class="col-span-full text-center text-neutral-400 text-xs font-semibold py-10">Nenhum programa oficial cadastrado.</p>'
+        : lista.map(p => cardProgramaHtml(p)).join("");
     }
 
     function renderizarHomeProgramas() {
       const grid = document.getElementById("homeGridProgramas");
       if (!grid) return;
       const lista = garantirArray(app.programas, []).filter(p => p.ativo !== false).slice(0, 6);
-      if (lista.length === 0) {
-        grid.innerHTML = '<p class="col-span-full text-center text-neutral-400 text-xs font-semibold py-10">Nenhum programa oficial cadastrado.</p>';
-        return;
-      }
-      grid.innerHTML = lista.map(p => cardProgramaHtml(p)).join("");
+      grid.innerHTML = lista.length === 0
+        ? '<p class="col-span-full text-center text-neutral-400 text-xs font-semibold py-10">Nenhum programa oficial cadastrado.</p>'
+        : lista.map(p => cardProgramaHtml(p)).join("");
     }
 
-    // --- HOSPITAIS ---
     function renderizarHospitais() {
       const grid = document.getElementById("gridHospitais");
       if (!grid) return;
@@ -2865,13 +3033,11 @@
       const selRegiao = document.getElementById("filtroRegiao");
       const busca = inputBusca ? inputBusca.value.toLowerCase().trim() : "";
       const regiao = selRegiao ? selRegiao.value : "todas";
-
       const lista = garantirArray(app.hospitais, []).filter(h => {
         const okRegiao = regiao === "todas" || h.regiao === regiao;
         const okBusca = !busca || (h.nome || "").toLowerCase().includes(busca);
         return okRegiao && okBusca;
       });
-
       const semRes = document.getElementById("semResultadoHospital");
       if (lista.length === 0) {
         grid.innerHTML = "";
@@ -2879,34 +3045,31 @@
         return;
       }
       if (semRes) semRes.classList.add("hidden");
-
       const coresStatus = {
         "Operando Normalmente": "bg-emerald-100 text-emerald-800",
         "Alta Demanda": "bg-amber-100 text-amber-800",
         "Em Obras / Parcial": "bg-neutral-200 text-neutral-700",
         "Pronto-Socorro Restrito": "bg-red-100 text-red-700"
       };
-
       grid.innerHTML = lista.map(h => `
-        <div class="bg-white rounded-xl border border-neutral-200 shadow-sm overflow-hidden hover:shadow-md transition flex flex-col">
+        <div class="bg-white rounded-xl border border-neutral-200 shadow-sm overflow-hidden hover:shadow-md transition flex flex-col fade-in">
           <div class="relative h-36 bg-sp-darkBlue">
-            <img src="${h.foto || IMG_FALLBACK}" onerror="this.onerror=null;this.src='${IMG_FALLBACK}'" alt="${h.nome}" class="w-full h-full object-cover">
-            <span class="absolute top-2.5 left-2.5 text-[9px] font-black uppercase px-2 py-1 rounded ${coresStatus[h.status] || 'bg-emerald-100 text-emerald-800'}">${h.status || 'Operando'}</span>
+            <img src="${esc(h.foto || IMG_FALLBACK)}" onerror="this.onerror=null;this.src='${IMG_FALLBACK}'" alt="${esc(h.nome)}" class="w-full h-full object-cover">
+            <span class="absolute top-2.5 left-2.5 text-[9px] font-black uppercase px-2 py-1 rounded ${coresStatus[h.status] || 'bg-emerald-100 text-emerald-800'}">${esc(h.status || 'Operando')}</span>
           </div>
           <div class="p-4 flex flex-col flex-grow">
-            <span class="text-[9px] font-bold uppercase text-sp-blue tracking-wider">${h.tipo || 'Unidade'} • ${(h.regiao || '').toUpperCase()}</span>
-            <h4 class="font-black text-neutral-900 text-sm mt-1 leading-tight">${h.nome}</h4>
-            <p class="text-[11px] text-neutral-500 mt-1.5 leading-relaxed">${h.endereco || ''}</p>
+            <span class="text-[9px] font-bold uppercase text-sp-blue tracking-wider">${esc(h.tipo || 'Unidade')} • ${esc((h.regiao || '').toUpperCase())}</span>
+            <h4 class="font-black text-neutral-900 text-sm mt-1 leading-tight">${esc(h.nome)}</h4>
+            <p class="text-[11px] text-neutral-500 mt-1.5 leading-relaxed">${esc(h.endereco || '')}</p>
             <div class="mt-3 pt-3 border-t border-neutral-100 flex flex-wrap items-center justify-between gap-2 text-[11px] text-neutral-600">
-              <span class="flex items-center gap-1.5"><i data-lucide="bed" class="w-3.5 h-3.5 text-sp-blue"></i> <strong>${h.leitos || 0}</strong> leitos/vagas</span>
-              <span class="flex items-center gap-1.5"><i data-lucide="phone" class="w-3.5 h-3.5 text-sp-blue"></i> ${h.telefone || '-'}</span>
+              <span class="flex items-center gap-1.5"><i data-lucide="bed" class="w-3.5 h-3.5 text-sp-blue"></i> <strong>${Number(h.leitos || 0)}</strong> leitos/vagas</span>
+              <span class="flex items-center gap-1.5"><i data-lucide="phone" class="w-3.5 h-3.5 text-sp-blue"></i> ${esc(h.telefone || '-')}</span>
             </div>
           </div>
         </div>`).join("");
-      if (window.lucide) lucide.createIcons();
+      refreshIcons();
     }
 
-    // --- NOTÍCIAS ---
     function abrirNoticia(id) {
       const n = garantirArray(app.noticias, []).find(x => String(x.id) === String(id));
       if (!n) return;
@@ -2915,118 +3078,107 @@
         img.src = n.imagem || IMG_FALLBACK;
         img.onerror = function(){ this.onerror = null; this.src = IMG_FALLBACK; };
       }
-      document.getElementById("mNoticiaCat").innerText = n.categoria || 'Geral';
-      document.getElementById("mNoticiaTitulo").innerText = n.titulo || '';
-      document.getElementById("mNoticiaData").innerText = n.data || '';
-      document.getElementById("mNoticiaTexto").innerText = n.resumo || '';
+      setText2("mNoticiaCat", n.categoria || 'Geral');
+      setText2("mNoticiaTitulo", n.titulo || '');
+      setText2("mNoticiaData", n.data || '');
+      setText2("mNoticiaTexto", n.resumo || '');
       const box = document.getElementById("mNoticiaLinkBox");
       if (n.link && n.link.startsWith('http')) {
         box.classList.remove('hidden');
         document.getElementById("mNoticiaLink").href = n.link;
-      } else if (box) {
-        box.classList.add('hidden');
-      }
+      } else if (box) box.classList.add('hidden');
       document.getElementById("modalNoticia").style.display = "flex";
-      if (window.lucide) lucide.createIcons();
+      refreshIcons();
     }
 
     function renderizarNoticias() {
       const grid = document.getElementById("gridNoticias");
       if (!grid) return;
       const lista = garantirArray(app.noticias, []);
-      if (lista.length === 0) {
-        grid.innerHTML = '<p class="p-6 text-center text-neutral-400 text-xs font-semibold">Nenhuma notícia publicada.</p>';
-        return;
-      }
-      grid.innerHTML = lista.map(n => `
-        <button onclick="abrirNoticia('${n.id}')" class="w-full text-left p-4 sm:p-5 hover:bg-neutral-50 transition flex items-start gap-4">
-          <img src="${n.imagem || IMG_FALLBACK}" onerror="this.onerror=null;this.src='${IMG_FALLBACK}'" alt="" class="w-20 h-16 sm:w-28 sm:h-20 rounded-lg object-cover flex-shrink-0 border border-neutral-200 bg-sp-darkBlue">
-          <div class="min-w-0">
-            <div class="flex items-center gap-2 flex-wrap">
-              <span class="text-[9px] font-black uppercase text-sp-blue bg-blue-50 px-2 py-0.5 rounded">${n.categoria || 'Geral'}</span>
-              <span class="text-[10px] text-neutral-400 font-semibold">${n.data || ''}</span>
+      grid.innerHTML = lista.length === 0
+        ? '<p class="p-6 text-center text-neutral-400 text-xs font-semibold">Nenhuma notícia publicada.</p>'
+        : lista.map(n => `
+          <button onclick="abrirNoticia('${n.id}')" class="w-full text-left p-4 sm:p-5 hover:bg-neutral-50 transition flex items-start gap-4">
+            <img src="${esc(n.imagem || IMG_FALLBACK)}" onerror="this.onerror=null;this.src='${IMG_FALLBACK}'" alt="" class="w-20 h-16 sm:w-28 sm:h-20 rounded-lg object-cover flex-shrink-0 border border-neutral-200 bg-sp-darkBlue">
+            <div class="min-w-0">
+              <div class="flex items-center gap-2 flex-wrap">
+                <span class="text-[9px] font-black uppercase text-sp-blue bg-blue-50 px-2 py-0.5 rounded">${esc(n.categoria || 'Geral')}</span>
+                <span class="text-[10px] text-neutral-400 font-semibold">${esc(n.data || '')}</span>
+              </div>
+              <h4 class="font-black text-neutral-900 text-sm mt-1.5 leading-snug">${esc(n.titulo || '')}</h4>
+              <p class="text-[11px] text-neutral-500 mt-1 line-clamp-2">${esc(n.resumo || '')}</p>
             </div>
-            <h4 class="font-black text-neutral-900 text-sm mt-1.5 leading-snug">${n.titulo || ''}</h4>
-            <p class="text-[11px] text-neutral-500 mt-1 line-clamp-2">${n.resumo || ''}</p>
-          </div>
-        </button>`).join("");
+          </button>`).join("");
     }
 
     function renderizarHomeNoticias() {
       const grid = document.getElementById("homeGridNoticias");
       if (!grid) return;
       const lista = garantirArray(app.noticias, []).slice(0, 2);
-      if (lista.length === 0) {
-        grid.innerHTML = '<p class="col-span-full text-center text-neutral-400 text-xs font-semibold py-8">Nenhuma notícia publicada.</p>';
-        return;
-      }
-      grid.innerHTML = lista.map(n => `
-        <button onclick="abrirNoticia('${n.id}')" class="text-left bg-white rounded-xl border border-neutral-200 shadow-sm overflow-hidden hover:shadow-md transition group">
-          <div class="h-40 bg-sp-darkBlue overflow-hidden">
-            <img src="${n.imagem || IMG_FALLBACK}" onerror="this.onerror=null;this.src='${IMG_FALLBACK}'" alt="" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
-          </div>
-          <div class="p-4">
-            <div class="flex items-center gap-2">
-              <span class="text-[9px] font-black uppercase text-sp-blue bg-blue-50 px-2 py-0.5 rounded">${n.categoria || 'Geral'}</span>
-              <span class="text-[10px] text-neutral-400 font-semibold">${n.data || ''}</span>
+      grid.innerHTML = lista.length === 0
+        ? '<p class="col-span-full text-center text-neutral-400 text-xs font-semibold py-8">Nenhuma notícia publicada.</p>'
+        : lista.map(n => `
+          <button onclick="abrirNoticia('${n.id}')" class="text-left bg-white rounded-xl border border-neutral-200 shadow-sm overflow-hidden hover:shadow-md transition group fade-in">
+            <div class="h-40 bg-sp-darkBlue overflow-hidden">
+              <img src="${esc(n.imagem || IMG_FALLBACK)}" onerror="this.onerror=null;this.src='${IMG_FALLBACK}'" alt="" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
             </div>
-            <h4 class="font-black text-neutral-900 text-sm mt-2 leading-snug group-hover:text-sp-blue transition">${n.titulo || ''}</h4>
-            <p class="text-[11px] text-neutral-500 mt-1.5 line-clamp-2">${n.resumo || ''}</p>
-          </div>
-        </button>`).join("");
+            <div class="p-4">
+              <div class="flex items-center gap-2">
+                <span class="text-[9px] font-black uppercase text-sp-blue bg-blue-50 px-2 py-0.5 rounded">${esc(n.categoria || 'Geral')}</span>
+                <span class="text-[10px] text-neutral-400 font-semibold">${esc(n.data || '')}</span>
+              </div>
+              <h4 class="font-black text-neutral-900 text-sm mt-2 leading-snug group-hover:text-sp-blue transition">${esc(n.titulo || '')}</h4>
+              <p class="text-[11px] text-neutral-500 mt-1.5 line-clamp-2">${esc(n.resumo || '')}</p>
+            </div>
+          </button>`).join("");
     }
 
-    // --- EQUIPE SES (PÁGINA PÚBLICA) ---
     function renderizarEquipe() {
       const grid = document.getElementById("gridEquipe");
       if (!grid) return;
       const lista = garantirArray(app.equipe, []).filter(m => m.ativo && m.nome && m.nome.trim() !== "");
-      if (lista.length === 0) {
-        grid.innerHTML = '<p class="col-span-full text-center text-neutral-400 text-xs font-semibold py-10">Nenhum titular nomeado no momento.</p>';
-        return;
-      }
-      grid.innerHTML = lista.map(m => {
-        const fotoHtml = (m.foto && m.foto.startsWith('data:'))
-          ? `<img src="${m.foto}" alt="${m.nome}" class="w-16 h-16 rounded-full object-cover border-2 border-sp-blue flex-shrink-0">`
-          : gerarEmblemaPadraoHtml('border-sp-blue', 'bg-sp-darkBlue');
-        return `
-          <div class="bg-white rounded-xl border border-neutral-200 shadow-sm p-5 flex items-start gap-4 hover:shadow-md transition">
-            ${fotoHtml}
-            <div class="min-w-0">
-              <span class="text-[9px] font-black uppercase text-sp-blue bg-blue-50 px-2 py-0.5 rounded">${m.cargo}</span>
-              <h4 class="font-black text-neutral-900 text-sm mt-1.5 leading-tight">${m.nome}</h4>
-              <p class="text-[11px] text-neutral-500 mt-1 leading-relaxed">${m.descricao || ''}</p>
-            </div>
-          </div>`;
-      }).join("");
+      grid.innerHTML = lista.length === 0
+        ? '<p class="col-span-full text-center text-neutral-400 text-xs font-semibold py-10">Nenhum titular nomeado no momento.</p>'
+        : lista.map(m => {
+            const fotoHtml = (m.foto && m.foto.startsWith('data:'))
+              ? `<img src="${m.foto}" alt="${esc(m.nome)}" class="w-16 h-16 rounded-full object-cover border-2 border-sp-blue flex-shrink-0">`
+              : gerarEmblemaPadraoHtml('border-sp-blue', 'bg-sp-darkBlue');
+            return `
+              <div class="bg-white rounded-xl border border-neutral-200 shadow-sm p-5 flex items-start gap-4 hover:shadow-md transition fade-in">
+                ${fotoHtml}
+                <div class="min-w-0">
+                  <span class="text-[9px] font-black uppercase text-sp-blue bg-blue-50 px-2 py-0.5 rounded">${esc(m.cargo)}</span>
+                  <h4 class="font-black text-neutral-900 text-sm mt-1.5 leading-tight">${esc(m.nome)}</h4>
+                  <p class="text-[11px] text-neutral-500 mt-1 leading-relaxed">${esc(m.descricao || '')}</p>
+                </div>
+              </div>`;
+          }).join("");
+      refreshIcons();
     }
 
-    // --- EQUIPE IEP-SP (PÁGINA PÚBLICA) ---
     function renderizarEquipeIep() {
       const grid = document.getElementById("gridEquipeIep");
       if (!grid) return;
       const lista = garantirArray(app.iepEquipe, []).filter(m => m.ativo && m.nome && m.nome.trim() !== "");
-      if (lista.length === 0) {
-        grid.innerHTML = '<p class="col-span-full text-center text-neutral-400 text-xs font-semibold py-8">Lideranças serão publicadas em breve.</p>';
-        return;
-      }
-      grid.innerHTML = lista.map(m => {
-        const fotoHtml = (m.foto && m.foto.startsWith('data:'))
-          ? `<img src="${m.foto}" alt="${m.nome}" class="w-16 h-16 rounded-full object-cover border-2 border-indigo-700 flex-shrink-0">`
-          : gerarEmblemaPadraoHtml('border-indigo-700', 'bg-indigo-800');
-        return `
-          <div class="bg-white rounded-xl border border-neutral-200 shadow-sm p-5 flex items-start gap-4 hover:shadow-md transition">
-            ${fotoHtml}
-            <div class="min-w-0">
-              <span class="text-[9px] font-black uppercase text-indigo-700 bg-indigo-50 px-2 py-0.5 rounded">${m.cargo}</span>
-              <h4 class="font-black text-neutral-900 text-sm mt-1.5 leading-tight">${m.nome}</h4>
-              <p class="text-[11px] text-neutral-500 mt-1 leading-relaxed">${m.descricao || ''}</p>
-            </div>
-          </div>`;
-      }).join("");
+      grid.innerHTML = lista.length === 0
+        ? '<p class="col-span-full text-center text-neutral-400 text-xs font-semibold py-8">Lideranças serão publicadas em breve.</p>'
+        : lista.map(m => {
+            const fotoHtml = (m.foto && m.foto.startsWith('data:'))
+              ? `<img src="${m.foto}" alt="${esc(m.nome)}" class="w-16 h-16 rounded-full object-cover border-2 border-indigo-700 flex-shrink-0">`
+              : gerarEmblemaPadraoHtml('border-indigo-700', 'bg-indigo-800');
+            return `
+              <div class="bg-white rounded-xl border border-neutral-200 shadow-sm p-5 flex items-start gap-4 hover:shadow-md transition fade-in">
+                ${fotoHtml}
+                <div class="min-w-0">
+                  <span class="text-[9px] font-black uppercase text-indigo-700 bg-indigo-50 px-2 py-0.5 rounded">${esc(m.cargo)}</span>
+                  <h4 class="font-black text-neutral-900 text-sm mt-1.5 leading-tight">${esc(m.nome)}</h4>
+                  <p class="text-[11px] text-neutral-500 mt-1 leading-relaxed">${esc(m.descricao || '')}</p>
+                </div>
+              </div>`;
+          }).join("");
+      refreshIcons();
     }
 
-    // --- LISTA PÚBLICA DE MEDICAMENTOS ---
     function renderizarListaRemediosPublica() {
       const grid = document.getElementById("gridRemediosPublica");
       if (!grid) return;
@@ -3040,27 +3192,24 @@
       );
       const cont = document.getElementById("contagemRemedios");
       if (cont) cont.innerText = lista.length + " item(ns)";
-      if (lista.length === 0) {
-        grid.innerHTML = '<p class="py-8 text-center text-neutral-400 font-semibold">Nenhum medicamento encontrado.</p>';
-        return;
-      }
-      grid.innerHTML = lista.map(m => `
-        <div class="py-3 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
-          <div class="min-w-0">
-            <div class="flex items-center gap-2 flex-wrap">
-              <strong class="text-neutral-900">${m.nome}</strong>
-              <span class="text-[9px] font-bold text-emerald-800 bg-emerald-50 px-1.5 py-0.5 rounded uppercase">${m.categoria || ''}</span>
+      grid.innerHTML = lista.length === 0
+        ? '<p class="py-8 text-center text-neutral-400 font-semibold">Nenhum medicamento encontrado.</p>'
+        : lista.map(m => `
+          <div class="py-3 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+            <div class="min-w-0">
+              <div class="flex items-center gap-2 flex-wrap">
+                <strong class="text-neutral-900">${esc(m.nome)}</strong>
+                <span class="text-[9px] font-bold text-emerald-800 bg-emerald-50 px-1.5 py-0.5 rounded uppercase">${esc(m.categoria || '')}</span>
+              </div>
+              <p class="text-[11px] text-neutral-500 mt-0.5">${esc(m.descricao || '')}</p>
             </div>
-            <p class="text-[11px] text-neutral-500 mt-0.5">${m.descricao || ''}</p>
-          </div>
-          <button onclick="selecionarRemedioDiretoNoForm('${String(m.nome).replace(/'/g, "\\'")}')" class="self-end sm:self-center bg-emerald-600 hover:bg-emerald-700 text-white font-black text-[10px] uppercase px-3 py-1.5 rounded-lg shadow-sm transition flex-shrink-0">
-            Pedir Este
-          </button>
-        </div>`).join("");
-      if (window.lucide) lucide.createIcons();
+            <button onclick="selecionarRemedioDiretoNoForm('${m.id}')" class="self-end sm:self-center bg-emerald-600 hover:bg-emerald-700 text-white font-black text-[10px] uppercase px-3 py-1.5 rounded-lg shadow-sm transition flex-shrink-0">
+              Pedir Este
+            </button>
+          </div>`).join("");
     }
 
-    // --- FUNÇÕES DO PAINEL QUE ESTAVAM SEM DEFINIÇÃO ---
+    // ==================== ALERTA / OUVIDORIA ====================
     function salvarAlerta() {
       app.alerta = {
         ativo: document.getElementById("chkAlertaAtivo").checked,
@@ -3085,41 +3234,49 @@
       mostrarToast("Link da Ouvidoria salvo!");
     }
 
-    // --- SEGURANÇA E LOGIN ---
+    // ==================== SPLASH ====================
+    let splashResolvido = false;
+
+    function definirSplashProgresso(pct, msg) {
+      const barra = document.getElementById("splashBarra");
+      const texto = document.getElementById("splashTexto");
+      if (barra) barra.style.width = pct + "%";
+      if (texto && msg) texto.innerText = msg;
+    }
+
+    function ocultarSplash() {
+      if (splashResolvido) return;
+      splashResolvido = true;
+      const s = document.getElementById("splashScreen");
+      if (!s) return;
+      definirSplashProgresso(100, "Pronto!");
+      s.classList.add("opacity-0");
+      setTimeout(() => { s.style.display = "none"; }, 700);
+    }
+
+    // ==================== SEGURANÇA E LOGIN ====================
     function abrirModalLogin() {
-      if (app.logado) {
-        irParaPagina('admin');
-        return;
-      }
+      if (app.logado) { irParaPagina('admin'); return; }
       document.getElementById("modalLogin").style.display = "flex";
       document.getElementById("loginErro").classList.add("hidden");
       document.getElementById("loginUser").value = "";
       document.getElementById("loginPass").value = "";
-      lucide.createIcons();
+      refreshIcons();
     }
-
-    function fecharModalLogin() {
-      document.getElementById("modalLogin").style.display = "none";
-    }
+    function fecharModalLogin() { document.getElementById("modalLogin").style.display = "none"; }
 
     function alternarVerSenha() {
       const input = document.getElementById("loginPass");
       const icone = document.getElementById("iconeOlho");
-      if (input.type === "password") {
-        input.type = "text";
-        icone.setAttribute("data-lucide", "eye-off");
-      } else {
-        input.type = "password";
-        icone.setAttribute("data-lucide", "eye");
-      }
-      lucide.createIcons();
+      if (input.type === "password") { input.type = "text"; icone.setAttribute("data-lucide", "eye-off"); }
+      else { input.type = "password"; icone.setAttribute("data-lucide", "eye"); }
+      refreshIcons();
     }
 
     function realizarLogin(e) {
       e.preventDefault();
       const u = document.getElementById("loginUser").value.trim();
       const p = document.getElementById("loginPass").value.trim();
-
       if (u === app.user && p === app.pass) {
         app.logado = true;
         fecharModalLogin();
@@ -3148,21 +3305,12 @@
       const novoU = document.getElementById("novoUsuario").value.trim();
       const novaP = document.getElementById("novaSenha").value.trim();
       const confP = document.getElementById("confirmaSenha").value.trim();
-
-      if (novaP.length < 5) {
-        alert("A senha precisa ter pelo menos 5 caracteres!");
-        return;
-      }
-      if (novaP !== confP) {
-        alert("As senhas não coincidem!");
-        return;
-      }
-
+      if (novaP.length < 5) { alert("A senha precisa ter pelo menos 5 caracteres!"); return; }
+      if (novaP !== confP) { alert("As senhas não coincidem!"); return; }
       app.user = novoU;
       app.pass = novaP;
       localStorage.setItem("ses_user", novoU);
       localStorage.setItem("ses_pass", novaP);
-
       document.getElementById("novoUsuario").value = "";
       document.getElementById("novaSenha").value = "";
       document.getElementById("confirmaSenha").value = "";
@@ -3191,10 +3339,9 @@
       });
     }
 
-    // --- AVISO DE SITE FICTÍCIO (ROLEPLAY) ---
     function abrirModalAvisoRP() {
       document.getElementById("modalAvisoRP").style.display = "flex";
-      lucide.createIcons();
+      refreshIcons();
     }
     function fecharModalAvisoRP() {
       document.getElementById("modalAvisoRP").style.display = "none";
