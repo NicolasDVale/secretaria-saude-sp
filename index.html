@@ -76,7 +76,7 @@
     <div class="max-w-7xl mx-auto px-3 py-1.5 flex items-center justify-between flex-wrap gap-y-1">
       <div class="flex items-center gap-2">
         <span class="font-extrabold tracking-widest bg-sp-red px-1.5 py-0.5 rounded text-white text-[9px]">SP</span>
-        <span class="font-semibold uppercase tracking-wide text-neutral-200">Governo do Estado de São Paulo</span>
+        <span class="font-semibold uppercase tracking-wide text-neutral-200">Governo do Estado de São Paulo - Nacional Player Action Roleplay</span>
       </div>
       <div class="flex items-center gap-3">
         <span id="cloudStatus" class="inline-flex items-center gap-1 text-[10px] text-emerald-400 font-semibold">
@@ -1303,10 +1303,36 @@
         <span class="text-neutral-500 text-[10px] mt-4 block">Portal Oficial do Estado de São Paulo</span>
       </div>
     </div>
-    <div class="border-t border-white/10 py-3 text-center text-neutral-400 text-[10px]">
-      © 2026 Governo do Estado de São Paulo. Todos os direitos reservados.
+    <div class="border-t border-white/10 py-3 text-center text-neutral-400 text-[10px] flex flex-col sm:flex-row items-center justify-center gap-1.5 sm:gap-3 px-3">
+      <span>© 2026 Governo do Estado de São Paulo. Todos os direitos reservados.</span>
+      <span class="hidden sm:inline text-neutral-600">•</span>
+      <button onclick="abrirModalAvisoRP()" class="inline-flex items-center gap-1 text-amber-400 hover:text-amber-300 font-bold uppercase tracking-wide underline underline-offset-2">
+        <i data-lucide="drama" class="w-3 h-3"></i> Site Fictício de Roleplay
+      </button>
     </div>
   </footer>
+
+  <!-- MODAL: AVISO DE SITE FICTÍCIO (ROLEPLAY) -->
+  <div id="modalAvisoRP" style="display: none;" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 items-center justify-center p-4">
+    <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl relative border-t-8 border-amber-500">
+      <button onclick="fecharModalAvisoRP()" class="absolute top-4 right-4 text-neutral-400 hover:text-neutral-700"><i data-lucide="x" class="w-5 h-5"></i></button>
+      <div class="text-center mb-4">
+        <div class="w-12 h-12 bg-amber-50 text-amber-600 rounded-full flex items-center justify-center mx-auto mb-3">
+          <i data-lucide="drama" class="w-6 h-6"></i>
+        </div>
+        <span class="text-[9px] font-black uppercase tracking-wider bg-amber-100 text-amber-800 px-2.5 py-1 rounded">Aviso Importante</span>
+        <h3 class="text-base font-black text-neutral-900 uppercase mt-2">Este é um site fictício de Roleplay</h3>
+      </div>
+      <div class="text-xs text-neutral-600 leading-relaxed space-y-2.5">
+        <p>Este portal <strong>não é um site oficial do Governo do Estado de São Paulo</strong> nem de qualquer outro órgão público real.</p>
+        <p>Todo o seu conteúdo — nomes, cargos, hospitais, programas, valores e notícias — foi criado exclusivamente para uso dentro do servidor de <strong>Roleplay Nacional Player Action Roleplay</strong>, um jogo/comunidade de entretenimento (GTA Roleplay).</p>
+        <p>Nada aqui representa informações reais, oficiais ou verídicas. O site existe puramente para fins de diversão, imersão e ambientação dos jogadores.</p>
+      </div>
+      <button onclick="fecharModalAvisoRP()" class="w-full mt-5 bg-amber-500 hover:bg-amber-600 text-white font-bold p-2.5 rounded-lg uppercase tracking-wide transition shadow">
+        Entendi
+      </button>
+    </div>
+  </div>
 
   <!-- ==================== JAVASCRIPT ==================== -->
   <script>
@@ -3163,6 +3189,15 @@
           if (tab) tab.className = "px-3 py-2 rounded text-xs font-bold uppercase bg-white text-neutral-700 hover:bg-neutral-100 flex-shrink-0";
         }
       });
+    }
+
+    // --- AVISO DE SITE FICTÍCIO (ROLEPLAY) ---
+    function abrirModalAvisoRP() {
+      document.getElementById("modalAvisoRP").style.display = "flex";
+      lucide.createIcons();
+    }
+    function fecharModalAvisoRP() {
+      document.getElementById("modalAvisoRP").style.display = "none";
     }
 
     function alternarContraste() {
