@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Portal Oficial da Secretaria de Estado da Saúde de São Paulo — programas oficiais, IEP-SP, Dose Certa, rede hospitalar e notícias." />
+  <meta name="description" content="Portal Oficial da Secretaria de Estado da Saúde de São Paulo — transparência orçamentária, programas oficiais, hospitais e notícias do SUS Paulista." />
   <title>Secretaria de Estado da Saúde | Governo do Estado de São Paulo</title>
 
   <script src="https://cdn.tailwindcss.com"></script>
@@ -41,25 +41,23 @@
     #menuMobile.open { max-height: 500px; }
     #menuMobile { max-height: 0; overflow: hidden; transition: max-height .3s ease; }
     .pulse-dot { animation: pulse 2s infinite; }
-    @keyframes pulse { 0%,100% { opacity:1; transform:scale(1);} 50% { opacity:.4; transform:scale(1.2);} }
-    @keyframes splash-pulso { 0%,100% { transform:scale(1); opacity:1;} 50% { transform:scale(1.07); opacity:.85;} }
+    @keyframes pulse { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: .4; transform: scale(1.2); } }
+    @keyframes splash-pulso { 0%, 100% { transform: scale(1); opacity: 1; } 50% { transform: scale(1.07); opacity: .85; } }
     .splash-logo { animation: splash-pulso 1.6s ease-in-out infinite; }
     .fade-in { animation: fadeIn .4s ease both; }
-    @keyframes fadeIn { from { opacity:0; transform:translateY(8px);} to { opacity:1; transform:none;} }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
     #btnTopo { transition: opacity .3s ease, transform .3s ease; }
     #btnTopo.oculto { opacity: 0; pointer-events: none; transform: translateY(10px); }
     .nav-item.ativo { color: #1451B4; box-shadow: inset 0 -2.5px 0 #FFCD07; }
     .card-hover { transition: transform .2s ease, box-shadow .2s ease; }
     .card-hover:hover { transform: translateY(-3px); box-shadow: 0 12px 24px -8px rgba(7,29,65,.18); }
-    .scrollbar-fina::-webkit-scrollbar { height: 6px; width: 6px; }
-    .scrollbar-fina::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 3px; }
-    @media print { header, footer, #btnTopo, .no-print { display: none !important; } body { background:#fff !important; } }
+    @media print { header, footer, #btnTopo, .no-print { display: none !important; } body { background: #fff !important; } }
   </style>
-  <base target="_blank">
+<base target="_blank">
 </head>
 <body class="bg-sp-gray text-neutral-800 min-h-screen flex flex-col antialiased font-sans">
 
-  <!-- ============ SPLASH ============ -->
+  <!-- ============ TELA DE CARREGAMENTO INICIAL ============ -->
   <div id="splashScreen" class="fixed inset-0 z-[100] bg-sp-darkBlue flex flex-col items-center justify-center px-6 transition-opacity duration-700">
     <div class="splash-logo bg-sp-blue text-white rounded-2xl w-16 h-16 flex items-center justify-center font-black text-2xl shadow-2xl mb-4">SUS</div>
     <p class="text-white font-black uppercase tracking-widest text-sm text-center">Secretaria de Estado da Saúde</p>
@@ -70,7 +68,7 @@
     <p id="splashTexto" class="text-blue-200/70 text-[10px] mt-3 uppercase tracking-wider">Iniciando portal oficial...</p>
   </div>
 
-  <!-- ============ BARRA DE ACESSIBILIDADE ============ -->
+  <!-- BARRA DE ACESSIBILIDADE GOVERNO DE SP -->
   <div class="bg-sp-darkBlue text-white text-[11px] border-b border-white/10">
     <div class="max-w-7xl mx-auto px-3 py-1.5 flex items-center justify-between flex-wrap gap-y-1">
       <div class="flex items-center gap-2">
@@ -79,9 +77,9 @@
       </div>
       <div class="flex items-center gap-3">
         <span id="cloudStatus" class="inline-flex items-center gap-1 text-[10px] text-emerald-400 font-semibold">
-          <span class="w-2 h-2 rounded-full bg-emerald-400 pulse-dot"></span> Nuvem Conectada
+          <span class="w-2 h-2 rounded-full bg-emerald-400 pulse-dot"></span> Conectando...
         </span>
-        <a href="https://fala.sp.gov.br" target="_blank" rel="noopener noreferrer" class="hover:underline hidden md:inline text-neutral-300 hover:text-white">Ouvidoria Geral</a>
+        <a id="pubOuvidoriaTopo" href="https://fala.sp.gov.br" target="_blank" rel="noopener noreferrer" class="hover:underline hidden md:inline text-neutral-300 hover:text-white">Ouvidoria Geral</a>
         <button onclick="alternarContraste()" class="hover:underline flex items-center gap-1 text-neutral-300 hover:text-white">
           <i data-lucide="contrast" class="w-3 h-3"></i> <span class="hidden sm:inline">Contraste</span>
         </button>
@@ -90,14 +88,14 @@
           <button onclick="ajustarFonte(0)" class="font-black px-1 hover:text-sp-yellow">A</button>
           <button onclick="ajustarFonte(1)" class="font-black px-1 hover:text-sp-yellow">A+</button>
         </div>
-        <button onclick="abrirModalLogin()" class="bg-sp-yellow hover:bg-amber-400 text-sp-darkBlue font-extrabold px-2.5 py-0.5 rounded flex items-center gap-1 transition shadow-sm">
+        <button onclick="abrirModalLogin()" id="btnAcessoAdmin" class="bg-sp-yellow hover:bg-amber-400 text-sp-darkBlue font-extrabold px-2.5 py-0.5 rounded flex items-center gap-1 transition shadow-sm">
           <i data-lucide="lock" class="w-3 h-3"></i> <span id="labelAcesso">Área do Servidor</span>
         </button>
       </div>
     </div>
   </div>
 
-  <!-- ============ CABEÇALHO ============ -->
+  <!-- CABEÇALHO INSTITUCIONAL -->
   <header class="bg-white border-b border-neutral-200 sticky top-0 z-30 shadow-sm">
     <div class="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between gap-3">
       <a href="javascript:void(0)" onclick="irParaPagina('inicio')" class="flex items-center gap-3 min-w-0">
@@ -125,8 +123,8 @@
         <button onclick="irParaPagina('programas')" class="text-left py-1">Programas Oficiais</button>
         <button onclick="irParaPagina('transparencia')" class="text-left py-1">Transparência & Gastos</button>
         <button onclick="irParaPagina('hospitais')" class="text-left py-1">Rede Hospitalar</button>
-        <button onclick="irParaPagina('equipe')" class="text-left py-1">Corpo Diretivo</button>
-        <button onclick="irParaPagina('noticias')" class="text-left py-1">Notícias</button>
+        <button onclick="irParaPagina('equipe')" class="text-left py-1">Corpo Diretivo da Secretaria</button>
+        <button onclick="irParaPagina('noticias')" class="text-left py-1">Notícias Oficiais</button>
       </div>
     </div>
   </header>
@@ -142,18 +140,18 @@
     </div>
   </div>
 
-  <!-- BANNER ALERTA -->
-  <div id="bannerAlerta" class="hidden px-4 py-2.5 text-xs sm:text-sm font-semibold border-b shadow-inner">
+  <!-- BANNER DE ALERTA EPIDEMIOLÓGICO -->
+  <div id="bannerAlerta" class="hidden text-neutral-950 px-4 py-2.5 text-xs sm:text-sm font-semibold border-b shadow-inner">
     <div class="max-w-7xl mx-auto flex items-center justify-between gap-3">
       <div class="flex items-center gap-2.5">
-        <i data-lucide="alert-triangle" class="w-5 h-5 flex-shrink-0"></i>
+        <i id="iconeAlerta" data-lucide="alert-triangle" class="w-5 h-5 flex-shrink-0"></i>
         <span id="textoAlerta" class="leading-tight"></span>
       </div>
-      <button onclick="document.getElementById('bannerAlerta').style.display='none'" class="hover:opacity-75 p-1"><i data-lucide="x" class="w-4 h-4"></i></button>
+      <button onclick="document.getElementById('bannerAlerta').style.display='none'" class="text-neutral-900 hover:opacity-75 p-1"><i data-lucide="x" class="w-4 h-4"></i></button>
     </div>
   </div>
 
-  <!-- ==================== 1. INÍCIO ==================== -->
+  <!-- ==================== 1. PÁGINA INICIAL ==================== -->
   <main id="viewInicio" class="view-section flex-grow">
     <section class="hero-bg text-white py-14 sm:py-16 px-4">
       <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8 items-center">
@@ -176,7 +174,7 @@
           </h3>
           <div class="flex justify-between items-center bg-black/25 p-2.5 rounded-lg"><span>SAMU Urgência Estadual</span><strong class="text-lg text-red-400 font-black">192</strong></div>
           <div class="flex justify-between items-center bg-black/25 p-2.5 rounded-lg"><span>Disque Saúde Brasil</span><strong class="text-lg text-sp-yellow font-black">136</strong></div>
-          <a href="https://fala.sp.gov.br" target="_blank" rel="noopener noreferrer" class="flex justify-between items-center bg-black/25 hover:bg-black/40 p-2.5 rounded-lg transition group">
+          <a id="pubOuvidoriaHero" href="https://fala.sp.gov.br" target="_blank" rel="noopener noreferrer" class="flex justify-between items-center bg-black/25 hover:bg-black/40 p-2.5 rounded-lg transition group">
             <span>Ouvidoria Geral SES-SP</span>
             <strong class="text-sp-yellow font-bold flex items-center gap-1 group-hover:underline">Acessar Canal <i data-lucide="external-link" class="w-3.5 h-3.5"></i></strong>
           </a>
@@ -233,17 +231,13 @@
         <h2 class="text-xl sm:text-3xl font-black text-sp-darkBlue uppercase">Programas Oficiais de Saúde</h2>
         <p class="text-xs text-neutral-500 mt-1">Catálogo oficial de benefícios, acolhimento especializado e assistência à população de São Paulo.</p>
       </div>
-      <div class="flex flex-col items-start sm:items-end gap-2">
-        <span id="contagemProgramas" class="text-xs font-bold text-sp-blue bg-blue-50 border border-blue-200 px-3 py-1.5 rounded-full">2 programas oficiais</span>
-      </div>
+      <span id="contagemProgramas" class="text-xs font-bold text-sp-blue bg-blue-50 border border-blue-200 px-3 py-1.5 rounded-full w-fit">2 programas oficiais</span>
     </div>
 
-    <!-- PROGRAMAS ESTRUTURANTES (IEP + DOSE CERTA) -->
     <h3 class="text-xs font-black uppercase tracking-wider text-neutral-500 mb-3 flex items-center gap-2">
       <i data-lucide="star" class="w-4 h-4 text-sp-yellow"></i> Programas Estruturantes do Estado
     </h3>
     <div class="grid grid-cols-1 md:grid-cols-2 gap-5 mb-10">
-
       <div class="relative overflow-hidden rounded-2xl p-6 text-white shadow-lg bg-gradient-to-br from-indigo-900 via-indigo-800 to-sp-blue card-hover">
         <i data-lucide="brain" class="absolute -right-4 -bottom-4 w-28 h-28 opacity-10 pointer-events-none"></i>
         <div class="flex flex-wrap items-center gap-2 mb-3">
@@ -257,9 +251,7 @@
           <li>Homologação de porte de arma e aptidão funcional</li>
           <li>Plantão integrado de urgência e crise (SAMU)</li>
         </ul>
-        <button onclick="irParaPagina('iep')" class="mt-5 bg-white text-indigo-900 font-black px-4 py-2.5 rounded-lg text-[11px] uppercase tracking-wide hover:bg-indigo-50 transition shadow flex items-center gap-2">
-          Acessar Programa <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
-        </button>
+        <button onclick="irParaPagina('iep')" class="mt-5 bg-white text-indigo-900 font-black px-4 py-2.5 rounded-lg text-[11px] uppercase tracking-wide hover:bg-indigo-50 transition shadow flex items-center gap-2">Acessar Programa <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i></button>
       </div>
 
       <div class="relative overflow-hidden rounded-2xl p-6 text-white shadow-lg bg-gradient-to-br from-emerald-900 via-emerald-800 to-emerald-600 card-hover">
@@ -275,13 +267,10 @@
           <li>Solicitação eletrônica com protocolo</li>
           <li>Retirada em farmácias credenciadas</li>
         </ul>
-        <button onclick="irParaPagina('medicamentos')" class="mt-5 bg-white text-emerald-900 font-black px-4 py-2.5 rounded-lg text-[11px] uppercase tracking-wide hover:bg-emerald-50 transition shadow flex items-center gap-2">
-          Acessar Programa <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
-        </button>
+        <button onclick="irParaPagina('medicamentos')" class="mt-5 bg-white text-emerald-900 font-black px-4 py-2.5 rounded-lg text-[11px] uppercase tracking-wide hover:bg-emerald-50 transition shadow flex items-center gap-2">Acessar Programa <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i></button>
       </div>
     </div>
 
-    <!-- PROGRAMAS COMPLEMENTARES (CADASTRADOS PELO GESTOR) -->
     <div class="flex flex-col sm:flex-row justify-between sm:items-center gap-3 mb-4">
       <h3 class="text-xs font-black uppercase tracking-wider text-neutral-500 flex items-center gap-2">
         <i data-lucide="layers" class="w-4 h-4 text-sp-blue"></i> Programas Complementares
@@ -310,7 +299,7 @@
     <div class="bg-white rounded-2xl border border-neutral-200 p-6 sm:p-8 shadow-sm mb-8 border-l-8 border-indigo-700">
       <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
-          <span class="text-xs font-bold text-indigo-700 uppercase tracking-wider">Programa Oficial • Unidade Vinculada à SES-SP</span>
+          <span class="text-xs font-bold text-indigo-700 uppercase tracking-wider">Unidade Vinculada à Secretaria de Estado da Saúde</span>
           <h2 class="text-2xl sm:text-3xl font-black text-sp-darkBlue uppercase mt-1">Instituto Estadual de Psicologia de São Paulo (IEP-SP)</h2>
           <p class="text-xs sm:text-sm text-neutral-600 mt-2 leading-relaxed">
             <strong>Sede Operacional:</strong> <span id="iepPubSede">Hospital Jefferson</span> &bull; Atuação integrada entre assistência à saúde mental e perícia médica operacional.
@@ -368,7 +357,7 @@
       </div>
     </div>
 
-    <div class="mb-10">
+    <div id="secaoEquipeIep" class="mb-10">
       <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-2 border-l-4 border-indigo-700 pl-3 mb-6">
         <div>
           <span class="text-xs font-bold text-indigo-700 uppercase tracking-wider">Estrutura Interna</span>
@@ -390,10 +379,10 @@
     </div>
   </main>
 
-  <!-- ==================== 4. DOSE CERTA / MEDICAMENTOS ==================== -->
+  <!-- ==================== 4. MEDICAMENTOS / DOSE CERTA ==================== -->
   <main id="viewMedicamentos" class="view-section hidden flex-grow max-w-7xl mx-auto px-4 py-8 w-full">
     <div class="border-l-4 border-emerald-600 pl-3 mb-6">
-      <span class="text-xs font-bold text-emerald-700 uppercase tracking-wider">Programa Oficial • Assistência Farmacêutica Estadual</span>
+      <span class="text-xs font-bold text-emerald-700 uppercase tracking-wider">Assistência Farmacêutica Estadual</span>
       <h2 class="text-xl sm:text-3xl font-black text-sp-darkBlue uppercase">Programa Dose Certa — Solicitação de Medicamentos</h2>
       <p class="text-xs text-neutral-500 mt-1">Consulte os remédios fornecidos gratuitamente e solicite sua retirada diretamente abaixo.</p>
     </div>
@@ -461,7 +450,7 @@
     </div>
   </main>
 
-  <!-- ==================== 5. TRANSPARÊNCIA ==================== -->
+  <!-- ==================== 5. TRANSPARÊNCIA & REPASSES ==================== -->
   <main id="viewTransparencia" class="view-section hidden flex-grow max-w-7xl mx-auto px-4 py-8 w-full">
     <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-3 mb-6">
       <div class="border-l-4 border-sp-blue pl-3">
@@ -590,14 +579,13 @@
 
   <!-- ==================== 7. REDE HOSPITALAR (MELHORADA) ==================== -->
   <main id="viewHospitais" class="view-section hidden flex-grow max-w-7xl mx-auto px-4 py-8 w-full">
-    <div class="flex flex-col sm:flex-row sm:items-end justify-between mb-5 gap-3">
+    <div className="x" class="flex flex-col sm:flex-row sm:items-end justify-between mb-5 gap-3">
       <div class="border-l-4 border-sp-blue pl-3">
         <span class="text-xs font-bold text-sp-blue uppercase">Monitoramento da Rede Hospitalar</span>
         <h2 class="text-xl sm:text-3xl font-black text-sp-darkBlue uppercase">Hospitais e Institutos em Operação</h2>
       </div>
     </div>
 
-    <!-- KPIs da Rede -->
     <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 mb-5">
       <div class="bg-white p-3.5 rounded-lg border border-neutral-200 shadow-sm flex items-center gap-3">
         <div class="w-9 h-9 rounded-lg bg-blue-50 text-sp-blue flex items-center justify-center flex-shrink-0"><i data-lucide="hospital" class="w-5 h-5"></i></div>
@@ -617,13 +605,12 @@
       </div>
     </div>
 
-    <!-- Filtros -->
     <div class="bg-white rounded-xl border border-neutral-200 shadow-sm p-3 mb-5 flex flex-wrap gap-2">
       <div class="relative flex-grow min-w-[180px]">
-        <input id="buscaHospital" oninput="renderHospitais()" type="text" placeholder="Buscar por nome, instituto ou cidade..." class="text-xs p-2 pl-7 bg-white border border-neutral-300 rounded-lg outline-none w-full focus:border-sp-blue">
+        <input id="buscaHospital" oninput="renderizarHospitais()" type="text" placeholder="Buscar por nome, instituto ou cidade..." class="text-xs p-2 pl-7 bg-white border border-neutral-300 rounded-lg outline-none w-full focus:border-sp-blue">
         <i data-lucide="search" class="w-3.5 h-3.5 text-neutral-400 absolute left-2 top-2.5"></i>
       </div>
-      <select id="filtroRegiao" onchange="renderHospitais()" class="text-xs p-2 bg-white border border-neutral-300 rounded-lg font-bold outline-none focus:border-sp-blue">
+      <select id="filtroRegiao" onchange="renderizarHospitais()" class="text-xs p-2 bg-white border border-neutral-300 rounded-lg font-bold outline-none focus:border-sp-blue">
         <option value="todas">Todas as Regiões</option>
         <option value="capital">Capital / Grande SP</option>
         <option value="campinas">Campinas</option>
@@ -631,7 +618,7 @@
         <option value="santos">Baixada Santista</option>
         <option value="interior">Interior</option>
       </select>
-      <select id="filtroStatusHospital" onchange="renderHospitais()" class="text-xs p-2 bg-white border border-neutral-300 rounded-lg font-bold outline-none focus:border-sp-blue">
+      <select id="filtroStatusHospital" onchange="renderizarHospitais()" class="text-xs p-2 bg-white border border-neutral-300 rounded-lg font-bold outline-none focus:border-sp-blue">
         <option value="todos">Todos os Status</option>
         <option value="Operando">Operando</option>
         <option value="Manutenção">Manutenção</option>
@@ -640,7 +627,7 @@
     </div>
 
     <div id="gridHospitais" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5"></div>
-    <div id="semResultadoHospital" class="hidden text-center text-neutral-500 text-xs py-10 font-semibold">Nenhuma unidade hospitalar encontrada para este filtro.</div>
+    <p id="semResultadoHospital" class="hidden text-center text-neutral-500 text-xs py-10 font-semibold">Nenhuma unidade hospitalar encontrada para este filtro.</p>
     <div id="vazioHospitais" class="hidden bg-white rounded-2xl border-2 border-dashed border-neutral-300 p-12 text-center">
       <div class="w-14 h-14 rounded-full bg-blue-50 text-sp-blue flex items-center justify-center mx-auto mb-3"><i data-lucide="hospital" class="w-7 h-7"></i></div>
       <h4 class="font-black text-sm uppercase text-neutral-700">Nenhuma unidade publicada ainda</h4>
@@ -681,18 +668,18 @@
       </div>
     </div>
 
-    <div class="flex gap-2 mb-6 border-b border-neutral-300 pb-3 overflow-x-auto whitespace-nowrap scrollbar-fina">
-      <button onclick="mudarAba('transparencia')" id="tabTransparencia" class="px-3 py-2 rounded text-xs font-bold uppercase shadow-sm flex-shrink-0">💰 Finanças & Repasses</button>
-      <button onclick="mudarAba('iep')" id="tabIep" class="px-3 py-2 rounded text-xs font-bold uppercase shadow-sm flex-shrink-0">🧠 Gestão IEP-SP</button>
-      <button onclick="mudarAba('remedios')" id="tabRemedios" class="px-3 py-2 rounded text-xs font-bold uppercase shadow-sm flex-shrink-0">💊 Farmácia & Dose Certa</button>
-      <button onclick="mudarAba('hospitais')" id="tabHospitais" class="px-3 py-2 rounded text-xs font-bold uppercase shadow-sm flex-shrink-0">🏥 Unidades de Saúde</button>
-      <button onclick="mudarAba('equipe')" id="tabEquipe" class="px-3 py-2 rounded text-xs font-bold uppercase shadow-sm flex-shrink-0">👥 Liderança SES</button>
-      <button onclick="mudarAba('programas')" id="tabProgramas" class="px-3 py-2 rounded text-xs font-bold uppercase shadow-sm flex-shrink-0">💉 Programas Oficiais</button>
-      <button onclick="mudarAba('noticias')" id="tabNoticias" class="px-3 py-2 rounded text-xs font-bold uppercase shadow-sm flex-shrink-0">📰 Notícias</button>
-      <button onclick="mudarAba('alerta')" id="tabAlerta" class="px-3 py-2 rounded text-xs font-bold uppercase shadow-sm flex-shrink-0">⚙️ Alertas, Discord & Senha</button>
+    <div class="flex gap-2 mb-6 border-b border-neutral-300 pb-3 overflow-x-auto whitespace-nowrap">
+      <button onclick="mudarAba('transparencia')" id="tabTransparencia" class="px-3 py-2 rounded text-xs font-bold uppercase bg-sp-blue text-white shadow-sm flex-shrink-0">💰 Finanças & Repasses</button>
+      <button onclick="mudarAba('iep')" id="tabIep" class="px-3 py-2 rounded text-xs font-bold uppercase bg-white text-neutral-700 hover:bg-neutral-100 flex-shrink-0">🧠 Gestão IEP-SP</button>
+      <button onclick="mudarAba('remedios')" id="tabRemedios" class="px-3 py-2 rounded text-xs font-bold uppercase bg-white text-neutral-700 hover:bg-neutral-100 flex-shrink-0">💊 Farmácia & Dose Certa</button>
+      <button onclick="mudarAba('hospitais')" id="tabHospitais" class="px-3 py-2 rounded text-xs font-bold uppercase bg-white text-neutral-700 hover:bg-neutral-100 flex-shrink-0">🏥 Unidades de Saúde</button>
+      <button onclick="mudarAba('equipe')" id="tabEquipe" class="px-3 py-2 rounded text-xs font-bold uppercase bg-white text-neutral-700 hover:bg-neutral-100 flex-shrink-0">👥 Liderança SES</button>
+      <button onclick="mudarAba('programas')" id="tabProgramas" class="px-3 py-2 rounded text-xs font-bold uppercase bg-white text-neutral-700 hover:bg-neutral-100 flex-shrink-0">💉 Programas Oficiais</button>
+      <button onclick="mudarAba('alerta')" id="tabAlerta" class="px-3 py-2 rounded text-xs font-bold uppercase bg-white text-neutral-700 hover:bg-neutral-100 flex-shrink-0">⚙️ Alertas, Discord & Senha</button>
+      <button onclick="mudarAba('noticias')" id="tabNoticias" class="px-3 py-2 rounded text-xs font-bold uppercase bg-white text-neutral-700 hover:bg-neutral-100 flex-shrink-0">📰 Notícias</button>
     </div>
 
-    <!-- ABA FINANÇAS -->
+    <!-- ABA 1: FINANÇAS -->
     <section id="secTransparencia" class="space-y-6">
       <div class="bg-white p-5 rounded-lg border border-neutral-300 shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
@@ -713,7 +700,7 @@
           </div>
           <div class="flex items-center gap-2">
             <span id="adminTotalAdicionais" class="text-xs font-black text-amber-800 bg-amber-200/70 px-2.5 py-1 rounded">R$ 0,00</span>
-            <button onclick="abrirModalAdicional()" class="bg-amber-500 hover:bg-amber-600 text-white font-black text-xs px-3 py-2 rounded-lg flex items-center gap-1.5 uppercase shadow"><i data-lucide="banknote" class="w-4 h-4"></i> Registrar Verba</button>
+            <button onclick="abrirModalFormAdicional()" class="bg-amber-500 hover:bg-amber-600 text-white font-black text-xs px-3 py-2 rounded-lg flex items-center gap-1.5 uppercase shadow"><i data-lucide="banknote" class="w-4 h-4"></i> Registrar Verba</button>
           </div>
         </div>
         <div id="listaAdminAdicionais" class="divide-y divide-neutral-200 text-xs"></div>
@@ -739,17 +726,17 @@
             <h3 class="font-black text-xs uppercase text-neutral-800">Repasses e Destinações Orçamentárias</h3>
             <p class="text-[11px] text-neutral-500">Repasses diretos a hospitais, institutos e programas cadastrados.</p>
           </div>
-          <button onclick="abrirModalDestinacao()" class="bg-emerald-600 hover:bg-emerald-700 text-white font-black text-xs px-3 py-2 rounded-lg flex items-center gap-1.5 uppercase shadow"><i data-lucide="plus-circle" class="w-4 h-4"></i> Novo Repasse</button>
+          <button onclick="abrirModalFormDestinacao()" class="bg-emerald-600 hover:bg-emerald-700 text-white font-black text-xs px-3 py-2 rounded-lg flex items-center gap-1.5 uppercase shadow"><i data-lucide="plus-circle" class="w-4 h-4"></i> Novo Repasse</button>
         </div>
         <div id="listaAdminDestinacoes" class="divide-y divide-neutral-200 text-xs"></div>
       </div>
     </section>
 
-    <!-- ABA IEP -->
+    <!-- ABA 2: GESTÃO IEP-SP -->
     <section id="secIep" class="space-y-6 hidden">
       <div class="bg-white p-5 rounded-lg border border-neutral-300 shadow-sm border-l-4 border-indigo-700">
         <h3 class="text-xs font-black uppercase text-indigo-700 mb-1">Informações Institucionais do IEP-SP</h3>
-        <p class="text-xs text-neutral-500 mb-4">Altere a sede, a coordenação operacional do SAMU e o gestor do Instituto.</p>
+        <p class="text-xs text-neutral-500 mb-4">Altere a sede, a gestão administrativa e a coordenação operacional do SAMU exibidas na página pública.</p>
         <form onsubmit="salvarConfiguracaoIep(event)" class="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
           <div>
             <label class="font-bold text-neutral-700">Sede Operacional do Instituto</label>
@@ -773,7 +760,7 @@
         <div class="p-4 bg-neutral-100 border-b border-neutral-200 flex justify-between items-center">
           <div>
             <h3 class="font-black text-xs uppercase text-neutral-800">Equipe do IEP-SP</h3>
-            <p class="text-[11px] text-neutral-500">Membros que aparecem na página pública do Instituto.</p>
+            <p class="text-[11px] text-neutral-500">Membros exibidos na seção "Corpo Diretivo & Lideranças" da página do Instituto.</p>
           </div>
           <button onclick="abrirModalEquipe('iep')" class="bg-indigo-700 hover:bg-indigo-800 text-white font-black text-xs px-3 py-2 rounded-lg flex items-center gap-1.5 uppercase shadow"><i data-lucide="plus-circle" class="w-4 h-4"></i> Novo Membro</button>
         </div>
@@ -789,7 +776,7 @@
       </div>
     </section>
 
-    <!-- ABA REMÉDIOS -->
+    <!-- ABA 3: FARMÁCIA / DOSE CERTA -->
     <section id="secRemedios" class="space-y-6 hidden">
       <div class="bg-white rounded-lg border border-neutral-300 shadow-sm overflow-hidden">
         <div class="p-4 bg-neutral-100 border-b border-neutral-200 flex justify-between items-center">
@@ -811,13 +798,13 @@
       </div>
     </section>
 
-    <!-- ABA HOSPITAIS -->
+    <!-- ABA 4: UNIDADES DE SAÚDE -->
     <section id="secHospitais" class="space-y-6 hidden">
       <div class="bg-white rounded-lg border border-neutral-300 shadow-sm overflow-hidden">
         <div class="p-4 bg-neutral-100 border-b border-neutral-200 flex justify-between items-center">
           <div>
             <h3 class="font-black text-xs uppercase text-neutral-800">Unidades Hospitalares da Rede Estadual</h3>
-            <p class="text-[11px] text-neutral-500">Cadastre hospitais e institutos exibidos na página pública com leitos e status.</p>
+            <p class="text-[11px] text-neutral-500">Cadastre hospitais e institutos exibidos na página pública, com leitos e status em tempo real.</p>
           </div>
           <button onclick="abrirModalHospital()" class="bg-sp-blue hover:bg-sp-darkBlue text-white font-black text-xs px-3 py-2 rounded-lg flex items-center gap-1.5 uppercase shadow"><i data-lucide="plus-circle" class="w-4 h-4"></i> Nova Unidade</button>
         </div>
@@ -825,7 +812,7 @@
       </div>
     </section>
 
-    <!-- ABA EQUIPE SES -->
+    <!-- ABA 5: LIDERANÇA SES -->
     <section id="secEquipe" class="space-y-6 hidden">
       <div class="bg-white rounded-lg border border-neutral-300 shadow-sm overflow-hidden">
         <div class="p-4 bg-neutral-100 border-b border-neutral-200 flex justify-between items-center">
@@ -839,17 +826,17 @@
       </div>
     </section>
 
-    <!-- ABA PROGRAMAS -->
+    <!-- ABA 6: PROGRAMAS OFICIAIS -->
     <section id="secProgramas" class="space-y-6 hidden">
       <div class="bg-indigo-50 border border-indigo-200 rounded-lg p-4 text-xs text-indigo-900 flex items-start gap-3">
         <i data-lucide="info" class="w-5 h-5 flex-shrink-0 mt-0.5"></i>
-        <p><strong>IEP-SP</strong> e <strong>Dose Certa</strong> são programas estruturantes fixos do portal — sempre visíveis e não editáveis aqui. Abaixo você cadastra programas complementares.</p>
+        <p><strong>IEP-SP</strong> e <strong>Dose Certa</strong> são programas estruturantes fixos do portal — sempre visíveis. Abaixo você cadastra programas complementares, que aparecem na sequência da página pública.</p>
       </div>
       <div class="bg-white rounded-lg border border-neutral-300 shadow-sm overflow-hidden">
         <div class="p-4 bg-neutral-100 border-b border-neutral-200 flex justify-between items-center">
           <div>
             <h3 class="font-black text-xs uppercase text-neutral-800">Programas Complementares</h3>
-            <p class="text-[11px] text-neutral-500">Exibidos abaixo dos estruturantes na página de Programas Oficiais.</p>
+            <p class="text-[11px] text-neutral-500">Acompanhamento, benefícios e campanhas estaduais.</p>
           </div>
           <button onclick="abrirModalPrograma()" class="bg-sp-blue hover:bg-sp-darkBlue text-white font-black text-xs px-3 py-2 rounded-lg flex items-center gap-1.5 uppercase shadow"><i data-lucide="plus-circle" class="w-4 h-4"></i> Novo Programa</button>
         </div>
@@ -857,49 +844,52 @@
       </div>
     </section>
 
-    <!-- ABA NOTÍCIAS -->
-    <section id="secNoticias" class="space-y-6 hidden">
-      <div class="bg-white rounded-lg border border-neutral-300 shadow-sm overflow-hidden">
-        <div class="p-4 bg-neutral-100 border-b border-neutral-200 flex justify-between items-center">
-          <div>
-            <h3 class="font-black text-xs uppercase text-neutral-800">Notícias e Comunicados Oficiais</h3>
-            <p class="text-[11px] text-neutral-500">A notícia mais recente recebe destaque na página pública.</p>
-          </div>
-          <button onclick="abrirModalNoticia()" class="bg-sp-blue hover:bg-sp-darkBlue text-white font-black text-xs px-3 py-2 rounded-lg flex items-center gap-1.5 uppercase shadow"><i data-lucide="plus-circle" class="w-4 h-4"></i> Nova Notícia</button>
-        </div>
-        <div id="listaAdminNoticias" class="divide-y divide-neutral-200 text-xs"></div>
-      </div>
-    </section>
-
-    <!-- ABA ALERTAS/DISCORD/SENHA -->
+    <!-- ABA 7: ALERTAS, DISCORD & SENHA -->
     <section id="secAlerta" class="space-y-6 hidden">
       <div class="bg-white p-5 rounded-lg border border-neutral-300 shadow-sm border-l-4 border-amber-500">
         <h3 class="text-xs font-black uppercase text-amber-700 mb-4">Banner de Alerta Epidemiológico (Topo do Portal)</h3>
-        <form onsubmit="salvarAlertaEDiscord(event)" class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
-          <div class="flex items-center gap-2">
-            <input type="checkbox" id="inAlertaAtivo" class="w-4 h-4 accent-amber-600">
-            <label for="inAlertaAtivo" class="font-bold">Banner ativo no portal</label>
+        <form onsubmit="salvarAlertaEDiscord(event)">
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs mb-5">
+            <div class="flex items-center gap-2">
+              <input type="checkbox" id="inAlertaAtivo" class="w-4 h-4 accent-amber-600">
+              <label for="inAlertaAtivo" class="font-bold">Banner ativo no portal</label>
+            </div>
+            <div>
+              <label class="font-bold text-neutral-700 block">Nível do Alerta</label>
+              <select id="inAlertaTipo" class="w-full p-2 border rounded mt-1 font-bold">
+                <option value="info">Informativo (Amarelo)</option>
+                <option value="alerta">Alerta (Laranja)</option>
+                <option value="critico">Crítico (Vermelho)</option>
+              </select>
+            </div>
+            <div class="sm:col-span-2">
+              <label class="font-bold text-neutral-700 block">Texto do Alerta</label>
+              <input type="text" id="inAlertaTexto" placeholder="Ex: Campanha de vacinação contra a gripe em todo o Estado" class="w-full p-2 border rounded mt-1">
+            </div>
           </div>
-          <div>
-            <label class="font-bold text-neutral-700 block">Nível do Alerta</label>
-            <select id="inAlertaTipo" class="w-full p-2 border rounded mt-1 font-bold">
-              <option value="info">Informativo (Amarelo)</option>
-              <option value="alerta">Alerta (Laranja)</option>
-              <option value="critico">Crítico (Vermelho)</option>
-            </select>
+
+          <h4 class="text-xs font-black uppercase text-indigo-700 mb-3 pt-4 border-t border-neutral-200">Webhooks do Discord — cole seus links originais aqui</h4>
+          <div class="grid grid-cols-1 gap-3 text-xs mb-4">
+            <div>
+              <label class="font-bold text-neutral-700 block">💊 Webhook — Pedidos Dose Certa</label>
+              <input type="url" id="inWebhookDoseCerta" placeholder="https://discord.com/api/webhooks/..." class="w-full p-2 border rounded mt-1 font-mono text-[10px]">
+            </div>
+            <div>
+              <label class="font-bold text-neutral-700 block">🧠 Webhook — Solicitações IEP-SP</label>
+              <input type="url" id="inWebhookIep" placeholder="https://discord.com/api/webhooks/..." class="w-full p-2 border rounded mt-1 font-mono text-[10px]">
+            </div>
+            <div>
+              <label class="font-bold text-neutral-700 block">📰 Webhook — Publicação de Notícias (opcional)</label>
+              <input type="url" id="inWebhookNoticias" placeholder="https://discord.com/api/webhooks/..." class="w-full p-2 border rounded mt-1 font-mono text-[10px]">
+            </div>
+            <div class="flex flex-wrap gap-2">
+              <button type="button" onclick="testarWebhook('doseCerta')" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-[11px] px-3 py-2 rounded-lg uppercase shadow-sm">Testar Dose Certa</button>
+              <button type="button" onclick="testarWebhook('iep')" class="bg-indigo-700 hover:bg-indigo-800 text-white font-bold text-[11px] px-3 py-2 rounded-lg uppercase shadow-sm">Testar IEP</button>
+              <button type="button" onclick="testarWebhook('noticias')" class="bg-sp-blue hover:bg-sp-darkBlue text-white font-bold text-[11px] px-3 py-2 rounded-lg uppercase shadow-sm">Testar Notícias</button>
+            </div>
           </div>
-          <div class="sm:col-span-2">
-            <label class="font-bold text-neutral-700 block">Texto do Alerta</label>
-            <input type="text" id="inAlertaTexto" placeholder="Ex: Campanha de vacinação contra a gripe em todo o Estado" class="w-full p-2 border rounded mt-1">
-          </div>
-          <div class="sm:col-span-2 border-t border-neutral-200 pt-3">
-            <label class="font-bold text-neutral-700 block">Webhook do Discord (pedidos Dose Certa, chamados IEP e testes)</label>
-            <input type="url" id="inDiscordWebhook" placeholder="https://discord.com/api/webhooks/..." class="w-full p-2 border rounded mt-1 font-mono text-[10px]">
-          </div>
-          <div class="sm:col-span-2 flex flex-wrap gap-2">
-            <button type="submit" class="bg-amber-500 hover:bg-amber-600 text-white font-black text-xs px-4 py-2 rounded uppercase shadow">Salvar Configurações</button>
-            <button type="button" onclick="testarDiscord()" class="bg-indigo-700 hover:bg-indigo-800 text-white font-bold text-xs px-4 py-2 rounded uppercase shadow">Testar Discord</button>
-          </div>
+
+          <button type="submit" class="bg-amber-500 hover:bg-amber-600 text-white font-black text-xs px-4 py-2 rounded uppercase shadow">Salvar Configurações</button>
         </form>
       </div>
 
@@ -920,9 +910,23 @@
         </form>
       </div>
     </section>
+
+    <!-- ABA 8: NOTÍCIAS -->
+    <section id="secNoticias" class="space-y-6 hidden">
+      <div class="bg-white rounded-lg border border-neutral-300 shadow-sm overflow-hidden">
+        <div class="p-4 bg-neutral-100 border-b border-neutral-200 flex justify-between items-center">
+          <div>
+            <h3 class="font-black text-xs uppercase text-neutral-800">Notícias e Comunicados Oficiais</h3>
+            <p class="text-[11px] text-neutral-500">A notícia mais recente recebe destaque na página pública e pode ser divulgada no Discord.</p>
+          </div>
+          <button onclick="abrirModalNoticia()" class="bg-sp-blue hover:bg-sp-darkBlue text-white font-black text-xs px-3 py-2 rounded-lg flex items-center gap-1.5 uppercase shadow"><i data-lucide="plus-circle" class="w-4 h-4"></i> Nova Notícia</button>
+        </div>
+        <div id="listaAdminNoticias" class="divide-y divide-neutral-200 text-xs"></div>
+      </div>
+    </section>
   </main>
 
-  <!-- ============ RODAPÉ ============ -->
+  <!-- ============ RODAPÉ (AVISO FICTÍCIO) ============ -->
   <footer class="bg-sp-darkBlue text-white mt-auto">
     <div class="max-w-7xl mx-auto px-4 py-10 grid grid-cols-1 md:grid-cols-3 gap-8">
       <div>
@@ -955,8 +959,9 @@
         </div>
       </div>
     </div>
-    <div class="border-t border-white/10 py-4 px-4 text-center text-[10px] text-blue-200/60">
-      Governo do Estado de São Paulo — Nacional Player Action Roleplay • Conteúdo fictício para fins de roleplay.
+    <div class="border-t border-white/10 py-4 px-4 text-center text-[10px] text-blue-200/60 leading-relaxed">
+      © Governo do Estado de São Paulo — <strong class="text-blue-200/90">Nacional Player Action Roleplay</strong>.<br>
+      Ambiente <strong class="text-sp-yellow">fictício</strong>, destinado exclusivamente a fins de entretenimento (roleplay). Não possui vínculo com órgãos governamentais reais.
     </div>
   </footer>
 
@@ -1007,11 +1012,11 @@
     </div>
   </div>
 
-  <div id="modalAdicional" class="modal-backdrop fixed inset-0 z-[90] hidden items-center justify-center bg-black/60 backdrop-blur-sm p-4 no-print">
+  <div id="modalFormAdicional" class="modal-backdrop fixed inset-0 z-[90] hidden items-center justify-center bg-black/60 backdrop-blur-sm p-4 no-print">
     <div class="bg-white rounded-2xl shadow-2xl w-full max-w-md overflow-hidden fade-in">
       <div class="p-5 border-b flex justify-between items-center">
         <h3 id="tituloModalAdicional" class="font-black text-sm uppercase text-amber-700">Registrar Verba Adicional</h3>
-        <button onclick="fecharModal('modalAdicional')" class="text-neutral-400 hover:text-sp-red p-1"><i data-lucide="x" class="w-4 h-4"></i></button>
+        <button onclick="fecharModal('modalFormAdicional')" class="text-neutral-400 hover:text-sp-red p-1"><i data-lucide="x" class="w-4 h-4"></i></button>
       </div>
       <form onsubmit="salvarAdicional(event)" class="p-5 space-y-3 text-xs">
         <div>
@@ -1027,11 +1032,11 @@
     </div>
   </div>
 
-  <div id="modalDestinacao" class="modal-backdrop fixed inset-0 z-[90] hidden items-center justify-center bg-black/60 backdrop-blur-sm p-4 no-print">
+  <div id="modalFormDestinacao" class="modal-backdrop fixed inset-0 z-[90] hidden items-center justify-center bg-black/60 backdrop-blur-sm p-4 no-print">
     <div class="bg-white rounded-2xl shadow-2xl w-full max-w-md overflow-hidden fade-in">
       <div class="p-5 border-b flex justify-between items-center">
         <h3 id="tituloModalDestinacao" class="font-black text-sm uppercase text-emerald-700">Novo Repasse / Destinação</h3>
-        <button onclick="fecharModal('modalDestinacao')" class="text-neutral-400 hover:text-sp-red p-1"><i data-lucide="x" class="w-4 h-4"></i></button>
+        <button onclick="fecharModal('modalFormDestinacao')" class="text-neutral-400 hover:text-sp-red p-1"><i data-lucide="x" class="w-4 h-4"></i></button>
       </div>
       <form onsubmit="salvarDestinacao(event)" class="p-5 space-y-3 text-xs">
         <div>
@@ -1287,9 +1292,22 @@
   <div id="toastContainer" class="fixed bottom-5 left-1/2 -translate-x-1/2 z-[95] flex flex-col gap-2 items-center w-full px-4 pointer-events-none"></div>
 
 <script>
-/* ================================================================
-   ⚠️⚠️⚠️  CONFIGURAÇÃO DO FIREBASE — COLE SUAS CREDENCIAIS  ⚠️⚠️⚠️
-   ================================================================ */
+/* ╔══════════════════════════════════════════════════════════════════╗
+   ║  ⚙️  CONFIGURAÇÃO RÁPIDA — LEIA ISTO (30 SEGUNDOS)                 ║
+   ║                                                                    ║
+   ║  1️⃣  FIREBASE: cole abaixo as MESMAS credenciais do seu arquivo     ║
+   ║      antigo (Console Firebase > Configurações do projeto > Apps).   ║
+   ║      ⚠️ Se não colar, o portal roda em MODO LOCAL (salva no         ║
+   ║      navegador — funciona tudo, mas só neste dispositivo).         ║
+   ║                                                                    ║
+   ║  2️⃣  SENHA DO GESTOR: definida em SENHA_PADRAO logo abaixo.        ║
+   ║      Você também pode trocá-la depois dentro do painel.            ║
+   ║                                                                    ║
+   ║  3️⃣  DISCORD: os webhooks são cadastrados no Painel do Gestor →    ║
+   ║      aba "Alertas, Discord & Senha" (3 webhooks: Dose Certa,       ║
+   ║      IEP e Notícias) e ficam salvos permanentemente.               ║
+   ╚══════════════════════════════════════════════════════════════════╝ */
+
 const firebaseConfig = {
   apiKey:            "COLE_AQUI",
   authDomain:        "COLE_AQUI.firebaseapp.com",
@@ -1299,277 +1317,328 @@ const firebaseConfig = {
   messagingSenderId: "COLE_AQUI",
   appId:             "COLE_AQUI"
 };
-/* ================================================================ */
 
-const MODO_DEMO = String(firebaseConfig.apiKey).includes('COLE_AQUI');
+const FIREBASE_PATH = "portalSaudeSP"; // raiz dos dados no banco (ajuste se souber a do seu arquivo antigo)
+const SENHA_PADRAO  = "admin1234";     // ⬅️ TROQUE AQUI a senha padrão do gestor
+const LS_KEY        = "portalSES_SP_v1";
+
+/* ==================== FIM DA CONFIGURAÇÃO ==================== */
+
+const MODO_NUVEM = !String(firebaseConfig.apiKey).includes("COLE_AQUI");
 const $ = id => document.getElementById(id);
 const icons = () => lucide.createIcons();
-const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-const num = v => { const n = parseFloat(String(v ?? '').replace(/\./g,'').replace(',','.')); return isNaN(n) ? 0 : n; };
-const fmtBRL = v => num(v).toLocaleString('pt-BR', {style:'currency', currency:'BRL'});
-const fmtData = iso => { if(!iso) return '—'; const d = new Date(iso); return d.toLocaleDateString('pt-BR') + ' às ' + d.toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'}); };
+const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const num = v => { const n = parseFloat(String(v ?? "").replace(/\./g, "").replace(",", ".")); return isNaN(n) ? 0 : n; };
+const fmtBRL = v => num(v).toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
+const fmtData = iso => { if (!iso) return "—"; const d = new Date(iso); return d.toLocaleDateString("pt-BR") + " às " + d.toLocaleTimeString("pt-BR", { hour: "2-digit", minute: "2-digit" }); };
 const agora = () => new Date().toISOString();
+const novoId = () => "id-" + Date.now().toString(36) + "-" + Math.random().toString(36).slice(2, 7);
 
 // ===== ESTADO =====
-let dados = { config:{}, adicionais:{}, execucao:{}, destinacoes:{}, remedios:{}, hospitais:{}, equipe:{}, equipeIep:{}, programas:{}, noticias:{}, chamadosIEP:{}, pedidos:{} };
+let dados = { config: {}, adicionais: {}, execucao: {}, destinacoes: {}, remedios: {}, hospitais: {}, equipe: {}, equipeIep: {}, programas: {}, noticias: {}, chamadosIEP: {}, pedidos: {} };
 let chartPizza = null, chartMensal = null;
-let abaAdmin = 'transparencia';
-let tipoChamadoIEP = '', equipeTarget = 'ses';
-let editRemedioId = null, editHospitalId = null, editEquipeId = null, editProgramaId = null, editNoticiaId = null, editAdicionalId = null, editDestinacaoId = null;
+let abaAdmin = "transparencia", tipoChamadoIEP = "", equipeTarget = "ses", filtroNoticia = "todas";
+let editAdicionalId = null, editDestinacaoId = null, editRemedioId = null, editHospitalId = null, editEquipeId = null, editProgramaId = null, editNoticiaId = null;
 
-// ===== CONEXÃO FIREBASE =====
+// ===== STATUS NA BARRA SUPERIOR =====
+function marcarStatus(txt, tipo) {
+  const el = $("cloudStatus"); if (!el) return;
+  const cores = { ok: "text-emerald-400", aviso: "text-amber-400", erro: "text-red-400" };
+  const dots  = { ok: "bg-emerald-400", aviso: "bg-amber-400", erro: "bg-red-400" };
+  el.className = "inline-flex items-center gap-1 text-[10px] font-semibold " + (cores[tipo] || cores.ok);
+  el.innerHTML = '<span class="w-2 h-2 rounded-full ' + (dots[tipo] || dots.ok) + ' pulse-dot"></span> ' + txt;
+}
+
+// ===== PERSISTÊNCIA (Firebase OU LocalStorage) =====
 let REF = null;
-try {
-  if (!MODO_DEMO) {
+
+function persistirLocal() {
+  if (!MODO_NUVEM) { try { localStorage.setItem(LS_KEY, JSON.stringify(dados)); } catch (e) {} }
+}
+
+if (MODO_NUVEM) {
+  try {
     firebase.initializeApp(firebaseConfig);
-    REF = firebase.database().ref('portalSaudeSP');
-    REF.on('value', snap => { dados = snap.val() || dados; renderizarTudo(); }, err => { console.error(err); marcarOffline('Falha na conexão'); });
-  } else {
-    setTimeout(() => { marcarOffline('Modo Demonstração'); renderizarTudo(); }, 400);
-    console.warn('⚠️ Firebase não configurado — rodando em Modo Demonstração (não salva).');
-  }
-} catch(e) { console.error(e); marcarOffline('Erro de configuração'); }
-
-function marcarOffline(txt){
-  const el = $('cloudStatus');
-  if(el){ el.className = 'inline-flex items-center gap-1 text-[10px] text-amber-400 font-semibold'; el.innerHTML = '<span class="w-2 h-2 rounded-full bg-amber-400 pulse-dot"></span> ' + txt; }
+    REF = firebase.database().ref(FIREBASE_PATH);
+    REF.on("value", snap => {
+      const val = snap.val();
+      if (val) dados = Object.assign({}, dados, val);
+      marcarStatus("Nuvem Conectada", "ok");
+      renderizarTudo();
+    }, err => { console.error(err); marcarStatus("Falha na Nuvem", "erro"); });
+  } catch (e) { console.error(e); marcarStatus("Erro Firebase", "erro"); }
+} else {
+  try { const ls = JSON.parse(localStorage.getItem(LS_KEY) || "null"); if (ls) dados = Object.assign({}, dados, ls); } catch (e) {}
+  marcarStatus("Modo Local (sem nuvem)", "aviso");
+  console.warn("⚠️ Firebase não configurado — rodando em MODO LOCAL. Cole suas credenciais no bloco firebaseConfig no topo do script para ativar a nuvem.");
 }
 
-// ===== ESCRITA NO BANCO =====
-function dbPush(caminho, obj){
-  if (MODO_DEMO || !REF){ (dados[caminho] = dados[caminho]||{})['local-'+Date.now()] = obj; renderizarTudo(); return; }
-  REF.child(caminho).push(obj);
+function dbPush(caminho, obj) {
+  const id = novoId();
+  if (MODO_NUVEM && REF) { REF.child(caminho + "/" + id).set(obj); }
+  else { (dados[caminho] = dados[caminho] || {})[id] = obj; persistirLocal(); renderizarTudo(); }
 }
-function dbUpdate(caminho, id, obj){
-  if (MODO_DEMO || !REF){ Object.assign((dados[caminho]||{})[id]||{}, obj); renderizarTudo(); return; }
-  REF.child(caminho + '/' + id).update(obj);
+function dbUpdate(caminho, id, obj) {
+  if (MODO_NUVEM && REF) { REF.child(caminho + "/" + id).update(obj); }
+  else { const alvo = (dados[caminho] = dados[caminho] || {})[id] = dados[caminho][id] || {}; Object.assign(alvo, obj); persistirLocal(); renderizarTudo(); }
 }
-function dbSet(caminho, obj){
-  if (MODO_DEMO || !REF){ dados[caminho] = obj; renderizarTudo(); return; }
-  REF.child(caminho).set(obj);
+function dbSet(caminho, obj) {
+  if (MODO_NUVEM && REF) { REF.child(caminho).set(obj); }
+  else { dados[caminho] = obj; persistirLocal(); renderizarTudo(); }
 }
-function dbRemove(caminho, id){
-  if (MODO_DEMO || !REF){ delete (dados[caminho]||{})[id]; renderizarTudo(); return; }
-  REF.child(caminho + '/' + id).remove();
+function dbRemove(caminho, id) {
+  if (MODO_NUVEM && REF) { REF.child(caminho + "/" + id).remove(); }
+  else { delete (dados[caminho] || {})[id]; persistirLocal(); renderizarTudo(); }
 }
-function writeConfig(patch){
-  if (MODO_DEMO || !REF){ Object.assign(dados.config, patch); renderizarTudo(); return; }
-  REF.child('config').update(patch);
+function writeConfig(patch) {
+  if (MODO_NUVEM && REF) { REF.child("config").update(patch); }
+  else { Object.assign(dados.config, patch); persistirLocal(); renderizarTudo(); }
 }
 
 // ===== TOAST / MODAIS =====
-function toast(msg, tipo='ok'){
-  const cores = { ok:'bg-emerald-600', erro:'bg-red-600', info:'bg-sp-darkBlue' };
-  const el = document.createElement('div');
-  el.className = (cores[tipo]||cores.ok) + ' text-white text-xs font-bold px-4 py-2.5 rounded-lg shadow-xl pointer-events-auto fade-in max-w-sm text-center';
+function toast(msg, tipo) {
+  tipo = tipo || "ok";
+  const cores = { ok: "bg-emerald-600", erro: "bg-red-600", info: "bg-sp-darkBlue" };
+  const el = document.createElement("div");
+  el.className = (cores[tipo] || cores.ok) + " text-white text-xs font-bold px-4 py-2.5 rounded-lg shadow-xl pointer-events-auto fade-in max-w-sm text-center";
   el.textContent = msg;
-  $('toastContainer').appendChild(el);
-  setTimeout(() => { el.style.transition='opacity .4s'; el.style.opacity='0'; setTimeout(()=>el.remove(),400); }, 3400);
+  $("toastContainer").appendChild(el);
+  setTimeout(() => { el.style.transition = "opacity .4s"; el.style.opacity = "0"; setTimeout(() => el.remove(), 400); }, 3400);
 }
-function abrirModal(id){ $(id).classList.remove('hidden'); $(id).classList.add('flex'); icons(); }
-function fecharModal(id){ $(id).classList.add('hidden'); $(id).classList.remove('flex'); }
-document.addEventListener('click', e => { if (e.target.classList && e.target.classList.contains('modal-backdrop')) fecharModal(e.target.id); });
-document.addEventListener('keydown', e => { if (e.key === 'Escape') document.querySelectorAll('.modal-backdrop').forEach(m => fecharModal(m.id)); });
-function fecharMenuMobile(){ $('menuMobile').classList.remove('open'); }
+function abrirModal(id) { $(id).classList.remove("hidden"); $(id).classList.add("flex"); icons(); }
+function fecharModal(id) { $(id).classList.add("hidden"); $(id).classList.remove("flex"); }
+document.addEventListener("click", e => { if (e.target.classList && e.target.classList.contains("modal-backdrop")) fecharModal(e.target.id); });
+document.addEventListener("keydown", e => { if (e.key === "Escape") document.querySelectorAll(".modal-backdrop").forEach(m => fecharModal(m.id)); });
+function fecharMenuMobile() { $("menuMobile").classList.remove("open"); }
 
 // ===== NAVEGAÇÃO =====
-const TITULOS = { inicio:'Início', programas:'Programas Oficiais', iep:'IEP-SP', medicamentos:'Dose Certa', transparencia:'Transparência & Gastos', hospitais:'Rede Hospitalar', equipe:'Corpo Diretivo', noticias:'Notícias', admin:'Painel do Gestor' };
-function irParaPagina(p){
-  document.querySelectorAll('.view-section').forEach(v => v.classList.add('hidden'));
-  const mapa = { inicio:'viewInicio', programas:'viewProgramas', iep:'viewIep', medicamentos:'viewMedicamentos', transparencia:'viewTransparencia', equipe:'viewEquipe', hospitais:'viewHospitais', noticias:'viewNoticias', admin:'viewAdmin' };
-  const alvo = mapa[p] || 'viewInicio';
-  $(alvo).classList.remove('hidden');
-  const sub = TITULOS[p] || 'Início';
-  $('breadcrumbCurrent').textContent = sub;
-  $('breadcrumbCurrent').classList.toggle('hidden', p === 'inicio');
-  $('breadcrumbSeparator').classList.toggle('hidden', p === 'inicio');
-  document.querySelectorAll('.nav-item').forEach(b => b.classList.toggle('ativo', b.dataset.page === p));
+const TITULOS = { inicio: "Início", programas: "Programas Oficiais", iep: "IEP-SP", medicamentos: "Dose Certa", transparencia: "Transparência & Gastos", hospitais: "Rede Hospitalar", equipe: "Corpo Diretivo", noticias: "Notícias", admin: "Painel do Gestor" };
+function irParaPagina(p) {
+  document.querySelectorAll(".view-section").forEach(v => v.classList.add("hidden"));
+  const mapa = { inicio: "viewInicio", programas: "viewProgramas", iep: "viewIep", medicamentos: "viewMedicamentos", transparencia: "viewTransparencia", equipe: "viewEquipe", hospitais: "viewHospitais", noticias: "viewNoticias", admin: "viewAdmin" };
+  const alvo = mapa[p] || "viewInicio";
+  $(alvo).classList.remove("hidden");
+  $("breadcrumbCurrent").textContent = TITULOS[p] || "Início";
+  $("breadcrumbCurrent").classList.toggle("hidden", p === "inicio");
+  $("breadcrumbSeparator").classList.toggle("hidden", p === "inicio");
+  document.querySelectorAll(".nav-item").forEach(b => b.classList.toggle("ativo", b.dataset.page === p));
   fecharMenuMobile();
-  window.scrollTo({ top: 0, behavior: 'smooth' });
-  if (p === 'transparencia') setTimeout(atualizarGraficos, 60);
-  if (p === 'admin') renderAdmin();
+  window.scrollTo({ top: 0, behavior: "smooth" });
+  if (p === "transparencia") setTimeout(atualizarGraficos, 60);
+  if (p === "admin") renderAdmin();
   icons();
 }
-function mudarAba(aba){
+function mudarAba(aba) {
   abaAdmin = aba;
-  const mapa = { transparencia:'secTransparencia', iep:'secIep', remedios:'secRemedios', hospitais:'secHospitais', equipe:'secEquipe', programas:'secProgramas', noticias:'secNoticias', alerta:'secAlerta' };
-  Object.entries(mapa).forEach(([k, id]) => $(id).classList.toggle('hidden', k !== aba));
-  Object.entries({ tabTransparencia:'transparencia', tabIep:'iep', tabRemedios:'remedios', tabHospitais:'hospitais', tabEquipe:'equipe', tabProgramas:'programas', tabNoticias:'noticias', tabAlerta:'alerta' })
-    .forEach(([id, k]) => { $(id).className = 'px-3 py-2 rounded text-xs font-bold uppercase shadow-sm flex-shrink-0 transition ' + (k===aba ? 'bg-sp-blue text-white' : 'bg-white text-neutral-700 hover:bg-neutral-100'); });
+  const mapa = { transparencia: "secTransparencia", iep: "secIep", remedios: "secRemedios", hospitais: "secHospitais", equipe: "secEquipe", programas: "secProgramas", noticias: "secNoticias", alerta: "secAlerta" };
+  Object.entries(mapa).forEach(([k, id]) => $(id).classList.toggle("hidden", k !== aba));
+  const tabs = { tabTransparencia: "transparencia", tabIep: "iep", tabRemedios: "remedios", tabHospitais: "hospitais", tabEquipe: "equipe", tabProgramas: "programas", tabNoticias: "noticias", tabAlerta: "alerta" };
+  Object.entries(tabs).forEach(([id, k]) => {
+    $(id).className = "px-3 py-2 rounded text-xs font-bold uppercase shadow-sm flex-shrink-0 transition " + (k === aba ? "bg-sp-blue text-white" : "bg-white text-neutral-700 hover:bg-neutral-100");
+  });
   icons();
 }
 
 // ===== ACESSIBILIDADE =====
-function alternarContraste(){ document.body.classList.toggle('alto-contraste'); }
-function ajustarFonte(d){
+function alternarContraste() { document.body.classList.toggle("alto-contraste"); }
+function ajustarFonte(d) {
   const atual = parseFloat(getComputedStyle(document.documentElement).fontSize);
   const novo = d === 0 ? 16 : Math.min(20, Math.max(13, atual + d));
-  document.documentElement.style.fontSize = novo + 'px';
+  document.documentElement.style.fontSize = novo + "px";
 }
 
 // ===== FINANÇAS =====
-function financas(){
+function financas() {
   const loa = num(dados.config.orcamentoTotal);
-  const adicionais = Object.values(dados.adicionais||{}).reduce((s,a)=>s+num(a.valor),0);
+  const adicionais = Object.values(dados.adicionais || {}).reduce((s, a) => s + num(a.valor), 0);
   const efetivo = loa + adicionais;
-  const dests = Object.entries(dados.destinacoes||{}).map(([id,d])=>({id,...d}));
-  const executado = dests.reduce((s,d)=>s+num(d.valor),0);
-  const perc = efetivo > 0 ? (executado/efetivo*100) : 0;
-  return { loa, adicionais, efetivo, executado, saldo: efetivo-executado, perc, dests, qtdAdic: Object.keys(dados.adicionais||{}).length, qtdDest: dests.length };
+  const dests = Object.entries(dados.destinacoes || {}).map(([id, d]) => ({ id: id, ...d }));
+  const executado = dests.reduce((s, d) => s + num(d.valor), 0);
+  const perc = efetivo > 0 ? (executado / efetivo * 100) : 0;
+  return { loa: loa, adicionais: adicionais, efetivo: efetivo, executado: executado, saldo: efetivo - executado, perc: perc, dests: dests, qtdAdic: Object.keys(dados.adicionais || {}).length, qtdDest: dests.length };
 }
 
 // ===== LOGIN =====
-function abrirModalLogin(){
-  if (sessionStorage.getItem('sesAdmin') === '1'){ irParaPagina('admin'); return; }
-  $('senhaAdmin').value = ''; abrirModal('modalLogin');
+function abrirModalLogin() {
+  if (sessionStorage.getItem("sesAdmin") === "1") { irParaPagina("admin"); return; }
+  $("senhaAdmin").value = "";
+  abrirModal("modalLogin");
 }
-function fazerLogin(e){
+function fazerLogin(e) {
   e.preventDefault();
-  const senha = dados.config.senha || 'admin1234';
-  if ($('senhaAdmin').value === senha){
-    sessionStorage.setItem('sesAdmin','1');
-    $('labelAcesso').textContent = 'Painel do Gestor';
-    fecharModal('modalLogin'); toast('Bem-vindo(a), Gestor!'); irParaPagina('admin');
-  } else toast('Senha incorreta. Tente novamente.', 'erro');
+  const senha = dados.config.senhaGestor || SENHA_PADRAO;
+  if ($("senhaAdmin").value === senha) {
+    sessionStorage.setItem("sesAdmin", "1");
+    $("labelAcesso").textContent = "Painel do Gestor";
+    fecharModal("modalLogin");
+    toast("Bem-vindo(a), Gestor!");
+    irParaPagina("admin");
+  } else { toast("Senha incorreta. Tente novamente.", "erro"); }
 }
-function deslogar(){ sessionStorage.removeItem('sesAdmin'); $('labelAcesso').textContent = 'Área do Servidor'; irParaPagina('inicio'); toast('Sessão encerrada com sucesso.'); }
+function deslogar() {
+  sessionStorage.removeItem("sesAdmin");
+  $("labelAcesso").textContent = "Área do Servidor";
+  irParaPagina("inicio");
+  toast("Sessão encerrada com sucesso.");
+}
 
-// ===== DISCORD =====
-async function enviarDiscord(titulo, campos, cor=2067276){
-  const url = dados.config.discordWebhook;
+// ===== DISCORD (3 webhooks independentes) =====
+async function enviarDiscord(url, titulo, campos, cor) {
   if (!url) return false;
   try {
-    await fetch(url, { method:'POST', headers:{'Content-Type':'application/json'},
-      body: JSON.stringify({ username:'Portal SES-SP', embeds:[{ title:titulo, color:cor,
-        fields: campos.map(c=>({name:String(c[0]), value:String(c[1]||'—').slice(0,1000)})),
-        footer:{text:'Secretaria de Estado da Saúde — SP'}, timestamp: agora() }] }) });
+    await fetch(url, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        username: "Portal SES-SP",
+        embeds: [{
+          title: titulo,
+          color: cor,
+          fields: campos.map(c => ({ name: String(c[0]), value: String(c[1] || "—").slice(0, 1000) })),
+          footer: { text: "Secretaria de Estado da Saúde — SP" },
+          timestamp: agora()
+        }]
+      })
+    });
     return true;
-  } catch(e){ return false; }
+  } catch (e) { return false; }
 }
-function testarDiscord(){ enviarDiscord('✅ Teste de Conexão — Portal SES-SP', [['Status','Webhook configurado com sucesso!'],['Origem','Painel do Gestor']], 5123021).then(ok => toast(ok ? 'Mensagem de teste enviada ao Discord!' : 'Webhook não configurado ou inválido.', ok ? 'ok' : 'erro')); }
+function testarWebhook(tipo) {
+  const mapa = {
+    doseCerta: ["webhookDoseCerta", "Teste — Pedidos Dose Certa", 5303046],
+    iep: ["webhookIep", "Teste — Solicitações IEP-SP", 4915330],
+    noticias: ["webhookNoticias", "Teste — Notícias SES-SP", 2067276]
+  };
+  const m = mapa[tipo]; if (!m) return;
+  const url = $(m[0]).value.trim();
+  if (!url) { toast("Cole o webhook antes de testar.", "erro"); return; }
+  enviarDiscord(url, "✅ " + m[1], [["Status", "Webhook configurado com sucesso!"], ["Origem", "Painel do Gestor — Teste Manual"]], m[2])
+    .then(ok => toast(ok ? "Mensagem de teste enviada ao Discord!" : "Falha no envio — verifique o link do webhook.", ok ? "ok" : "erro"));
+}
 
 // ===== IEP PÚBLICO =====
-function abrirModalChamadoIEP(tipo){
+function abrirModalChamadoIEP(tipo) {
   tipoChamadoIEP = tipo;
-  $('chamadoTipoLabel').textContent = tipo;
-  $('chamadoNome').value = ''; $('chamadoTel').value = ''; $('chamadoMsg').value = ''; $('chamadoPrioridade').value = 'Normal';
-  abrirModal('modalChamadoIEP');
+  $("chamadoTipoLabel").textContent = tipo;
+  $("chamadoNome").value = ""; $("chamadoTel").value = ""; $("chamadoMsg").value = ""; $("chamadoPrioridade").value = "Normal";
+  abrirModal("modalChamadoIEP");
 }
-function enviarChamadoIEP(e){
+function enviarChamadoIEP(e) {
   e.preventDefault();
-  const protocolo = 'IEP-' + Date.now().toString(36).toUpperCase().slice(-6);
-  dbPush('chamadosIEP', { protocolo, tipo: tipoChamadoIEP, nome: $('chamadoNome').value.trim(), tel: $('chamadoTel').value.trim(), prioridade: $('chamadoPrioridade').value, msg: $('chamadoMsg').value.trim(), status:'pendente', data: agora() });
-  enviarDiscord('🧠 Nova Solicitação — IEP-SP', [['Protocolo', protocolo],['Tipo', tipoChamadoIEP],['Solicitante', $('chamadoNome').value],['Telefone', $('chamadoTel').value],['Prioridade', $('chamadoPrioridade').value],['Descrição', $('chamadoMsg').value]], 4915330);
-  fecharModal('modalChamadoIEP');
-  toast('Solicitação transmitida! Protocolo: ' + protocolo);
+  const protocolo = "IEP-" + Date.now().toString(36).toUpperCase().slice(-6);
+  const obj = { protocolo: protocolo, tipo: tipoChamadoIEP, nome: $("chamadoNome").value.trim(), tel: $("chamadoTel").value.trim(), prioridade: $("chamadoPrioridade").value, msg: $("chamadoMsg").value.trim(), status: "pendente", data: agora() };
+  dbPush("chamadosIEP", obj);
+  enviarDiscord(dados.config.webhookIep, "🧠 Nova Solicitação — IEP-SP", [["Protocolo", protocolo], ["Tipo", tipoChamadoIEP], ["Solicitante", obj.nome], ["Telefone", obj.tel], ["Prioridade", obj.prioridade], ["Descrição", obj.msg]], 4915330);
+  fecharModal("modalChamadoIEP");
+  toast("Solicitação transmitida! Protocolo: " + protocolo);
 }
 
 // ===== DOSE CERTA PÚBLICO =====
-function renderSelectMedicamentos(){
-  const sel = $('medSelectField'); if (!sel) return;
-  const lista = Object.entries(dados.remedios||{}).filter(([,r]) => r.disponivel !== false);
-  let html = lista.map(([id,r]) => `<option value="${id}">${esc(r.nome)} — ${esc(r.categoria)}</option>`).join('');
+function renderSelectMedicamentos() {
+  const sel = $("medSelectField"); if (!sel) return;
+  const lista = Object.entries(dados.remedios || {}).filter(([, r]) => r.disponivel !== false);
+  let html = lista.map(([id, r]) => '<option value="' + id + '">' + esc(r.nome) + " — " + esc(r.categoria) + "</option>").join("");
   html += '<option value="outro">Outro medicamento (não listado)</option>';
-  if (!lista.length) html = '<option value="" disabled selected>Nenhum medicamento no catálogo</option>' + html;
+  if (!lista.length) html = '<option value="outro" selected>Sem medicamentos no catálogo — selecione "Outro"</option>' + html;
   sel.innerHTML = html;
   aoMudarSelectMedicamento();
 }
-function aoMudarSelectMedicamento(){
-  const v = $('medSelectField').value;
-  $('boxMedOutro').classList.toggle('hidden', v !== 'outro');
-  const r = (dados.remedios||{})[v];
-  $('medPrevCategoria').textContent = r ? (r.categoria || 'Geral') : (v === 'outro' ? 'Solicitação Especial' : 'Selecione um medicamento');
-  $('medPrevDescricao').textContent = r ? (r.descricao || 'Sem descrição cadastrada.') : (v === 'outro' ? 'Especifique o nome e a dosagem desejada no campo abaixo.' : '—');
+function aoMudarSelectMedicamento() {
+  const v = $("medSelectField").value;
+  $("boxMedOutro").classList.toggle("hidden", v !== "outro");
+  const r = (dados.remedios || {})[v];
+  $("medPrevCategoria").textContent = r ? (r.categoria || "Geral") : (v === "outro" ? "Solicitação Especial" : "Selecione um medicamento");
+  $("medPrevDescricao").textContent = r ? (r.descricao || "Sem descrição cadastrada.") : (v === "outro" ? "Especifique o nome e a dosagem desejada no campo abaixo." : "—");
 }
-function pedirRemedioDireto(id){
-  $('medSelectField').value = id; aoMudarSelectMedicamento();
-  $('boxPedidoMedicamento').scrollIntoView({ behavior:'smooth', block:'start' });
-  toast('Medicamento selecionado! Preencha seus dados abaixo.', 'info');
+function pedirRemedioDireto(id) {
+  $("medSelectField").value = id;
+  aoMudarSelectMedicamento();
+  $("boxPedidoMedicamento").scrollIntoView({ behavior: "smooth", block: "start" });
+  toast("Medicamento selecionado! Preencha seus dados abaixo.", "info");
 }
-function enviarPedidoMedicamentoDiscord(e){
+function enviarPedidoMedicamentoDiscord(e) {
   e.preventDefault();
-  const v = $('medSelectField').value;
+  const v = $("medSelectField").value;
   let nomeMed;
-  if (v === 'outro'){
-    nomeMed = $('medOutroNome').value.trim();
-    if (!nomeMed){ toast('Especifique o nome do medicamento desejado.', 'erro'); return; }
+  if (v === "outro") {
+    nomeMed = $("medOutroNome").value.trim();
+    if (!nomeMed) { toast("Especifique o nome do medicamento desejado.", "erro"); return; }
   } else {
-    const r = (dados.remedios||{})[v];
-    if (!r){ toast('Selecione um medicamento válido.', 'erro'); return; }
-    nomeMed = r.nome + ' (' + (r.categoria||'Geral') + ')';
+    const r = (dados.remedios || {})[v];
+    if (!r) { toast("Selecione um medicamento válido.", "erro"); return; }
+    nomeMed = r.nome + " (" + (r.categoria || "Geral") + ")";
   }
-  const protocolo = 'DC-' + Date.now().toString(36).toUpperCase().slice(-6);
-  const pedido = { protocolo, medicamento: nomeMed, paciente: $('medPedNome').value.trim(), sus: $('medPedSus').value.trim(), tel: $('medPedTel').value.trim(), local: $('medPedLocal').value.trim(), status:'pendente', data: agora() };
-  dbPush('pedidos', pedido);
-  enviarDiscord('💊 Novo Pedido — Programa Dose Certa', [['Protocolo', protocolo],['Medicamento', nomeMed],['Paciente', pedido.paciente],['Cartão SUS', pedido.sus],['Telefone', pedido.tel],['Retirada', pedido.local]], 5303046);
-  e.target.reset(); renderSelectMedicamentos();
-  toast('Pedido transmitido à farmácia! Protocolo: ' + protocolo);
+  const protocolo = "DC-" + Date.now().toString(36).toUpperCase().slice(-6);
+  const pedido = { protocolo: protocolo, medicamento: nomeMed, paciente: $("medPedNome").value.trim(), sus: $("medPedSus").value.trim(), tel: $("medPedTel").value.trim(), local: $("medPedLocal").value.trim(), status: "pendente", data: agora() };
+  dbPush("pedidos", pedido);
+  enviarDiscord(dados.config.webhookDoseCerta, "💊 Novo Pedido — Programa Dose Certa", [["Protocolo", protocolo], ["Medicamento", nomeMed], ["Paciente", pedido.paciente], ["Cartão SUS", pedido.sus], ["Telefone", pedido.tel], ["Retirada", pedido.local]], 5303046);
+  e.target.reset();
+  renderSelectMedicamentos();
+  toast("Pedido transmitido à farmácia! Protocolo: " + protocolo);
 }
-function renderizarListaRemediosPublica(){
-  const busca = ($('buscaRemedio').value||'').toLowerCase();
-  const itens = Object.entries(dados.remedios||{})
-    .filter(([,r]) => !busca || (r.nome||'').toLowerCase().includes(busca) || (r.descricao||'').toLowerCase().includes(busca) || (r.categoria||'').toLowerCase().includes(busca));
-  const total = Object.keys(dados.remedios||{}).length;
-  $('contagemRemedios').textContent = total + (total === 1 ? ' item' : ' itens');
-  $('vazioRemedios').classList.toggle('hidden', total > 0);
-  $('gridRemediosPublica').innerHTML = itens.map(([id,r]) => `
+function renderizarListaRemediosPublica() {
+  const busca = ($("buscaRemedio").value || "").toLowerCase();
+  const itens = Object.entries(dados.remedios || {}).filter(([, r]) => !busca || (r.nome || "").toLowerCase().includes(busca) || (r.descricao || "").toLowerCase().includes(busca) || (r.categoria || "").toLowerCase().includes(busca));
+  const total = Object.keys(dados.remedios || {}).length;
+  $("contagemRemedios").textContent = total + (total === 1 ? " item" : " itens");
+  $("vazioRemedios").classList.toggle("hidden", total > 0);
+  $("gridRemediosPublica").innerHTML = itens.map(([id, r]) => `
     <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 py-3 px-1">
       <div class="flex items-start gap-3">
         <div class="w-8 h-8 rounded-lg bg-emerald-50 text-emerald-700 flex items-center justify-center flex-shrink-0 mt-0.5"><i data-lucide="pill" class="w-4 h-4"></i></div>
         <div>
           <p class="font-black text-neutral-800 text-xs leading-tight">${esc(r.nome)}</p>
-          <span class="text-[9px] font-bold uppercase text-emerald-700 bg-emerald-50 px-1.5 py-0.5 rounded mt-1 inline-block">${esc(r.categoria||'Geral')}</span>
-          ${r.descricao ? '<p class="text-neutral-500 text-[11px] mt-1 leading-relaxed">'+esc(r.descricao)+'</p>' : ''}
-          ${r.disponivel === false ? '<span class="text-[9px] font-black uppercase text-red-600 bg-red-50 px-1.5 py-0.5 rounded mt-1 inline-block">Temporariamente indisponível</span>' : ''}
+          <span class="text-[9px] font-bold uppercase text-emerald-700 bg-emerald-50 px-1.5 py-0.5 rounded mt-1 inline-block">${esc(r.categoria || "Geral")}</span>
+          ${r.descricao ? '<p class="text-neutral-500 text-[11px] mt-1 leading-relaxed">' + esc(r.descricao) + "</p>" : ""}
+          ${r.disponivel === false ? '<span class="text-[9px] font-black uppercase text-red-600 bg-red-50 px-1.5 py-0.5 rounded mt-1 inline-block">Temporariamente indisponível</span>' : ""}
         </div>
       </div>
       <button onclick="pedirRemedioDireto('${id}')" class="bg-emerald-600 hover:bg-emerald-700 text-white font-black text-[10px] px-3 py-1.5 rounded uppercase transition whitespace-nowrap flex-shrink-0">Pedir Este</button>
-    </div>`).join('');
+    </div>`).join("");
   icons();
 }
 
 // ===== PROGRAMAS =====
 const CORES_PRG = {
-  blue:{bg:'bg-blue-50',text:'text-blue-700',hex:'#2670E8'}, emerald:{bg:'bg-emerald-50',text:'text-emerald-700',hex:'#059669'},
-  indigo:{bg:'bg-indigo-50',text:'text-indigo-700',hex:'#4F46E5'}, red:{bg:'bg-red-50',text:'text-red-600',hex:'#DC2626'},
-  amber:{bg:'bg-amber-50',text:'text-amber-700',hex:'#D97706'}, purple:{bg:'bg-purple-50',text:'text-purple-700',hex:'#9333EA'},
-  teal:{bg:'bg-teal-50',text:'text-teal-700',hex:'#0D9488'}
+  blue:    { bg: "bg-blue-50",    text: "text-blue-700",    hex: "#2670E8" },
+  emerald: { bg: "bg-emerald-50", text: "text-emerald-700", hex: "#059669" },
+  indigo:  { bg: "bg-indigo-50",  text: "text-indigo-700",  hex: "#4F46E5" },
+  red:     { bg: "bg-red-50",     text: "text-red-600",     hex: "#DC2626" },
+  amber:   { bg: "bg-amber-50",   text: "text-amber-700",   hex: "#D97706" },
+  purple:  { bg: "bg-purple-50",  text: "text-purple-700",  hex: "#9333EA" },
+  teal:    { bg: "bg-teal-50",    text: "text-teal-700",    hex: "#0D9488" }
 };
-function renderProgramas(){
-  const todos = Object.entries(dados.programas||{}).map(([id,p])=>({id,...p}));
+function renderProgramas() {
+  const todos = Object.entries(dados.programas || {}).map(([id, p]) => ({ id: id, ...p }));
   const ativos = todos.filter(p => p.status !== false);
-  // filtro de categorias
-  const selCat = $('filtroCategoriaPrograma');
-  const cats = [...new Set(todos.map(p=>p.categoria).filter(Boolean))];
-  const catAtual = selCat.value || 'todas';
-  selCat.innerHTML = '<option value="todas">Todas as Categorias</option>' + cats.map(c=>`<option ${c===catAtual?'selected':''}>${esc(c)}</option>`).join('');
-  $('contagemProgramas').textContent = (ativos.length + 2) + ' programas oficiais';
+  const selCat = $("filtroCategoriaPrograma");
+  const catAtual = selCat.value || "todas";
+  const cats = [...new Set(todos.map(p => p.categoria).filter(Boolean))];
+  selCat.innerHTML = '<option value="todas">Todas as Categorias</option>' + cats.map(c => '<option ' + (c === catAtual ? "selected" : "") + ">" + esc(c) + "</option>").join("");
+  $("contagemProgramas").textContent = (ativos.length + 2) + " programas oficiais";
 
-  const busca = ($('buscaPrograma').value||'').toLowerCase();
-  const filtrados = todos.filter(p =>
-    (catAtual==='todas' || p.categoria===catAtual) &&
-    (!busca || (p.nome||'').toLowerCase().includes(busca) || (p.descricao||'').toLowerCase().includes(busca))
-  );
-  $('vazioProgramas').classList.toggle('hidden', todos.length > 0);
-  $('gridProgramas').innerHTML = filtrados.map(p => {
+  const busca = ($("buscaPrograma").value || "").toLowerCase();
+  const filtrados = todos.filter(p => (catAtual === "todas" || p.categoria === catAtual) && (!busca || (p.nome || "").toLowerCase().includes(busca) || (p.descricao || "").toLowerCase().includes(busca)));
+  $("vazioProgramas").classList.toggle("hidden", todos.length > 0);
+  $("gridProgramas").innerHTML = filtrados.map(p => {
     const cor = CORES_PRG[p.cor] || CORES_PRG.blue;
     return `
     <div class="bg-white rounded-xl border border-neutral-200 shadow-sm p-5 flex flex-col border-t-4 card-hover" style="border-top-color:${cor.hex}">
       <div class="flex justify-between items-start mb-3">
-        <div class="w-10 h-10 rounded-lg ${cor.bg} ${cor.text} flex items-center justify-center"><i data-lucide="${esc(p.icone||'heart')}" class="w-5 h-5"></i></div>
-        <span class="text-[9px] font-black uppercase px-2 py-0.5 rounded ${p.status!==false?'bg-emerald-100 text-emerald-800':'bg-neutral-200 text-neutral-600'}">${p.status!==false?'Ativo':'Inativo'}</span>
+        <div class="w-10 h-10 rounded-lg ${cor.bg} ${cor.text} flex items-center justify-center"><i data-lucide="${esc(p.icone || "heart")}" class="w-5 h-5"></i></div>
+        <span class="text-[9px] font-black uppercase px-2 py-0.5 rounded ${p.status !== false ? "bg-emerald-100 text-emerald-800" : "bg-neutral-200 text-neutral-600"}">${p.status !== false ? "Ativo" : "Inativo"}</span>
       </div>
       <h4 class="font-black text-neutral-900 text-sm uppercase leading-tight">${esc(p.nome)}</h4>
-      <span class="text-[9px] font-bold uppercase text-neutral-500 bg-neutral-100 px-1.5 py-0.5 rounded mt-1.5 w-fit">${esc(p.categoria||'Geral')}</span>
+      <span class="text-[9px] font-bold uppercase text-neutral-500 bg-neutral-100 px-1.5 py-0.5 rounded mt-1.5 w-fit">${esc(p.categoria || "Geral")}</span>
       <p class="text-xs text-neutral-500 mt-2.5 leading-relaxed flex-grow">${esc(p.descricao)}</p>
-      ${p.publico ? `<p class="text-[10px] text-neutral-400 mt-2 flex items-center gap-1"><i data-lucide="users" class="w-3 h-3"></i> Público: ${esc(p.publico)}</p>` : ''}
+      ${p.publico ? '<p class="text-[10px] text-neutral-400 mt-2 flex items-center gap-1"><i data-lucide="users" class="w-3 h-3"></i> Público: ' + esc(p.publico) + "</p>" : ""}
     </div>`;
-  }).join('');
-  $('semResultadoPrograma').classList.toggle('hidden', !(todos.length > 0 && filtrados.length === 0));
+  }).join("");
+  $("semResultadoPrograma").classList.toggle("hidden", !(todos.length > 0 && filtrados.length === 0));
   icons();
 }
-function renderHomeProgramas(){
-  const extras = Object.values(dados.programas||{}).filter(p=>p.status!==false).length;
+function renderHomeProgramas() {
+  const extras = Object.values(dados.programas || {}).filter(p => p.status !== false).length;
   let html = `
     <div onclick="irParaPagina('iep')" class="cursor-pointer bg-white rounded-xl border border-neutral-200 shadow-sm p-5 border-t-4 card-hover border-indigo-600">
       <div class="flex justify-between items-start mb-2"><div class="w-10 h-10 rounded-lg bg-indigo-50 text-indigo-700 flex items-center justify-center"><i data-lucide="brain" class="w-5 h-5"></i></div><span class="text-[9px] font-black uppercase bg-sp-yellow text-sp-darkBlue px-2 py-0.5 rounded">Estruturante</span></div>
@@ -1584,132 +1653,126 @@ function renderHomeProgramas(){
   if (extras > 0) html += `
     <button onclick="irParaPagina('programas')" class="bg-sp-darkBlue text-white rounded-xl p-5 flex flex-col items-start justify-between border-t-4 border-sp-yellow card-hover text-left">
       <div class="w-10 h-10 rounded-lg bg-white/10 text-sp-yellow flex items-center justify-center"><i data-lucide="layers" class="w-5 h-5"></i></div>
-      <div><h4 class="font-black text-sm uppercase">+${extras} programa${extras>1?'s':''} complementar${extras>1?'es':''}</h4>
+      <div><h4 class="font-black text-sm uppercase">+${extras} programa${extras > 1 ? "s" : ""} complementar${extras > 1 ? "es" : ""}</h4>
       <p class="text-xs text-blue-200/80 mt-1.5">Ver catálogo completo de programas oficiais →</p></div>
     </button>`;
-  $('homeGridProgramas').innerHTML = html;
+  $("homeGridProgramas").innerHTML = html;
   icons();
 }
 
 // ===== HOSPITAIS =====
 const REGIOES = {
-  capital:{nome:'Capital / Grande SP', cls:'bg-blue-100 text-blue-800'},
-  campinas:{nome:'Campinas', cls:'bg-purple-100 text-purple-800'},
-  ribeirao:{nome:'Ribeirão Preto', cls:'bg-emerald-100 text-emerald-800'},
-  santos:{nome:'Baixada Santista', cls:'bg-sky-100 text-sky-800'},
-  interior:{nome:'Interior', cls:'bg-amber-100 text-amber-800'}
+  capital:  { nome: "Capital / Grande SP", cls: "bg-blue-100 text-blue-800" },
+  campinas: { nome: "Campinas",           cls: "bg-purple-100 text-purple-800" },
+  ribeirao: { nome: "Ribeirão Preto",     cls: "bg-emerald-100 text-emerald-800" },
+  santos:   { nome: "Baixada Santista",   cls: "bg-sky-100 text-sky-800" },
+  interior: { nome: "Interior",           cls: "bg-amber-100 text-amber-800" }
 };
-function renderHospitais(){
-  const todos = Object.entries(dados.hospitais||{}).map(([id,h])=>({id,...h}));
-  let leitosT=0, leitosL=0;
-  todos.forEach(h=>{ leitosT += num(h.leitosTotais); leitosL += num(h.leitosLivres); });
-  $('kpiRedeUnidades').textContent = todos.length;
-  $('kpiRedeLeitos').textContent = leitosT.toLocaleString('pt-BR');
-  $('kpiRedeLivres').textContent = leitosL.toLocaleString('pt-BR');
-  $('kpiRedeOcupacao').textContent = (leitosT>0 ? Math.round(((leitosT-leitosL)/leitosT)*100) : 0) + '%';
-  $('kpiHospitais').textContent = todos.length;
-  $('kpiLeitos').textContent = leitosL.toLocaleString('pt-BR');
+function renderizarHospitais() {
+  const todos = Object.entries(dados.hospitais || {}).map(([id, h]) => ({ id: id, ...h }));
+  let leitosT = 0, leitosL = 0;
+  todos.forEach(h => { leitosT += num(h.leitosTotais); leitosL += num(h.leitosLivres); });
+  $("kpiRedeUnidades").textContent = todos.length;
+  $("kpiRedeLeitos").textContent = leitosT.toLocaleString("pt-BR");
+  $("kpiRedeLivres").textContent = leitosL.toLocaleString("pt-BR");
+  $("kpiRedeOcupacao").textContent = (leitosT > 0 ? Math.round(((leitosT - leitosL) / leitosT) * 100) : 0) + "%";
+  $("kpiHospitais").textContent = todos.length;
+  $("kpiLeitos").textContent = leitosL.toLocaleString("pt-BR");
 
-  const busca = ($('buscaHospital').value||'').toLowerCase();
-  const regiao = $('filtroRegiao').value, status = $('filtroStatusHospital').value;
-  const lista = todos.filter(h =>
-    (regiao==='todas' || h.regiao===regiao) && (status==='todos' || h.status===status) &&
-    (!busca || [h.nome,h.instituto,h.cidade].some(x=>(x||'').toLowerCase().includes(busca)))
-  );
+  const busca = ($("buscaHospital").value || "").toLowerCase();
+  const regiao = $("filtroRegiao").value, status = $("filtroStatusHospital").value;
+  const lista = todos.filter(h => (regiao === "todas" || h.regiao === regiao) && (status === "todos" || h.status === status) && (!busca || [h.nome, h.instituto, h.cidade].some(x => (x || "").toLowerCase().includes(busca))));
   const vazioTotal = todos.length === 0;
-  $('vazioHospitais').classList.toggle('hidden', !vazioTotal);
-  $('gridHospitais').innerHTML = lista.map(h => {
+  $("vazioHospitais").classList.toggle("hidden", !vazioTotal);
+  $("gridHospitais").innerHTML = lista.map(h => {
     const reg = REGIOES[h.regiao] || REGIOES.interior;
     const t = num(h.leitosTotais), l = Math.min(num(h.leitosLivres), t);
-    const ocup = t>0 ? Math.round(((t-l)/t)*100) : 0;
-    const corBarra = ocup>=90 ? 'bg-red-500' : ocup>=70 ? 'bg-amber-500' : 'bg-emerald-500';
-    const txtOcup = ocup>=90 ? 'text-red-600' : ocup>=70 ? 'text-amber-600' : 'text-emerald-600';
-    const dotStatus = h.status==='Operando' ? 'bg-emerald-500' : h.status==='Manutenção' ? 'bg-amber-500' : 'bg-sky-500';
+    const ocup = t > 0 ? Math.round(((t - l) / t) * 100) : 0;
+    const corBarra = ocup >= 90 ? "bg-red-500" : ocup >= 70 ? "bg-amber-500" : "bg-emerald-500";
+    const txtOcup = ocup >= 90 ? "text-red-600" : ocup >= 70 ? "text-amber-600" : "text-emerald-600";
+    const dotStatus = h.status === "Operando" ? "bg-emerald-500" : h.status === "Manutenção" ? "bg-amber-500" : "bg-sky-500";
     return `
     <div class="bg-white rounded-xl border border-neutral-200 shadow-sm overflow-hidden card-hover">
       <div class="p-4 border-b border-neutral-100 flex justify-between items-start gap-3">
         <div class="min-w-0">
           <span class="text-[9px] font-black uppercase px-2 py-0.5 rounded ${reg.cls}">${reg.nome}</span>
           <h3 class="font-black text-neutral-900 text-sm uppercase leading-tight mt-1.5 truncate">${esc(h.nome)}</h3>
-          <p class="text-[11px] text-neutral-500 mt-0.5">${esc(h.tipo||'')}${h.instituto?' • '+esc(h.instituto):''}${h.cidade?' • '+esc(h.cidade):''}</p>
+          <p class="text-[11px] text-neutral-500 mt-0.5">${esc(h.tipo || "")}${h.instituto ? " • " + esc(h.instituto) : ""}${h.cidade ? " • " + esc(h.cidade) : ""}</p>
         </div>
-        <span class="flex items-center gap-1.5 text-[10px] font-black uppercase text-neutral-600 flex-shrink-0 bg-neutral-100 px-2 py-1 rounded"><span class="w-2 h-2 rounded-full ${dotStatus}"></span>${esc(h.status||'—')}</span>
+        <span class="flex items-center gap-1.5 text-[10px] font-black uppercase text-neutral-600 flex-shrink-0 bg-neutral-100 px-2 py-1 rounded"><span class="w-2 h-2 rounded-full ${dotStatus}"></span>${esc(h.status || "—")}</span>
       </div>
       <div class="p-4">
         <div class="flex justify-between text-[11px] font-bold text-neutral-600 mb-1.5">
           <span class="flex items-center gap-1"><i data-lucide="bed-double" class="w-3.5 h-3.5 text-indigo-600"></i> Ocupação de Leitos</span>
-          <span class="${txtOcup} font-black">${t-l} / ${t} (${ocup}%)</span>
+          <span class="${txtOcup} font-black">${t - l} / ${t} (${ocup}%)</span>
         </div>
         <div class="w-full bg-neutral-200 rounded-full h-2.5 overflow-hidden">
           <div class="${corBarra} h-2.5 rounded-full transition-all duration-700" style="width:${ocup}%"></div>
         </div>
         <div class="grid grid-cols-2 gap-2 mt-3.5 text-[11px]">
-          <div class="bg-neutral-50 rounded-lg p-2 text-center"><p class="font-black text-neutral-900 text-sm">${t-l}</p><p class="text-neutral-500 font-bold uppercase text-[9px]">Leitos Ocupados</p></div>
+          <div class="bg-neutral-50 rounded-lg p-2 text-center"><p class="font-black text-neutral-900 text-sm">${t - l}</p><p class="text-neutral-500 font-bold uppercase text-[9px]">Leitos Ocupados</p></div>
           <div class="bg-emerald-50 rounded-lg p-2 text-center"><p class="font-black text-emerald-700 text-sm">${l}</p><p class="text-emerald-700 font-bold uppercase text-[9px]">Leitos Livres</p></div>
         </div>
-        ${h.telefone ? `<p class="text-[11px] text-neutral-500 mt-3 flex items-center gap-1.5"><i data-lucide="phone" class="w-3 h-3 text-sp-blue"></i> ${esc(h.telefone)}</p>` : ''}
+        ${h.telefone ? '<p class="text-[11px] text-neutral-500 mt-3 flex items-center gap-1.5"><i data-lucide="phone" class="w-3 h-3 text-sp-blue"></i> ' + esc(h.telefone) + "</p>" : ""}
       </div>
     </div>`;
-  }).join('');
+  }).join("");
   const semResultado = !vazioTotal && lista.length === 0;
-  $('semResultadoHospital').classList.toggle('hidden', !semResultado);
-  $('gridHospitais').classList.toggle('hidden', semResultado || vazioTotal);
+  $("semResultadoHospital").classList.toggle("hidden", !semResultado);
+  $("gridHospitais").classList.toggle("hidden", semResultado || vazioTotal);
   icons();
 }
 
 // ===== EQUIPE (SES + IEP) =====
-const AVATAR_CORES = ['bg-sp-blue','bg-emerald-600','bg-indigo-700','bg-purple-600','bg-red-600','bg-amber-600','bg-teal-600','bg-sky-600'];
-function iniciais(nome){ return (nome||'?').trim().split(/\s+/).map(p=>p[0]).slice(0,2).join('').toUpperCase(); }
-function hashCor(s){ let h=0; for(const c of String(s)) h=(h*31+c.charCodeAt(0))>>>0; return AVATAR_CORES[h%AVATAR_CORES.length]; }
-function cardMembro(m, tema){
-  const borda = tema==='iep' ? 'border-indigo-200' : 'border-neutral-200';
-  const badgeCls = tema==='iep' ? 'bg-indigo-50 text-indigo-700 border-indigo-200' : 'bg-blue-50 text-sp-blue border-blue-200';
+const AVATAR_CORES = ["bg-sp-blue", "bg-emerald-600", "bg-indigo-700", "bg-purple-600", "bg-red-600", "bg-amber-600", "bg-teal-600", "bg-sky-600"];
+function iniciais(nome) { return (nome || "?").trim().split(/\s+/).map(p => p[0]).slice(0, 2).join("").toUpperCase(); }
+function hashCor(s) { let h = 0; for (const c of String(s)) h = (h * 31 + c.charCodeAt(0)) >>> 0; return AVATAR_CORES[h % AVATAR_CORES.length]; }
+function cardMembro(m, tema) {
+  const borda = tema === "iep" ? "border-indigo-200" : "border-neutral-200";
+  const badge = tema === "iep" ? "bg-indigo-50 text-indigo-700 border-indigo-200" : "bg-blue-50 text-sp-blue border-blue-200";
   return `
   <div class="bg-white rounded-xl border ${borda} shadow-sm p-5 text-center card-hover">
     <div class="w-14 h-14 rounded-full ${hashCor(m.nome)} text-white font-black text-lg flex items-center justify-center mx-auto shadow-md">${esc(iniciais(m.nome))}</div>
     <h4 class="font-black text-neutral-900 text-sm mt-3 leading-tight">${esc(m.nome)}</h4>
-    <span class="text-[10px] font-black uppercase px-2 py-0.5 rounded border mt-2 inline-block ${badgeCls}">${esc(m.cargo)}</span>
-    ${m.area ? `<p class="text-[11px] text-neutral-500 font-bold mt-2 flex items-center justify-center gap-1"><i data-lucide="building-2" class="w-3 h-3"></i> ${esc(m.area)}</p>` : ''}
-    ${m.descricao ? `<p class="text-[11px] text-neutral-400 mt-2 leading-relaxed">${esc(m.descricao)}</p>` : ''}
+    <span class="text-[10px] font-black uppercase px-2 py-0.5 rounded border mt-2 inline-block ${badge}">${esc(m.cargo)}</span>
+    ${m.area ? '<p class="text-[11px] text-neutral-500 font-bold mt-2 flex items-center justify-center gap-1"><i data-lucide="building-2" class="w-3 h-3"></i> ' + esc(m.area) + "</p>" : ""}
+    ${m.descricao ? '<p class="text-[11px] text-neutral-400 mt-2 leading-relaxed">' + esc(m.descricao) + "</p>" : ""}
   </div>`;
 }
-function renderEquipe(){
-  const eq = Object.values(dados.equipe||{});
-  $('contagemEquipe').textContent = eq.length + (eq.length===1?' membro':' membros');
-  $('vazioEquipe').classList.toggle('hidden', eq.length>0);
-  $('gridEquipe').innerHTML = eq.map(m=>cardMembro(m,'ses')).join('');
-  const eqIep = Object.values(dados.equipeIep||{});
-  $('contagemEquipeIep').textContent = eqIep.length + (eqIep.length===1?' membro':'s');
-  $('vazioEquipeIep').classList.toggle('hidden', eqIep.length>0);
-  $('gridEquipeIep').innerHTML = eqIep.map(m=>cardMembro(m,'iep')).join('');
+function renderEquipe() {
+  const eq = Object.values(dados.equipe || {});
+  $("contagemEquipe").textContent = eq.length + (eq.length === 1 ? " membro" : " membros");
+  $("vazioEquipe").classList.toggle("hidden", eq.length > 0);
+  $("gridEquipe").innerHTML = eq.map(m => cardMembro(m, "ses")).join("");
+  const eqIep = Object.values(dados.equipeIep || {});
+  $("contagemEquipeIep").textContent = eqIep.length + (eqIep.length === 1 ? " membro" : "s");
+  $("vazioEquipeIep").classList.toggle("hidden", eqIep.length > 0);
+  $("gridEquipeIep").innerHTML = eqIep.map(m => cardMembro(m, "iep")).join("");
   icons();
 }
 
 // ===== NOTÍCIAS =====
-const NOT_CORES = { 'Investimentos':'bg-emerald-100 text-emerald-800','Mutirões':'bg-blue-100 text-blue-800','Infraestrutura':'bg-amber-100 text-amber-800','Epidemiologia':'bg-red-100 text-red-800','Recursos Humanos':'bg-purple-100 text-purple-800','Programas':'bg-indigo-100 text-indigo-800','Outros':'bg-neutral-200 text-neutral-700' };
-let filtroNoticia = 'todas';
-function noticiasOrdenadas(){ return Object.entries(dados.noticias||{}).map(([id,n])=>({id,...n})).sort((a,b)=> new Date(b.data||0) - new Date(a.data||0)); }
-function renderNoticias(){
+const NOT_CORES = { "Investimentos": "bg-emerald-100 text-emerald-800", "Mutirões": "bg-blue-100 text-blue-800", "Infraestrutura": "bg-amber-100 text-amber-800", "Epidemiologia": "bg-red-100 text-red-800", "Recursos Humanos": "bg-purple-100 text-purple-800", "Programas": "bg-indigo-100 text-indigo-800", "Outros": "bg-neutral-200 text-neutral-700" };
+function noticiasOrdenadas() { return Object.entries(dados.noticias || {}).map(([id, n]) => ({ id: id, ...n })).sort((a, b) => new Date(b.data || 0) - new Date(a.data || 0)); }
+function renderNoticias() {
   const todas = noticiasOrdenadas();
-  $('contagemNoticias').textContent = todas.length + (todas.length===1?' comunicado':' comunicados');
-  // chips
-  const cats = [...new Set(todas.map(n=>n.categoria).filter(Boolean))];
-  $('chipsCategoriasNoticia').innerHTML = todas.length ? [
-    `<button onclick="filtroNoticia='todas';renderNoticias()" class="px-3 py-1.5 rounded-full text-[11px] font-black uppercase border transition ${filtroNoticia==='todas'?'bg-sp-blue text-white border-sp-blue':'bg-white text-neutral-600 border-neutral-300 hover:border-sp-blue'}">Todas</button>`,
-    ...cats.map(c=>`<button onclick="filtroNoticia='${esc(c)}';renderNoticias()" class="px-3 py-1.5 rounded-full text-[11px] font-black uppercase border transition ${filtroNoticia===c?'bg-sp-blue text-white border-sp-blue':'bg-white text-neutral-600 border-neutral-300 hover:border-sp-blue'}">${esc(c)}</button>`)
-  ].join('') : '';
-  const lista = todas.filter(n => filtroNoticia==='todas' || n.categoria===filtroNoticia);
-  $('vazioNoticias').classList.toggle('hidden', todas.length>0);
-  $('destaqueNoticia').innerHTML = '';
-  $('gridNoticias').innerHTML = '';
-  if (!lista.length){ icons(); return; }
-  const [destaque, ...resto] = lista;
-  $('destaqueNoticia').innerHTML = `
+  $("contagemNoticias").textContent = todas.length + (todas.length === 1 ? " comunicado" : " comunicados");
+  const cats = [...new Set(todas.map(n => n.categoria).filter(Boolean))];
+  $("chipsCategoriasNoticia").innerHTML = todas.length ? ['<button onclick="filtroNoticia=\'todas\';renderNoticias()" class="px-3 py-1.5 rounded-full text-[11px] font-black uppercase border transition ' + (filtroNoticia === "todas" ? "bg-sp-blue text-white border-sp-blue" : "bg-white text-neutral-600 border-neutral-300 hover:border-sp-blue") + '">Todas</button>']
+    .concat(cats.map(c => '<button onclick="filtroNoticia=\'' + esc(c) + '\';renderNoticias()" class="px-3 py-1.5 rounded-full text-[11px] font-black uppercase border transition ' + (filtroNoticia === c ? "bg-sp-blue text-white border-sp-blue" : "bg-white text-neutral-600 border-neutral-300 hover:border-sp-blue") + '">' + esc(c) + "</button>")).join("") : "";
+  const lista = todas.filter(n => filtroNoticia === "todas" || n.categoria === filtroNoticia);
+  $("vazioNoticias").classList.toggle("hidden", todas.length > 0);
+  $("destaqueNoticia").innerHTML = "";
+  $("gridNoticias").innerHTML = "";
+  if (!lista.length) { icons(); return; }
+  const destaque = lista[0];
+  const resto = lista.slice(1);
+  $("destaqueNoticia").innerHTML = `
     <div class="bg-white rounded-2xl border-2 border-sp-blue/30 shadow-md overflow-hidden card-hover">
       <div class="bg-gradient-to-r from-sp-darkBlue to-sp-blue text-white p-5 sm:p-6 relative">
         <i data-lucide="megaphone" class="absolute right-4 top-4 w-10 h-10 opacity-15"></i>
         <span class="text-[9px] font-black uppercase bg-sp-yellow text-sp-darkBlue px-2 py-0.5 rounded">Última Publicação</span>
-        <span class="text-[9px] font-black uppercase bg-white/15 border border-white/30 px-2 py-0.5 rounded ml-1.5">${esc(destaque.categoria||'Outros')}</span>
+        <span class="text-[9px] font-black uppercase bg-white/15 border border-white/30 px-2 py-0.5 rounded ml-1.5">${esc(destaque.categoria || "Outros")}</span>
         <h3 class="text-base sm:text-xl font-black uppercase leading-tight mt-2.5 pr-8">${esc(destaque.titulo)}</h3>
         <p class="text-blue-100 text-xs mt-2 leading-relaxed max-w-2xl">${esc(destaque.resumo)}</p>
         <div class="flex items-center justify-between mt-4 flex-wrap gap-2">
@@ -1718,13 +1781,13 @@ function renderNoticias(){
         </div>
       </div>
     </div>`;
-  $('gridNoticias').innerHTML = resto.map(n => `
+  $("gridNoticias").innerHTML = resto.map(n => `
     <div class="p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3 hover:bg-neutral-50 transition">
       <div class="flex items-start gap-3 min-w-0">
         <div class="w-10 h-10 rounded-lg bg-neutral-100 text-sp-blue flex items-center justify-center flex-shrink-0"><i data-lucide="file-text" class="w-5 h-5"></i></div>
         <div class="min-w-0">
           <div class="flex flex-wrap items-center gap-2">
-            <span class="text-[9px] font-black uppercase px-2 py-0.5 rounded ${NOT_CORES[n.categoria]||NOT_CORES['Outros']}">${esc(n.categoria||'Outros')}</span>
+            <span class="text-[9px] font-black uppercase px-2 py-0.5 rounded ${NOT_CORES[n.categoria] || NOT_CORES["Outros"]}">${esc(n.categoria || "Outros")}</span>
             <span class="text-[10px] text-neutral-400 font-bold">${fmtData(n.data)}</span>
           </div>
           <h4 class="font-black text-neutral-900 text-xs uppercase mt-1 leading-tight">${esc(n.titulo)}</h4>
@@ -1732,29 +1795,29 @@ function renderNoticias(){
         </div>
       </div>
       <button onclick="lerNoticia('${n.id}')" class="text-sp-blue hover:text-sp-darkBlue font-black text-[10px] uppercase whitespace-nowrap flex-shrink-0">Ler mais →</button>
-    </div>`).join('');
+    </div>`).join("");
   icons();
 }
-function lerNoticia(id){
-  const n = (dados.noticias||{})[id]; if(!n) return;
-  $('leituraCategoria').textContent = n.categoria || 'Outros';
-  $('leituraTitulo').textContent = n.titulo;
-  $('leituraMeta').textContent = 'Publicado em ' + fmtData(n.data) + ' • Secretaria de Estado da Saúde';
-  $('leituraConteudo').innerHTML = String(n.conteudo||'').split(/\n+/).filter(Boolean).map(p=>`<p>${esc(p)}</p>`).join('');
-  abrirModal('modalLeituraNoticia');
+function lerNoticia(id) {
+  const n = (dados.noticias || {})[id]; if (!n) return;
+  $("leituraCategoria").textContent = n.categoria || "Outros";
+  $("leituraTitulo").textContent = n.titulo;
+  $("leituraMeta").textContent = "Publicado em " + fmtData(n.data) + " • Secretaria de Estado da Saúde";
+  $("leituraConteudo").innerHTML = String(n.conteudo || "").split(/\n+/).filter(Boolean).map(p => "<p>" + esc(p) + "</p>").join("");
+  abrirModal("modalLeituraNoticia");
 }
-function renderHomeNoticias(){
-  const ultimas = noticiasOrdenadas().slice(0,2);
-  $('homeGridNoticias').innerHTML = ultimas.length ? ultimas.map(n => `
+function renderHomeNoticias() {
+  const ultimas = noticiasOrdenadas().slice(0, 2);
+  $("homeGridNoticias").innerHTML = ultimas.length ? ultimas.map(n => `
     <div class="bg-white rounded-xl border border-neutral-200 shadow-sm p-5 card-hover">
       <div class="flex items-center gap-2 mb-2">
-        <span class="text-[9px] font-black uppercase px-2 py-0.5 rounded ${NOT_CORES[n.categoria]||NOT_CORES['Outros']}">${esc(n.categoria||'Outros')}</span>
+        <span class="text-[9px] font-black uppercase px-2 py-0.5 rounded ${NOT_CORES[n.categoria] || NOT_CORES["Outros"]}">${esc(n.categoria || "Outros")}</span>
         <span class="text-[10px] text-neutral-400 font-bold">${fmtData(n.data)}</span>
       </div>
       <h4 class="font-black text-neutral-900 text-sm uppercase leading-tight">${esc(n.titulo)}</h4>
       <p class="text-xs text-neutral-500 mt-2 leading-relaxed">${esc(n.resumo)}</p>
-      <button onclick="irParaPagina('noticias');setTimeout(()=>lerNoticia('${n.id}'),300)" class="text-sp-blue font-black text-[10px] uppercase mt-3 hover:underline">Ler comunicado →</button>
-    </div>`).join('') : `
+      <button onclick="irParaPagina('noticias');setTimeout(function(){lerNoticia('${n.id}')},300)" class="text-sp-blue font-black text-[10px] uppercase mt-3 hover:underline">Ler comunicado →</button>
+    </div>`).join("") : `
     <div class="md:col-span-2 bg-white rounded-xl border-2 border-dashed border-neutral-300 p-8 text-center">
       <div class="w-12 h-12 rounded-full bg-blue-50 text-sp-blue flex items-center justify-center mx-auto mb-2"><i data-lucide="newspaper" class="w-6 h-6"></i></div>
       <p class="font-bold text-xs uppercase text-neutral-600">Aguarde novos comunicados oficiais</p>
@@ -1764,390 +1827,418 @@ function renderHomeNoticias(){
 }
 
 // ===== TRANSPARÊNCIA PÚBLICA =====
-function renderTransparencia(){
+function renderTransparencia() {
   const f = financas();
-  $('pubOrcLOA').textContent = fmtBRL(f.loa);
-  $('pubOrcAdic').textContent = fmtBRL(f.adicionais);
-  $('pubOrcAdicQtd').textContent = f.qtdAdic + ' créditos extras';
-  $('pubOrcEfetivo').textContent = fmtBRL(f.efetivo);
-  $('pubOrcExecutado').textContent = fmtBRL(f.executado);
-  $('pubOrcSaldo').textContent = fmtBRL(f.saldo);
-  $('pubOrcPercent').textContent = f.perc.toFixed(1).replace('.',',') + '%';
-  $('barraProgresso').style.width = Math.min(100, f.perc) + '%';
-  $('labelBarraProgresso').textContent = f.perc.toFixed(1).replace('.',',') + '%';
-  $('kpiExecucao').textContent = f.perc.toFixed(0) + '%';
-  $('homeOrcTotal').textContent = fmtBRL(f.efetivo);
-  $('homeOrcExec').textContent = fmtBRL(f.executado);
-  $('homeOrcPerc').textContent = f.perc.toFixed(1).replace('.',',') + '%';
+  $("pubOrcLOA").textContent = fmtBRL(f.loa);
+  $("pubOrcAdic").textContent = fmtBRL(f.adicionais);
+  $("pubOrcAdicQtd").textContent = f.qtdAdic + " créditos extras";
+  $("pubOrcEfetivo").textContent = fmtBRL(f.efetivo);
+  $("pubOrcExecutado").textContent = fmtBRL(f.executado);
+  $("pubOrcSaldo").textContent = fmtBRL(f.saldo);
+  $("pubOrcPercent").textContent = f.perc.toFixed(1).replace(".", ",") + "%";
+  $("barraProgresso").style.width = Math.min(100, f.perc) + "%";
+  $("labelBarraProgresso").textContent = f.perc.toFixed(1).replace(".", ",") + "%";
+  $("kpiExecucao").textContent = f.perc.toFixed(0) + "%";
+  $("homeOrcTotal").textContent = fmtBRL(f.efetivo);
+  $("homeOrcExec").textContent = fmtBRL(f.executado);
+  $("homeOrcPerc").textContent = f.perc.toFixed(1).replace(".", ",") + "%";
 
-  const mesesComValor = Array.from({length:12},(_,i)=>num((dados.execucao||{})['m'+(i+1)])).filter(v=>v>0);
+  const mesesComValor = Array.from({ length: 12 }, (_, i) => num((dados.execucao || {})["m" + (i + 1)])).filter(v => v > 0);
   const ritmo = mesesComValor.length ? f.executado / mesesComValor.length : 0;
-  $('estRitmo').textContent = ritmo > 0 ? fmtBRL(ritmo) : '—';
-  $('estProjecao').textContent = ritmo > 0 ? fmtBRL(ritmo*12) : '—';
-  $('estProjecaoPerc').textContent = f.efetivo>0 && ritmo>0 ? '≈ ' + Math.min(999,(ritmo*12)/f.efetivo*100).toFixed(0) + '% do orçamento efetivo' : 'se mantido o ritmo atual';
-  $('estConclusao').textContent = ritmo>0 ? (f.saldo<=0 ? 'Concluído' : Math.ceil(f.saldo/ritmo) + ' meses') : '—';
-  $('estMediaDest').textContent = f.qtdDest ? fmtBRL(f.executado/f.qtdDest) : '—';
-  $('estQtdDest').textContent = f.qtdDest + ' destinações ativas';
-  $('contagemDestinacoes').textContent = f.qtdDest + ' Áreas';
+  $("estRitmo").textContent = ritmo > 0 ? fmtBRL(ritmo) : "—";
+  $("estProjecao").textContent = ritmo > 0 ? fmtBRL(ritmo * 12) : "—";
+  $("estProjecaoPerc").textContent = f.efetivo > 0 && ritmo > 0 ? "≈ " + Math.min(999, (ritmo * 12) / f.efetivo * 100).toFixed(0) + "% do orçamento efetivo" : "se mantido o ritmo atual";
+  $("estConclusao").textContent = ritmo > 0 ? (f.saldo <= 0 ? "Concluído" : Math.ceil(f.saldo / ritmo) + " meses") : "—";
+  $("estMediaDest").textContent = f.qtdDest ? fmtBRL(f.executado / f.qtdDest) : "—";
+  $("estQtdDest").textContent = f.qtdDest + " destinações ativas";
+  $("contagemDestinacoes").textContent = f.qtdDest + " Áreas";
 
-  // adicionais
-  const adics = Object.entries(dados.adicionais||{}).map(([id,a])=>({id,...a}));
-  $('boxPublicoAdicionais').classList.toggle('hidden', !adics.length);
-  $('pubTotalAdicionais').textContent = fmtBRL(f.adicionais);
-  $('listaPublicaAdicionais').innerHTML = adics.map(a=>`
+  const adics = Object.entries(dados.adicionais || {}).map(([id, a]) => ({ id: id, ...a }));
+  $("boxPublicoAdicionais").classList.toggle("hidden", !adics.length);
+  $("pubTotalAdicionais").textContent = fmtBRL(f.adicionais);
+  $("listaPublicaAdicionais").innerHTML = adics.map(a => `
     <div class="flex justify-between items-center p-3 gap-3">
       <div><p class="font-bold text-neutral-800">${esc(a.descricao)}</p><p class="text-[10px] text-neutral-400 mt-0.5">${fmtData(a.data)}</p></div>
       <span class="font-black text-amber-700 whitespace-nowrap">${fmtBRL(a.valor)}</span>
-    </div>`).join('');
-  // destinações
-  $('listaPublicaDestinacoes').innerHTML = f.dests.length ? f.dests.map(d=>`
+    </div>`).join("");
+  $("listaPublicaDestinacoes").innerHTML = f.dests.length ? f.dests.map(d => `
     <div class="flex justify-between items-center p-3 gap-3">
       <div class="min-w-0">
         <p class="font-bold text-neutral-800 truncate">${esc(d.entidade)}</p>
-        <div class="flex items-center gap-2 mt-0.5"><span class="text-[9px] font-bold uppercase bg-blue-50 text-sp-blue px-1.5 py-0.5 rounded">${esc(d.area||'—')}</span><span class="text-[10px] text-neutral-400">${fmtData(d.data)}</span></div>
-        ${d.descricao ? '<p class="text-[11px] text-neutral-500 mt-0.5">'+esc(d.descricao)+'</p>' : ''}
+        <div class="flex items-center gap-2 mt-0.5"><span class="text-[9px] font-bold uppercase bg-blue-50 text-sp-blue px-1.5 py-0.5 rounded">${esc(d.area || "—")}</span><span class="text-[10px] text-neutral-400">${fmtData(d.data)}</span></div>
+        ${d.descricao ? '<p class="text-[11px] text-neutral-500 mt-0.5">' + esc(d.descricao) + "</p>" : ""}
       </div>
       <span class="font-black text-emerald-700 whitespace-nowrap">${fmtBRL(d.valor)}</span>
-    </div>`).join('') : '<p class="p-6 text-center text-neutral-400 text-xs font-semibold">Nenhuma destinação publicada ainda.</p>';
+    </div>`).join("") : '<p class="p-6 text-center text-neutral-400 text-xs font-semibold">Nenhuma destinação publicada ainda.</p>';
   icons();
 }
-function atualizarGraficos(){
+function atualizarGraficos() {
   const f = financas();
-  const labels = ['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez'];
-  const mensal = Array.from({length:12},(_,i)=>num((dados.execucao||{})['m'+(i+1)]));
+  const labels = ["Jan", "Fev", "Mar", "Abr", "Mai", "Jun", "Jul", "Ago", "Set", "Out", "Nov", "Dez"];
+  const mensal = Array.from({ length: 12 }, (_, i) => num((dados.execucao || {})["m" + (i + 1)]));
   let acc = 0; const acumulado = mensal.map(v => (acc += v));
   const porArea = {};
-  f.dests.forEach(d => { const k = d.area||'Outros'; porArea[k] = (porArea[k]||0) + num(d.valor); });
-  const paleta = ['#1451B4','#059669','#D97706','#9333EA','#DC2626','#0D9488','#4F46E5','#64748B'];
+  f.dests.forEach(d => { const k = d.area || "Outros"; porArea[k] = (porArea[k] || 0) + num(d.valor); });
+  const paleta = ["#1451B4", "#059669", "#D97706", "#9333EA", "#DC2626", "#0D9488", "#4F46E5", "#64748B"];
 
   if (chartPizza) chartPizza.destroy();
-  chartPizza = new Chart($('graficoPizza'), {
-    type:'doughnut',
-    data:{ labels: Object.keys(porArea), datasets:[{ data: Object.values(porArea), backgroundColor: paleta, borderWidth:2, borderColor:'#fff' }] },
-    options:{ responsive:true, maintainAspectRatio:false, cutout:'58%',
-      plugins:{ legend:{ position:'bottom', labels:{ boxWidth:12, font:{size:10, weight:'bold'}, color:'#404040' } },
-        tooltip:{ callbacks:{ label: c => ' ' + c.label + ': ' + fmtBRL(c.raw) } } } }
+  chartPizza = new Chart($("graficoPizza"), {
+    type: "doughnut",
+    data: { labels: Object.keys(porArea), datasets: [{ data: Object.values(porArea), backgroundColor: paleta, borderWidth: 2, borderColor: "#fff" }] },
+    options: { responsive: true, maintainAspectRatio: false, cutout: "58%",
+      plugins: { legend: { position: "bottom", labels: { boxWidth: 12, font: { size: 10, weight: "bold" }, color: "#404040" } },
+        tooltip: { callbacks: { label: c => " " + c.label + ": " + fmtBRL(c.raw) } } } }
   });
   if (chartMensal) chartMensal.destroy();
-  chartMensal = new Chart($('graficoMensal'), {
-    data:{ labels, datasets:[
-      { type:'bar', label:'Execução no mês', data:mensal, backgroundColor:'#2670E8', borderRadius:4, maxBarThickness:22 },
-      { type:'line', label:'Acumulado', data:acumulado, borderColor:'#059669', backgroundColor:'#059669', tension:.35, pointRadius:2.5, borderWidth:2.5 }
+  chartMensal = new Chart($("graficoMensal"), {
+    data: { labels: labels, datasets: [
+      { type: "bar", label: "Execução no mês", data: mensal, backgroundColor: "#2670E8", borderRadius: 4, maxBarThickness: 22 },
+      { type: "line", label: "Acumulado", data: acumulado, borderColor: "#059669", backgroundColor: "#059669", tension: 0.35, pointRadius: 2.5, borderWidth: 2.5 }
     ]},
-    options:{ responsive:true, maintainAspectRatio:false,
-      plugins:{ legend:{ labels:{ boxWidth:12, font:{size:10, weight:'bold'}, color:'#404040' } },
-        tooltip:{ callbacks:{ label: c => ' ' + c.dataset.label + ': ' + fmtBRL(c.raw) } } },
-      scales:{ y:{ ticks:{ callback:v => 'R$ ' + (v>=1000 ? (v/1000).toFixed(0)+'k' : v), font:{size:9} }, grid:{color:'#f1f5f9'} },
-               x:{ grid:{display:false}, ticks:{font:{size:9}} } } }
+    options: { responsive: true, maintainAspectRatio: false,
+      plugins: { legend: { labels: { boxWidth: 12, font: { size: 10, weight: "bold" }, color: "#404040" } },
+        tooltip: { callbacks: { label: c => " " + c.dataset.label + ": " + fmtBRL(c.raw) } } },
+      scales: { y: { ticks: { callback: v => "R$ " + (v >= 1000 ? (v / 1000).toFixed(0) + "k" : v), font: { size: 9 } }, grid: { color: "#f1f5f9" } },
+                 x: { grid: { display: false }, ticks: { font: { size: 9 } } } } }
   });
 }
-function exportarDestinacoesCSV(){
+function exportarDestinacoesCSV() {
   const f = financas();
-  const linhas = [['Entidade','Área','Valor (R$)','Descrição','Data']];
-  f.dests.forEach(d => linhas.push([d.entidade||'', d.area||'', String(num(d.valor)).replace('.',','), d.descricao||'', d.data||'']));
-  linhas.push([], ['TOTAL EXECUTADO','',''+String(f.executado).replace('.',',')], ['ORÇAMENTO EFETIVO','',''+String(f.efetivo).replace('.',',')], ['SALDO DISPONÍVEL','',''+String(f.saldo).replace('.',',')]);
-  const blob = new Blob(['\uFEFF' + linhas.map(l => l.map(c => '"'+String(c).replace(/"/g,'""')+'"').join(';')).join('\n')], {type:'text/csv;charset=utf-8'});
-  const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'transparencia-ses-sp.csv'; a.click();
-  toast('Arquivo CSV exportado com sucesso!');
+  const linhas = [["Entidade", "Área", "Valor (R$)", "Descrição", "Data"]];
+  f.dests.forEach(d => linhas.push([d.entidade || "", d.area || "", String(num(d.valor)).replace(".", ","), d.descricao || "", d.data || ""]));
+  linhas.push([], ["TOTAL EXECUTADO", "", String(f.executado).replace(".", ",")], ["ORÇAMENTO EFETIVO", "", String(f.efetivo).replace(".", ",")], ["SALDO DISPONÍVEL", "", String(f.saldo).replace(".", ",")]);
+  const blob = new Blob(["\uFEFF" + linhas.map(l => l.map(c => '"' + String(c).replace(/"/g, '""') + '"').join(";")).join("\n")], { type: "text/csv;charset=utf-8" });
+  const a = document.createElement("a"); a.href = URL.createObjectURL(blob); a.download = "transparencia-ses-sp.csv"; a.click();
+  toast("Arquivo CSV exportado com sucesso!");
 }
 
 // ===== ADMIN =====
-const MESES = ['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'];
-function renderAdmin(){
-  $('inOrcTotal').value = num(dados.config.orcamentoTotal).toLocaleString('pt-BR');
-  $('adminTotalAdicionais').textContent = fmtBRL(financas().adicionais);
-  // config iep
-  $('iepCfgSede').value = dados.config.iepSede || 'Hospital Jefferson';
-  $('iepCfgGestor').value = dados.config.iepGestor || 'Gabinete do Secretário de Estado da Saúde';
-  $('iepCfgDiretor').value = dados.config.iepDiretor || 'Diego Toretto';
-  // alerta/discord
-  $('inAlertaAtivo').checked = !!dados.config.alertaAtivo;
-  $('inAlertaTexto').value = dados.config.alertaTexto || '';
-  $('inAlertaTipo').value = dados.config.alertaTipo || 'info';
-  $('inDiscordWebhook').value = dados.config.discordWebhook || '';
-  // meses
-  $('gridMeses').innerHTML = MESES.map((m,i)=>`
+const MESES = ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"];
+function renderAdmin() {
+  $("inOrcTotal").value = num(dados.config.orcamentoTotal).toLocaleString("pt-BR");
+  $("adminTotalAdicionais").textContent = fmtBRL(financas().adicionais);
+  $("iepCfgSede").value = dados.config.iepSede || "Hospital Jefferson";
+  $("iepCfgGestor").value = dados.config.iepGestor || "Gabinete do Secretário de Estado da Saúde";
+  $("iepCfgDiretor").value = dados.config.iepDiretor || "Diego Toretto";
+  $("inAlertaAtivo").checked = !!dados.config.alertaAtivo;
+  $("inAlertaTexto").value = dados.config.alertaTexto || "";
+  $("inAlertaTipo").value = dados.config.alertaTipo || "info";
+  $("inWebhookDoseCerta").value = dados.config.webhookDoseCerta || "";
+  $("inWebhookIep").value = dados.config.webhookIep || "";
+  $("inWebhookNoticias").value = dados.config.webhookNoticias || "";
+  $("gridMeses").innerHTML = MESES.map((m, i) => `
     <div>
       <label class="text-[10px] font-black uppercase text-neutral-500 block mb-1">${m}</label>
-      <input type="text" inputmode="decimal" id="execM${i+1}" value="${num((dados.execucao||{})['m'+(i+1)]).toLocaleString('pt-BR')}" class="w-full p-2 border rounded font-bold text-xs outline-none focus:border-indigo-600">
-    </div>`).join('');
+      <input type="text" inputmode="decimal" id="execM${i + 1}" value="${num((dados.execucao || {})["m" + (i + 1)]).toLocaleString("pt-BR")}" class="w-full p-2 border rounded font-bold text-xs outline-none focus:border-indigo-600">
+    </div>`).join("");
 
-  const btnEdit = fn => `<button onclick="${fn}" class="text-sp-blue hover:bg-blue-50 p-1.5 rounded transition" title="Editar"><i data-lucide="pencil" class="w-3.5 h-3.5"></i></button>`;
-  const btnDel = (fn,msg) => `<button onclick="if(confirm('${msg}')) ${fn}" class="text-red-600 hover:bg-red-50 p-1.5 rounded transition" title="Excluir"><i data-lucide="trash-2" class="w-3.5 h-3.5"></i></button>`;
+  const btnEdit = fn => '<button onclick="' + fn + '" class="text-sp-blue hover:bg-blue-50 p-1.5 rounded transition" title="Editar"><i data-lucide="pencil" class="w-3.5 h-3.5"></i></button>';
+  const btnDel = (fn, msg) => '<button onclick="if(confirm(\'' + msg + '\')) ' + fn + '" class="text-red-600 hover:bg-red-50 p-1.5 rounded transition" title="Excluir"><i data-lucide="trash-2" class="w-3.5 h-3.5"></i></button>';
+  const vazio = txt => '<p class="p-6 text-center text-neutral-400 font-semibold">' + txt + "</p>";
 
-  $('listaAdminAdicionais').innerHTML = Object.entries(dados.adicionais||{}).map(([id,a])=>`
+  $("listaAdminAdicionais").innerHTML = Object.entries(dados.adicionais || {}).map(([id, a]) => `
     <div class="flex justify-between items-center p-3 gap-2">
       <div><p class="font-bold">${esc(a.descricao)}</p><p class="text-[10px] text-neutral-400">${fmtData(a.data)}</p></div>
       <div class="flex items-center gap-1.5"><span class="font-black text-amber-700">${fmtBRL(a.valor)}</span>
-        ${btnEdit(`abrirModalAdicional('${id}')`)} ${btnDel(`dbRemove('adicionais','${id}')`,'Excluir esta verba adicional?')}</div>
-    </div>`).join('') || '<p class="p-6 text-center text-neutral-400 font-semibold">Nenhuma verba adicional registrada.</p>';
+        ${btnEdit("abrirModalFormAdicional('" + id + "')")} ${btnDel("dbRemove('adicionais','" + id + "')", "Excluir esta verba adicional?")}</div>
+    </div>`).join("") || vazio("Nenhuma verba adicional registrada.");
 
-  $('listaAdminDestinacoes').innerHTML = Object.entries(dados.destinacoes||{}).map(([id,d])=>`
+  $("listaAdminDestinacoes").innerHTML = Object.entries(dados.destinacoes || {}).map(([id, d]) => `
     <div class="flex justify-between items-center p-3 gap-2">
-      <div class="min-w-0"><p class="font-bold truncate">${esc(d.entidade)}</p><p class="text-[10px] text-neutral-400">${esc(d.area||'')} • ${fmtData(d.data)}</p></div>
+      <div class="min-w-0"><p class="font-bold truncate">${esc(d.entidade)}</p><p class="text-[10px] text-neutral-400">${esc(d.area || "")} • ${fmtData(d.data)}</p></div>
       <div class="flex items-center gap-1.5"><span class="font-black text-emerald-700">${fmtBRL(d.valor)}</span>
-        ${btnEdit(`abrirModalDestinacao('${id}')`)} ${btnDel(`dbRemove('destinacoes','${id}')`,'Excluir este repasse?')}</div>
-    </div>`).join('') || '<p class="p-6 text-center text-neutral-400 font-semibold">Nenhum repasse registrado.</p>';
+        ${btnEdit("abrirModalFormDestinacao('" + id + "')")} ${btnDel("dbRemove('destinacoes','" + id + "')", "Excluir este repasse?")}</div>
+    </div>`).join("") || vazio("Nenhum repasse registrado.");
 
-  $('listaAdminRemedios').innerHTML = Object.entries(dados.remedios||{}).map(([id,r])=>`
+  $("listaAdminRemedios").innerHTML = Object.entries(dados.remedios || {}).map(([id, r]) => `
     <div class="flex justify-between items-center p-3 gap-2">
       <div class="flex items-center gap-2.5 min-w-0">
         <div class="w-7 h-7 rounded bg-emerald-50 text-emerald-700 flex items-center justify-center flex-shrink-0"><i data-lucide="pill" class="w-3.5 h-3.5"></i></div>
-        <div class="min-w-0"><p class="font-bold truncate">${esc(r.nome)}</p><p class="text-[10px] text-neutral-400">${esc(r.categoria||'')} ${r.disponivel===false?'• <span class=\'text-red-500 font-bold\'>INDISPONÍVEL</span>':''}</p></div>
+        <div class="min-w-0"><p class="font-bold truncate">${esc(r.nome)}</p><p class="text-[10px] text-neutral-400">${esc(r.categoria || "")}${r.disponivel === false ? ' • <span class="text-red-500 font-bold">INDISPONÍVEL</span>' : ""}</p></div>
       </div>
-      <div class="flex gap-1">${btnEdit(`abrirModalRemedio('${id}')`)} ${btnDel(`dbRemove('remedios','${id}')`,'Excluir este remédio do catálogo?')}</div>
-    </div>`).join('') || '<p class="p-6 text-center text-neutral-400 font-semibold">Nenhum remédio cadastrado.</p>';
+      <div class="flex gap-1">${btnEdit("abrirModalRemedio('" + id + "')")} ${btnDel("dbRemove('remedios','" + id + "')", "Excluir este remédio do catálogo?")}</div>
+    </div>`).join("") || vazio("Nenhum remédio cadastrado.");
 
-  const linhaPedido = (p, caminho) => `
-    <div class="p-3.5 ${p.status==='pendente'?'bg-amber-50/50':''}">
+  const linhaFluxo = (p, caminho) => `
+    <div class="p-3.5 ${p.status === "pendente" ? "bg-amber-50/50" : ""}">
       <div class="flex justify-between items-start gap-2 flex-wrap">
         <div class="min-w-0">
           <div class="flex items-center gap-2 flex-wrap">
             <span class="font-mono font-black text-[10px] bg-neutral-800 text-white px-1.5 py-0.5 rounded">${esc(p.protocolo)}</span>
-            <span class="text-[9px] font-black uppercase px-2 py-0.5 rounded ${p.status==='pendente'?'bg-amber-200 text-amber-900':'bg-emerald-200 text-emerald-900'}">${p.status==='pendente'?'Pendente':'Atendido'}</span>
+            <span class="text-[9px] font-black uppercase px-2 py-0.5 rounded ${p.status === "pendente" ? "bg-amber-200 text-amber-900" : "bg-emerald-200 text-emerald-900"}">${p.status === "pendente" ? "Pendente" : "Atendido"}</span>
             <span class="text-[10px] text-neutral-400">${fmtData(p.data)}</span>
           </div>
-          <p class="font-bold mt-1.5 text-neutral-800">${esc(p.paciente || p.nome)} ${p.sus ? '<span class="text-neutral-400 font-normal">• SUS '+esc(p.sus)+'</span>' : ''}</p>
-          <p class="text-[11px] text-neutral-500">${p.medicamento ? '💊 '+esc(p.medicamento) : '🧠 '+esc(p.tipo||'')}</p>
-          ${p.prioridade ? '<p class="text-[10px] font-black uppercase mt-0.5 '+(p.prioridade==='Urgente'?'text-red-600':p.prioridade==='Alta'?'text-amber-600':'text-neutral-500')+'">Prioridade: '+esc(p.prioridade)+'</p>' : ''}
-          <p class="text-[11px] text-neutral-500 mt-0.5">📞 ${esc(p.tel)}${p.local ? ' • 📍 '+esc(p.local) : ''}</p>
-          ${p.msg ? '<p class="text-[11px] text-neutral-600 mt-1 bg-white border rounded p-2">'+esc(p.msg)+'</p>' : ''}
+          <p class="font-bold mt-1.5 text-neutral-800">${esc(p.paciente || p.nome)} ${p.sus ? '<span class="text-neutral-400 font-normal">• SUS ' + esc(p.sus) + "</span>" : ""}</p>
+          <p class="text-[11px] text-neutral-500">${p.medicamento ? "💊 " + esc(p.medicamento) : "🧠 " + esc(p.tipo || "")}</p>
+          ${p.prioridade ? '<p class="text-[10px] font-black uppercase mt-0.5 ' + (p.prioridade === "Urgente" ? "text-red-600" : p.prioridade === "Alta" ? "text-amber-600" : "text-neutral-500") + '">Prioridade: ' + esc(p.prioridade) + "</p>" : ""}
+          <p class="text-[11px] text-neutral-500 mt-0.5">📞 ${esc(p.tel)}${p.local ? " • 📍 " + esc(p.local) : ""}</p>
+          ${p.msg ? '<p class="text-[11px] text-neutral-600 mt-1 bg-white border rounded p-2">' + esc(p.msg) + "</p>" : ""}
         </div>
         <div class="flex gap-1.5 flex-shrink-0">
-          ${p.status==='pendente' ? `<button onclick="dbUpdate('${caminho}','${p.id}',{status:'atendido',dataAtendimento:agora()});toast('Marcado como atendido!')" class="bg-emerald-600 hover:bg-emerald-700 text-white font-black text-[10px] px-2.5 py-1.5 rounded uppercase transition">Atender</button>` : ''}
-          ${btnDel(`dbRemove('${caminho}','${p.id}')`,'Excluir este registro?')}
+          ${p.status === "pendente" ? '<button onclick="dbUpdate(\'' + caminho + "','" + p.id + "',{status:'atendido',dataAtendimento:agora()});toast('Marcado como atendido!')\" class=\"bg-emerald-600 hover:bg-emerald-700 text-white font-black text-[10px] px-2.5 py-1.5 rounded uppercase transition\">Atender</button>" : ""}
+          ${btnDel("dbRemove('" + caminho + "','" + p.id + "')", "Excluir este registro?")}
         </div>
       </div>
     </div>`;
 
-  const pedidos = Object.entries(dados.pedidos||{}).map(([id,p])=>({id,...p})).sort((a,b)=>new Date(b.data||0)-new Date(a.data||0));
-  $('badgePedidos').textContent = pedidos.filter(p=>p.status==='pendente').length + ' pendentes';
-  $('listaAdminPedidos').innerHTML = pedidos.map(p=>linhaPedido(p,'pedidos')).join('') || '<p class="p-6 text-center text-neutral-400 font-semibold">Nenhum pedido recebido ainda.</p>';
+  const pedidos = Object.entries(dados.pedidos || {}).map(([id, p]) => ({ id: id, ...p })).sort((a, b) => new Date(b.data || 0) - new Date(a.data || 0));
+  $("badgePedidos").textContent = pedidos.filter(p => p.status === "pendente").length + " pendentes";
+  $("listaAdminPedidos").innerHTML = pedidos.map(p => linhaFluxo(p, "pedidos")).join("") || vazio("Nenhum pedido recebido ainda.");
 
-  const chamados = Object.entries(dados.chamadosIEP||{}).map(([id,c])=>({id,...c})).sort((a,b)=>new Date(b.data||0)-new Date(a.data||0));
-  $('badgeChamadosIep').textContent = chamados.filter(c=>c.status==='pendente').length + ' pendentes';
-  $('listaChamadosIep').innerHTML = chamados.map(c=>linhaPedido(c,'chamadosIEP')).join('') || '<p class="p-6 text-center text-neutral-400 font-semibold">Nenhuma solicitação recebida ainda.</p>';
+  const chamados = Object.entries(dados.chamadosIEP || {}).map(([id, c]) => ({ id: id, ...c })).sort((a, b) => new Date(b.data || 0) - new Date(a.data || 0));
+  $("badgeChamadosIep").textContent = chamados.filter(c => c.status === "pendente").length + " pendentes";
+  $("listaChamadosIep").innerHTML = chamados.map(c => linhaFluxo(c, "chamadosIEP")).join("") || vazio("Nenhuma solicitação recebida ainda.");
 
-  $('listaAdminHospitais').innerHTML = Object.entries(dados.hospitais||{}).map(([id,h])=>`
+  $("listaAdminHospitais").innerHTML = Object.entries(dados.hospitais || {}).map(([id, h]) => `
     <div class="flex justify-between items-center p-3 gap-2">
-      <div class="min-w-0"><p class="font-bold truncate">${esc(h.nome)}</p><p class="text-[10px] text-neutral-400">${esc((REGIOES[h.regiao]||{}).nome||'')} • ${num(h.leitosLivres)}/${num(h.leitosTotais)} leitos livres • ${esc(h.status||'')}</p></div>
-      <div class="flex gap-1">${btnEdit(`abrirModalHospital('${id}')`)} ${btnDel(`dbRemove('hospitais','${id}')`,'Excluir esta unidade?')}</div>
-    </div>`).join('') || '<p class="p-6 text-center text-neutral-400 font-semibold">Nenhuma unidade cadastrada.</p>';
+      <div class="min-w-0"><p class="font-bold truncate">${esc(h.nome)}</p><p class="text-[10px] text-neutral-400">${esc((REGIOES[h.regiao] || {}).nome || "")} • ${num(h.leitosLivres)}/${num(h.leitosTotais)} leitos livres • ${esc(h.status || "")}</p></div>
+      <div class="flex gap-1">${btnEdit("abrirModalHospital('" + id + "')")} ${btnDel("dbRemove('hospitais','" + id + "')", "Excluir esta unidade?")}</div>
+    </div>`).join("") || vazio("Nenhuma unidade cadastrada.");
 
-  $('listaAdminEquipe').innerHTML = Object.entries(dados.equipe||{}).map(([id,m])=>`
+  $("listaAdminEquipe").innerHTML = Object.entries(dados.equipe || {}).map(([id, m]) => `
     <div class="flex justify-between items-center p-3 gap-2">
-      <div class="min-w-0"><p class="font-bold truncate">${esc(m.nome)}</p><p class="text-[10px] text-neutral-400 truncate">${esc(m.cargo)}${m.area?' • '+esc(m.area):''}</p></div>
-      <div class="flex gap-1">${btnEdit(`abrirModalEquipe('ses','${id}')`)} ${btnDel(`dbRemove('equipe','${id}')`,'Excluir este membro?')}</div>
-    </div>`).join('') || '<p class="p-6 text-center text-neutral-400 font-semibold">Nenhum membro cadastrado.</p>';
+      <div class="min-w-0"><p class="font-bold truncate">${esc(m.nome)}</p><p class="text-[10px] text-neutral-400 truncate">${esc(m.cargo)}${m.area ? " • " + esc(m.area) : ""}</p></div>
+      <div class="flex gap-1">${btnEdit("abrirModalEquipe('ses','" + id + "')")} ${btnDel("dbRemove('equipe','" + id + "')", "Excluir este membro?")}</div>
+    </div>`).join("") || vazio("Nenhum membro cadastrado.");
 
-  $('listaAdminEquipeIep').innerHTML = Object.entries(dados.equipeIep||{}).map(([id,m])=>`
+  $("listaAdminEquipeIep").innerHTML = Object.entries(dados.equipeIep || {}).map(([id, m]) => `
     <div class="flex justify-between items-center p-3 gap-2">
-      <div class="min-w-0"><p class="font-bold truncate">${esc(m.nome)}</p><p class="text-[10px] text-neutral-400 truncate">${esc(m.cargo)}${m.area?' • '+esc(m.area):''}</p></div>
-      <div class="flex gap-1">${btnEdit(`abrirModalEquipe('iep','${id}')`)} ${btnDel(`dbRemove('equipeIep','${id}')`,'Excluir este membro?')}</div>
-    </div>`).join('') || '<p class="p-6 text-center text-neutral-400 font-semibold">Nenhum membro cadastrado.</p>';
+      <div class="min-w-0"><p class="font-bold truncate">${esc(m.nome)}</p><p class="text-[10px] text-neutral-400 truncate">${esc(m.cargo)}${m.area ? " • " + esc(m.area) : ""}</p></div>
+      <div class="flex gap-1">${btnEdit("abrirModalEquipe('iep','" + id + "')")} ${btnDel("dbRemove('equipeIep','" + id + "')", "Excluir este membro?")}</div>
+    </div>`).join("") || vazio("Nenhum membro cadastrado.");
 
-  $('listaAdminProgramas').innerHTML = Object.entries(dados.programas||{}).map(([id,p])=>`
+  $("listaAdminProgramas").innerHTML = Object.entries(dados.programas || {}).map(([id, p]) => `
     <div class="flex justify-between items-center p-3 gap-2">
-      <div class="min-w-0"><p class="font-bold truncate">${esc(p.nome)}</p><p class="text-[10px] text-neutral-400">${esc(p.categoria||'')} • ${p.status!==false?'<span class=\'text-emerald-600 font-bold\'>Ativo</span>':'<span class=\'text-neutral-400\'>Inativo</span>'}</p></div>
-      <div class="flex gap-1">${btnEdit(`abrirModalPrograma('${id}')`)} ${btnDel(`dbRemove('programas','${id}')`,'Excluir este programa?')}</div>
-    </div>`).join('') || '<p class="p-6 text-center text-neutral-400 font-semibold">Nenhum programa complementar cadastrado.</p>';
+      <div class="min-w-0"><p class="font-bold truncate">${esc(p.nome)}</p><p class="text-[10px] text-neutral-400">${esc(p.categoria || "")} • ${p.status !== false ? '<span class="text-emerald-600 font-bold">Ativo</span>' : '<span class="text-neutral-400">Inativo</span>'}</p></div>
+      <div class="flex gap-1">${btnEdit("abrirModalPrograma('" + id + "')")} ${btnDel("dbRemove('programas','" + id + "')", "Excluir este programa?")}</div>
+    </div>`).join("") || vazio("Nenhum programa complementar cadastrado.");
 
-  $('listaAdminNoticias').innerHTML = Object.entries(dados.noticias||{}).map(([id,n])=>`
+  $("listaAdminNoticias").innerHTML = Object.entries(dados.noticias || {}).map(([id, n]) => `
     <div class="flex justify-between items-center p-3 gap-2">
-      <div class="min-w-0"><p class="font-bold truncate">${esc(n.titulo)}</p><p class="text-[10px] text-neutral-400">${esc(n.categoria||'')} • ${fmtData(n.data)}</p></div>
+      <div class="min-w-0"><p class="font-bold truncate">${esc(n.titulo)}</p><p class="text-[10px] text-neutral-400">${esc(n.categoria || "")} • ${fmtData(n.data)}</p></div>
       <div class="flex gap-1"><button onclick="lerNoticia('${id}')" class="text-sp-blue hover:bg-blue-50 p-1.5 rounded transition" title="Visualizar"><i data-lucide="eye" class="w-3.5 h-3.5"></i></button>
-        ${btnEdit(`abrirModalNoticia('${id}')`)} ${btnDel(`dbRemove('noticias','${id}')`,'Excluir esta notícia?')}</div>
-    </div>`).join('') || '<p class="p-6 text-center text-neutral-400 font-semibold">Nenhuma notícia publicada.</p>';
+        ${btnEdit("abrirModalNoticia('" + id + "')")} ${btnDel("dbRemove('noticias','" + id + "')", "Excluir esta notícia?")}</div>
+    </div>`).join("") || vazio("Nenhuma notícia publicada.");
 
   icons();
 }
 
 // ===== HANDLERS ADMIN =====
-function salvarOrcamentoTotal(e){ e.preventDefault(); writeConfig({ orcamentoTotal: num($('inOrcTotal').value) }); toast('Orçamento LOA atualizado!'); }
-function salvarConfiguracaoIep(e){
+function salvarOrcamentoTotal(e) { e.preventDefault(); writeConfig({ orcamentoTotal: num($("inOrcTotal").value) }); toast("Orçamento LOA atualizado!"); }
+function salvarConfiguracaoIep(e) {
   e.preventDefault();
-  writeConfig({ iepSede: $('iepCfgSede').value.trim(), iepGestor: $('iepCfgGestor').value.trim(), iepDiretor: $('iepCfgDiretor').value.trim() });
-  toast('Configurações do IEP-SP salvas!');
+  writeConfig({ iepSede: $("iepCfgSede").value.trim(), iepGestor: $("iepCfgGestor").value.trim(), iepDiretor: $("iepCfgDiretor").value.trim() });
+  toast("Configurações do IEP-SP salvas!");
 }
-function salvarAlertaEDiscord(e){
+function salvarAlertaEDiscord(e) {
   e.preventDefault();
-  writeConfig({ alertaAtivo: $('inAlertaAtivo').checked, alertaTexto: $('inAlertaTexto').value.trim(), alertaTipo: $('inAlertaTipo').value, discordWebhook: $('inDiscordWebhook').value.trim() });
-  toast('Configurações salvas com sucesso!');
+  writeConfig({
+    alertaAtivo: $("inAlertaAtivo").checked,
+    alertaTexto: $("inAlertaTexto").value.trim(),
+    alertaTipo: $("inAlertaTipo").value,
+    webhookDoseCerta: $("inWebhookDoseCerta").value.trim(),
+    webhookIep: $("inWebhookIep").value.trim(),
+    webhookNoticias: $("inWebhookNoticias").value.trim()
+  });
+  toast("Configurações salvas com sucesso!");
 }
-function salvarSenha(e){
+function salvarSenha(e) {
   e.preventDefault();
-  if ($('inSenhaNova').value !== $('inSenhaConf').value){ toast('As senhas não coincidem.', 'erro'); return; }
-  writeConfig({ senha: $('inSenhaNova').value });
-  $('inSenhaNova').value = ''; $('inSenhaConf').value = '';
-  toast('Senha do gestor atualizada!');
+  if ($("inSenhaNova").value !== $("inSenhaConf").value) { toast("As senhas não coincidem.", "erro"); return; }
+  writeConfig({ senhaGestor: $("inSenhaNova").value });
+  $("inSenhaNova").value = ""; $("inSenhaConf").value = "";
+  toast("Senha do gestor atualizada!");
 }
-function distribuirExecucaoMensal(){
+function distribuirExecucaoMensal() {
   const f = financas(); const media = f.executado / 12;
-  if (f.executado <= 0){ toast('Registre repasses antes de distribuir a execução.', 'erro'); return; }
-  for (let i=1;i<=12;i++) $('execM'+i).value = media.toLocaleString('pt-BR',{maximumFractionDigits:2});
-  toast('Executado distribuído em 12 meses — confirme em "Salvar Mensal".', 'info');
+  if (f.executado <= 0) { toast("Registre repasses antes de distribuir a execução.", "erro"); return; }
+  for (let i = 1; i <= 12; i++) $("execM" + i).value = media.toLocaleString("pt-BR", { maximumFractionDigits: 2 });
+  toast("Executado distribuído em 12 meses — confirme em Salvar Mensal.", "info");
 }
-function salvarExecucaoMensal(){
-  const obj = {}; for (let i=1;i<=12;i++) obj['m'+i] = num($('execM'+i).value);
-  dbSet('execucao', obj); toast('Execução mensal salva!');
+function salvarExecucaoMensal() {
+  const obj = {};
+  for (let i = 1; i <= 12; i++) obj["m" + i] = num($("execM" + i).value);
+  dbSet("execucao", obj);
+  toast("Execução mensal salva!");
 }
-function abrirModalAdicional(id){
+function abrirModalFormAdicional(id) {
   editAdicionalId = id || null;
-  const a = id ? (dados.adicionais||{})[id] : null;
-  $('tituloModalAdicional').textContent = a ? 'Editar Verba Adicional' : 'Registrar Verba Adicional';
-  $('adcDescricao').value = a ? a.descricao : '';
-  $('adcValor').value = a ? num(a.valor).toLocaleString('pt-BR') : '';
-  abrirModal('modalAdicional');
+  const a = id ? (dados.adicionais || {})[id] : null;
+  $("tituloModalAdicional").textContent = a ? "Editar Verba Adicional" : "Registrar Verba Adicional";
+  $("adcDescricao").value = a ? a.descricao : "";
+  $("adcValor").value = a ? num(a.valor).toLocaleString("pt-BR") : "";
+  abrirModal("modalFormAdicional");
 }
-function salvarAdicional(e){
+function salvarAdicional(e) {
   e.preventDefault();
-  const obj = { descricao: $('adcDescricao').value.trim(), valor: num($('adcValor').value), data: agora() };
-  if (editAdicionalId) dbUpdate('adicionais', editAdicionalId, obj); else dbPush('adicionais', obj);
-  fecharModal('modalAdicional'); toast('Verba adicional registrada!');
+  const obj = { descricao: $("adcDescricao").value.trim(), valor: num($("adcValor").value), data: agora() };
+  if (editAdicionalId) dbUpdate("adicionais", editAdicionalId, obj); else dbPush("adicionais", obj);
+  fecharModal("modalFormAdicional");
+  toast("Verba adicional registrada!");
 }
-function abrirModalDestinacao(id){
+function abrirModalFormDestinacao(id) {
   editDestinacaoId = id || null;
-  const d = id ? (dados.destinacoes||{})[id] : null;
-  $('tituloModalDestinacao').textContent = d ? 'Editar Repasse' : 'Novo Repasse / Destinação';
-  $('dstEntidade').value = d ? d.entidade : '';
-  $('dstArea').value = d ? (d.area || 'Assistência Hospitalar') : 'Assistência Hospitalar';
-  $('dstValor').value = d ? num(d.valor).toLocaleString('pt-BR') : '';
-  $('dstDescricao').value = d ? (d.descricao||'') : '';
-  abrirModal('modalDestinacao');
+  const d = id ? (dados.destinacoes || {})[id] : null;
+  $("tituloModalDestinacao").textContent = d ? "Editar Repasse" : "Novo Repasse / Destinação";
+  $("dstEntidade").value = d ? d.entidade : "";
+  $("dstArea").value = d ? (d.area || "Assistência Hospitalar") : "Assistência Hospitalar";
+  $("dstValor").value = d ? num(d.valor).toLocaleString("pt-BR") : "";
+  $("dstDescricao").value = d ? (d.descricao || "") : "";
+  abrirModal("modalFormDestinacao");
 }
-function salvarDestinacao(e){
+function salvarDestinacao(e) {
   e.preventDefault();
-  const obj = { entidade: $('dstEntidade').value.trim(), area: $('dstArea').value, valor: num($('dstValor').value), descricao: $('dstDescricao').value.trim(), data: agora() };
-  if (editDestinacaoId) dbUpdate('destinacoes', editDestinacaoId, obj); else dbPush('destinacoes', obj);
-  fecharModal('modalDestinacao'); toast('Repasse registrado!');
+  const obj = { entidade: $("dstEntidade").value.trim(), area: $("dstArea").value, valor: num($("dstValor").value), descricao: $("dstDescricao").value.trim(), data: agora() };
+  if (editDestinacaoId) dbUpdate("destinacoes", editDestinacaoId, obj); else dbPush("destinacoes", obj);
+  fecharModal("modalFormDestinacao");
+  toast("Repasse registrado!");
 }
-function abrirModalRemedio(id){
+function abrirModalRemedio(id) {
   editRemedioId = id || null;
-  const r = id ? (dados.remedios||{})[id] : null;
-  $('tituloModalRemedio').textContent = r ? 'Editar Remédio' : 'Novo Remédio';
-  $('remNome').value = r ? r.nome : '';
-  $('remCategoria').value = r ? (r.categoria || 'Analgésico') : 'Analgésico';
-  $('remDescricao').value = r ? (r.descricao||'') : '';
-  $('remDisponivel').checked = r ? r.disponivel !== false : true;
-  abrirModal('modalRemedio');
+  const r = id ? (dados.remedios || {})[id] : null;
+  $("tituloModalRemedio").textContent = r ? "Editar Remédio" : "Novo Remédio";
+  $("remNome").value = r ? r.nome : "";
+  $("remCategoria").value = r ? (r.categoria || "Analgésico") : "Analgésico";
+  $("remDescricao").value = r ? (r.descricao || "") : "";
+  $("remDisponivel").checked = r ? r.disponivel !== false : true;
+  abrirModal("modalRemedio");
 }
-function salvarRemedio(e){
+function salvarRemedio(e) {
   e.preventDefault();
-  const obj = { nome: $('remNome').value.trim(), categoria: $('remCategoria').value, descricao: $('remDescricao').value.trim(), disponivel: $('remDisponivel').checked };
-  if (editRemedioId) dbUpdate('remedios', editRemedioId, obj); else dbPush('remedios', obj);
-  fecharModal('modalRemedio'); toast('Catálogo Dose Certa atualizado!');
+  const obj = { nome: $("remNome").value.trim(), categoria: $("remCategoria").value, descricao: $("remDescricao").value.trim(), disponivel: $("remDisponivel").checked };
+  if (editRemedioId) dbUpdate("remedios", editRemedioId, obj); else dbPush("remedios", obj);
+  fecharModal("modalRemedio");
+  toast("Catálogo Dose Certa atualizado!");
 }
-function abrirModalHospital(id){
+function abrirModalHospital(id) {
   editHospitalId = id || null;
-  const h = id ? (dados.hospitais||{})[id] : null;
-  $('tituloModalHospital').textContent = h ? 'Editar Unidade Hospitalar' : 'Nova Unidade Hospitalar';
-  $('hospNome').value = h ? h.nome : '';
-  $('hospInstituto').value = h ? (h.instituto||'') : '';
-  $('hospTipo').value = h ? (h.tipo||'Hospital Geral') : 'Hospital Geral';
-  $('hospRegiao').value = h ? (h.regiao||'capital') : 'capital';
-  $('hospCidade').value = h ? (h.cidade||'') : '';
-  $('hospLeitosT').value = h ? num(h.leitosTotais) : 0;
-  $('hospLeitosL').value = h ? num(h.leitosLivres) : 0;
-  $('hospStatus').value = h ? (h.status||'Operando') : 'Operando';
-  $('hospTelefone').value = h ? (h.telefone||'') : '';
-  abrirModal('modalHospital');
+  const h = id ? (dados.hospitais || {})[id] : null;
+  $("tituloModalHospital").textContent = h ? "Editar Unidade Hospitalar" : "Nova Unidade Hospitalar";
+  $("hospNome").value = h ? h.nome : "";
+  $("hospInstituto").value = h ? (h.instituto || "") : "";
+  $("hospTipo").value = h ? (h.tipo || "Hospital Geral") : "Hospital Geral";
+  $("hospRegiao").value = h ? (h.regiao || "capital") : "capital";
+  $("hospCidade").value = h ? (h.cidade || "") : "";
+  $("hospLeitosT").value = h ? num(h.leitosTotais) : 0;
+  $("hospLeitosL").value = h ? num(h.leitosLivres) : 0;
+  $("hospStatus").value = h ? (h.status || "Operando") : "Operando";
+  $("hospTelefone").value = h ? (h.telefone || "") : "";
+  abrirModal("modalHospital");
 }
-function salvarHospital(e){
+function salvarHospital(e) {
   e.preventDefault();
-  const obj = { nome: $('hospNome').value.trim(), instituto: $('hospInstituto').value.trim(), tipo: $('hospTipo').value, regiao: $('hospRegiao').value, cidade: $('hospCidade').value.trim(), leitosTotais: num($('hospLeitosT').value), leitosLivres: num($('hospLeitosL').value), status: $('hospStatus').value, telefone: $('hospTelefone').value.trim() };
-  if (editHospitalId) dbUpdate('hospitais', editHospitalId, obj); else dbPush('hospitais', obj);
-  fecharModal('modalHospital'); toast('Unidade hospitalar salva!');
+  const obj = { nome: $("hospNome").value.trim(), instituto: $("hospInstituto").value.trim(), tipo: $("hospTipo").value, regiao: $("hospRegiao").value, cidade: $("hospCidade").value.trim(), leitosTotais: num($("hospLeitosT").value), leitosLivres: num($("hospLeitosL").value), status: $("hospStatus").value, telefone: $("hospTelefone").value.trim() };
+  if (editHospitalId) dbUpdate("hospitais", editHospitalId, obj); else dbPush("hospitais", obj);
+  fecharModal("modalHospital");
+  toast("Unidade hospitalar salva!");
 }
-function abrirModalEquipe(target, id){
+function abrirModalEquipe(target, id) {
   equipeTarget = target; editEquipeId = id || null;
-  const m = id ? (dados[target==='iep'?'equipeIep':'equipe']||{})[id] : null;
-  $('tituloModalEquipe').textContent = (target==='iep'?'IEP-SP — ':'SES — ') + (m ? 'Editar Membro' : 'Novo Membro');
-  $('eqNome').value = m ? m.nome : '';
-  $('eqCargo').value = m ? m.cargo : '';
-  $('eqArea').value = m ? (m.area||'') : '';
-  $('eqDescricao').value = m ? (m.descricao||'') : '';
-  abrirModal('modalEquipe');
+  const m = id ? (dados[target === "iep" ? "equipeIep" : "equipe"] || {})[id] : null;
+  $("tituloModalEquipe").textContent = (target === "iep" ? "IEP-SP — " : "SES — ") + (m ? "Editar Membro" : "Novo Membro");
+  $("eqNome").value = m ? m.nome : "";
+  $("eqCargo").value = m ? m.cargo : "";
+  $("eqArea").value = m ? (m.area || "") : "";
+  $("eqDescricao").value = m ? (m.descricao || "") : "";
+  abrirModal("modalEquipe");
 }
-function salvarEquipe(e){
+function salvarEquipe(e) {
   e.preventDefault();
-  const obj = { nome: $('eqNome').value.trim(), cargo: $('eqCargo').value.trim(), area: $('eqArea').value.trim(), descricao: $('eqDescricao').value.trim() };
-  const caminho = equipeTarget === 'iep' ? 'equipeIep' : 'equipe';
+  const obj = { nome: $("eqNome").value.trim(), cargo: $("eqCargo").value.trim(), area: $("eqArea").value.trim(), descricao: $("eqDescricao").value.trim() };
+  const caminho = equipeTarget === "iep" ? "equipeIep" : "equipe";
   if (editEquipeId) dbUpdate(caminho, editEquipeId, obj); else dbPush(caminho, obj);
-  fecharModal('modalEquipe'); toast('Membro salvo com sucesso!');
+  fecharModal("modalEquipe");
+  toast("Membro salvo com sucesso!");
 }
-function abrirModalPrograma(id){
+function abrirModalPrograma(id) {
   editProgramaId = id || null;
-  const p = id ? (dados.programas||{})[id] : null;
-  $('tituloModalPrograma').textContent = p ? 'Editar Programa' : 'Novo Programa Complementar';
-  $('prgNome').value = p ? p.nome : '';
-  $('prgCategoria').value = p ? (p.categoria||'Atenção Básica') : 'Atenção Básica';
-  $('prgPublico').value = p ? (p.publico||'') : '';
-  $('prgIcone').value = p ? (p.icone||'heart') : 'heart';
-  $('prgCor').value = p ? (p.cor||'blue') : 'blue';
-  $('prgDescricao').value = p ? p.descricao : '';
-  $('prgStatus').checked = p ? p.status !== false : true;
-  abrirModal('modalPrograma');
+  const p = id ? (dados.programas || {})[id] : null;
+  $("tituloModalPrograma").textContent = p ? "Editar Programa" : "Novo Programa Complementar";
+  $("prgNome").value = p ? p.nome : "";
+  $("prgCategoria").value = p ? (p.categoria || "Atenção Básica") : "Atenção Básica";
+  $("prgPublico").value = p ? (p.publico || "") : "";
+  $("prgIcone").value = p ? (p.icone || "heart") : "heart";
+  $("prgCor").value = p ? (p.cor || "blue") : "blue";
+  $("prgDescricao").value = p ? p.descricao : "";
+  $("prgStatus").checked = p ? p.status !== false : true;
+  abrirModal("modalPrograma");
 }
-function salvarPrograma(e){
+function salvarPrograma(e) {
   e.preventDefault();
-  const obj = { nome: $('prgNome').value.trim(), categoria: $('prgCategoria').value, publico: $('prgPublico').value.trim(), icone: $('prgIcone').value, cor: $('prgCor').value, descricao: $('prgDescricao').value.trim(), status: $('prgStatus').checked };
-  if (editProgramaId) dbUpdate('programas', editProgramaId, obj); else dbPush('programas', obj);
-  fecharModal('modalPrograma'); toast('Programa oficial salvo!');
+  const obj = { nome: $("prgNome").value.trim(), categoria: $("prgCategoria").value, publico: $("prgPublico").value.trim(), icone: $("prgIcone").value, cor: $("prgCor").value, descricao: $("prgDescricao").value.trim(), status: $("prgStatus").checked };
+  if (editProgramaId) dbUpdate("programas", editProgramaId, obj); else dbPush("programas", obj);
+  fecharModal("modalPrograma");
+  toast("Programa oficial salvo!");
 }
-function abrirModalNoticia(id){
+function abrirModalNoticia(id) {
   editNoticiaId = id || null;
-  const n = id ? (dados.noticias||{})[id] : null;
-  $('tituloModalNoticia').textContent = n ? 'Editar Notícia' : 'Nova Notícia';
-  $('notTitulo').value = n ? n.titulo : '';
-  $('notCategoria').value = n ? (n.categoria||'Investimentos') : 'Investimentos';
-  $('notResumo').value = n ? n.resumo : '';
-  $('notConteudo').value = n ? (n.conteudo||'') : '';
-  abrirModal('modalNoticia');
+  const n = id ? (dados.noticias || {})[id] : null;
+  $("tituloModalNoticia").textContent = n ? "Editar Notícia" : "Nova Notícia";
+  $("notTitulo").value = n ? n.titulo : "";
+  $("notCategoria").value = n ? (n.categoria || "Investimentos") : "Investimentos";
+  $("notResumo").value = n ? n.resumo : "";
+  $("notConteudo").value = n ? (n.conteudo || "") : "";
+  abrirModal("modalNoticia");
 }
-function salvarNoticia(e){
+function salvarNoticia(e) {
   e.preventDefault();
-  const obj = { titulo: $('notTitulo').value.trim(), categoria: $('notCategoria').value, resumo: $('notResumo').value.trim(), conteudo: $('notConteudo').value.trim(), data: agora() };
-  if (editNoticiaId) dbUpdate('noticias', editNoticiaId, obj); else dbPush('noticias', obj);
-  fecharModal('modalNoticia'); toast('Notícia publicada com sucesso!');
+  const obj = { titulo: $("notTitulo").value.trim(), categoria: $("notCategoria").value, resumo: $("notResumo").value.trim(), conteudo: $("notConteudo").value.trim(), data: agora() };
+  const eraEdicao = !!editNoticiaId;
+  if (editNoticiaId) dbUpdate("noticias", editNoticiaId, obj); else dbPush("noticias", obj);
+  fecharModal("modalNoticia");
+  toast("Notícia publicada com sucesso!");
+  if (!eraEdicao && dados.config.webhookNoticias) {
+    enviarDiscord(dados.config.webhookNoticias, "📰 Nova Notícia — Secretaria da Saúde", [["Título", obj.titulo], ["Categoria", obj.categoria], ["Resumo", obj.resumo]], 2067276);
+  }
 }
 
 // ===== RENDER GLOBAL =====
-function renderizarTudo(){
-  // alerta
+function renderizarTudo() {
   const cfg = dados.config || {};
-  const banner = $('bannerAlerta');
-  if (cfg.alertaAtivo && cfg.alertaTexto){
-    banner.style.display = 'flex';
-    $('textoAlerta').textContent = cfg.alertaTexto;
-    const estilos = { info:['bg-yellow-100','border-yellow-400','text-yellow-900'], alerta:['bg-orange-100','border-orange-400','text-orange-900'], critico:['bg-red-100','border-red-400','text-red-900'] };
-    banner.className = 'px-4 py-2.5 text-xs sm:text-sm font-semibold border-b shadow-inner flex ' + (estilos[cfg.alertaTipo]||estilos.info).join(' ');
-  } else banner.style.display = 'none';
-  // iep público
-  $('iepPubSede').textContent = cfg.iepSede || 'Hospital Jefferson';
-  $('iepPubGestor').textContent = cfg.iepGestor || 'Gabinete do Secretário de Estado da Saúde';
-  $('iepPubDiretorSamu').textContent = cfg.iepDiretor || 'Diego Toretto';
-  $('kpiProgramas').textContent = Object.values(dados.programas||{}).filter(p=>p.status!==false).length + 2;
+  const banner = $("bannerAlerta");
+  if (cfg.alertaAtivo && cfg.alertaTexto) {
+    banner.style.display = "flex";
+    $("textoAlerta").textContent = cfg.alertaTexto;
+    const estilos = { info: "bg-yellow-100 border-yellow-400 text-yellow-900", alerta: "bg-orange-100 border-orange-400 text-orange-900", critico: "bg-red-100 border-red-400 text-red-900" };
+    banner.className = "px-4 py-2.5 text-xs sm:text-sm font-semibold border-b shadow-inner flex " + (estilos[cfg.alertaTipo] || estilos.info).join(" ");
+  } else { banner.style.display = "none"; }
+  $("iepPubSede").textContent = cfg.iepSede || "Hospital Jefferson";
+  $("iepPubGestor").textContent = cfg.iepGestor || "Gabinete do Secretário de Estado da Saúde";
+  $("iepPubDiretorSamu").textContent = cfg.iepDiretor || "Diego Toretto";
+  $("kpiProgramas").textContent = Object.values(dados.programas || {}).filter(p => p.status !== false).length + 2;
 
-  renderProgramas(); renderHomeProgramas(); renderHospitais(); renderEquipe();
-  renderNoticias(); renderHomeNoticias(); renderTransparencia();
-  renderSelectMedicamentos(); renderizarListaRemediosPublica();
-  if (sessionStorage.getItem('sesAdmin')==='1' && !$('viewAdmin').classList.contains('hidden')) renderAdmin();
-  if (!$('viewTransparencia').classList.contains('hidden')) atualizarGraficos();
+  renderProgramas();
+  renderHomeProgramas();
+  renderizarHospitais();
+  renderEquipe();
+  renderNoticias();
+  renderHomeNoticias();
+  renderTransparencia();
+  renderSelectMedicamentos();
+  renderizarListaRemediosPublica();
+  if (sessionStorage.getItem("sesAdmin") === "1" && !$("viewAdmin").classList.contains("hidden")) renderAdmin();
+  if (!$("viewTransparencia").classList.contains("hidden")) atualizarGraficos();
 }
 
 // ===== INICIALIZAÇÃO =====
-window.addEventListener('scroll', () => $('btnTopo').classList.toggle('oculto', window.scrollY < 300));
- $('breadcrumbData').textContent = new Date().toLocaleDateString('pt-BR', { weekday:'long', day:'2-digit', month:'long', year:'numeric' });
+window.addEventListener("scroll", () => $("btnTopo").classList.toggle("oculto", window.scrollY < 300));
+ $("breadcrumbData").textContent = new Date().toLocaleDateString("pt-BR", { weekday: "long", day: "2-digit", month: "long", year: "numeric" });
 
-(function initSplash(){
-  const passos = [[35,'Carregando dados oficiais...'],[70,'Conectando à nuvem do Estado...'],[100,'Pronto!']];
-  passos.forEach(([w,t],i) => setTimeout(()=>{ $('splashBarra').style.width = w+'%'; $('splashTexto').textContent = t; }, 350*(i+1)));
-  setTimeout(()=>{ const s = $('splashScreen'); s.style.opacity = '0'; setTimeout(()=>s.remove(), 700); irParaPagina('inicio'); }, 1700);
-  if (sessionStorage.getItem('sesAdmin')==='1') $('labelAcesso').textContent = 'Painel do Gestor';
+(function initSplash() {
+  const passos = [[35, "Carregando dados oficiais..."], [70, "Conectando à base do Estado..."], [100, "Pronto!"]];
+  passos.forEach(([w, t], i) => setTimeout(() => { $("splashBarra").style.width = w + "%"; $("splashTexto").textContent = t; }, 350 * (i + 1)));
+  setTimeout(() => {
+    const s = $("splashScreen");
+    s.style.opacity = "0";
+    setTimeout(() => s.remove(), 700);
+    irParaPagina("inicio");
+    renderizarTudo();
+  }, 1700);
+  if (sessionStorage.getItem("sesAdmin") === "1") $("labelAcesso").textContent = "Painel do Gestor";
 })();
 
 icons();
-if (MODO_DEMO) renderizarTudo();
+renderizarTudo();
 </script>
 </body>
 </html>
