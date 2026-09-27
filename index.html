@@ -1397,10 +1397,13 @@
       },
       orcamento: {
         total: 38500000000,
+        aportes: [
+          { id: "a1", data: "2026-01-05", valor: 38500000000, origem: "Lei Orçamentária Anual (LOA) 2026", descricao: "Orçamento inicial aprovado para o exercício de 2026." }
+        ],
         destinacoes: [
-          { id: "1", nome: "Custeio Operacional IEP-SP", entidade: "Hospital Jefferson — Sede IEP-SP", descricao: "Repasse para atendimento assistencial comunitário, acolhimento de servidores e perícias operacionais.", valor: 850000000 },
-          { id: "2", nome: "Manutenção de Leitos de Alta Complexidade", entidade: "Hospital das Clínicas da FMUSP (HC)", descricao: "Manutenção de leitos de alta complexidade, cirurgias e custeio do complexo hospitalar.", valor: 13500000000 },
-          { id: "3", nome: "Aquisição de Remédios Gratuitos", entidade: "Programa Dose Certa (Medicamentos)", descricao: "Distribuição gratuita de remédios de alto custo e insumos básicos nas farmácias do Estado.", valor: 4800000000 }
+          { id: "1", nome: "Custeio Operacional IEP-SP", entidade: "Hospital Jefferson — Sede IEP-SP", descricao: "Repasse para atendimento assistencial comunitário, acolhimento de servidores e perícias operacionais.", valor: 850000000, data: "2026-02-10" },
+          { id: "2", nome: "Manutenção de Leitos de Alta Complexidade", entidade: "Hospital das Clínicas da FMUSP (HC)", descricao: "Manutenção de leitos de alta complexidade, cirurgias e custeio do complexo hospitalar.", valor: 13500000000, data: "2026-03-15" },
+          { id: "3", nome: "Aquisição de Remédios Gratuitos", entidade: "Programa Dose Certa (Medicamentos)", descricao: "Distribuição gratuita de remédios de alto custo e insumos básicos nas farmácias do Estado.", valor: 4800000000, data: "2026-05-02" }
         ]
       },
       medicamentos: [
@@ -1463,6 +1466,85 @@
         }
       });
       return { lista, alterou };
+    }
+
+    // GARANTE QUE O ORÇAMENTO TENHA UM HISTÓRICO DE APORTES (MIGRAÇÃO DO MODELO ANTIGO DE "TOTAL ÚNICO")
+    function garantirAportesOrcamento(orc) {
+      const aportesExistentes = garantirArray(orc && orc.aportes, []);
+      if (aportesExistentes.length > 0) return aportesExistentes;
+      const totalLegado = orc && orc.total ? limparEConverterValor(orc.total) : 0;
+      if (totalLegado > 0) {
+        return [{
+          id: "migrado_" + Date.now(),
+          data: new Date().toISOString().slice(0, 10),
+          valor: totalLegado,
+          origem: "Orçamento Registrado (Migração)",
+          descricao: "Valor migrado automaticamente do sistema anterior de orçamento único."
+        }];
+      }
+      return [...DADOS_INICIAIS.orcamento.aportes];
+    }
+
+    // TOTAL DO ORÇAMENTO É SEMPRE A SOMA DE TODOS OS APORTES REGISTRADOS (NUNCA SOBRESCRITO)
+    function calcularOrcamentoTotalAtual() {
+      return garantirArray(app.orcamento && app.orcamento.aportes, []).reduce((soma, a) => soma + Number(a.valor || 0), 0);
+    }
+
+    // CALCULA ESTATÍSTICAS, MÉDIAS E PROJEÇÕES A PARTIR DO HISTÓRICO DE APORTES E REPASSES
+    function calcularEstimativasOrcamento() {
+      const aportes = garantirArray(app.orcamento && app.orcamento.aportes, []).slice().sort((a, b) => new Date(a.data) - new Date(b.data));
+      const destinacoes = garantirArray(app.orcamento && app.orcamento.destinacoes, []);
+      const totalAtual = aportes.reduce((s, a) => s + Number(a.valor || 0), 0);
+      const executado = destinacoes.reduce((s, d) => s + Number(d.valor || 0), 0);
+      const saldo = Math.max(0, totalAtual - executado);
+      const mediaAporte = aportes.length ? totalAtual / aportes.length : 0;
+
+      let intervaloMedioDias = null;
+      if (aportes.length >= 2) {
+        const primeira = new Date(aportes[0].data);
+        const ultima = new Date(aportes[aportes.length - 1].data);
+        const diffDias = Math.max(1, Math.round((ultima - primeira) / 86400000));
+        intervaloMedioDias = Math.round(diffDias / (aportes.length - 1));
+      }
+
+      const mesesComRepasse = new Set();
+      destinacoes.forEach(d => {
+        if (d.data) {
+          const dt = new Date(d.data);
+          if (!isNaN(dt)) mesesComRepasse.add(dt.getFullYear() + '-' + dt.getMonth());
+        }
+      });
+      const qtdMeses = mesesComRepasse.size || 1;
+      const gastoMedioMensal = executado / qtdMeses;
+      const mesesRestantes = gastoMedioMensal > 0 ? (saldo / gastoMedioMensal) : null;
+
+      const ultimoAporte = aportes.length ? aportes[aportes.length - 1] : null;
+      const totalAntesUltimo = totalAtual - (ultimoAporte ? Number(ultimoAporte.valor || 0) : 0);
+      const crescimentoPercentual = (ultimoAporte && totalAntesUltimo > 0) ? ((Number(ultimoAporte.valor || 0) / totalAntesUltimo) * 100) : null;
+
+      return {
+        totalAtual, executado, saldo, mediaAporte, intervaloMedioDias,
+        gastoMedioMensal, mesesRestantes, ultimoAporte, crescimentoPercentual,
+        qtdAportes: aportes.length
+      };
+    }
+
+    function formatarDataCurta(iso) {
+      if (!iso) return '';
+      const partes = iso.split('-');
+      if (partes.length < 2) return iso;
+      const meses = ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'];
+      const idx = parseInt(partes[1], 10) - 1;
+      return `${meses[idx] || partes[1]}/${(partes[0] || '').slice(2)}`;
+    }
+
+    function formatarMoedaAbreviada(valor) {
+      const v = Number(valor) || 0;
+      const abs = Math.abs(v);
+      if (abs >= 1e9) return 'R$ ' + (v / 1e9).toFixed(1).replace('.0', '') + ' bi';
+      if (abs >= 1e6) return 'R$ ' + (v / 1e6).toFixed(1).replace('.0', '') + ' mi';
+      if (abs >= 1e3) return 'R$ ' + (v / 1e3).toFixed(1).replace('.0', '') + ' mil';
+      return formatarMoeda(v);
     }
 
     function limparEConverterValor(val) {
@@ -1561,12 +1643,13 @@
 
     if (!app.orcamento || !app.orcamento.destinacoes) {
       app.orcamento = {
-        total: app.orcamento && app.orcamento.total ? limparEConverterValor(app.orcamento.total) : DADOS_INICIAIS.orcamento.total,
         destinacoes: [...DADOS_INICIAIS.orcamento.destinacoes]
       };
     } else {
       app.orcamento.destinacoes = garantirArray(app.orcamento.destinacoes, DADOS_INICIAIS.orcamento.destinacoes);
     }
+    app.orcamento.aportes = garantirAportesOrcamento(app.orcamento);
+    delete app.orcamento.total;
 
     // NAVEGAÇÃO SPA
     const TITULOS_PAGINAS = {
@@ -1655,9 +1738,9 @@
               if (dadosNuvem.alerta) app.alerta = dadosNuvem.alerta;
               if (dadosNuvem.orcamento) {
                 app.orcamento = {
-                  total: dadosNuvem.orcamento.total || DADOS_INICIAIS.orcamento.total,
                   destinacoes: garantirArray(dadosNuvem.orcamento.destinacoes, DADOS_INICIAIS.orcamento.destinacoes)
                 };
+                app.orcamento.aportes = garantirAportesOrcamento(dadosNuvem.orcamento);
               }
 
               if (dadosNuvem.iepEquipe) app.iepEquipe = garantirArray(dadosNuvem.iepEquipe, DADOS_INICIAIS.iepEquipe);
@@ -1837,9 +1920,9 @@
         if (inAl) inAl.value = app.alerta ? app.alerta.mensagem || "" : "";
         if (contAl && inAl) contAl.innerText = inAl.value.length;
 
-        // Orçamento & Repasses
+        // Orçamento & Repasses (o total agora é sempre a soma dos aportes registrados)
         const o = app.orcamento || DADOS_INICIAIS.orcamento;
-        const totalOrc = Number(o.total) || 0;
+        const totalOrc = calcularOrcamentoTotalAtual();
         const destinacoesList = garantirArray(o.destinacoes, []);
         const executado = destinacoesList.reduce((soma, d) => soma + Number(d.valor || 0), 0);
         const saldo = Math.max(0, totalOrc - executado);
@@ -1853,7 +1936,8 @@
         const elBarraLbl = document.getElementById("labelBarraProgresso");
         const elBarra = document.getElementById("barraProgresso");
         const elContDest = document.getElementById("contagemDestinacoes");
-        const inTot = document.getElementById("inOrcTotal");
+        const elAdminTotal = document.getElementById("adminOrcTotalAtual");
+        const elAdminCresc = document.getElementById("adminOrcCrescimento");
 
         if (elTot) elTot.innerText = formatarMoeda(totalOrc);
         if (elHomeTot) elHomeTot.innerText = formatarMoeda(totalOrc);
@@ -1863,7 +1947,13 @@
         if (elBarraLbl) elBarraLbl.innerText = `${perc}% Destinado`;
         if (elBarra) elBarra.style.width = `${perc}%`;
         if (elContDest) elContDest.innerText = `${destinacoesList.length} Repasses`;
-        if (inTot) inTot.value = totalOrc;
+        if (elAdminTotal) elAdminTotal.innerText = formatarMoeda(totalOrc);
+        if (elAdminCresc) {
+          const estCresc = calcularEstimativasOrcamento();
+          elAdminCresc.innerText = estCresc.crescimentoPercentual !== null
+            ? `+${estCresc.crescimentoPercentual.toFixed(1)}% após o último aporte`
+            : `${estCresc.qtdAportes} aporte(s) registrado(s)`;
+        }
 
         // Atualização dos 4 KPIs Principais
         const kpiHosp = document.getElementById("kpiHospitais");
@@ -1884,6 +1974,8 @@
         popularSelectMedicamentosFormulario();
 
         renderizarDestinacoesPublicas(totalOrc);
+        renderizarEstimativasOrcamento();
+        renderizarGraficosTransparencia();
         renderizarEquipe();
         renderizarEquipeIep();
         renderizarProgramas();
@@ -2182,17 +2274,49 @@
       }
     }
 
-    function salvarOrcamentoTotal(e) {
+    // REGISTRO DE NOVO APORTE / REFORÇO ORÇAMENTÁRIO (SOMA AO TOTAL, NUNCA SOBRESCREVE)
+    function salvarAporteOrcamentario(e) {
       e.preventDefault();
-      const rawValor = document.getElementById("inOrcTotal").value;
-      const valorFinal = limparEConverterValor(rawValor);
-      if (valorFinal <= 0) {
-        alert("Digite um valor válido maior que zero.");
+      const data = document.getElementById("aporteData").value;
+      const rawValor = document.getElementById("aporteValor").value;
+      const origem = document.getElementById("aporteOrigem").value.trim();
+      const valor = limparEConverterValor(rawValor);
+
+      if (valor <= 0) {
+        alert("Digite um valor válido para o aporte.");
         return;
       }
-      app.orcamento.total = valorFinal;
+      if (!data) {
+        alert("Selecione a data do aporte.");
+        return;
+      }
+
+      if (!app.orcamento.aportes) app.orcamento.aportes = [];
+      app.orcamento.aportes.push({
+        id: Date.now().toString(),
+        data,
+        valor,
+        origem: origem || "Aporte / Reforço Orçamentário"
+      });
+
+      document.getElementById("aporteData").value = "";
+      document.getElementById("aporteValor").value = "";
+      document.getElementById("aporteOrigem").value = "";
+
       atualizarTudo(true);
-      mostrarToast("Orçamento Total salvo!");
+      mostrarToast(`Aporte de ${formatarMoeda(valor)} adicionado ao orçamento!`);
+    }
+
+    function excluirAporte(id) {
+      const aportes = garantirArray(app.orcamento.aportes, []);
+      if (aportes.length <= 1) {
+        alert("É preciso manter ao menos um aporte registrado — edite ou adicione um novo antes de remover este.");
+        return;
+      }
+      if (confirm("Remover este aporte do histórico? O orçamento total será recalculado.")) {
+        app.orcamento.aportes = aportes.filter(a => a.id !== id);
+        atualizarTudo(true);
+      }
     }
 
     // MODAL MEDICAMENTOS
